@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.3.0
   phosphor_icons: ^3.0.1
 
 dev_dependencies:
@@ -19,6 +20,8 @@ dev_dependencies:
 
 # Bundled, never downloaded at runtime: the app must work offline (DESIGN §3.2).
 flutter:
+  assets:
+    - assets/images/
   fonts:
     - family: Geist
       fonts:

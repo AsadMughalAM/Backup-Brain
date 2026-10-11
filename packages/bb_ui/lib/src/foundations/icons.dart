@@ -74,12 +74,15 @@ abstract final class BbIcons {
   // Account & sign-in.
   static const IconData account = PhosphorIconsRegular.userCircle;
   static const IconData email = PhosphorIconsRegular.envelope;
+  static const IconData person = PhosphorIconsRegular.user;
+  static const IconData lock = PhosphorIconsRegular.lock;
   static const IconData google = PhosphorIconsRegular.googleLogo;
   static const IconData signOut = PhosphorIconsRegular.signOut;
   static const IconData showPassword = PhosphorIconsRegular.eye;
   static const IconData hidePassword = PhosphorIconsRegular.eyeSlash;
 
   static const IconData back = PhosphorIconsRegular.arrowLeft;
+  static const IconData forward = PhosphorIconsRegular.arrowRight;
   static const IconData next = PhosphorIconsRegular.caretRight;
   static const IconData expand = PhosphorIconsRegular.caretDown;
   static const IconData close = PhosphorIconsRegular.x;

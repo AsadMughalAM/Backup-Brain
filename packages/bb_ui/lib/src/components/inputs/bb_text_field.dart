@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../foundations/icons.dart';
+import '../../foundations/tokens/radius.dart';
 import '../../foundations/tokens/sizes.dart';
 import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
@@ -38,6 +39,8 @@ class BbTextField extends StatefulWidget {
     this.obscure = false,
     this.showPasswordLabel,
     this.hidePasswordLabel,
+    this.prefixIcon,
+    this.pill = false,
   }) : assert(
          !obscure || (showPasswordLabel != null && hidePasswordLabel != null),
          'Password fields need labels for the visibility toggle.',
@@ -61,6 +64,13 @@ class BbTextField extends StatefulWidget {
   final String? showPasswordLabel;
   final String? hidePasswordLabel;
 
+  /// Leading glyph inside the field, e.g. `BbIcons.email`.
+  final IconData? prefixIcon;
+
+  /// Sign-in style: pill shape, no label above. The [label] becomes the
+  /// placeholder (unless [hint] is set) and is still read by screen readers.
+  final bool pill;
+
   @override
   State<BbTextField> createState() => _BbTextFieldState();
 }
@@ -75,12 +85,24 @@ class _BbTextFieldState extends State<BbTextField> {
     final error = widget.errorText;
     final hasError = error != null;
     final below = error ?? widget.helper;
+    final pillBorder = widget.pill
+        ? OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+            borderSide: BorderSide(color: c.outlineVariant),
+          )
+        : null;
+    final prefix = widget.prefixIcon;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: t.labelLarge?.copyWith(color: c.textPrimary)),
-        const SizedBox(height: AppSpacing.xs),
+        if (!widget.pill) ...[
+          Text(
+            widget.label,
+            style: t.labelLarge?.copyWith(color: c.textPrimary),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+        ],
         TextField(
           controller: widget.controller,
           enabled: widget.enabled,
@@ -94,6 +116,28 @@ class _BbTextFieldState extends State<BbTextField> {
           style: t.bodyLarge?.copyWith(color: c.textPrimary),
           decoration: InputDecoration(
             hintText: widget.hint,
+            // Pill: the label sits inside as the placeholder and stays the
+            // field's accessible name; it never floats above.
+            labelText: widget.pill ? widget.label : null,
+            floatingLabelBehavior: widget.pill
+                ? FloatingLabelBehavior.never
+                : null,
+            labelStyle: t.bodyLarge?.copyWith(color: c.textMuted),
+            prefixIcon: prefix == null
+                ? null
+                : Icon(prefix, size: AppSizes.iconSm, color: c.textMuted),
+            contentPadding: widget.pill
+                ? const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xl,
+                    vertical: 14,
+                  )
+                : null,
+            enabledBorder: pillBorder,
+            border: pillBorder,
+            errorBorder: pillBorder,
+            focusedBorder: pillBorder?.copyWith(
+              borderSide: BorderSide(color: c.focusRing, width: 2),
+            ),
             // Fill, not border, carries the error state.
             fillColor: hasError ? c.dangerContainer : c.surface,
             constraints: const BoxConstraints(minHeight: 52),

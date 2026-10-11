@@ -52,6 +52,11 @@ void goldenMatrix(
           themed(build(), dark: dark, textScale: scale, scroll: scroll),
         );
         await tester.pump();
+        // SVG assets decode on a real async gap, not on fake test time.
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 50)),
+        );
+        await tester.pump();
         await expectLater(
           find.byType(MaterialApp),
           matchesGoldenFile('goldens/$name.$variant.png'),

@@ -3,6 +3,7 @@
 library;
 
 export 'src/components/buttons/bb_button.dart';
+export 'src/components/buttons/bb_google_button.dart';
 export 'src/components/buttons/bb_icon_button.dart';
 export 'src/components/data_display/bb_metric.dart';
 export 'src/components/data_display/bb_stat_tile.dart';
@@ -17,6 +18,7 @@ export 'src/components/inputs/bb_text_field.dart';
 export 'src/components/layout/bb_gap.dart';
 export 'src/components/layout/bb_page_padding.dart';
 export 'src/components/navigation/bb_nav_bar.dart';
+export 'src/components/navigation/bb_page_dots.dart';
 export 'src/components/navigation/bb_scaffold.dart';
 export 'src/components/surfaces/bb_card.dart';
 export 'src/foundations/icons.dart';
