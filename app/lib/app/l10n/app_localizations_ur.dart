@@ -641,7 +641,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get solarNoPanelsBody =>
-      'Setup mein apne panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.';
+      'Aap ka ghar solar panels ke baghair save hai. Panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.';
 
   @override
   String get solarNeedsInternetTitle => 'Ek dafa internet chahiye';
@@ -908,6 +908,9 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get settingsOutageAlertsBody =>
       'Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi.';
+
+  @override
+  String get solarAddPanels => 'Apne panels shamil karein';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

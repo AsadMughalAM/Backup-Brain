@@ -640,7 +640,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get solarNoPanelsBody =>
-      'Add your panels during setup to see how much the sun will charge your battery.';
+      'Your home is saved without solar panels. Add them to see how much the sun will charge your battery.';
 
   @override
   String get solarNeedsInternetTitle => 'Needs internet once';
@@ -906,4 +906,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsOutageAlertsBody =>
       'A notification 30 minutes before the next likely or scheduled outage. Works offline.';
+
+  @override
+  String get solarAddPanels => 'Add my panels';
 }

@@ -2,6 +2,7 @@ import 'package:bb_ui/bb_ui.dart';
 import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../core/services/clock.dart';
@@ -17,7 +18,11 @@ import '../widgets/sun_forecast_card.dart';
 /// verdict, the sun behind it, and one thing to do (DESIGN.md §11 Solar).
 /// Tomorrow is one tap away and is picked automatically after sunset.
 class SolarScreen extends ConsumerStatefulWidget {
-  const SolarScreen({super.key});
+  const SolarScreen({super.key, this.editHomeLocation});
+
+  /// Where "Add my panels" goes; passed in so this feature doesn't import
+  /// the app router. Null hides the button.
+  final String? editHomeLocation;
 
   @override
   ConsumerState<SolarScreen> createState() => _SolarScreenState();
@@ -54,6 +59,14 @@ class _SolarScreenState extends ConsumerState<SolarScreen> {
           icon: BbIcons.solarPanel,
           title: l10n.solarNoPanelsTitle,
           message: l10n.solarNoPanelsBody,
+          action: switch (widget.editHomeLocation) {
+            final location? => BbButton.secondary(
+              label: l10n.solarAddPanels,
+              icon: BbIcons.solarPanel,
+              onPressed: () => context.push(location),
+            ),
+            null => null,
+          },
         ),
       );
     } else if (outlook == null ||

@@ -180,7 +180,7 @@
   "tryAgain": "Dobara koshish karein",
   "refreshForecast": "Forecast refresh karein",
   "solarNoPanelsTitle": "Solar panels shamil nahi",
-  "solarNoPanelsBody": "Setup mein apne panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.",
+  "solarNoPanelsBody": "Aap ka ghar solar panels ke baghair save hai. Panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.",
   "solarNeedsInternetTitle": "Ek dafa internet chahiye",
   "solarNeedsInternetBody": "Dhoop ka forecast lene ke liye ek dafa connect karein. Us ke baad yeh offline bhi chalega.",
   "solarFetching": "Forecast aa raha hai…",
@@ -244,5 +244,6 @@
   "alertBodyReady": "Battery taqreeban {soc} hogi: abhi ke load par {backup} backup.",
   "alertBodyShort": "Battery taqreeban {soc} hogi: sirf {backup}, aam {outage} se kam. Bhaari cheezain abhi band karein.",
   "settingsOutageAlerts": "Load-shedding alerts",
-  "settingsOutageAlertsBody": "Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi."
+  "settingsOutageAlertsBody": "Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi.",
+  "solarAddPanels": "Apne panels shamil karein"
 }

@@ -1182,7 +1182,7 @@ abstract class AppLocalizations {
   /// No description provided for @solarNoPanelsBody.
   ///
   /// In en, this message translates to:
-  /// **'Add your panels during setup to see how much the sun will charge your battery.'**
+  /// **'Your home is saved without solar panels. Add them to see how much the sun will charge your battery.'**
   String get solarNoPanelsBody;
 
   /// No description provided for @solarNeedsInternetTitle.
@@ -1568,6 +1568,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A notification 30 minutes before the next likely or scheduled outage. Works offline.'**
   String get settingsOutageAlertsBody;
+
+  /// No description provided for @solarAddPanels.
+  ///
+  /// In en, this message translates to:
+  /// **'Add my panels'**
+  String get solarAddPanels;
 }
 
 class _AppLocalizationsDelegate

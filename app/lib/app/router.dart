@@ -116,7 +116,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         branches: [
           _branch(Routes.home, (_) => const DashboardScreen()),
           _branch(Routes.loads, (_) => const LoadPlannerScreen()),
-          _branch(Routes.solar, (_) => const SolarScreen()),
+          _branch(
+            Routes.solar,
+            (_) => const SolarScreen(editHomeLocation: Routes.editHome),
+          ),
           _branch(
             Routes.battery,
             (l10n) => ComingSoonScreen(
