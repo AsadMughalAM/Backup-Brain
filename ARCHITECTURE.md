@@ -396,7 +396,12 @@ There is **no REST API**. Calculations (backup, switch-offs, solar forecast, siz
 ## 10. Screens / UX
 
 0. **Intro → Sign up / Login:** three intro slides, then Google or email sign-up; sign-in lands on the Dashboard.
-1. **Onboarding (≤ 2 min):** city → "Do you have solar?" → battery details (with photo-guide of the label) → pick appliances from presets.
+1. **Onboarding (≤ 2 min), shown to a new account after sign-up:** three steps, tap-only (chips, cards, − n +), with the common Pakistani size pre-picked for everything except the three facts only the user knows.
+   - **Home:** city (chips; "not listed → nearest city") + "Do you have solar?" → if yes, panel count × watts per panel (shows the kWp total).
+   - **Battery:** type described by what it looks like (dry / tubular "you top up with water" / lithium) → count, size (Ah; pack voltage for lithium), UPS or inverter size (hybrid if solar, UPS if not), how full it is now. Hints say where each number is printed (photo guide of the label: later).
+   - **Appliances:** the usual ones pre-counted (2 fans, 4 LED bulbs, fridge, TV, router); heavy ones (iron, motor, AC…) listed apart at 0 and saved switched off.
+   - From step 2 a sticky line shows the live backup time ("Your backup: about 2h 45m · at 370 W"), so the payoff is visible before finishing. Finishing lands on Home with the user's own numbers. "Try the demo home" stays available on step 1.
+   - Presets live in `assets/data/` (`cities_psh.json`, `appliances_pk.json`, `equipment_pk.json`).
 2. **Dashboard:** big backup countdown ring; grid status toggle (Light gayi / aa gayi); today's solar forecast strip; top AI advice card; battery health badge.
 3. **Load Planner:** appliance toggles with live-updating backup time; "What should I turn off?" ranked list; target-hours input.
 4. **Solar:** forecast chart (hourly), expected SoC at sunset, performance check & trend.

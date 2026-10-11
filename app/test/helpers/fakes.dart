@@ -9,6 +9,9 @@ import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
+import 'package:backup_brain/features/setup/data/models/setup_presets_dto.dart';
+import 'package:backup_brain/features/setup/domain/entities/setup_presets.dart';
+import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:backup_brain/features/solar/data/models/weather_dto.dart';
 import 'package:backup_brain/features/solar/domain/entities/weather_forecast.dart';
 import 'package:backup_brain/features/solar/domain/weather_repository.dart';
@@ -123,6 +126,10 @@ class FakeApplianceRepository implements ApplianceRepository {
   }
 
   @override
+  Future<void> addAll(List<Appliance> appliances) async =>
+      _changes.add(_items = [..._items, ...appliances]);
+
+  @override
   Future<void> loadDemo() async => _changes.add(_items = demoAppliances());
 }
 
@@ -219,4 +226,24 @@ class FakeWeatherRepository implements WeatherRepository {
     if (fresh == null) throw StateError('offline');
     _changes.add(saved = fresh);
   }
+}
+
+/// The real bundled setup JSON, read from disk: `rootBundle` caches asset
+/// futures across tests, which stalls every test after the first.
+class FileSetupPresetsRepository implements SetupPresetsRepository {
+  const FileSetupPresetsRepository();
+
+  @override
+  Future<SetupPresets> load() async => setupPresets();
+}
+
+SetupPresets setupPresets() {
+  Map<String, dynamic> read(String name) =>
+      json.decode(File('assets/data/$name').readAsStringSync())
+          as Map<String, dynamic>;
+  return SetupPresetsDto.fromJson(
+    cities: read('cities_psh.json'),
+    appliances: read('appliances_pk.json'),
+    equipment: read('equipment_pk.json'),
+  );
 }

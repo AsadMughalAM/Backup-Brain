@@ -144,7 +144,7 @@ config/pricing_pk                       // panel/inverter/battery prices, tariff
 config/app                              // feature flags, minimum app version, AI enabled
 ```
 
-Static, rarely changing reference data ships **inside the app** as assets: `assets/data/appliances_pk.json`, `assets/data/cities_psh.json`, plus the first copy of `pricing_pk.json` as an offline fallback.
+Static, rarely changing reference data ships **inside the app** as assets: `assets/data/appliances_pk.json`, `assets/data/cities_psh.json`, `assets/data/equipment_pk.json` (setup's one-tap battery, inverter and panel sizes), plus the first copy of `pricing_pk.json` as an offline fallback.
 
 ### 4.1 Security rules (summary — full file in `firestore.rules`)
 

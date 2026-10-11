@@ -1,0 +1,101 @@
+{
+  "_comment": "Cities offered in setup, most populous first. Coordinates pick the weather forecast; PSH values for the F5 estimator get added here later.",
+  "cities": [
+    {
+      "id": "karachi",
+      "name": "Karachi",
+      "lat": 24.8607,
+      "lon": 67.0011
+    },
+    {
+      "id": "lahore",
+      "name": "Lahore",
+      "lat": 31.5204,
+      "lon": 74.3587
+    },
+    {
+      "id": "faisalabad",
+      "name": "Faisalabad",
+      "lat": 31.4504,
+      "lon": 73.135
+    },
+    {
+      "id": "rawalpindi",
+      "name": "Rawalpindi",
+      "lat": 33.5651,
+      "lon": 73.0169
+    },
+    {
+      "id": "islamabad",
+      "name": "Islamabad",
+      "lat": 33.6844,
+      "lon": 73.0479
+    },
+    {
+      "id": "gujranwala",
+      "name": "Gujranwala",
+      "lat": 32.1877,
+      "lon": 74.1945
+    },
+    {
+      "id": "peshawar",
+      "name": "Peshawar",
+      "lat": 34.0151,
+      "lon": 71.5249
+    },
+    {
+      "id": "multan",
+      "name": "Multan",
+      "lat": 30.1575,
+      "lon": 71.5249
+    },
+    {
+      "id": "hyderabad",
+      "name": "Hyderabad",
+      "lat": 25.396,
+      "lon": 68.3578
+    },
+    {
+      "id": "quetta",
+      "name": "Quetta",
+      "lat": 30.1798,
+      "lon": 66.975
+    },
+    {
+      "id": "sialkot",
+      "name": "Sialkot",
+      "lat": 32.4945,
+      "lon": 74.5229
+    },
+    {
+      "id": "bahawalpur",
+      "name": "Bahawalpur",
+      "lat": 29.3956,
+      "lon": 71.6836
+    },
+    {
+      "id": "sargodha",
+      "name": "Sargodha",
+      "lat": 32.074,
+      "lon": 72.6861
+    },
+    {
+      "id": "sukkur",
+      "name": "Sukkur",
+      "lat": 27.7052,
+      "lon": 68.8574
+    },
+    {
+      "id": "abbottabad",
+      "name": "Abbottabad",
+      "lat": 34.1688,
+      "lon": 73.2215
+    },
+    {
+      "id": "mardan",
+      "name": "Mardan",
+      "lat": 34.1986,
+      "lon": 72.0404
+    }
+  ]
+}

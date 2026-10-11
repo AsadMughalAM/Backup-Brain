@@ -129,6 +129,164 @@ class AppLocalizationsUr extends AppLocalizations {
   String get priorityAvoid => 'Backup par na chalayein';
 
   @override
+  String get setupTitle => 'Apna ghar set karein';
+
+  @override
+  String get setupStepHome => 'Ghar';
+
+  @override
+  String get setupStepBattery => 'Battery';
+
+  @override
+  String get setupStepAppliances => 'Appliances';
+
+  @override
+  String setupStepOf(int step, int total, String name) {
+    return 'Step $step / $total: $name';
+  }
+
+  @override
+  String get setupNext => 'Aage';
+
+  @override
+  String get setupBack => 'Wapas';
+
+  @override
+  String get setupFinish => 'Mera backup time dikhayein';
+
+  @override
+  String get setupTryDemo => 'Sirf dekh rahe hain? Demo ghar dekhein';
+
+  @override
+  String get setupUnderTwoMinutes =>
+      '2 minute se kam. Baad mein sab badal sakte hain.';
+
+  @override
+  String get cityQuestion => 'Aap ka ghar kahan hai?';
+
+  @override
+  String get cityHint =>
+      'Aap ke ilaqe ki dhoop ke liye. Shehar list mein nahi? Qareeb tareen shehar chunein.';
+
+  @override
+  String get solarQuestion => 'Kya aap ke paas solar panels hain?';
+
+  @override
+  String get solarYes => 'Haan, solar hai';
+
+  @override
+  String get solarYesHint => 'Chhat par panels';
+
+  @override
+  String get solarNo => 'Nahi, sirf UPS aur battery';
+
+  @override
+  String get solarNoHint =>
+      'Backup time aur solar ke kharche ka andaza phir bhi milega';
+
+  @override
+  String get panelCountLabel => 'Kitne panels?';
+
+  @override
+  String get panelWattsLabel => 'Har panel ke watt';
+
+  @override
+  String get panelWattsHint => 'Panel ke label par likha hota hai, jaise 550 W';
+
+  @override
+  String panelsTotal(String kw) {
+    return 'Kul $kw panels';
+  }
+
+  @override
+  String get batteryQuestion => 'Aap ki battery kaun si hai?';
+
+  @override
+  String get chemLeadAcid => 'Dry battery (lead-acid)';
+
+  @override
+  String get chemLeadAcidHint => 'Band battery, pani nahi dalta';
+
+  @override
+  String get chemTubular => 'Tubular battery';
+
+  @override
+  String get chemTubularHint => 'Lambi battery jis mein pani dalta hai';
+
+  @override
+  String get chemLithium => 'Lithium battery';
+
+  @override
+  String get chemLithiumHint => 'LiFePO4 pack, aksar solar inverter ke saath';
+
+  @override
+  String get batteryCountLabel => 'Kitni batteries?';
+
+  @override
+  String get batterySizeLabel => 'Battery ka size';
+
+  @override
+  String get batteryVoltageLabel => 'Pack voltage';
+
+  @override
+  String get batteryLabelHint => 'Battery par likha hota hai, jaise 12V 200Ah';
+
+  @override
+  String get inverterLabelUps => 'UPS ka size';
+
+  @override
+  String get inverterLabelHybrid => 'Inverter ka size';
+
+  @override
+  String get inverterHint =>
+      'Label par likha hota hai. 1 kVA UPS taqreeban 800 W ka hota hai.';
+
+  @override
+  String get socQuestion => 'Abhi kitni charge hai?';
+
+  @override
+  String get socHint =>
+      'UPS ki screen dekhein. Baad mein kabhi bhi badal sakte hain.';
+
+  @override
+  String setupPreviewValue(String time) {
+    return 'Aap ka backup: taqreeban $time';
+  }
+
+  @override
+  String get appliancesQuestion => 'Load-shedding mein kya chalta hai?';
+
+  @override
+  String get appliancesHint =>
+      'Hum ne aam ghar ki cheezein chun li hain. Apne hisaab se number badlein.';
+
+  @override
+  String get heavyTitle => 'Bhaari appliances';
+
+  @override
+  String get heavyHint =>
+      'Backup par aam tor par band rakhe jate hain. Shamil karein taake hum khabardar kar sakein.';
+
+  @override
+  String applianceEach(String watts) {
+    return 'Har aik $watts';
+  }
+
+  @override
+  String setupBackupAt(String load) {
+    return '$load par backup';
+  }
+
+  @override
+  String get fewer => 'Kam';
+
+  @override
+  String get more => 'Zyada';
+
+  @override
+  String get setUpMyHome => 'Apna ghar set karein';
+
+  @override
   String get comingSoonTitle => 'Jald aa raha hai';
 
   @override

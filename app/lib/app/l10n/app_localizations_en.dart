@@ -129,6 +129,163 @@ class AppLocalizationsEn extends AppLocalizations {
   String get priorityAvoid => 'Avoid on backup';
 
   @override
+  String get setupTitle => 'Set up your home';
+
+  @override
+  String get setupStepHome => 'Home';
+
+  @override
+  String get setupStepBattery => 'Battery';
+
+  @override
+  String get setupStepAppliances => 'Appliances';
+
+  @override
+  String setupStepOf(int step, int total, String name) {
+    return 'Step $step of $total: $name';
+  }
+
+  @override
+  String get setupNext => 'Next';
+
+  @override
+  String get setupBack => 'Back';
+
+  @override
+  String get setupFinish => 'Show my backup time';
+
+  @override
+  String get setupTryDemo => 'Just looking? Try the demo home';
+
+  @override
+  String get setupUnderTwoMinutes =>
+      'Takes under 2 minutes. You can change anything later.';
+
+  @override
+  String get cityQuestion => 'Where is your home?';
+
+  @override
+  String get cityHint =>
+      'For your local sun forecast. Not listed? Pick the nearest city.';
+
+  @override
+  String get solarQuestion => 'Do you have solar panels?';
+
+  @override
+  String get solarYes => 'Yes, I have solar';
+
+  @override
+  String get solarYesHint => 'Panels on the roof';
+
+  @override
+  String get solarNo => 'No, just UPS and battery';
+
+  @override
+  String get solarNoHint =>
+      'You still get backup time and solar cost estimates';
+
+  @override
+  String get panelCountLabel => 'How many panels?';
+
+  @override
+  String get panelWattsLabel => 'Watts per panel';
+
+  @override
+  String get panelWattsHint => 'Printed on the panel\'s label, e.g. 550 W';
+
+  @override
+  String panelsTotal(String kw) {
+    return '$kw of panels in total';
+  }
+
+  @override
+  String get batteryQuestion => 'What battery do you have?';
+
+  @override
+  String get chemLeadAcid => 'Dry battery (lead-acid)';
+
+  @override
+  String get chemLeadAcidHint => 'Sealed, no water needed';
+
+  @override
+  String get chemTubular => 'Tubular battery';
+
+  @override
+  String get chemTubularHint => 'Tall battery you top up with water';
+
+  @override
+  String get chemLithium => 'Lithium battery';
+
+  @override
+  String get chemLithiumHint => 'LiFePO4 pack, often with a solar inverter';
+
+  @override
+  String get batteryCountLabel => 'How many batteries?';
+
+  @override
+  String get batterySizeLabel => 'Battery size';
+
+  @override
+  String get batteryVoltageLabel => 'Pack voltage';
+
+  @override
+  String get batteryLabelHint => 'Printed on the battery, e.g. 12V 200Ah';
+
+  @override
+  String get inverterLabelUps => 'UPS size';
+
+  @override
+  String get inverterLabelHybrid => 'Inverter size';
+
+  @override
+  String get inverterHint =>
+      'Written on its label. A 1 kVA UPS is about 800 W.';
+
+  @override
+  String get socQuestion => 'How full is it right now?';
+
+  @override
+  String get socHint => 'Check the UPS display. You can change it anytime.';
+
+  @override
+  String setupPreviewValue(String time) {
+    return 'Your backup: about $time';
+  }
+
+  @override
+  String get appliancesQuestion => 'What runs during load-shedding?';
+
+  @override
+  String get appliancesHint =>
+      'We picked what most homes run. Change the numbers to match yours.';
+
+  @override
+  String get heavyTitle => 'Heavy appliances';
+
+  @override
+  String get heavyHint =>
+      'Usually kept off on backup. Add yours so we can warn you.';
+
+  @override
+  String applianceEach(String watts) {
+    return '$watts each';
+  }
+
+  @override
+  String setupBackupAt(String load) {
+    return 'backup at $load';
+  }
+
+  @override
+  String get fewer => 'Fewer';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get setUpMyHome => 'Set up my home';
+
+  @override
   String get comingSoonTitle => 'Coming soon';
 
   @override

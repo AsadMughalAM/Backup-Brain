@@ -10,6 +10,9 @@ abstract interface class ApplianceRepository {
 
   Future<void> setOn(String id, {required bool isOn});
 
+  /// Writes the appliances picked during setup.
+  Future<void> addAll(List<Appliance> appliances);
+
   /// Writes the bundled demo household's appliances (Demo Mode).
   Future<void> loadDemo();
 }

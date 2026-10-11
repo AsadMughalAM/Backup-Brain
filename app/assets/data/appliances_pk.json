@@ -1,0 +1,173 @@
+{
+  "_comment": "Appliance presets for setup: typical Pakistani wattages. defaultQuantity is what a usual home runs on backup; 0 = offered but not picked. Heavy (avoid_on_backup) items are saved switched off.",
+  "appliances": [
+    {
+      "id": "fan",
+      "name": {
+        "en": "Ceiling fan",
+        "ur": "Pankha"
+      },
+      "icon": "fan",
+      "watts": 75,
+      "dutyCycle": 1,
+      "priority": "comfort",
+      "defaultQuantity": 2
+    },
+    {
+      "id": "light",
+      "name": {
+        "en": "LED bulb",
+        "ur": "LED bulb"
+      },
+      "icon": "light",
+      "watts": 10,
+      "dutyCycle": 1,
+      "priority": "essential",
+      "defaultQuantity": 4
+    },
+    {
+      "id": "fridge",
+      "name": {
+        "en": "Fridge",
+        "ur": "Fridge"
+      },
+      "icon": "fridge",
+      "watts": 200,
+      "dutyCycle": 0.4,
+      "priority": "comfort",
+      "defaultQuantity": 1
+    },
+    {
+      "id": "tv",
+      "name": {
+        "en": "LED TV",
+        "ur": "LED TV"
+      },
+      "icon": "tv",
+      "watts": 90,
+      "dutyCycle": 1,
+      "priority": "comfort",
+      "defaultQuantity": 1
+    },
+    {
+      "id": "router",
+      "name": {
+        "en": "Wi-Fi router",
+        "ur": "Wi-Fi router"
+      },
+      "icon": "router",
+      "watts": 10,
+      "dutyCycle": 1,
+      "priority": "essential",
+      "defaultQuantity": 1
+    },
+    {
+      "id": "charger",
+      "name": {
+        "en": "Phone charging",
+        "ur": "Phone charging"
+      },
+      "icon": "charger",
+      "watts": 10,
+      "dutyCycle": 1,
+      "priority": "essential",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "laptop",
+      "name": {
+        "en": "Laptop",
+        "ur": "Laptop"
+      },
+      "icon": "laptop",
+      "watts": 40,
+      "dutyCycle": 1,
+      "priority": "comfort",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "desktop",
+      "name": {
+        "en": "Desktop computer",
+        "ur": "Computer"
+      },
+      "icon": "desktop",
+      "watts": 150,
+      "dutyCycle": 1,
+      "priority": "comfort",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "cooler",
+      "name": {
+        "en": "Air cooler",
+        "ur": "Air cooler"
+      },
+      "icon": "cooler",
+      "watts": 150,
+      "dutyCycle": 1,
+      "priority": "comfort",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "iron",
+      "name": {
+        "en": "Iron",
+        "ur": "Istri"
+      },
+      "icon": "iron",
+      "watts": 1000,
+      "dutyCycle": 1,
+      "priority": "avoid_on_backup",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "motor",
+      "name": {
+        "en": "Water motor",
+        "ur": "Pani ki motor"
+      },
+      "icon": "water",
+      "watts": 750,
+      "dutyCycle": 1,
+      "priority": "avoid_on_backup",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "washer",
+      "name": {
+        "en": "Washing machine",
+        "ur": "Washing machine"
+      },
+      "icon": "washer",
+      "watts": 500,
+      "dutyCycle": 1,
+      "priority": "avoid_on_backup",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "ac",
+      "name": {
+        "en": "Air conditioner",
+        "ur": "AC"
+      },
+      "icon": "ac",
+      "watts": 1500,
+      "dutyCycle": 1,
+      "priority": "avoid_on_backup",
+      "defaultQuantity": 0
+    },
+    {
+      "id": "microwave",
+      "name": {
+        "en": "Microwave",
+        "ur": "Microwave"
+      },
+      "icon": "microwave",
+      "watts": 1200,
+      "dutyCycle": 1,
+      "priority": "avoid_on_backup",
+      "defaultQuantity": 0
+    }
+  ]
+}

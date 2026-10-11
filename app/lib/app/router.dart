@@ -5,14 +5,17 @@ import 'package:go_router/go_router.dart';
 
 import '../core/widgets/coming_soon_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
+import '../features/backup/domain/system_repository.dart';
 import '../features/auth/presentation/screens/intro_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
+import '../features/setup/presentation/screens/setup_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
+import 'session/household_setup.dart';
 
 abstract final class Routes {
   static const intro = '/intro';
@@ -24,15 +27,23 @@ abstract final class Routes {
   static const battery = '/battery';
   static const assistant = '/assistant';
   static const settings = '/settings';
+  static const setup = '/setup';
 
   static const _signedOut = {intro, signUp, login};
 }
 
 /// Signed out → intro / sign-up / login only. Signed in → the five tabs;
-/// signing in from any auth screen lands on Home by itself.
+/// signing in from any auth screen lands on Home by itself. A new account
+/// with no household goes through setup first, and setup ends on Home as
+/// soon as the household is saved.
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier(0);
   ref.listen(isSignedInProvider, (_, _) => refresh.value++);
+  ref.listen(householdSetupProvider, (_, _) => refresh.value++);
+  ref.listen(
+    householdSystemProvider.select((s) => s.value != null),
+    (_, _) => refresh.value++,
+  );
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
@@ -45,6 +56,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       final atAuth = Routes._signedOut.contains(state.matchedLocation);
       if (!signedIn && !atAuth) return Routes.intro;
       if (signedIn && atAuth) return Routes.home;
+      if (!signedIn) return null;
+
+      final hasHousehold = ref.read(householdSystemProvider).value != null;
+      final atSetup = state.matchedLocation == Routes.setup;
+      if (hasHousehold && atSetup) return Routes.home;
+      final needsSetup =
+          !hasHousehold &&
+          ref.read(householdSetupProvider) == HouseholdStatus.missing;
+      if (needsSetup && !atSetup) return Routes.setup;
       return null;
     },
     routes: [
@@ -59,6 +79,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: Routes.setup,
+        builder: (context, state) => const SetupScreen(),
       ),
       GoRoute(
         path: Routes.settings,

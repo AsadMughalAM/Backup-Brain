@@ -479,6 +479,9 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 | `back` · `next` · `close` · `add` · `more` | `arrowLeft` · `caretRight` · `x` · `plus` · `dotsThree` | Navigation & actions |
 | `expand` · `check` | `caretDown` · `check` | `BbDropdown` caret, selected `BbChip` |
 | `refresh` | `arrowClockwise` | Refresh forecast |
+| `add` · `remove` | `plus` · `minus` | `BbQuantityStepper` |
+| `radioOff` · `radioOn` | `circle` · Fill `checkCircle` | `BbChoiceCard` mark |
+| `fridge` · `ac` · `cooler` · `laptop` · `desktop` · `charger` · `washer` · `microwave` | `thermometerCold` · `snowflake` · `wind` · `laptop` · `desktop` · `deviceMobile` · `washingMachine` · `oven` | Appliance presets |
 | `homeActive` · `loadsActive` · `solarActive` · `batteryActive` · `assistantActive` | Fill of the tab glyph | Selected nav tab (§6.2) |
 
 > Glyph names follow Phosphor's catalog (phosphoricons.com). Confirm each exists in the installed package version during setup; if one is missing, choose the closest Phosphor glyph and update only this table + `icons.dart`.
@@ -625,6 +628,8 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - **`BbSlider`:** track 4 px `surfaceMuted`, active `secondary`, thumb 20 px `secondary` with value label in `metricSmall` while dragging.
 - **`BbTextField(pill: true)`** **NEW**: sign-in style — pill radius, leading icon, label shown inside as the placeholder (still the accessible name), 1 px `outlineVariant`.
 - **`BbDropdown`:** looks like `BbTextField` + `caretDown` icon; menu = level2 surface.
+- **`BbChoiceCard`** **NEW**: one answer to a single-choice question. Full width, radius `lg`, padding 16: 40-px icon disc, `titleSmall` title, optional `bodySmall` muted hint (a recognition cue, e.g. "Tall battery you top up with water"), radio mark on the right. Unselected = `surface` + level1; selected = `secondaryContainer`, no shadow, Fill `checkCircle` in `secondary`. No borders.
+- **`BbQuantityStepper`** **NEW**: tonal − / + icon buttons (48 dp) around the value in `metricSmall` (`textMuted` at 0). One adjustable node for screen readers (swipe to change).
 
 ### 10.3 Surfaces
 
@@ -650,6 +655,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - **`BbNavBar`** (bottom, 5 tabs: Home · Loads · Solar · Battery · Assistant): height 64 + safe area, `surface` + `level1` (shadow cast upward in light; lighter surface in dark), no border. Selected tab = **navy pill indicator** 56 × 32 (`secondary`) behind a **Fill** icon in `onSecondary`, label `labelMedium` `textPrimary` 600; unselected = Regular icon + label in `textMuted`. Navy since v2, so the yellow budget goes to the screen's CTA.
 - **`BbAppBar`:** `background` color (blends with page), title `titleLarge` (or large `headlineMedium` variant on top-level tabs that collapses on scroll), actions = `BbIconButton`s; gains `level1` (and `surface` fill) when content scrolls under it.
 - **`BbPageDots`** **NEW**: intro position — current dot is a 24 × 8 `secondary` pill, others 8 px `outlineVariant` dots (shape changes, not only color).
+- **`BbStepIndicator`** **NEW**: short stepped flows (setup). Per step a 28-px circle + `labelMedium` label below, joined by 2-px lines. Done = `successContainer` + `check` in `success` (line `success`); current = `secondary` + number in `onSecondary`; upcoming = `surfaceMuted` + number in `textMuted` (line `outlineVariant`). One semantics label: "Step 2 of 3: Battery".
 - **`BbTabs`:** text tabs, `labelLarge`; selected = `textPrimary` + 2-px `secondary` underline (full label width); unselected `textMuted`.
 
 ### 10.6 Energy components (domain visuals, still dumb)
@@ -700,6 +706,8 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 [Footer] timer icon · "Lahore · updated 20 min ago" · xs spinner while refreshing · retry on failure
 ```
 No forecast yet → `BbEmptyState` "Needs internet once" with a loading `BbButton.secondary`. No panels → `BbEmptyState`. Performance check (F4) goes under the sun card later.
+
+**Setup (first run):** `BbStepIndicator` (Home · Battery · Appliances) → one question block per topic (`titleMedium` question + muted hint saying where to find the answer) → answers as `BbChip`s, `BbChoiceCard`s and `BbQuantityStepper`s; follow-up questions appear only once they apply → sticky bottom bar: live backup time (from step 2) above a tonal Back icon button and the full-width primary Next / "Show my backup time". Next stays disabled until the step's required answers are in.
 
 **Estimator:** stepped form (`BbProgressBar` determinate, 3 steps) → 3 package cards (`BbCard`, recommended one = `highlight` variant + `primaryContainer` badge "Recommended") with PKR range in `metricMedium` → payback → installer checklist → disclaimer `bodySmall` muted + "prices last updated".
 

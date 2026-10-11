@@ -3,6 +3,7 @@ import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
+import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,6 +29,9 @@ Future<void> pumpApp(
         authRepositoryProvider.overrideWithValue(auth),
         systemRepositoryProvider.overrideWithValue(system),
         applianceRepositoryProvider.overrideWithValue(appliances),
+        setupPresetsRepositoryProvider.overrideWithValue(
+          const FileSetupPresetsRepository(),
+        ),
       ],
       child: const App(),
     ),

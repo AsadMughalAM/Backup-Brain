@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers/app_harness.dart';
@@ -71,7 +72,7 @@ void main() {
   });
 
   group('signed out', () {
-    testWidgets('intro → sign up → lands on Home with the demo household', (
+    testWidgets('intro → sign up → setup, and the demo is one tap away', (
       tester,
     ) async {
       final auth = FakeAuthRepository();
@@ -93,12 +94,23 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(auth.calls, ['signUp Asad Ali <asad@example.pk>']);
+      // A new account sets up its own home; nothing is seeded behind its back.
+      expect(find.text('Where is your home?'), findsOneWidget);
+      expect(system.demoLoads, 0);
+
+      await tester.scrollUntilVisible(
+        find.text('Just looking? Try the demo home'),
+        200,
+        scrollable: find.byType(Scrollable).last,
+      );
+      await tester.tap(find.text('Just looking? Try the demo home'));
+      await tester.pumpAndSettle();
       expect(system.demoLoads, 1);
       expect(find.text('3h 28m'), findsOneWidget);
       expect(find.text('Assalam-o-alaikum, Asad'), findsOneWidget);
     });
 
-    testWidgets('Google on the login screen goes straight to Home', (
+    testWidgets('Google on the login screen goes to setup for a new account', (
       tester,
     ) async {
       final auth = FakeAuthRepository();
@@ -116,7 +128,7 @@ void main() {
       await tester.tap(find.text('Continue with Google'));
       await tester.pumpAndSettle();
       expect(auth.calls, ['google']);
-      expect(find.text('3h 28m'), findsOneWidget);
+      expect(find.text('Where is your home?'), findsOneWidget);
     });
 
     testWidgets('returning user: existing household is never overwritten', (
