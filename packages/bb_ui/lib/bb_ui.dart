@@ -23,7 +23,6 @@ export 'src/components/inputs/bb_text_field.dart';
 export 'src/components/layout/bb_gap.dart';
 export 'src/components/layout/bb_page_padding.dart';
 export 'src/components/navigation/bb_nav_bar.dart';
-export 'src/components/navigation/bb_page_dots.dart';
 export 'src/components/navigation/bb_scaffold.dart';
 export 'src/components/navigation/bb_step_indicator.dart';
 export 'src/components/surfaces/bb_card.dart';

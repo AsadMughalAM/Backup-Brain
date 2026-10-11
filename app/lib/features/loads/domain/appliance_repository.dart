@@ -10,8 +10,12 @@ abstract interface class ApplianceRepository {
 
   Future<void> setOn(String id, {required bool isOn});
 
-  /// Writes the appliances picked during setup.
-  Future<void> addAll(List<Appliance> appliances);
+  /// Writes the appliances picked during setup. [removing] are deleted in
+  /// the same batch, so an edit never shows half old, half new.
+  Future<void> addAll(
+    List<Appliance> appliances, {
+    Set<String> removing = const {},
+  });
 
   /// Writes the bundled demo household's appliances (Demo Mode).
   Future<void> loadDemo();

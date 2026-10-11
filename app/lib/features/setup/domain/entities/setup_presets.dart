@@ -36,6 +36,25 @@ class SetupPresets {
       chemistry.isLeadAcidFamily ? leadAcid : lithium;
 
   CityPreset city(String id) => cities.firstWhere((c) => c.id == id);
+
+  /// The listed city closest to [site]. Plain degree distance is enough to
+  /// tell Pakistani cities apart.
+  CityPreset nearestCity(SiteLocation site) => cities.reduce(
+    (best, c) =>
+        _distance(c.site, site) < _distance(best.site, site) ? c : best,
+  );
+
+  /// The preset a saved appliance counts as, matched by its icon key (the
+  /// appliance type). Null for anything setup doesn't offer.
+  AppliancePreset? presetForIcon(String iconKey) {
+    for (final a in appliances) {
+      if (a.iconKey == iconKey) return a;
+    }
+    return null;
+  }
+
+  static double _distance(SiteLocation a, SiteLocation b) =>
+      (a.lat - b.lat) * (a.lat - b.lat) + (a.lon - b.lon) * (a.lon - b.lon);
 }
 
 class CityPreset {

@@ -8,20 +8,27 @@ import '../../../../core/utils/formatters.dart';
 import '../../domain/entities/setup_draft.dart';
 import '../../domain/entities/setup_presets.dart';
 import '../controllers/setup_controller.dart';
+import 'label_guide.dart';
 import 'setup_question.dart';
 
 /// Step 2: battery type (described by what it looks like, since few people
 /// know the chemistry), then sizes pre-set to the most common ones.
 class BatteryStep extends ConsumerWidget {
-  const BatteryStep({super.key, required this.draft, required this.presets});
+  const BatteryStep({
+    super.key,
+    required this.draft,
+    required this.presets,
+    required this.mode,
+  });
 
   final SetupDraft draft;
   final SetupPresets presets;
+  final SetupMode mode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final setup = ref.read(setupControllerProvider.notifier);
+    final setup = ref.read(setupControllerProvider(mode).notifier);
     final chemistry = draft.chemistry;
     final types = [
       (BatteryChemistry.leadAcid, l10n.chemLeadAcid, l10n.chemLeadAcidHint),
@@ -85,6 +92,14 @@ class BatteryStep extends ConsumerWidget {
                 SetupQuestion(
                   title: l10n.batterySizeLabel,
                   hint: l10n.batteryLabelHint,
+                  guide: LabelGuide(
+                    lines: [
+                      l10n.guideBattery1,
+                      l10n.guideBattery2,
+                      l10n.guideBattery3,
+                    ],
+                    highlight: 1,
+                  ),
                   child: SizeChips(
                     options: presets.battery(chemistry).ampHours.options,
                     selected: draft.ampHoursFor(presets),
@@ -101,6 +116,10 @@ class BatteryStep extends ConsumerWidget {
                 ? l10n.inverterLabelHybrid
                 : l10n.inverterLabelUps,
             hint: l10n.inverterHint,
+            guide: LabelGuide(
+              lines: [l10n.guideUps1, l10n.guideUps2, l10n.guideUps3],
+              highlight: 1,
+            ),
             child: SizeChips(
               options: draft.inverterChoices(presets).options,
               selected: draft.inverterWFor(presets),

@@ -65,7 +65,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final state = ref.watch(authControllerProvider);
     final failure = state.failure;
     // Coming from setup: remind people what the account will keep.
-    final preview = ref.watch(setupPreviewProvider);
+    final preview = ref.watch(setupPreviewProvider(SetupMode.firstRun));
 
     return AuthScaffold(
       title: l10n.signUpTitle,

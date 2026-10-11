@@ -20,9 +20,11 @@ import '../widgets/home_step.dart';
 /// tap-only answers with common sizes pre-picked, and the backup time shown
 /// live from step 2 so people see the payoff before they finish. Answers
 /// are kept on the phone as they are given; an account comes after, to
-/// save them.
+/// save them. The same steps edit a saved home from Settings.
 class SetupScreen extends ConsumerWidget {
-  const SetupScreen({super.key});
+  const SetupScreen({super.key, this.mode = SetupMode.firstRun});
+
+  final SetupMode mode;
 
   static const _steps = 3;
 
@@ -35,15 +37,23 @@ class SetupScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final setup = ref.read(setupControllerProvider.notifier);
-    final draft = ref.watch(setupControllerProvider).value;
+    final setup = ref.read(setupControllerProvider(mode).notifier);
+    final draft = ref.watch(setupControllerProvider(mode)).value;
     final signedIn = ref.watch(isSignedInProvider) ?? false;
+    final editing = mode == SetupMode.editHome;
     final step = draft?.step ?? 0;
 
     void back() => setup.setStep(step - 1);
     void next() {
       if (step < _steps - 1) {
         setup.setStep(step + 1);
+        return;
+      }
+      if (editing) {
+        // Home shows the new numbers straight away.
+        setup.finish().then((_) {
+          if (context.mounted) context.go(Routes.home);
+        });
         return;
       }
       setup.finish();
@@ -71,10 +81,10 @@ class SetupScreen extends ConsumerWidget {
         if (!didPop) back();
       },
       child: BbScaffold(
-        title: l10n.setupTitle,
+        title: editing ? l10n.editHomeTitle : l10n.setupTitle,
         actions: [
           // Returning users skip setup: their home is in their account.
-          if (!signedIn)
+          if (!signedIn && !editing)
             BbButton.ghost(
               label: l10n.login,
               size: BbButtonSize.sm,
@@ -107,7 +117,7 @@ class SetupScreen extends ConsumerWidget {
                       ),
                       children: [
                         _stepBody(draft, presets, languageCode),
-                        if (step == 0) ...[
+                        if (step == 0 && !editing) ...[
                           const BbGap.xl(),
                           Text(
                             l10n.setupUnderTwoMinutes,
@@ -134,6 +144,7 @@ class SetupScreen extends ConsumerWidget {
             ? null
             : _BottomBar(
                 step: step,
+                mode: mode,
                 isLast: step == _steps - 1,
                 canContinue: _canContinue(draft),
                 onBack: back,
@@ -143,11 +154,16 @@ class SetupScreen extends ConsumerWidget {
     );
   }
 
-  static Widget _stepBody(SetupDraft d, SetupPresets p, String languageCode) =>
+  Widget _stepBody(SetupDraft d, SetupPresets p, String languageCode) =>
       switch (d.step) {
-        0 => HomeStep(draft: d, presets: p),
-        1 => BatteryStep(draft: d, presets: p),
-        _ => AppliancesStep(draft: d, presets: p, languageCode: languageCode),
+        0 => HomeStep(draft: d, presets: p, mode: mode),
+        1 => BatteryStep(draft: d, presets: p, mode: mode),
+        _ => AppliancesStep(
+          draft: d,
+          presets: p,
+          languageCode: languageCode,
+          mode: mode,
+        ),
       };
 }
 
@@ -155,6 +171,7 @@ class SetupScreen extends ConsumerWidget {
 /// Next, in the thumb zone.
 class _BottomBar extends ConsumerWidget {
   const _BottomBar({
+    required this.mode,
     required this.step,
     required this.isLast,
     required this.canContinue,
@@ -162,6 +179,7 @@ class _BottomBar extends ConsumerWidget {
     required this.onNext,
   });
 
+  final SetupMode mode;
   final int step;
   final bool isLast;
   final bool canContinue;
@@ -171,12 +189,12 @@ class _BottomBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final preview = ref.watch(setupPreviewProvider);
+    final preview = ref.watch(setupPreviewProvider(mode));
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (preview != null && step > 0) ...[
+        if (preview != null) ...[
           Semantics(
             liveRegion: true,
             child: Row(
@@ -219,7 +237,11 @@ class _BottomBar extends ConsumerWidget {
             ],
             Expanded(
               child: BbButton(
-                label: isLast ? l10n.setupFinish : l10n.setupNext,
+                label: !isLast
+                    ? l10n.setupNext
+                    : mode == SetupMode.editHome
+                    ? l10n.editHomeSave
+                    : l10n.setupFinish,
                 expand: true,
                 onPressed: canContinue ? onNext : null,
               ),

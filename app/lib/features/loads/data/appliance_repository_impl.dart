@@ -45,11 +45,18 @@ class FirestoreApplianceRepository implements ApplianceRepository {
           .update({'isOn': isOn, 'updatedAt': FieldValue.serverTimestamp()});
 
   @override
-  Future<void> addAll(List<Appliance> appliances) async {
+  Future<void> addAll(
+    List<Appliance> appliances, {
+    Set<String> removing = const {},
+  }) async {
     final col = _col(_uid);
     // A batch, not a transaction: transactions need the server and this
     // must work offline (TECH_STACK.md §7.2).
     final batch = _db.batch();
+    // Deletes first: a re-added id (same preset) ends up written, not gone.
+    for (final id in removing) {
+      batch.delete(col.doc(id));
+    }
     for (final appliance in appliances) {
       batch.set(col.doc(appliance.id), {
         ...ApplianceDto.toMap(appliance),

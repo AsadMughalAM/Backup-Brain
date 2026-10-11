@@ -19,11 +19,13 @@ class AppliancesStep extends ConsumerWidget {
     required this.draft,
     required this.presets,
     required this.languageCode,
+    required this.mode,
   });
 
   final SetupDraft draft;
   final SetupPresets presets;
   final String languageCode;
+  final SetupMode mode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +39,7 @@ class AppliancesStep extends ConsumerWidget {
             preset: a,
             name: a.name(languageCode),
             quantity: draft.quantities[a.id] ?? 0,
+            mode: mode,
           ),
     ];
 
@@ -64,11 +67,13 @@ class _ApplianceRow extends ConsumerWidget {
     required this.preset,
     required this.name,
     required this.quantity,
+    required this.mode,
   });
 
   final AppliancePreset preset;
   final String name;
   final int quantity;
+  final SetupMode mode;
 
   static const _disc = 40.0;
 
@@ -118,7 +123,7 @@ class _ApplianceRow extends ConsumerWidget {
             decreaseLabel: l10n.fewer,
             increaseLabel: l10n.more,
             onChanged: (n) => ref
-                .read(setupControllerProvider.notifier)
+                .read(setupControllerProvider(mode).notifier)
                 .setQuantity(preset.id, n),
           ),
         ],

@@ -33,6 +33,49 @@ class SetupDraft {
     panelWatts: p.panelWatts.fallback,
   );
 
+  /// A saved household as setup answers, for "Edit my home". Appliances of
+  /// the same type add up ("Fan (bedroom)" + "Fan (lounge)" = 2 fans).
+  factory SetupDraft.fromHousehold(
+    SetupPresets p,
+    HouseholdSystem system,
+    List<Appliance> appliances,
+  ) {
+    final quantities = {for (final a in p.appliances) a.id: 0};
+    for (final a in appliances) {
+      final preset = p.presetForIcon(a.iconKey);
+      if (preset == null) continue;
+      quantities[preset.id] = quantities[preset.id]! + a.quantity;
+    }
+    final panels = system.panels;
+    final kWp = system.solar?.kWp;
+    final watts = panels?.watts ?? p.panelWatts.fallback;
+    return SetupDraft(
+      cityId: switch (system.location) {
+        null => null,
+        final home => p.nearestCity(home.site).id,
+      },
+      hasSolar: system.hasSolar,
+      // Households saved before panel details were kept: rebuild a count
+      // from the kWp at the usual panel size.
+      panelCount:
+          panels?.count ??
+          (kWp == null
+              ? p.panelCount.fallback
+              : (kWp * 1000 / watts).round().clamp(
+                  p.panelCount.min,
+                  p.panelCount.max,
+                )),
+      panelWatts: watts,
+      chemistry: system.battery.chemistry,
+      batteryCount: system.battery.count,
+      voltage: system.battery.voltage,
+      ampHours: system.battery.ampHours,
+      inverterW: system.inverter.ratedW,
+      soc: system.soc,
+      quantities: quantities,
+    );
+  }
+
   final String? cityId;
   final bool? hasSolar;
   final int panelCount;
@@ -94,6 +137,9 @@ class SetupDraft {
       ),
       soc: soc,
       solar: hasSolar! ? SolarSpec(kWp: solarKWp) : null,
+      panels: hasSolar!
+          ? PanelArray(count: panelCount, watts: panelWatts)
+          : null,
       location: HomeLocation(city: city.name, site: city.site),
     );
   }

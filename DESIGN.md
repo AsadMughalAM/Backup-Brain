@@ -617,7 +617,6 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - Sizes: `sm` 40 h, `md` 48 h (default), `lg` 56 h (sticky bottom CTA, full width). Label `labelLarge`; icon 20, leading only.
 - States: pressed = 12% `textPrimary` overlay + scale 0.98 (`fast`); disabled = 38% opacity, no overlay; focused = 2-px `focusRing` offset 2; loading = §8.3.
 - `BbIconButton`: 48 × 48 hit area, 24 icon, circular; variants `standard` (no fill), `tonal` (`surfaceMuted` circle 40).
-- `BbIconButton.hero`: 64 px `primary` circle inside a 2 px `primary` ring — the intro's next arrow; counts as the screen's one primary action.
 - `BbGoogleButton` **NEW**: outlined pill (`surface` fill, 1 px `outlineVariant`), Google's four-color G (SVG asset, as Google's branding requires), `labelLarge` label.
 
 ### 10.2 Inputs
@@ -654,7 +653,6 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 - **`BbNavBar`** (bottom, 5 tabs: Home · Loads · Solar · Battery · Assistant): height 64 + safe area, `surface` + `level1` (shadow cast upward in light; lighter surface in dark), no border. Selected tab = **navy pill indicator** 56 × 32 (`secondary`) behind a **Fill** icon in `onSecondary`, label `labelMedium` `textPrimary` 600; unselected = Regular icon + label in `textMuted`. Navy since v2, so the yellow budget goes to the screen's CTA.
 - **`BbAppBar`:** `background` color (blends with page), title `titleLarge` (or large `headlineMedium` variant on top-level tabs that collapses on scroll), actions = `BbIconButton`s; gains `level1` (and `surface` fill) when content scrolls under it.
-- **`BbPageDots`** **NEW**: intro position — current dot is a 24 × 8 `secondary` pill, others 8 px `outlineVariant` dots (shape changes, not only color).
 - **`BbStepIndicator`** **NEW**: short stepped flows (setup). Per step a 28-px circle + `labelMedium` label below, joined by 2-px lines. Done = `successContainer` + `check` in `success` (line `success`); current = `secondary` + number in `onSecondary`; upcoming = `surfaceMuted` + number in `textMuted` (line `outlineVariant`). One semantics label: "Step 2 of 3: Battery".
 - **`BbTabs`:** text tabs, `labelLarge`; selected = `textPrimary` + 2-px `secondary` underline (full label width); unselected `textMuted`.
 
@@ -707,7 +705,7 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 ```
 No forecast yet → `BbEmptyState` "Needs internet once" with a loading `BbButton.secondary`. No panels → `BbEmptyState`. Performance check (F4) goes under the sun card later.
 
-**Setup (first run):** `BbStepIndicator` (Home · Battery · Appliances) → one question block per topic (`titleMedium` question + muted hint saying where to find the answer) → answers as `BbChip`s, `BbChoiceCard`s and `BbQuantityStepper`s; follow-up questions appear only once they apply → sticky bottom bar: live backup time (from step 2) above a tonal Back icon button and the full-width primary Next / "Show my backup time". Next stays disabled until the step's required answers are in.
+**Setup (first run):** `BbStepIndicator` (Home · Battery · Appliances) → one question block per topic (`titleMedium` question + muted hint saying where to find the answer) → answers as `BbChip`s, `BbChoiceCard`s and `BbQuantityStepper`s; follow-up questions appear only once they apply → sticky bottom bar: live backup time (from step 2) above a tonal Back icon button and the full-width primary Next / "Show my backup time". Next stays disabled until the step's required answers are in. Questions about numbers printed on a sticker carry a ghost "Where is this written?" (info icon) that expands, in place, a `surfaceMuted` drawing of the sticker: lines in `metricCaption` `textMuted`, the line to read on a `primaryContainer` marker in `metricSmall` with an arrow beside it (shape + color). The same screen, titled "Edit my home" with "Save changes", edits a saved home from Settings → My home (summary line + tonal "Edit my home" button).
 
 **Estimator:** stepped form (`BbProgressBar` determinate, 3 steps) → 3 package cards (`BbCard`, recommended one = `highlight` variant + `primaryContainer` badge "Recommended") with PKR range in `metricMedium` → payback → installer checklist → disclaimer `bodySmall` muted + "prices last updated".
 

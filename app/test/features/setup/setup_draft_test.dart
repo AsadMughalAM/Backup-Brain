@@ -58,4 +58,47 @@ void main() {
     expect(saved.any((a) => a.id == 'tv'), isFalse);
     expect(saved.firstWhere((a) => a.id == 'fan').isOn, isTrue);
   });
+
+  group('editing a saved home', () {
+    final demo = SetupDraft.fromHousehold(
+      presets,
+      demoSystem(),
+      demoAppliances(),
+    );
+
+    test('reads back city, panels and battery as answers', () {
+      expect(demo.cityId, 'lahore');
+      expect(demo.hasSolar, isTrue);
+      expect(demo.panelCount, 4);
+      expect(demo.panelWatts, 540);
+      expect(demo.chemistry, BatteryChemistry.lifepo4);
+      expect(demo.voltage, 24);
+      expect(demo.ampHours, 150);
+      expect(demo.inverterW, 2000);
+      expect(demo.homeDone && demo.batteryDone, isTrue);
+    });
+
+    test('appliances of the same type add up; heavy ones are counted', () {
+      expect(demo.quantities['fan'], 2); // bedroom + lounge
+      expect(demo.quantities['light'], 5);
+      expect(demo.quantities['motor'], 1);
+      expect(demo.quantities['ac'], 0);
+    });
+
+    test('saving it unchanged gives the same household', () {
+      final again = demo.toSystem(presets);
+      final original = demoSystem();
+      expect(again.battery.nominalWh, original.battery.nominalWh);
+      expect(again.solar!.kWp, closeTo(original.solar!.kWp, 1e-9));
+      expect(again.location!.city, 'Lahore');
+    });
+
+    test('a nearby place maps to the closest listed city', () {
+      // Wah Cantt is between Islamabad and Peshawar, nearest Islamabad's area.
+      final city = presets.nearestCity(
+        const SiteLocation(lat: 33.77, lon: 72.75),
+      );
+      expect(city.id, anyOf('islamabad', 'rawalpindi'));
+    });
+  });
 }

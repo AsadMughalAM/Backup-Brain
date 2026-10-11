@@ -7,21 +7,28 @@ import '../../../../core/utils/formatters.dart';
 import '../../domain/entities/setup_draft.dart';
 import '../../domain/entities/setup_presets.dart';
 import '../controllers/setup_controller.dart';
+import 'label_guide.dart';
 import 'setup_question.dart';
 
 /// Step 1: where the home is and whether it has panels. The panel
 /// questions only appear after "Yes", so people without solar never see
 /// them.
 class HomeStep extends ConsumerWidget {
-  const HomeStep({super.key, required this.draft, required this.presets});
+  const HomeStep({
+    super.key,
+    required this.draft,
+    required this.presets,
+    required this.mode,
+  });
 
   final SetupDraft draft;
   final SetupPresets presets;
+  final SetupMode mode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final setup = ref.read(setupControllerProvider.notifier);
+    final setup = ref.read(setupControllerProvider(mode).notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -86,6 +93,14 @@ class HomeStep extends ConsumerWidget {
                 SetupQuestion(
                   title: l10n.panelWattsLabel,
                   hint: l10n.panelWattsHint,
+                  guide: LabelGuide(
+                    lines: [
+                      l10n.guidePanel1,
+                      l10n.guidePanel2,
+                      l10n.guidePanel3,
+                    ],
+                    highlight: 1,
+                  ),
                   child: SizeChips(
                     options: presets.panelWatts.options,
                     selected: draft.panelWatts,

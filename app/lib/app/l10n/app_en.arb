@@ -211,6 +211,66 @@
       }
     }
   },
+  "editHomeTitle": "Edit my home",
+  "editHomeSave": "Save changes",
+  "myHomeSection": "My home",
+  "editHome": "Edit my home",
+  "homeSummary": "{city} · {battery}",
+  "@homeSummary": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      },
+      "battery": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSummarySolar": "{city} · {battery} · {kw} solar",
+  "@homeSummarySolar": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      },
+      "battery": {
+        "type": "String"
+      },
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryBank": "{count} × {size}",
+  "@batteryBank": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "guideOpen": "Where is this written?",
+  "guideHide": "Hide the example",
+  "guideCaption": "Look for this line on the sticker. Yours may look a little different.",
+  "guideSemantics": "Example sticker. Look for a line like {line}.",
+  "@guideSemantics": {
+    "placeholders": {
+      "line": {
+        "type": "String"
+      }
+    }
+  },
+  "guideBattery1": "DEEP CYCLE BATTERY",
+  "guideBattery2": "12V 200Ah",
+  "guideBattery3": "Charge before use · Keep upright",
+  "guideUps1": "UPS / INVERTER",
+  "guideUps2": "1000VA / 800W",
+  "guideUps3": "Input 220V AC · Battery 12V DC",
+  "guidePanel1": "MONO PV MODULE",
+  "guidePanel2": "Pmax 550W",
+  "guidePanel3": "Voc 49.6V · Isc 14.0A",
   "comingSoonTitle": "Coming soon",
   "comingBattery": "Battery health, plus where to buy or repair a battery.",
   "comingAssistant": "Ask anything about your backup in English or Roman Urdu.",

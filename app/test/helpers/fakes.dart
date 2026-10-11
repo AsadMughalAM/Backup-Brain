@@ -126,8 +126,19 @@ class FakeApplianceRepository implements ApplianceRepository {
   }
 
   @override
-  Future<void> addAll(List<Appliance> appliances) async =>
-      _changes.add(_items = [..._items, ...appliances]);
+  Future<void> addAll(
+    List<Appliance> appliances, {
+    Set<String> removing = const {},
+  }) async {
+    final added = {for (final a in appliances) a.id};
+    _changes.add(
+      _items = [
+        for (final a in _items)
+          if (!removing.contains(a.id) && !added.contains(a.id)) a,
+        ...appliances,
+      ],
+    );
+  }
 
   @override
   Future<void> loadDemo() async => _changes.add(_items = demoAppliances());

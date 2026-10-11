@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/utils/fire_and_forget.dart';
 import '../../features/auth/domain/auth_repository.dart';
+import '../../features/backup/domain/entities/household_system.dart';
 import '../../features/backup/domain/system_repository.dart';
 import '../../features/loads/domain/appliance_repository.dart';
+import '../../features/loads/domain/entities/appliance.dart';
 import '../../features/setup/domain/setup_draft_repository.dart';
 import '../../features/setup/domain/setup_presets_repository.dart';
 import '../locale/locale_controller.dart';
@@ -73,20 +75,31 @@ class HouseholdSetup extends Notifier<HouseholdStatus> {
     }
     final presets = await ref.read(setupPresetsProvider.future);
     final language = ref.read(localeProvider).locale.languageCode;
+    saveHome(draft.toSystem(presets), draft.toAppliances(presets, language));
+    await drafts.clear();
+    return true;
+  }
+
+  /// Writes a household from setup or "Edit my home". [replacing] are the
+  /// account's appliances the new list takes the place of. Not awaited:
+  /// the offline cache has the writes at once and the screens follow it.
+  void saveHome(
+    HouseholdSystem system,
+    List<Appliance> appliances, {
+    Set<String> replacing = const {},
+  }) {
     // Appliances first, so the dashboard never shows the system with an
-    // empty appliance list. Not awaited: the offline cache has them at once.
+    // empty appliance list.
     fireAndForget(
       ref
           .read(applianceRepositoryProvider)
-          .addAll(draft.toAppliances(presets, language)),
-      'setup appliances',
+          .addAll(appliances, removing: replacing),
+      'home appliances',
     );
     fireAndForget(
-      ref.read(systemRepositoryProvider).save(draft.toSystem(presets)),
-      'setup system',
+      ref.read(systemRepositoryProvider).save(system),
+      'home system',
     );
-    await drafts.clear();
-    return true;
   }
 
   /// Demo Mode (ARCHITECTURE.md §12), for exploring before entering a real

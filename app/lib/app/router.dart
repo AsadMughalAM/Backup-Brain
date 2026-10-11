@@ -12,6 +12,7 @@ import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/setup/domain/setup_draft_repository.dart';
+import '../features/setup/presentation/controllers/setup_controller.dart';
 import '../features/setup/presentation/screens/setup_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
@@ -27,6 +28,7 @@ abstract final class Routes {
   static const assistant = '/assistant';
   static const settings = '/settings';
   static const setup = '/setup';
+  static const editHome = '/settings/home';
 
   static const _auth = {signUp, login};
 
@@ -85,6 +87,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.setup,
         builder: (context, state) => const SetupScreen(),
+      ),
+      GoRoute(
+        path: Routes.editHome,
+        builder: (context, state) =>
+            const SetupScreen(mode: SetupMode.editHome),
       ),
       GoRoute(
         path: Routes.settings,

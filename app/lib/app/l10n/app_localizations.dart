@@ -591,6 +591,126 @@ abstract class AppLocalizations {
   /// **'Backup about {time}. Create an account to keep it safe, on any phone.'**
   String setupDoneBody(String time);
 
+  /// No description provided for @editHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit my home'**
+  String get editHomeTitle;
+
+  /// No description provided for @editHomeSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get editHomeSave;
+
+  /// No description provided for @myHomeSection.
+  ///
+  /// In en, this message translates to:
+  /// **'My home'**
+  String get myHomeSection;
+
+  /// No description provided for @editHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit my home'**
+  String get editHome;
+
+  /// No description provided for @homeSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{city} · {battery}'**
+  String homeSummary(String city, String battery);
+
+  /// No description provided for @homeSummarySolar.
+  ///
+  /// In en, this message translates to:
+  /// **'{city} · {battery} · {kw} solar'**
+  String homeSummarySolar(String city, String battery, String kw);
+
+  /// No description provided for @batteryBank.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} × {size}'**
+  String batteryBank(int count, String size);
+
+  /// No description provided for @guideOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Where is this written?'**
+  String get guideOpen;
+
+  /// No description provided for @guideHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the example'**
+  String get guideHide;
+
+  /// No description provided for @guideCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Look for this line on the sticker. Yours may look a little different.'**
+  String get guideCaption;
+
+  /// No description provided for @guideSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Example sticker. Look for a line like {line}.'**
+  String guideSemantics(String line);
+
+  /// No description provided for @guideBattery1.
+  ///
+  /// In en, this message translates to:
+  /// **'DEEP CYCLE BATTERY'**
+  String get guideBattery1;
+
+  /// No description provided for @guideBattery2.
+  ///
+  /// In en, this message translates to:
+  /// **'12V 200Ah'**
+  String get guideBattery2;
+
+  /// No description provided for @guideBattery3.
+  ///
+  /// In en, this message translates to:
+  /// **'Charge before use · Keep upright'**
+  String get guideBattery3;
+
+  /// No description provided for @guideUps1.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS / INVERTER'**
+  String get guideUps1;
+
+  /// No description provided for @guideUps2.
+  ///
+  /// In en, this message translates to:
+  /// **'1000VA / 800W'**
+  String get guideUps2;
+
+  /// No description provided for @guideUps3.
+  ///
+  /// In en, this message translates to:
+  /// **'Input 220V AC · Battery 12V DC'**
+  String get guideUps3;
+
+  /// No description provided for @guidePanel1.
+  ///
+  /// In en, this message translates to:
+  /// **'MONO PV MODULE'**
+  String get guidePanel1;
+
+  /// No description provided for @guidePanel2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pmax 550W'**
+  String get guidePanel2;
+
+  /// No description provided for @guidePanel3.
+  ///
+  /// In en, this message translates to:
+  /// **'Voc 49.6V · Isc 14.0A'**
+  String get guidePanel3;
+
   /// No description provided for @comingSoonTitle.
   ///
   /// In en, this message translates to:

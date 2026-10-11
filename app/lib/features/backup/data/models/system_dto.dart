@@ -37,6 +37,12 @@ abstract final class SystemDto {
               shading: _decode(_shading, solar['shading'] ?? 'none'),
             )
           : null,
+      panels: solar?['panelCount'] == null || solar?['panelW'] == null
+          ? null
+          : PanelArray(
+              count: (solar!['panelCount'] as num).toInt(),
+              watts: (solar['panelW'] as num).toDouble(),
+            ),
       location: location == null
           ? null
           : HomeLocation(
@@ -65,7 +71,14 @@ abstract final class SystemDto {
   static Map<String, dynamic> toMap(HouseholdSystem s) => {
     'hasSolar': s.hasSolar,
     if (s.solar case final solar?)
-      'solar': {'kWp': solar.kWp, 'shading': _shading[solar.shading]},
+      'solar': {
+        'kWp': solar.kWp,
+        'shading': _shading[solar.shading],
+        if (s.panels case final panels?) ...{
+          'panelCount': panels.count,
+          'panelW': panels.watts,
+        },
+      },
     if (s.location case final location?)
       'location': {
         'city': location.city,

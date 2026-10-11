@@ -33,6 +33,13 @@ void main() {
       expect(s.solar!.shading, PanelShading.none);
       expect(s.location!.city, 'Lahore');
       expect(s.location!.site.lat, 31.5204);
+      expect(s.panels!.count, 4);
+      expect(s.panels!.watts, 540);
+      expect(
+        SystemDto.fromMap(SystemDto.toMap(s)).panels!.count,
+        4,
+        reason: 'panel details survive a save',
+      );
     });
 
     test('hasSolar false drops the panel spec', () {

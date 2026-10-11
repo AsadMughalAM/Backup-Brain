@@ -9,15 +9,20 @@ class SetupQuestion extends StatelessWidget {
     required this.title,
     required this.child,
     this.hint,
+    this.guide,
   });
 
   final String title;
   final String? hint;
   final Widget child;
 
+  /// Usually a `LabelGuide` for numbers printed on a sticker.
+  final Widget? guide;
+
   @override
   Widget build(BuildContext context) {
     final hint = this.hint;
+    final guide = this.guide;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,6 +39,7 @@ class SetupQuestion extends StatelessWidget {
             ),
           ),
         ],
+        ?guide,
         const BbGap.md(),
         child,
       ],
@@ -41,7 +47,9 @@ class SetupQuestion extends StatelessWidget {
   }
 }
 
-/// Sizes as one-tap chips (no typing): "150 Ah", "200 Ah", …
+/// Sizes as one-tap chips (no typing): "150 Ah", "200 Ah", … A saved size
+/// that isn't a usual one (e.g. 185 Ah) gets its own chip, so editing never
+/// silently changes it.
 class SizeChips extends StatelessWidget {
   const SizeChips({
     super.key,
@@ -60,7 +68,10 @@ class SizeChips extends StatelessWidget {
   Widget build(BuildContext context) => Wrap(
     spacing: AppSpacing.sm,
     children: [
-      for (final v in options)
+      for (final v
+          in options.contains(selected)
+              ? options
+              : ([...options, selected]..sort()))
         BbChip(
           label: label(v),
           selected: v == selected,

@@ -295,6 +295,75 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
+  String get editHomeTitle => 'Apna ghar badlein';
+
+  @override
+  String get editHomeSave => 'Tabdeeliyan save karein';
+
+  @override
+  String get myHomeSection => 'Mera ghar';
+
+  @override
+  String get editHome => 'Apna ghar badlein';
+
+  @override
+  String homeSummary(String city, String battery) {
+    return '$city · $battery';
+  }
+
+  @override
+  String homeSummarySolar(String city, String battery, String kw) {
+    return '$city · $battery · $kw solar';
+  }
+
+  @override
+  String batteryBank(int count, String size) {
+    return '$count × $size';
+  }
+
+  @override
+  String get guideOpen => 'Yeh kahan likha hota hai?';
+
+  @override
+  String get guideHide => 'Misaal band karein';
+
+  @override
+  String get guideCaption =>
+      'Sticker par yeh line dhoondein. Aap ka sticker thora mukhtalif ho sakta hai.';
+
+  @override
+  String guideSemantics(String line) {
+    return 'Misaal sticker. Is jaisi line dhoondein: $line.';
+  }
+
+  @override
+  String get guideBattery1 => 'DEEP CYCLE BATTERY';
+
+  @override
+  String get guideBattery2 => '12V 200Ah';
+
+  @override
+  String get guideBattery3 => 'Charge before use · Keep upright';
+
+  @override
+  String get guideUps1 => 'UPS / INVERTER';
+
+  @override
+  String get guideUps2 => '1000VA / 800W';
+
+  @override
+  String get guideUps3 => 'Input 220V AC · Battery 12V DC';
+
+  @override
+  String get guidePanel1 => 'MONO PV MODULE';
+
+  @override
+  String get guidePanel2 => 'Pmax 550W';
+
+  @override
+  String get guidePanel3 => 'Voc 49.6V · Isc 14.0A';
+
+  @override
   String get comingSoonTitle => 'Jald aa raha hai';
 
   @override
