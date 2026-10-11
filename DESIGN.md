@@ -478,6 +478,7 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 | `showPassword` · `hidePassword` | `eye` · `eyeSlash` | Password visibility toggle in `BbTextField` |
 | `back` · `next` · `close` · `add` · `more` | `arrowLeft` · `caretRight` · `x` · `plus` · `dotsThree` | Navigation & actions |
 | `send` | `paperPlaneRight` (Fill) | Send a chat message |
+| `remove` · `delete` | `minus` · `trash` | Step a value down · delete a row (e.g. a schedule time) |
 | `expand` · `check` | `caretDown` · `check` | `BbDropdown` caret, selected `BbChip` |
 | `refresh` | `arrowClockwise` | Refresh forecast |
 | `homeActive` · `loadsActive` · `solarActive` · `batteryActive` · `assistantActive` | Fill of the tab glyph | Selected nav tab (§6.2) |
@@ -658,7 +659,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 | Component | Visual spec |
 |---|---|
 | **`BbCountdownRing`** | Sits on the hero card. 240-px ring (200 on small phones), 14-px stroke, round caps. Track = `textPrimary` @ 12%; arc = `primary` (Spark Yellow) while SoC > 50%, then the `batteryMid` / `batteryLow` status color, animated `slow`. The battery stat tile always shows icon + % beside it, so color is never the only signal. Center: `metricHero` "3h 20m" + `bodySmall` muted "left at 420 W". Below ring: `labelMedium` "Stops protecting battery at 50%". Overload → ring pulses once (`normal`) and a `danger` banner appears. |
-| **`BbGridStatusPill`** | Pill 40 h. Grid on: `secondaryContainer` + Fill `lightning` in `energy.grid` + "Light hai". Grid off: `surfaceMuted` + Fill `lightningSlash` in `energy.offline` + "Light gayi · 1h 12m" (duration in `metricSmall`). Tapping logs the event (with haptic). |
+| **`BbGridStatusPill`** | Pill 40 h (48 dp hit area). Grid on: `secondaryContainer` + Fill `lightning` in `energy.grid` + "Light hai". Grid off: `surfaceMuted` + Fill `lightningSlash` in `energy.offline` + "Light gayi · 1h 12m" (duration in `metricSmall`). Trailing action label in `secondary`, underlined ("Light gayi?" / "Light aa gayi?") says what a tap logs. Tapping logs the event (with haptic). |
 | **`BbBatteryGauge`** | Horizontal battery glyph 64 × 28, 2-px `outline` body, fill in status token, % in `metricSmall` beside it. Always icon + number. |
 | **`BbPowerFlow`** | Three nodes (Solar · Grid · Battery) flowing to Home, 48-px circles with Regular icons; connecting lines 2 px in each source's energy color, **dashed** when inactive; small moving dots (`slow`, disabled with reduced motion) show direction. |
 | **`BbLoadToggleTile`** | `BbListTile` + appliance icon + name + `metricSmall` watts + `BbSwitch`. Shows `BbPriorityBadge`. When toggled, the countdown updates live. |
@@ -681,10 +682,13 @@ All screens: `BbScaffold` → `BbAppBar` → optional `BbOfflineBanner` → cont
      "left at 420 W"  ·  [What should I turn off?]  ← primary (yellow) CTA
 [Stat tiles 2×2, icon discs]  Battery 62% · Load 420 W · Solar today 3.8 kWh · Next outage 7:00 PM
 [AI advice card: highlight variant (soft yellow), sparkle icon]
+[Outage card: schedule / warning / lightning-slash icon · "Next outage likely 7:00 PM" · "Battery 96% by then · lasts 6h 14m" · › to Outages]
 [Solar forecast strip]
 [Nav bar]
 ```
 Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and solar marks are data. The nav indicator is navy.
+
+**Outages (F8, from the Dashboard outage card):** grid status pill → answer card (cut in progress with battery estimate / next outage + battery by then + "enough for the usual 1h 30m" or a `warning`-icon line to avoid heavy loads / how to get a prediction) with muted basis lines → "Your area's schedule" list rows with a `delete` icon button + secondary "Add time" → "Recent outages" list (`gridOn`/`gridOff` icon, times, duration in `metricSmall`). **Add time** is a full screen (no overlay yet): weekday `BbChip`s, From/To half-hour steppers (`remove`/`add` tonal icon buttons, time in `metricMedium`), sticky yellow Save.
 
 **Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority → target-hours `BbNumberField`.
 

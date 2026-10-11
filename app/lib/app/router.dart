@@ -11,6 +11,8 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
+import '../features/outages/presentation/screens/add_schedule_time_screen.dart';
+import '../features/outages/presentation/screens/outages_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
@@ -25,6 +27,8 @@ abstract final class Routes {
   static const battery = '/battery';
   static const assistant = '/assistant';
   static const settings = '/settings';
+  static const outages = '/outages';
+  static const outagesAddTime = '/outages/add-time';
 
   static const _signedOut = {intro, signUp, login};
 }
@@ -64,6 +68,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.settings,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: Routes.outages,
+        builder: (context, state) =>
+            const OutagesScreen(addTimeLocation: Routes.outagesAddTime),
+      ),
+      GoRoute(
+        path: Routes.outagesAddTime,
+        builder: (context, state) => const AddScheduleTimeScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),

@@ -50,6 +50,25 @@ service cloud.firestore {
         && d.isOn is bool;
     }
 
+    function optionalNumberIn(d, key, lo, hi) {
+      return !(key in d) || isNumberIn(d[key], lo, hi);
+    }
+
+    function validOutage(d) {
+      return d.startedAt is timestamp
+        && (!('endedAt' in d) || d.endedAt == null || d.endedAt is timestamp)
+        && d.source in ['manual', 'auto']
+        && optionalNumberIn(d, 'startSoC', 0, 1)
+        && optionalNumberIn(d, 'endSoC', 0, 1)
+        && optionalNumberIn(d, 'avgLoadW', 0, 100000);
+    }
+
+    function validScheduleSlot(d) {
+      return d.weekday is int && d.weekday >= 1 && d.weekday <= 7
+        && d.startMinute is int && d.startMinute >= 0 && d.startMinute < 1440
+        && d.endMinute is int && d.endMinute >= 0 && d.endMinute < 1440;
+    }
+
     match /users/{uid} {
       allow read, write: if isOwner(uid);
 
@@ -57,12 +76,14 @@ service cloud.firestore {
         allow read, delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && validSystem(request.resource.data);
 
-        // appliances are validated; other per-system logs (outages,
-        // schedule, solarLogs, healthSnapshots, weatherCache) are owner-only.
+        // appliances, outages and schedule are validated; other per-system
+        // logs (solarLogs, healthSnapshots, weatherCache) are owner-only.
         match /{collection}/{docId} {
           allow read, delete: if isOwner(uid);
           allow create, update: if isOwner(uid)
-            && (collection != 'appliances' || validAppliance(request.resource.data));
+            && (collection != 'appliances' || validAppliance(request.resource.data))
+            && (collection != 'outages' || validOutage(request.resource.data))
+            && (collection != 'schedule' || validScheduleSlot(request.resource.data));
         }
       }
 

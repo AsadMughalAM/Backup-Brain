@@ -3,6 +3,7 @@ import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
+import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -16,6 +17,7 @@ Future<void> pumpApp(
   required FakeAuthRepository auth,
   required FakeSystemRepository system,
   required FakeApplianceRepository appliances,
+  FakeOutageRepository? outages,
   List<Override> extra = const [],
 }) async {
   tester.view.physicalSize = const Size(1080, 2340);
@@ -30,6 +32,9 @@ Future<void> pumpApp(
         authRepositoryProvider.overrideWithValue(auth),
         systemRepositoryProvider.overrideWithValue(system),
         applianceRepositoryProvider.overrideWithValue(appliances),
+        outageRepositoryProvider.overrideWithValue(
+          outages ?? FakeOutageRepository(),
+        ),
         ...extra,
       ],
       child: const App(),

@@ -5,6 +5,7 @@ final class InverterSpec {
     required this.type,
     required this.ratedW,
     this.efficiency,
+    this.chargerW,
   });
 
   final InverterType type;
@@ -14,4 +15,8 @@ final class InverterSpec {
 
   /// Overrides the type default from `EngineDefaults.inverterEfficiency`.
   final double? efficiency;
+
+  /// Power the built-in charger puts into the battery from the grid.
+  /// Overrides the C-rate default from `EngineDefaults.chargeRateC`.
+  final double? chargerW;
 }

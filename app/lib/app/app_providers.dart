@@ -14,6 +14,8 @@ import '../features/backup/data/system_repository_impl.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/loads/data/appliance_repository_impl.dart';
 import '../features/loads/domain/appliance_repository.dart';
+import '../features/outages/data/outage_repository_impl.dart';
+import '../features/outages/domain/outage_repository.dart';
 import '../features/solar/data/sources/open_meteo_source.dart';
 import '../features/solar/data/weather_repository_impl.dart';
 import '../features/solar/domain/weather_repository.dart';
@@ -44,6 +46,12 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firestoreProvider),
       ref.watch(firebaseAuthProvider),
       OpenMeteoSource(Dio(_weatherTimeouts)),
+    ),
+  ),
+  outageRepositoryProvider.overrideWith(
+    (ref) => FirestoreOutageRepository(
+      ref.watch(firestoreProvider),
+      ref.watch(firebaseAuthProvider),
     ),
   ),
   assistantRepositoryProvider.overrideWith(

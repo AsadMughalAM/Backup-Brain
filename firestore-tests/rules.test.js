@@ -108,10 +108,27 @@ describe('validation', () => {
     await assertFails(ref.set({ ...appliance, name: '' }));
   });
 
-  test('other per-system logs are owner-only, not appliance-validated', async () => {
+  test('outages are validated and owner-only', async () => {
     const ref = db('alice').doc('users/alice/systems/main/outages/o1');
-    await assertSucceeds(ref.set({ source: 'manual' }));
+    await assertSucceeds(ref.set({ startedAt: new Date(), source: 'manual', startSoC: 0.6 }));
+    await assertSucceeds(ref.update({ endedAt: new Date(), endSoC: 0.45 }));
+    await assertFails(ref.set({ startedAt: 'today', source: 'manual' }));
+    await assertFails(ref.set({ startedAt: new Date(), source: 'guess' }));
+    await assertFails(ref.set({ startedAt: new Date(), source: 'manual', endSoC: 45 }));
     await assertFails(db('bob').doc('users/alice/systems/main/outages/o1').get());
+  });
+
+  test('schedule slots are validated', async () => {
+    const ref = db('alice').doc('users/alice/systems/main/schedule/s1');
+    await assertSucceeds(ref.set({ weekday: 7, startMinute: 1140, endMinute: 1260 }));
+    await assertFails(ref.set({ weekday: 8, startMinute: 1140, endMinute: 1260 }));
+    await assertFails(ref.set({ weekday: 1, startMinute: 1440, endMinute: 60 }));
+  });
+
+  test('other per-system logs are owner-only', async () => {
+    const ref = db('alice').doc('users/alice/systems/main/solarLogs/2026-10-11');
+    await assertSucceeds(ref.set({ expectedKWh: 4 }));
+    await assertFails(db('bob').doc('users/alice/systems/main/solarLogs/2026-10-11').get());
   });
 });
 

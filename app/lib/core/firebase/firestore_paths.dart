@@ -12,6 +12,14 @@ abstract final class FirestorePaths {
   static String appliances(String uid, [String systemId = mainSystemId]) =>
       '${system(uid, systemId)}/appliances';
 
+  /// "Light gayi / aa gayi" events (F8).
+  static String outages(String uid, [String systemId = mainSystemId]) =>
+      '${system(uid, systemId)}/outages';
+
+  /// The user's area load-shedding schedule, one doc per weekly slot (F8).
+  static String schedule(String uid, [String systemId = mainSystemId]) =>
+      '${system(uid, systemId)}/schedule';
+
   /// One trimmed Open-Meteo forecast per day, keyed `yyyy-MM-dd`.
   static String weatherCache(String uid, [String systemId = mainSystemId]) =>
       '${system(uid, systemId)}/weatherCache';

@@ -134,7 +134,7 @@ users/{uid}
   │    ├─ fields: inverter{}, battery{}, solar{}?, hasSolar, updatedAt
   │    ├─ appliances/{applianceId}
   │    ├─ outages/{outageId}            // "Light gayi / aa gayi" events + SoC
-  │    ├─ schedule/{slotId}             // user-entered area schedule
+  │    ├─ schedule/{slotId}             // user-entered area schedule {weekday, startMinute, endMinute}
   │    ├─ solarLogs/{yyyy-MM-dd}        // actual vs expected kWh
   │    ├─ healthSnapshots/{snapshotId}
   │    └─ weatherCache/{yyyy-MM-dd}     // trimmed Open-Meteo hourly data
@@ -281,7 +281,8 @@ backup-brain/
 │       │       ├── solar_sizing.dart       # F5
 │       │       ├── battery_health.dart     # F6
 │       │       ├── battery_diagnosis.dart  # F7 repair-vs-replace rules
-│       │       ├── outage_pattern.dart     # F8
+│       │       ├── outage_pattern.dart     # F8 next outage (schedule + learned)
+│       │       ├── recharge_planner.dart   # F8 recharge time and readiness
 │       │       └── defaults.dart           # chemistry limits, efficiencies, PR
 │       └── test/                           # one test file per calculator
 │

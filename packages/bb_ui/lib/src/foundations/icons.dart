@@ -87,6 +87,8 @@ abstract final class BbIcons {
   static const IconData expand = PhosphorIconsRegular.caretDown;
   static const IconData close = PhosphorIconsRegular.x;
   static const IconData add = PhosphorIconsRegular.plus;
+  static const IconData remove = PhosphorIconsRegular.minus;
+  static const IconData delete = PhosphorIconsRegular.trash;
   static const IconData send = PhosphorIconsFill.paperPlaneRight;
   static const IconData more = PhosphorIconsRegular.dotsThree;
   static const IconData check = PhosphorIconsRegular.check;

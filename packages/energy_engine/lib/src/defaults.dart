@@ -59,4 +59,20 @@ abstract final class EngineDefaults {
 
   /// Length of the "most sun" window suggested for heavy loads.
   static const peakWindowHours = 3;
+
+  // F8 outages and recharge (ARCHITECTURE.md §5 F8).
+
+  /// Grid chargers in UPS / hybrid inverters typically charge at about C/10
+  /// (15 A into a 150 Ah bank), used when the charger power is unknown.
+  static const chargeRateC = 0.10;
+
+  /// How far back logged outages count towards the learned pattern.
+  static const outageLookbackDays = 14;
+
+  /// Fewer observed days than this is too little to call a pattern.
+  static const outageMinDays = 3;
+
+  /// An hour is "outage-prone" when an outage started in it on at least
+  /// this share of the observed days.
+  static const outageMinShare = 0.30;
 }

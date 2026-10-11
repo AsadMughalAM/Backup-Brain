@@ -11,6 +11,7 @@ import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
+import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:backup_brain/features/solar/data/models/weather_dto.dart';
 import 'package:backup_brain/features/solar/domain/entities/weather_forecast.dart';
 import 'package:backup_brain/features/solar/domain/weather_repository.dart';
@@ -55,6 +56,7 @@ class FakeSystemRepository implements SystemRepository {
   FakeSystemRepository([this._system]);
 
   HouseholdSystem? _system;
+  HouseholdSystem? get current => _system;
   final _changes = StreamController<HouseholdSystem?>.broadcast();
 
   @override
@@ -240,5 +242,76 @@ class FakeAssistantRepository implements AssistantRepository {
     final a = answer;
     if (a == null) throw const AssistantFailure(AssistantFailureCode.offline);
     return a;
+  }
+}
+
+class FakeOutageRepository implements OutageRepository {
+  FakeOutageRepository({
+    List<OutageEvent> outages = const [],
+    List<ScheduleEntry> schedule = const [],
+    DateTime Function()? clock,
+  }) : outages = [...outages],
+       schedule = [...schedule],
+       _clock = clock ?? DateTime.now;
+
+  /// Newest first, like the Firestore query.
+  final List<OutageEvent> outages;
+  final List<ScheduleEntry> schedule;
+  final DateTime Function() _clock;
+  final _outageChanges = StreamController<List<OutageEvent>>.broadcast();
+  final _scheduleChanges = StreamController<List<ScheduleEntry>>.broadcast();
+  var _ids = 0;
+
+  @override
+  Stream<List<OutageEvent>> watchRecent() async* {
+    yield [...outages];
+    yield* _outageChanges.stream;
+  }
+
+  @override
+  Stream<List<ScheduleEntry>> watchSchedule() async* {
+    yield [...schedule];
+    yield* _scheduleChanges.stream;
+  }
+
+  @override
+  Future<void> start({required double soc, required double loadW}) async {
+    outages.insert(
+      0,
+      OutageEvent(
+        id: 'o${_ids++}',
+        startedAt: _clock(),
+        startSoc: soc,
+        avgLoadW: loadW,
+      ),
+    );
+    _outageChanges.add([...outages]);
+  }
+
+  @override
+  Future<void> end(String id, {required double soc}) async {
+    final i = outages.indexWhere((o) => o.id == id);
+    final o = outages[i];
+    outages[i] = OutageEvent(
+      id: o.id,
+      startedAt: o.startedAt,
+      endedAt: _clock(),
+      startSoc: o.startSoc,
+      endSoc: soc,
+      avgLoadW: o.avgLoadW,
+    );
+    _outageChanges.add([...outages]);
+  }
+
+  @override
+  Future<void> addSlot(ScheduleSlot slot) async {
+    schedule.add(ScheduleEntry('s${_ids++}', slot));
+    _scheduleChanges.add([...schedule]);
+  }
+
+  @override
+  Future<void> removeSlot(String id) async {
+    schedule.removeWhere((e) => e.id == id);
+    _scheduleChanges.add([...schedule]);
   }
 }

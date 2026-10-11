@@ -8,11 +8,13 @@ import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/router.dart';
 import '../../../../app/session/household_setup.dart';
 import '../../../../app/theme_mode/theme_mode_controller.dart';
+import '../../../../core/services/clock.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../auth/domain/auth_repository.dart';
 import '../../../backup/domain/entities/household_system.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../../loads/domain/appliance_repository.dart';
+import '../../../outages/domain/outage_outlook.dart';
 
 /// Home (DESIGN.md §11 Dashboard): countdown hero with the one yellow CTA,
 /// stat tiles, and at least one actionable recommendation (ARCHITECTURE.md
@@ -96,16 +98,18 @@ class _SettingUpHome extends ConsumerWidget {
   }
 }
 
-class _DashboardBody extends StatelessWidget {
+class _DashboardBody extends ConsumerWidget {
   const _DashboardBody({required this.plan, required this.system});
 
   final LoadPlan plan;
   final HouseholdSystem system;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final current = plan.current;
+    final outlook = ref.watch(outageOutlookProvider);
+    final ongoing = outlook?.ongoing;
     final time = Formatters.duration(l10n, current.hours);
     final load = Formatters.watts(current.loadW);
     final soc = Formatters.percent(system.soc);
@@ -113,6 +117,16 @@ class _DashboardBody extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       children: [
+        BbGridStatusPill(
+          gridOn: ongoing == null,
+          label: ongoing == null ? l10n.gridOn : l10n.gridOff,
+          duration: ongoing == null
+              ? null
+              : Formatters.duration(l10n, ongoing.hours),
+          actionLabel: ongoing == null ? l10n.logPowerCut : l10n.logPowerBack,
+          onTap: outlook == null ? null : ref.read(outageLoggerProvider).toggle,
+        ),
+        const BbGap.lg(),
         if (current.isOverloaded) ...[
           BbBanner(
             tone: BbBannerTone.danger,
@@ -189,6 +203,10 @@ class _DashboardBody extends StatelessWidget {
             ],
           ),
         ),
+        if (outlook != null) ...[
+          const BbGap.lg(),
+          _OutageSummary(outlook: outlook),
+        ],
       ],
     );
   }
@@ -216,4 +234,86 @@ class _DashboardBody extends StatelessWidget {
       : soc >= 0.2
       ? BbTone.warning
       : BbTone.danger;
+}
+
+/// One glance at F8: the cut in progress, or the next outage and the battery
+/// by then. The details live on the Outages screen.
+class _OutageSummary extends ConsumerWidget {
+  const _OutageSummary({required this.outlook});
+
+  final OutageOutlook outlook;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final now = ref.watch(nowProvider).value ?? DateTime.now().toUtc();
+    final ongoing = outlook.ongoing;
+    final next = outlook.next;
+    final readiness = outlook.readiness;
+    final short = readiness?.coversOutage == false;
+
+    final (String title, String? line) = switch ((ongoing, next, readiness)) {
+      (final o?, _, _) => (
+        l10n.ongoingTitle(Formatters.duration(l10n, o.hours)),
+        l10n.ongoingBody(
+          Formatters.percent(o.socNow),
+          Formatters.duration(l10n, o.backup.hours),
+          Formatters.watts(outlook.loadW),
+        ),
+      ),
+      (null, final n?, final r?) => (
+        n.source == PredictionSource.schedule
+            ? l10n.nextOutageScheduled(
+                Formatters.dayTime(l10n, n.start, now.toLocal()),
+              )
+            : l10n.nextOutageLikely(
+                Formatters.dayTime(l10n, n.start, now.toLocal()),
+              ),
+        l10n.readinessBattery(
+          Formatters.percent(r.socAtStart),
+          Formatters.duration(l10n, r.backup.hours),
+        ),
+      ),
+      _ => (l10n.noPredictionTitle, null),
+    };
+
+    return BbCard(
+      child: Row(
+        children: [
+          Icon(
+            ongoing != null
+                ? BbIcons.gridOff
+                : short
+                ? BbIcons.warning
+                : BbIcons.schedule,
+            size: AppSizes.iconMd,
+            color: short ? context.colors.warning : context.colors.textPrimary,
+          ),
+          const BbGap.md(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: context.textTheme.titleSmall),
+                if (line != null) ...[
+                  const BbGap.xs(),
+                  Text(
+                    line,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: context.colors.textMuted,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          BbIconButton(
+            icon: BbIcons.next,
+            tooltip: l10n.outagesOpen,
+            onPressed: () => context.push(Routes.outages),
+          ),
+        ],
+      ),
+    );
+  }
 }

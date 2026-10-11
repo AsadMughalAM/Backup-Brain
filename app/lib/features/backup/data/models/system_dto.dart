@@ -58,6 +58,7 @@ abstract final class SystemDto {
         type: _decode(_inverterType, inverter['type']),
         ratedW: (inverter['ratedW'] as num).toDouble(),
         efficiency: (inverter['efficiency'] as num?)?.toDouble(),
+        chargerW: (inverter['chargerW'] as num?)?.toDouble(),
       ),
     );
   }
@@ -84,6 +85,7 @@ abstract final class SystemDto {
       'type': _inverterType[s.inverter.type],
       'ratedW': s.inverter.ratedW,
       if (s.inverter.efficiency != null) 'efficiency': s.inverter.efficiency,
+      if (s.inverter.chargerW != null) 'chargerW': s.inverter.chargerW,
     },
   };
 

@@ -10,6 +10,7 @@ export 'src/components/data_display/bb_metric.dart';
 export 'src/components/data_display/bb_stat_tile.dart';
 export 'src/components/data_display/bb_tone.dart';
 export 'src/components/energy/bb_countdown_ring.dart';
+export 'src/components/energy/bb_grid_status_pill.dart';
 export 'src/components/energy/bb_load_toggle_tile.dart';
 export 'src/components/energy/bb_priority_badge.dart';
 export 'src/components/energy/bb_solar_forecast_strip.dart';

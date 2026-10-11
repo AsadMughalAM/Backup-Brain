@@ -59,6 +59,35 @@ abstract final class Formatters {
   static String hour(DateTime utc, Duration utcOffset) =>
       '${_hour12(utc.add(utcOffset))}';
 
+  /// Wall-clock time of a local [DateTime] ("7:10 PM").
+  static String localClock(DateTime local) =>
+      clock(local.toUtc(), local.timeZoneOffset);
+
+  /// A coming moment relative to [nowLocal]: "7:10 PM" today,
+  /// "tomorrow 9:30 AM", else "Wed 7:00 PM".
+  static String dayTime(
+    AppLocalizations l10n,
+    DateTime local,
+    DateTime nowLocal,
+  ) {
+    final time = localClock(local);
+    final days = DateTime.utc(local.year, local.month, local.day)
+        .difference(DateTime.utc(nowLocal.year, nowLocal.month, nowLocal.day))
+        .inDays;
+    return switch (days) {
+      <= 0 => time,
+      1 => l10n.tomorrowAt(time),
+      _ => l10n.weekdayAt('${local.weekday}', time),
+    };
+  }
+
+  /// "19:00" style minutes after midnight, on the 12-hour clock: "7:00 PM".
+  static String minuteOfDay(int minute) {
+    final t = DateTime.utc(2000, 1, 1, 0, minute);
+    return '${_hour12(t)}:${t.minute.toString().padLeft(2, '0')} '
+        '${t.hour < 12 ? 'AM' : 'PM'}';
+  }
+
   // The 12-hour clock is how both English and Roman Urdu users read time.
   static int _hour12(DateTime t) => t.hour % 12 == 0 ? 12 : t.hour % 12;
 

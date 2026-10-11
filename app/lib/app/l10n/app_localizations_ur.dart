@@ -503,6 +503,175 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get assistantDailyLimit =>
       'Aaj ke assistant messages khatam ho gaye. Raat 12 baje dobara milenge. Tab tak aap ke numbers:';
+
+  @override
+  String get gridOn => 'Light hai';
+
+  @override
+  String get gridOff => 'Light gayi';
+
+  @override
+  String get logPowerCut => 'Light gayi?';
+
+  @override
+  String get logPowerBack => 'Light aa gayi?';
+
+  @override
+  String get outagesTitle => 'Load-shedding';
+
+  @override
+  String get outagesOpen => 'Load-shedding aur schedule';
+
+  @override
+  String tomorrowAt(String time) {
+    return 'kal $time';
+  }
+
+  @override
+  String weekdayAt(String day, String time) {
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '1': 'Peer',
+      '2': 'Mangal',
+      '3': 'Budh',
+      '4': 'Jumeraat',
+      '5': 'Jumma',
+      '6': 'Hafta',
+      '7': 'Itwaar',
+      'other': '',
+    });
+    return '$_temp0 $time';
+  }
+
+  @override
+  String nextOutageLikely(String when) {
+    return 'Agli light shayad $when jayegi';
+  }
+
+  @override
+  String nextOutageScheduled(String when) {
+    return 'Schedule ke mutabiq light $when jayegi';
+  }
+
+  @override
+  String readinessBattery(String soc, String backup) {
+    return 'Tab tak battery $soc · $backup chalegi';
+  }
+
+  @override
+  String readinessCovers(String outage, String load) {
+    return '$load par aam $outage ki load-shedding ke liye kaafi hai.';
+  }
+
+  @override
+  String readinessShort(String outage, String load) {
+    return '$load par aam $outage ki load-shedding se kam hai. Abhi bhaari cheezain na chalayein taake battery zyada charge ho.';
+  }
+
+  @override
+  String readinessFull(String time) {
+    return 'Grid par $time mein full ho jayegi.';
+  }
+
+  @override
+  String readinessBasisPattern(String days, String share) {
+    return 'Aap ke $days din ke record se; $share dinon mein is waqt light gayi.';
+  }
+
+  @override
+  String get readinessBasisSchedule => 'Aap ke area ke schedule se.';
+
+  @override
+  String get readinessNoSolar =>
+      'Sirf grid charging gini hai; dhoop se mazeed charge hogi.';
+
+  @override
+  String get noPredictionTitle => 'Abhi koi pattern nahi';
+
+  @override
+  String get noPredictionBody =>
+      'Jab bhi light jaye \"Light gayi?\" dabayein, ya apne area ka schedule shamil karein. 3 din baad app agli load-shedding ka andaza lagayegi.';
+
+  @override
+  String ongoingTitle(String duration) {
+    return '$duration se light nahi';
+  }
+
+  @override
+  String ongoingBody(String soc, String backup, String load) {
+    return 'Battery abhi taqreeban $soc: $load par $backup baqi.';
+  }
+
+  @override
+  String get scheduleTitle => 'Aap ke area ka schedule';
+
+  @override
+  String get scheduleEmpty =>
+      'Abhi koi waqt nahi. Apni DISCO ke schedule se load-shedding ke auqaat shamil karein.';
+
+  @override
+  String get scheduleAdd => 'Waqt shamil karein';
+
+  @override
+  String scheduleRemove(String slot) {
+    return '$slot hatayein';
+  }
+
+  @override
+  String scheduleSlot(String day, String from, String to) {
+    return '$day $from–$to';
+  }
+
+  @override
+  String get scheduleDays => 'Din';
+
+  @override
+  String get scheduleFrom => 'Se';
+
+  @override
+  String get scheduleTo => 'Tak';
+
+  @override
+  String get scheduleSave => 'Save karein';
+
+  @override
+  String get scheduleCancel => 'Cancel';
+
+  @override
+  String get scheduleNeedDay => 'Kam az kam ek din chunein.';
+
+  @override
+  String weekdayShort(String day) {
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '1': 'Peer',
+      '2': 'Mangal',
+      '3': 'Budh',
+      '4': 'Jumeraat',
+      '5': 'Jumma',
+      '6': 'Hafta',
+      '7': 'Itwaar',
+      'other': '',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get recentOutagesTitle => 'Haal ki load-shedding';
+
+  @override
+  String get recentOutagesEmpty => 'Abhi kuch log nahi hua.';
+
+  @override
+  String get outageStillOut => 'abhi tak';
+
+  @override
+  String scheduleEarlier(String label) {
+    return '$label: 30 minute pehle';
+  }
+
+  @override
+  String scheduleLater(String label) {
+    return '$label: 30 minute baad';
+  }
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

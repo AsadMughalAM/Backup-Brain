@@ -5,6 +5,7 @@ import '../../../core/services/clock.dart';
 import '../../../core/utils/formatters.dart';
 import '../../backup/domain/system_repository.dart';
 import '../../loads/domain/appliance_repository.dart';
+import '../../outages/domain/outage_outlook.dart';
 import '../../solar/domain/solar_outlook.dart';
 
 /// Everything the assistant may talk about: engine results only, already
@@ -47,6 +48,12 @@ final energySnapshotProvider = Provider<EnergySnapshot?>((ref) {
     outlook = ref.watch(solarOutlookProvider);
   } on Object {
     outlook = null;
+  }
+  OutageOutlook? outages;
+  try {
+    outages = ref.watch(outageOutlookProvider);
+  } on Object {
+    outages = null;
   }
   final offset = outlook?.utcOffset ?? DateTime.now().timeZoneOffset;
   String clock(DateTime utc, {bool roundUp = false}) =>
@@ -98,6 +105,7 @@ final energySnapshotProvider = Provider<EnergySnapshot?>((ref) {
           'backupTimeAfter': _duration(combined.estimate.hours),
           'timeGained': _duration(combined.hoursGained),
         },
+      'outages': outages == null ? null : _outageFacts(outages, now),
       'solar': outlook == null
           ? null
           : {
@@ -125,6 +133,58 @@ Map<String, Object?> _solarDay(
   'sunset': clock(day.sunset),
   'sunAlreadySet': day.sunIsOver,
 };
+
+Map<String, Object?> _outageFacts(OutageOutlook o, DateTime nowUtc) {
+  final ongoing = o.ongoing;
+  if (ongoing != null) {
+    return {
+      'powerCutNow': true,
+      'outFor': _duration(ongoing.hours),
+      'batteryNowAbout': Formatters.percent(ongoing.socNow),
+      'backupLeft': _duration(ongoing.backup.hours),
+    };
+  }
+  final next = o.next;
+  final r = o.readiness;
+  if (next == null || r == null) {
+    return {
+      'powerCutNow': false,
+      'nextOutage': 'unknown: not enough logs or schedule yet',
+    };
+  }
+  final local = nowUtc.toLocal();
+  final days = DateTime.utc(
+    next.start.year,
+    next.start.month,
+    next.start.day,
+  ).difference(DateTime.utc(local.year, local.month, local.day)).inDays;
+  const weekdays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+  return {
+    'powerCutNow': false,
+    'nextOutageDay': days <= 0
+        ? 'today'
+        : days == 1
+        ? 'tomorrow'
+        : weekdays[next.start.weekday - 1],
+    'nextOutageAt': Formatters.localClock(next.start),
+    'basedOn': next.source == PredictionSource.schedule
+        ? "the user's area schedule"
+        : '${next.daysObserved} days of logged outages',
+    if (next.hours case final h?) 'usualLength': _duration(h),
+    'batteryByThen': Formatters.percent(r.socAtStart),
+    'backupFromThen': _duration(r.backup.hours),
+    'enoughForUsualLength': ?r.coversOutage,
+    'fullOnGridChargingIn': _duration(r.hoursToFull),
+  };
+}
 
 DateTime _after(DateTime utc, double hours) =>
     utc.add(Duration(minutes: (hours * 60).floor()));

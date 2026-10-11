@@ -932,6 +932,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve used today\'s assistant messages. They reset at midnight. Meanwhile, your numbers:'**
   String get assistantDailyLimit;
+
+  /// No description provided for @gridOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Power on'**
+  String get gridOn;
+
+  /// No description provided for @gridOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Power cut'**
+  String get gridOff;
+
+  /// No description provided for @logPowerCut.
+  ///
+  /// In en, this message translates to:
+  /// **'Power gone?'**
+  String get logPowerCut;
+
+  /// No description provided for @logPowerBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Power back?'**
+  String get logPowerBack;
+
+  /// No description provided for @outagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Outages'**
+  String get outagesTitle;
+
+  /// No description provided for @outagesOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Outages and schedule'**
+  String get outagesOpen;
+
+  /// No description provided for @tomorrowAt.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow {time}'**
+  String tomorrowAt(String time);
+
+  /// No description provided for @weekdayAt.
+  ///
+  /// In en, this message translates to:
+  /// **'{day, select, 1{Mon} 2{Tue} 3{Wed} 4{Thu} 5{Fri} 6{Sat} 7{Sun} other{}} {time}'**
+  String weekdayAt(String day, String time);
+
+  /// No description provided for @nextOutageLikely.
+  ///
+  /// In en, this message translates to:
+  /// **'Next outage likely {when}'**
+  String nextOutageLikely(String when);
+
+  /// No description provided for @nextOutageScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled outage {when}'**
+  String nextOutageScheduled(String when);
+
+  /// No description provided for @readinessBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery {soc} by then · lasts {backup}'**
+  String readinessBattery(String soc, String backup);
+
+  /// No description provided for @readinessCovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Enough for the usual {outage} outage at {load}.'**
+  String readinessCovers(String outage, String load);
+
+  /// No description provided for @readinessShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Less than the usual {outage} outage at {load}. Avoid heavy loads now so it charges more.'**
+  String readinessShort(String outage, String load);
+
+  /// No description provided for @readinessFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full in {time} on grid power.'**
+  String readinessFull(String time);
+
+  /// No description provided for @readinessBasisPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {days} days of your logs, {share} of them with an outage at this hour.'**
+  String readinessBasisPattern(String days, String share);
+
+  /// No description provided for @readinessBasisSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'From your area\'s schedule.'**
+  String get readinessBasisSchedule;
+
+  /// No description provided for @readinessNoSolar.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts grid charging only; sun adds more.'**
+  String get readinessNoSolar;
+
+  /// No description provided for @noPredictionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No outage pattern yet'**
+  String get noPredictionTitle;
+
+  /// No description provided for @noPredictionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Power gone?\" whenever the light goes, or add your area\'s schedule. After 3 days the app predicts the next outage.'**
+  String get noPredictionBody;
+
+  /// No description provided for @ongoingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Power cut for {duration}'**
+  String ongoingTitle(String duration);
+
+  /// No description provided for @ongoingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery about {soc} now: {backup} left at {load}.'**
+  String ongoingBody(String soc, String backup, String load);
+
+  /// No description provided for @scheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your area\'s schedule'**
+  String get scheduleTitle;
+
+  /// No description provided for @scheduleEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No times yet. Add the load-shedding times from your DISCO\'s schedule.'**
+  String get scheduleEmpty;
+
+  /// No description provided for @scheduleAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add time'**
+  String get scheduleAdd;
+
+  /// No description provided for @scheduleRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {slot}'**
+  String scheduleRemove(String slot);
+
+  /// No description provided for @scheduleSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} {from}–{to}'**
+  String scheduleSlot(String day, String from, String to);
+
+  /// No description provided for @scheduleDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get scheduleDays;
+
+  /// No description provided for @scheduleFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get scheduleFrom;
+
+  /// No description provided for @scheduleTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get scheduleTo;
+
+  /// No description provided for @scheduleSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get scheduleSave;
+
+  /// No description provided for @scheduleCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get scheduleCancel;
+
+  /// No description provided for @scheduleNeedDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one day.'**
+  String get scheduleNeedDay;
+
+  /// No description provided for @weekdayShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{day, select, 1{Mon} 2{Tue} 3{Wed} 4{Thu} 5{Fri} 6{Sat} 7{Sun} other{}}'**
+  String weekdayShort(String day);
+
+  /// No description provided for @recentOutagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent outages'**
+  String get recentOutagesTitle;
+
+  /// No description provided for @recentOutagesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged yet.'**
+  String get recentOutagesEmpty;
+
+  /// No description provided for @outageStillOut.
+  ///
+  /// In en, this message translates to:
+  /// **'still out'**
+  String get outageStillOut;
+
+  /// No description provided for @scheduleEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: 30 minutes earlier'**
+  String scheduleEarlier(String label);
+
+  /// No description provided for @scheduleLater.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: 30 minutes later'**
+  String scheduleLater(String label);
 }
 
 class _AppLocalizationsDelegate

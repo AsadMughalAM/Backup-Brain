@@ -10,5 +10,7 @@ export 'src/models/battery_spec.dart';
 export 'src/models/hourly_weather.dart';
 export 'src/models/inverter_spec.dart';
 export 'src/models/solar_spec.dart';
+export 'src/outage_pattern.dart';
+export 'src/recharge_planner.dart';
 export 'src/solar_geometry.dart';
 export 'src/solar_model.dart';

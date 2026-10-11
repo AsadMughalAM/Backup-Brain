@@ -278,7 +278,10 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 
 - No reliable official real-time API exists for most DISCOs (LESCO etc.) — so for MVP the user **enters their area schedule manually** and taps **"Light gayi" / "Light aa gayi"** (power went / came back) buttons.
 - Log every real outage → learn the household's actual pattern (time-of-day histogram, average duration) → show a "likely next outage" prediction with confidence.
-- Recharge forecast: `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)` combined with F3 solar contribution.
+  - **Pattern:** over the last 14 days of logs (at least 3 days observed), an hour is outage-prone when an outage started in it on ≥ 30% of the days (distinct days, so two cuts in one evening count once). The next such hour after now, at the median start minute, is the prediction; its share of days is the confidence; the median length of those outages is the expected duration.
+  - **Schedule vs. pattern:** whichever predicts the earlier outage wins, because published schedules often don't match reality.
+- Recharge forecast: `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)` combined with F3 solar contribution. Unknown charger power defaults to C/10 of the bank (`EngineDefaults.chargeRateC`). *Implemented so far: grid charging only, so readiness is the no-sun case; solar is a later addition.*
+- When the power comes back, the battery's charge is set to the engine's estimate (F1 run in reverse over the outage at the logged load); the user can correct it on the Load Planner.
 - Alert: *"Next outage likely at 7 PM (based on your last 14 days). Battery will only be at 65% by then — avoid running the iron now."*
 - Community/crowdsourced outage reports by area = P2 stretch.
 
@@ -379,7 +382,7 @@ SolarDailyLog   { id, systemId, date, actualKWh?, expectedKWh, performanceIndex?
 
 HealthSnapshot  { id, systemId, date, estimatedCapacityWh, healthFactor, warnings[] }
 
-OutageSchedule  { id, systemId, dayOfWeek, startTime, endTime }   // user-entered
+OutageSchedule  { id, systemId, weekday (1 = Mon … 7 = Sun), startMinute, endMinute }   // user-entered; minutes after midnight, end < start = past midnight
 
 BatteryProduct  { id, brand, model, chemistry, voltage, ah, warrantyMonths, cycleLife,
                   priceMinPKR, priceMaxPKR, priceLastUpdated, source }

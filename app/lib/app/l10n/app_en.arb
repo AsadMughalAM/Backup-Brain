@@ -377,5 +377,182 @@
   "assistantNoData": "Your home isn't set up yet, so there are no numbers to explain. Load the demo household on Home first.",
   "assistantSafetyTitle": "Disconnect the battery now",
   "assistantSafetyBody": "A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don't use it until it has been checked.",
-  "assistantDailyLimit": "You've used today's assistant messages. They reset at midnight. Meanwhile, your numbers:"
+  "assistantDailyLimit": "You've used today's assistant messages. They reset at midnight. Meanwhile, your numbers:",
+  "gridOn": "Power on",
+  "gridOff": "Power cut",
+  "logPowerCut": "Power gone?",
+  "logPowerBack": "Power back?",
+  "outagesTitle": "Outages",
+  "outagesOpen": "Outages and schedule",
+  "tomorrowAt": "tomorrow {time}",
+  "@tomorrowAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "weekdayAt": "{day, select, 1{Mon} 2{Tue} 3{Wed} 4{Thu} 5{Fri} 6{Sat} 7{Sun} other{}} {time}",
+  "@weekdayAt": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "nextOutageLikely": "Next outage likely {when}",
+  "@nextOutageLikely": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "nextOutageScheduled": "Scheduled outage {when}",
+  "@nextOutageScheduled": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessBattery": "Battery {soc} by then · lasts {backup}",
+  "@readinessBattery": {
+    "placeholders": {
+      "soc": {
+        "type": "String"
+      },
+      "backup": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessCovers": "Enough for the usual {outage} outage at {load}.",
+  "@readinessCovers": {
+    "placeholders": {
+      "outage": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessShort": "Less than the usual {outage} outage at {load}. Avoid heavy loads now so it charges more.",
+  "@readinessShort": {
+    "placeholders": {
+      "outage": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessFull": "Full in {time} on grid power.",
+  "@readinessFull": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessBasisPattern": "Based on {days} days of your logs, {share} of them with an outage at this hour.",
+  "@readinessBasisPattern": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "share": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessBasisSchedule": "From your area's schedule.",
+  "readinessNoSolar": "Counts grid charging only; sun adds more.",
+  "noPredictionTitle": "No outage pattern yet",
+  "noPredictionBody": "Tap \"Power gone?\" whenever the light goes, or add your area's schedule. After 3 days the app predicts the next outage.",
+  "ongoingTitle": "Power cut for {duration}",
+  "@ongoingTitle": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "ongoingBody": "Battery about {soc} now: {backup} left at {load}.",
+  "@ongoingBody": {
+    "placeholders": {
+      "soc": {
+        "type": "String"
+      },
+      "backup": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleTitle": "Your area's schedule",
+  "scheduleEmpty": "No times yet. Add the load-shedding times from your DISCO's schedule.",
+  "scheduleAdd": "Add time",
+  "scheduleRemove": "Remove {slot}",
+  "@scheduleRemove": {
+    "placeholders": {
+      "slot": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleSlot": "{day} {from}–{to}",
+  "@scheduleSlot": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleDays": "Days",
+  "scheduleFrom": "From",
+  "scheduleTo": "To",
+  "scheduleSave": "Save",
+  "scheduleCancel": "Cancel",
+  "scheduleNeedDay": "Pick at least one day.",
+  "weekdayShort": "{day, select, 1{Mon} 2{Tue} 3{Wed} 4{Thu} 5{Fri} 6{Sat} 7{Sun} other{}}",
+  "@weekdayShort": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "recentOutagesTitle": "Recent outages",
+  "recentOutagesEmpty": "Nothing logged yet.",
+  "outageStillOut": "still out",
+  "scheduleEarlier": "{label}: 30 minutes earlier",
+  "@scheduleEarlier": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleLater": "{label}: 30 minutes later",
+  "@scheduleLater": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  }
 }

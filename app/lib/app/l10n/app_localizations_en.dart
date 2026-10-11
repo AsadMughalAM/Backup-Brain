@@ -503,4 +503,172 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get assistantDailyLimit =>
       'You\'ve used today\'s assistant messages. They reset at midnight. Meanwhile, your numbers:';
+
+  @override
+  String get gridOn => 'Power on';
+
+  @override
+  String get gridOff => 'Power cut';
+
+  @override
+  String get logPowerCut => 'Power gone?';
+
+  @override
+  String get logPowerBack => 'Power back?';
+
+  @override
+  String get outagesTitle => 'Outages';
+
+  @override
+  String get outagesOpen => 'Outages and schedule';
+
+  @override
+  String tomorrowAt(String time) {
+    return 'tomorrow $time';
+  }
+
+  @override
+  String weekdayAt(String day, String time) {
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '1': 'Mon',
+      '2': 'Tue',
+      '3': 'Wed',
+      '4': 'Thu',
+      '5': 'Fri',
+      '6': 'Sat',
+      '7': 'Sun',
+      'other': '',
+    });
+    return '$_temp0 $time';
+  }
+
+  @override
+  String nextOutageLikely(String when) {
+    return 'Next outage likely $when';
+  }
+
+  @override
+  String nextOutageScheduled(String when) {
+    return 'Scheduled outage $when';
+  }
+
+  @override
+  String readinessBattery(String soc, String backup) {
+    return 'Battery $soc by then · lasts $backup';
+  }
+
+  @override
+  String readinessCovers(String outage, String load) {
+    return 'Enough for the usual $outage outage at $load.';
+  }
+
+  @override
+  String readinessShort(String outage, String load) {
+    return 'Less than the usual $outage outage at $load. Avoid heavy loads now so it charges more.';
+  }
+
+  @override
+  String readinessFull(String time) {
+    return 'Full in $time on grid power.';
+  }
+
+  @override
+  String readinessBasisPattern(String days, String share) {
+    return 'Based on $days days of your logs, $share of them with an outage at this hour.';
+  }
+
+  @override
+  String get readinessBasisSchedule => 'From your area\'s schedule.';
+
+  @override
+  String get readinessNoSolar => 'Counts grid charging only; sun adds more.';
+
+  @override
+  String get noPredictionTitle => 'No outage pattern yet';
+
+  @override
+  String get noPredictionBody =>
+      'Tap \"Power gone?\" whenever the light goes, or add your area\'s schedule. After 3 days the app predicts the next outage.';
+
+  @override
+  String ongoingTitle(String duration) {
+    return 'Power cut for $duration';
+  }
+
+  @override
+  String ongoingBody(String soc, String backup, String load) {
+    return 'Battery about $soc now: $backup left at $load.';
+  }
+
+  @override
+  String get scheduleTitle => 'Your area\'s schedule';
+
+  @override
+  String get scheduleEmpty =>
+      'No times yet. Add the load-shedding times from your DISCO\'s schedule.';
+
+  @override
+  String get scheduleAdd => 'Add time';
+
+  @override
+  String scheduleRemove(String slot) {
+    return 'Remove $slot';
+  }
+
+  @override
+  String scheduleSlot(String day, String from, String to) {
+    return '$day $from–$to';
+  }
+
+  @override
+  String get scheduleDays => 'Days';
+
+  @override
+  String get scheduleFrom => 'From';
+
+  @override
+  String get scheduleTo => 'To';
+
+  @override
+  String get scheduleSave => 'Save';
+
+  @override
+  String get scheduleCancel => 'Cancel';
+
+  @override
+  String get scheduleNeedDay => 'Pick at least one day.';
+
+  @override
+  String weekdayShort(String day) {
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '1': 'Mon',
+      '2': 'Tue',
+      '3': 'Wed',
+      '4': 'Thu',
+      '5': 'Fri',
+      '6': 'Sat',
+      '7': 'Sun',
+      'other': '',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get recentOutagesTitle => 'Recent outages';
+
+  @override
+  String get recentOutagesEmpty => 'Nothing logged yet.';
+
+  @override
+  String get outageStillOut => 'still out';
+
+  @override
+  String scheduleEarlier(String label) {
+    return '$label: 30 minutes earlier';
+  }
+
+  @override
+  String scheduleLater(String label) {
+    return '$label: 30 minutes later';
+  }
 }
