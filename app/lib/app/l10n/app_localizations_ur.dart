@@ -911,6 +911,10 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get solarAddPanels => 'Apne panels shamil karein';
+
+  @override
+  String get assistantBusy =>
+      'Assistant abhi masroof hai. Ek minute baad dobara koshish karein. Tab tak aap ke numbers:';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

@@ -909,4 +909,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get solarAddPanels => 'Add my panels';
+
+  @override
+  String get assistantBusy =>
+      'The assistant is busy. Try again in a minute. Meanwhile, your numbers:';
 }

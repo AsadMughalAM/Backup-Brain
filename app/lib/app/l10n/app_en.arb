@@ -738,5 +738,6 @@
   },
   "settingsOutageAlerts": "Outage alerts",
   "settingsOutageAlertsBody": "A notification 30 minutes before the next likely or scheduled outage. Works offline.",
-  "solarAddPanels": "Add my panels"
+  "solarAddPanels": "Add my panels",
+  "assistantBusy": "The assistant is busy. Try again in a minute. Meanwhile, your numbers:"
 }

@@ -245,5 +245,6 @@
   "alertBodyShort": "Battery taqreeban {soc} hogi: sirf {backup}, aam {outage} se kam. Bhaari cheezain abhi band karein.",
   "settingsOutageAlerts": "Load-shedding alerts",
   "settingsOutageAlertsBody": "Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi.",
-  "solarAddPanels": "Apne panels shamil karein"
+  "solarAddPanels": "Apne panels shamil karein",
+  "assistantBusy": "Assistant abhi masroof hai. Ek minute baad dobara koshish karein. Tab tak aap ke numbers:"
 }

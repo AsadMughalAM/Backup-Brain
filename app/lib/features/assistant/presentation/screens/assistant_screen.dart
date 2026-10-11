@@ -198,6 +198,7 @@ class _Entry extends ConsumerWidget {
   String _fallback(AppLocalizations l10n, EnergySnapshot? s) {
     final why = switch (entry.failure) {
       AssistantFailureCode.offline || null => l10n.assistantOffline,
+      AssistantFailureCode.busy => l10n.assistantBusy,
       AssistantFailureCode.unavailable => l10n.assistantUnavailable,
       AssistantFailureCode.dailyLimit => l10n.assistantDailyLimit,
     };

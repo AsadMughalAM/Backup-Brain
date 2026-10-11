@@ -15,6 +15,9 @@ enum ReplyLanguage { english, romanUrdu }
 
 enum AssistantFailureCode {
   offline,
+
+  /// The AI service is rate-limiting; try again in a minute.
+  busy,
   unavailable,
 
   /// This user's assistant messages for today are used up.
@@ -40,7 +43,8 @@ abstract interface class AssistantRepository {
   });
 }
 
-/// Bound to the `assistantChat` Cloud Function in
+/// Bound in `app/app_providers.dart`: Gemini directly when a key was
+/// passed at build time (MVP), else the `assistantChat` Cloud Function. See
 /// `app/app_providers.dart`.
 final assistantRepositoryProvider = Provider<AssistantRepository>(
   (ref) => throw UnimplementedError('Overridden in app_providers.dart'),

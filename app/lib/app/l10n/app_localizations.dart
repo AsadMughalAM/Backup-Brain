@@ -1574,6 +1574,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add my panels'**
   String get solarAddPanels;
+
+  /// No description provided for @assistantBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant is busy. Try again in a minute. Meanwhile, your numbers:'**
+  String get assistantBusy;
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../core/firebase/firebase_providers.dart';
 import '../core/services/alert_scheduler.dart';
 import '../features/assistant/data/callable_assistant_repository.dart';
+import '../features/assistant/data/gemini_direct_assistant_repository.dart';
 import '../features/assistant/domain/assistant_repository.dart';
 import '../features/auth/data/firebase_auth_repository.dart';
 import '../features/auth/domain/auth_repository.dart';
@@ -76,11 +77,27 @@ List<Override> appOverrides(SharedPreferences prefs) => [
     ),
   ),
   assistantRepositoryProvider.overrideWith(
-    (ref) => CallableAssistantRepository(
-      FirebaseFunctions.instanceFor(region: 'asia-south1'),
-    ),
+    (ref) => _geminiKey.isNotEmpty
+        ? GeminiDirectAssistantRepository(
+            Dio(_aiTimeouts),
+            prefs,
+            apiKey: _geminiKey,
+          )
+        : CallableAssistantRepository(
+            FirebaseFunctions.instanceFor(region: 'asia-south1'),
+          ),
   ),
 ];
+
+/// MVP (docs/decisions/0002): `flutter run --dart-define-from-file=env.json`
+/// with `GEMINI_API_KEY` in the git-ignored `env.json`. Empty = use the
+/// `assistantChat` Cloud Function instead.
+const _geminiKey = String.fromEnvironment('GEMINI_API_KEY');
+
+final _aiTimeouts = BaseOptions(
+  connectTimeout: const Duration(seconds: 10),
+  receiveTimeout: const Duration(seconds: 40),
+);
 
 // Give up quickly on a weak connection: the saved forecast stays on screen.
 final _weatherTimeouts = BaseOptions(

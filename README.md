@@ -44,6 +44,6 @@ cd functions && pnpm install && pnpm run build
 firebase emulators:start
 ```
 
-**AI assistant (F9):** works against the deployed `assistantChat` function; no per-machine setup. The Gemini key is set once per Firebase project with `firebase functions:secrets:set GEMINI_API_KEY` and lives only in Secret Manager. Deploy with `firebase deploy --only functions` (needs the Blaze plan).
+**AI assistant (F9), MVP setup:** copy `app/env.example.json` to `app/env.json` (git-ignored), put the team's Gemini key in it, and run with `flutter run --dart-define-from-file=env.json`. Without it the Assistant tab shows its offline template answers. Never commit `env.json`. Why and the risks: [docs/decisions/0002](docs/decisions/0002-gemini-key-in-app-mvp.md). Later, on Blaze: `firebase functions:secrets:set GEMINI_API_KEY`, `firebase deploy --only functions`, and drop the define.
 
 For the full command list and environments, see [TECH_STACK.md §7.8 and §8](TECH_STACK.md).
