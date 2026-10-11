@@ -136,7 +136,7 @@ users/{uid}
   │    ├─ appliances/{applianceId}
   │    ├─ outages/{outageId}            // "Light gayi / aa gayi" events + SoC
   │    ├─ schedule/{slotId}             // user-entered area schedule {weekday, startMinute, endMinute}
-  │    ├─ solarLogs/{yyyy-MM-dd}        // actual vs expected kWh
+  │    ├─ solarLogs/{yyyy-MM-dd}        // F4 {date, actualKWh, expectedKWh, clearShare}
   │    ├─ healthSnapshots/{snapshotId}
   │    └─ weatherCache/{yyyy-MM-dd}     // trimmed Open-Meteo hourly data
   └─ chats/{chatId}/messages/{msgId}    // optional, P1

@@ -2186,6 +2186,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'solar installer'**
   String get querySolarInstaller;
+
+  /// No description provided for @checkOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Are my panels working well?'**
+  String get checkOpen;
+
+  /// No description provided for @checkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Panel check'**
+  String get checkTitle;
+
+  /// No description provided for @checkNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No check yet'**
+  String get checkNoneTitle;
+
+  /// No description provided for @checkNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter how much your panels made (from the inverter display or app). The app compares it with what that day\'s weather should have given.'**
+  String get checkNoneBody;
+
+  /// No description provided for @checkHealthyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels are working well'**
+  String get checkHealthyTitle;
+
+  /// No description provided for @checkHealthyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They made at least 90% of what the weather allowed.'**
+  String get checkHealthyBody;
+
+  /// No description provided for @checkSlightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A little low'**
+  String get checkSlightTitle;
+
+  /// No description provided for @checkSlightBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely dust or some shade. Clean the panels (early morning or evening, with water, no soap) and check again in a few days.'**
+  String get checkSlightBody;
+
+  /// No description provided for @checkLowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Well below what it should make'**
+  String get checkLowTitle;
+
+  /// No description provided for @checkLowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Low on three clear days this week. Check wiring and the inverter\'s MPPT, or a faulty panel. Consider a solar technician.'**
+  String get checkLowBody;
+
+  /// No description provided for @checkEnterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter what the panels made'**
+  String get checkEnterTitle;
+
+  /// No description provided for @checkToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get checkToday;
+
+  /// No description provided for @checkYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get checkYesterday;
+
+  /// No description provided for @checkDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String checkDaysAgo(String days);
+
+  /// No description provided for @checkNoWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'No weather saved for that day. Open the Solar tab online once.'**
+  String get checkNoWeather;
+
+  /// No description provided for @checkExpected.
+  ///
+  /// In en, this message translates to:
+  /// **'For that day\'s weather the panels should make about {kwh} kWh.'**
+  String checkExpected(String kwh);
+
+  /// No description provided for @checkTodayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Today isn\'t over: enter it after sunset for a fair check.'**
+  String get checkTodayHint;
+
+  /// No description provided for @checkActualLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'kWh made (from the inverter)'**
+  String get checkActualLabel;
+
+  /// No description provided for @checkActualError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a number, e.g. 8.5'**
+  String get checkActualError;
+
+  /// No description provided for @checkTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last two weeks'**
+  String get checkTrendTitle;
+
+  /// No description provided for @checkMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Made'**
+  String get checkMade;
+
+  /// No description provided for @checkShouldMake.
+  ///
+  /// In en, this message translates to:
+  /// **'Should make'**
+  String get checkShouldMake;
+
+  /// No description provided for @checkTrendSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Panel output for {count} logged days against what the weather allowed'**
+  String checkTrendSemantics(String count);
+
+  /// No description provided for @checkLogRow.
+  ///
+  /// In en, this message translates to:
+  /// **'{weekday} {day}: {made} of {expected} kWh'**
+  String checkLogRow(String weekday, String day, String made, String expected);
 }
 
 class _AppLocalizationsDelegate

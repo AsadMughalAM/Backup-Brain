@@ -1280,6 +1280,92 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get querySolarInstaller => 'solar installer';
+
+  @override
+  String get checkOpen => 'Kya mere panels theek chal rahe hain?';
+
+  @override
+  String get checkTitle => 'Panels ki jaanch';
+
+  @override
+  String get checkNoneTitle => 'Abhi jaanch nahi hui';
+
+  @override
+  String get checkNoneBody =>
+      'Panels ne kitni bijli banayi (inverter ki screen ya app se) likhein. App isay us din ke mausam ke andaze se milayegi.';
+
+  @override
+  String get checkHealthyTitle => 'Panels theek chal rahe hain';
+
+  @override
+  String get checkHealthyBody =>
+      'Mausam ke hisaab se kam az kam 90% bijli bani.';
+
+  @override
+  String get checkSlightTitle => 'Thora kam';
+
+  @override
+  String get checkSlightBody =>
+      'Shayad gard ya thora saya hai. Panels saaf karein (subah ya shaam, sirf paani se) aur chand din baad dobara dekhein.';
+
+  @override
+  String get checkLowTitle => 'Jitna banna chahiye us se kaafi kam';
+
+  @override
+  String get checkLowBody =>
+      'Is hafte teen saaf dinon mein kam. Wiring, inverter ka MPPT ya koi kharab panel check karwayein. Solar technician se rabta karein.';
+
+  @override
+  String get checkEnterTitle => 'Panels ne kitna banaya, likhein';
+
+  @override
+  String get checkToday => 'Aaj';
+
+  @override
+  String get checkYesterday => 'Kal';
+
+  @override
+  String checkDaysAgo(String days) {
+    return '$days din pehle';
+  }
+
+  @override
+  String get checkNoWeather =>
+      'Us din ka mausam save nahi. Ek dafa internet ke saath Solar tab kholein.';
+
+  @override
+  String checkExpected(String kwh) {
+    return 'Us din ke mausam ke hisaab se panels ko taqreeban $kwh kWh banana chahiye.';
+  }
+
+  @override
+  String get checkTodayHint =>
+      'Aaj abhi khatam nahi hua: sahi jaanch ke liye shaam ke baad likhein.';
+
+  @override
+  String get checkActualLabel => 'Kitne kWh bane (inverter se)';
+
+  @override
+  String get checkActualError => 'Number likhein, maslan 8.5';
+
+  @override
+  String get checkTrendTitle => 'Pichhle do hafte';
+
+  @override
+  String get checkMade => 'Bana';
+
+  @override
+  String get checkShouldMake => 'Banna chahiye';
+
+  @override
+  String checkTrendSemantics(String count) {
+    return '$count din ki panels ki bijli, mausam ke andaze ke muqable mein';
+  }
+
+  @override
+  String checkLogRow(String weekday, String day, String made, String expected) {
+    return '$weekday $day: $expected mein se $made kWh';
+  }
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

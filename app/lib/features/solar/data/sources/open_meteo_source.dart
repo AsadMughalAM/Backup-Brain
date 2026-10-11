@@ -18,6 +18,9 @@ class OpenMeteoSource {
         'longitude': site.lon,
         'hourly': 'shortwave_radiation,temperature_2m',
         'forecast_days': 2,
+        // F4 compares what the panels made with what each past day's
+        // recorded weather should have given.
+        'past_days': 7,
         // Epoch seconds avoid parsing local time strings; `auto` still
         // aligns the two days to the location's midnight.
         'timeformat': 'unixtime',

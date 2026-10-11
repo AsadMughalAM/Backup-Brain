@@ -698,6 +698,8 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 
 **Battery problem (F7):** symptom `BbChip`s (multi-select; "water low" only for tubular) → verdict card (icon + title + what to do) or, for swelling / smell / heat, only the fixed danger safety banner → "Which battery to buy" cards ranked by cost over life (best one = `highlight` + `check` "Cheapest over its life"; PKR range in `metricMedium`; life, cycles, warranty; Rs per usable kWh per year) with the prices' date → "Find help nearby": three expanded secondary buttons with the `location` icon that open Google Maps searches.
 
+**Panel check (F4, from a secondary button at the end of Solar):** status card (icon + colored icon + title + what to do: `success` healthy, `warning` a little low, `danger` well below) → day `BbChip`s (Today / Yesterday / n days ago, only days with recorded weather) → "should make about X kWh" line → kWh field + secondary Save → "Last two weeks" `BbSolarForecastStrip` (made vs should make, day-of-month labels) and a per-day list with the index in `metricSmall`.
+
 **Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority → target-hours `BbNumberField`.
 
 **Solar:** answer first, zero taps.

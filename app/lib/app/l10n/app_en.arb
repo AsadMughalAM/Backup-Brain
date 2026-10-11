@@ -1047,5 +1047,66 @@
   "nearbySolarInstallers": "Solar installers",
   "queryBatteryShop": "battery shop",
   "queryUpsRepair": "UPS inverter repair",
-  "querySolarInstaller": "solar installer"
+  "querySolarInstaller": "solar installer",
+  "checkOpen": "Are my panels working well?",
+  "checkTitle": "Panel check",
+  "checkNoneTitle": "No check yet",
+  "checkNoneBody": "Enter how much your panels made (from the inverter display or app). The app compares it with what that day's weather should have given.",
+  "checkHealthyTitle": "Panels are working well",
+  "checkHealthyBody": "They made at least 90% of what the weather allowed.",
+  "checkSlightTitle": "A little low",
+  "checkSlightBody": "Likely dust or some shade. Clean the panels (early morning or evening, with water, no soap) and check again in a few days.",
+  "checkLowTitle": "Well below what it should make",
+  "checkLowBody": "Low on three clear days this week. Check wiring and the inverter's MPPT, or a faulty panel. Consider a solar technician.",
+  "checkEnterTitle": "Enter what the panels made",
+  "checkToday": "Today",
+  "checkYesterday": "Yesterday",
+  "checkDaysAgo": "{days} days ago",
+  "@checkDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "checkNoWeather": "No weather saved for that day. Open the Solar tab online once.",
+  "checkExpected": "For that day's weather the panels should make about {kwh} kWh.",
+  "@checkExpected": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "checkTodayHint": "Today isn't over: enter it after sunset for a fair check.",
+  "checkActualLabel": "kWh made (from the inverter)",
+  "checkActualError": "Enter a number, e.g. 8.5",
+  "checkTrendTitle": "Last two weeks",
+  "checkMade": "Made",
+  "checkShouldMake": "Should make",
+  "checkTrendSemantics": "Panel output for {count} logged days against what the weather allowed",
+  "@checkTrendSemantics": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "checkLogRow": "{weekday} {day}: {made} of {expected} kWh",
+  "@checkLogRow": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      },
+      "made": {
+        "type": "String"
+      },
+      "expected": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -20,6 +20,7 @@ import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/setup/domain/setup_draft_repository.dart';
 import '../features/setup/presentation/controllers/setup_controller.dart';
 import '../features/setup/presentation/screens/setup_screen.dart';
+import '../features/solar/presentation/screens/solar_check_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'session/household_setup.dart';
@@ -35,6 +36,7 @@ abstract final class Routes {
   static const settings = '/settings';
   static const outages = '/outages';
   static const estimator = '/estimator';
+  static const solarCheck = '/solar-check';
   static const batteryHelp = '/battery-help';
   static String batteryReading(String outageId) => '/battery/reading/$outageId';
   static const outagesAddTime = '/outages/add-time';
@@ -123,6 +125,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const BatteryHelpScreen(),
       ),
       GoRoute(
+        path: Routes.solarCheck,
+        builder: (context, state) => const SolarCheckScreen(),
+      ),
+      GoRoute(
         path: Routes.estimator,
         builder: (context, state) => const EstimatorScreen(),
       ),
@@ -140,6 +146,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             (_) => const SolarScreen(
               editHomeLocation: Routes.editHome,
               estimatorLocation: Routes.estimator,
+              checkLocation: Routes.solarCheck,
             ),
           ),
           _branch(

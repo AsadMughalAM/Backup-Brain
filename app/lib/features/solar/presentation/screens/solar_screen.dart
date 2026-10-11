@@ -18,7 +18,12 @@ import '../widgets/sun_forecast_card.dart';
 /// verdict, the sun behind it, and one thing to do (DESIGN.md §11 Solar).
 /// Tomorrow is one tap away and is picked automatically after sunset.
 class SolarScreen extends ConsumerStatefulWidget {
-  const SolarScreen({super.key, this.editHomeLocation, this.estimatorLocation});
+  const SolarScreen({
+    super.key,
+    this.editHomeLocation,
+    this.estimatorLocation,
+    this.checkLocation,
+  });
 
   /// Where "Add my panels" goes; passed in so this feature doesn't import
   /// the app router. Null hides the button.
@@ -26,6 +31,9 @@ class SolarScreen extends ConsumerStatefulWidget {
 
   /// The F5 cost estimator, from the app bar. Null hides the button.
   final String? estimatorLocation;
+
+  /// The F4 "are my panels working well?" check. Null hides the button.
+  final String? checkLocation;
 
   @override
   ConsumerState<SolarScreen> createState() => _SolarScreenState();
@@ -98,6 +106,7 @@ class _SolarScreenState extends ConsumerState<SolarScreen> {
         onPickDay: (today) => setState(() => _pickedToday = today),
         refresh: refresh,
         onRetry: forceRefresh,
+        checkLocation: widget.checkLocation,
       );
     }
 
@@ -137,7 +146,10 @@ class _OutlookBody extends ConsumerWidget {
     required this.onPickDay,
     required this.refresh,
     required this.onRetry,
+    this.checkLocation,
   });
+
+  final String? checkLocation;
 
   final SolarOutlook outlook;
   final bool showToday;
@@ -216,6 +228,15 @@ class _OutlookBody extends ConsumerWidget {
           refresh: refresh,
           onRetry: onRetry,
         ),
+        if (checkLocation case final check?) ...[
+          const BbGap.lg(),
+          BbButton.secondary(
+            label: l10n.checkOpen,
+            icon: BbIcons.solarPanel,
+            expand: true,
+            onPressed: () => context.push(check),
+          ),
+        ],
       ],
     );
   }

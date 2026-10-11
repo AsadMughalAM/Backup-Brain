@@ -208,6 +208,8 @@ Then simulate the battery hour by hour: solar energy first covers the daytime lo
   - < 0.75 for 3+ clear days → "significantly underperforming — check wiring, inverter MPPT, or a faulty panel; consider a technician"
 - Show a 7-/30-day trend chart.
 
+**As built (engine `solar_performance.dart`):** the Open-Meteo request adds `past_days=7`, so "expected for the actual weather" is F3's model run on that past day's recorded hours (whole local days only). A day is *clear* when expected ≥ 70% of clear-sky energy; days expecting < 0.5 kWh are not judged. The latest day sets healthy (≥ 0.90) or slightly low; *significantly low* needs 3+ clear days below 0.75 within 7 days, so one bad forecast can't raise the alarm. Logs keep `expectedKWh` and `clearShare` because old weather leaves the cache. The trend is a two-week made-vs-should-make bar strip (`BbSolarForecastStrip`) plus a per-day list, not a 30-day chart yet.
+
 ---
 
 ### F5 — Solar Cost & Sizing Estimator (P0)
@@ -385,7 +387,7 @@ Appliance       { id, systemId, name, watts, quantity, dutyCycle,
 OutageEvent     { id, systemId, startedAt, endedAt?, source: 'manual'|'auto',
                   startSoC?, endSoC?, endSoCSource?: 'estimate'|'user', avgLoadW? }
 
-SolarDailyLog   { id, systemId, date, actualKWh?, expectedKWh, performanceIndex? }
+SolarDailyLog   { id (= date), systemId, date 'yyyy-MM-dd', actualKWh, expectedKWh, clearShare }   // index = actual / expected, computed
 
 HealthSnapshot  { id, systemId, date, estimatedCapacityWh, healthFactor, warnings[] }
 

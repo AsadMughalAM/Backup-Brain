@@ -60,6 +60,22 @@ abstract final class EngineDefaults {
   /// Length of the "most sun" window suggested for heavy loads.
   static const peakWindowHours = 3;
 
+  // F4 solar performance (ARCHITECTURE.md §5 F4).
+
+  static const performanceHealthy = 0.90;
+  static const performanceLow = 0.75;
+
+  /// A day counts as clear when the model expected at least this share of
+  /// a clear sky's energy; only clear days can prove a fault.
+  static const clearDayShare = 0.70;
+
+  /// Low clear days within [performanceWindowDays] before it is a fault.
+  static const lowClearDaysForAlarm = 3;
+  static const performanceWindowDays = 7;
+
+  /// Below this expected output the day says nothing about the panels.
+  static const minExpectedKWh = 0.5;
+
   // F5 sizing (ARCHITECTURE.md §5 F5).
 
   /// The "Full backup" package's battery covers at least a whole night.

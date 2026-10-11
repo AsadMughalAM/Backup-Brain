@@ -22,6 +22,7 @@ import 'package:backup_brain/features/setup/data/models/setup_presets_dto.dart';
 import 'package:backup_brain/features/setup/domain/entities/setup_presets.dart';
 import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:backup_brain/features/solar/data/models/weather_dto.dart';
+import 'package:backup_brain/features/solar/domain/solar_log_repository.dart';
 import 'package:backup_brain/features/solar/domain/entities/weather_forecast.dart';
 import 'package:backup_brain/features/solar/domain/weather_repository.dart';
 import 'package:energy_engine/energy_engine.dart';
@@ -424,5 +425,28 @@ class FakeExternalLinks implements ExternalLinks {
   Future<bool> openMapsSearch(String query) async {
     searches.add(query);
     return true;
+  }
+}
+
+class FakeSolarLogRepository implements SolarLogRepository {
+  FakeSolarLogRepository([List<SolarLog> logs = const []]) : logs = [...logs];
+
+  /// Newest first.
+  final List<SolarLog> logs;
+  final _changes = StreamController<List<SolarLog>>.broadcast();
+
+  @override
+  Stream<List<SolarLog>> watchRecent() async* {
+    yield [...logs];
+    yield* _changes.stream;
+  }
+
+  @override
+  Future<void> save(SolarLog log) async {
+    logs
+      ..removeWhere((l) => l.day == log.day)
+      ..add(log)
+      ..sort((a, b) => b.day.compareTo(a.day));
+    _changes.add([...logs]);
   }
 }

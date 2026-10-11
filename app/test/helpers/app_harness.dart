@@ -7,6 +7,7 @@ import 'package:backup_brain/features/estimator/domain/pricing_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:backup_brain/features/setup/data/setup_draft_local_repository.dart';
+import 'package:backup_brain/features/solar/domain/solar_log_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_draft_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ Future<void> pumpApp(
   required FakeSystemRepository system,
   required FakeApplianceRepository appliances,
   FakeOutageRepository? outages,
+  FakeSolarLogRepository? solarLogs,
   // What the phone already has saved, e.g. a half-finished setup.
   Map<String, Object> saved = const {},
   List<Override> extra = const [],
@@ -40,6 +42,9 @@ Future<void> pumpApp(
         systemRepositoryProvider.overrideWithValue(system),
         applianceRepositoryProvider.overrideWithValue(appliances),
         pricingRepositoryProvider.overrideWithValue(FakePricingRepository()),
+        solarLogRepositoryProvider.overrideWithValue(
+          solarLogs ?? FakeSolarLogRepository(),
+        ),
         batteryCatalogRepositoryProvider.overrideWithValue(
           FakeBatteryCatalogRepository(),
         ),

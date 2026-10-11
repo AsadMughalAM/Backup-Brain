@@ -64,6 +64,13 @@ service cloud.firestore {
         && optionalNumberIn(d, 'avgLoadW', 0, 100000);
     }
 
+    function validSolarLog(d) {
+      return d.date is string && d.date.size() == 10
+        && isNumberIn(d.actualKWh, 0, 10000)
+        && isNumberIn(d.expectedKWh, 0, 10000)
+        && optionalNumberIn(d, 'clearShare', 0, 1);
+    }
+
     function validScheduleSlot(d) {
       return d.weekday is int && d.weekday >= 1 && d.weekday <= 7
         && d.startMinute is int && d.startMinute >= 0 && d.startMinute < 1440
@@ -77,14 +84,15 @@ service cloud.firestore {
         allow read, delete: if isOwner(uid);
         allow create, update: if isOwner(uid) && validSystem(request.resource.data);
 
-        // appliances, outages and schedule are validated; other per-system
-        // logs (solarLogs, healthSnapshots, weatherCache) are owner-only.
+        // appliances, outages, schedule and solarLogs are validated; other
+        // per-system logs (healthSnapshots, weatherCache) are owner-only.
         match /{collection}/{docId} {
           allow read, delete: if isOwner(uid);
           allow create, update: if isOwner(uid)
             && (collection != 'appliances' || validAppliance(request.resource.data))
             && (collection != 'outages' || validOutage(request.resource.data))
-            && (collection != 'schedule' || validScheduleSlot(request.resource.data));
+            && (collection != 'schedule' || validScheduleSlot(request.resource.data))
+            && (collection != 'solarLogs' || validSolarLog(request.resource.data));
         }
       }
 

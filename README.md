@@ -4,7 +4,7 @@ An AI home energy manager for Pakistani households living with load-shedding. It
 
 **Stack:** Flutter (Android first) · Firebase (Auth, Firestore, Cloud Functions) · Open-Meteo · Gemini API
 
-**Status:** Hackathon build. Working: sign-in (email + Google), the calculation engine, the `bb_ui` design system, and Dashboard (F1), Load Planner (F2), Solar forecast (F3), the solar cost estimator (F5), battery health (F6), repair-or-replace and shop search (F7), outage logging, schedule, readiness and alerts (F8) and the AI assistant (F9, Gemini through the `assistantChat` Cloud Function) on the demo household (ARCHITECTURE §12), backed by Firebase `backup-brain-dev` (Firestore in `asia-south1`, rules deployed). Next: the estimator (F5) and full onboarding.
+**Status:** Hackathon build. Working: sign-in (email + Google), the calculation engine, the `bb_ui` design system, and Dashboard (F1), Load Planner (F2), Solar forecast (F3), the panel check (F4), the solar cost estimator (F5), battery health (F6), repair-or-replace and shop search (F7), outage logging, schedule, readiness and alerts (F8) and the AI assistant (F9, Gemini; MVP key setup below) with first-run home setup, backed by Firebase `backup-brain-dev` (Firestore in `asia-south1`). Next: verify the placeholder prices, deploy the latest Firestore rules, demo rehearsal on a phone.
 
 ## Docs
 

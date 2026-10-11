@@ -1279,4 +1279,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get querySolarInstaller => 'solar installer';
+
+  @override
+  String get checkOpen => 'Are my panels working well?';
+
+  @override
+  String get checkTitle => 'Panel check';
+
+  @override
+  String get checkNoneTitle => 'No check yet';
+
+  @override
+  String get checkNoneBody =>
+      'Enter how much your panels made (from the inverter display or app). The app compares it with what that day\'s weather should have given.';
+
+  @override
+  String get checkHealthyTitle => 'Panels are working well';
+
+  @override
+  String get checkHealthyBody =>
+      'They made at least 90% of what the weather allowed.';
+
+  @override
+  String get checkSlightTitle => 'A little low';
+
+  @override
+  String get checkSlightBody =>
+      'Likely dust or some shade. Clean the panels (early morning or evening, with water, no soap) and check again in a few days.';
+
+  @override
+  String get checkLowTitle => 'Well below what it should make';
+
+  @override
+  String get checkLowBody =>
+      'Low on three clear days this week. Check wiring and the inverter\'s MPPT, or a faulty panel. Consider a solar technician.';
+
+  @override
+  String get checkEnterTitle => 'Enter what the panels made';
+
+  @override
+  String get checkToday => 'Today';
+
+  @override
+  String get checkYesterday => 'Yesterday';
+
+  @override
+  String checkDaysAgo(String days) {
+    return '$days days ago';
+  }
+
+  @override
+  String get checkNoWeather =>
+      'No weather saved for that day. Open the Solar tab online once.';
+
+  @override
+  String checkExpected(String kwh) {
+    return 'For that day\'s weather the panels should make about $kwh kWh.';
+  }
+
+  @override
+  String get checkTodayHint =>
+      'Today isn\'t over: enter it after sunset for a fair check.';
+
+  @override
+  String get checkActualLabel => 'kWh made (from the inverter)';
+
+  @override
+  String get checkActualError => 'Enter a number, e.g. 8.5';
+
+  @override
+  String get checkTrendTitle => 'Last two weeks';
+
+  @override
+  String get checkMade => 'Made';
+
+  @override
+  String get checkShouldMake => 'Should make';
+
+  @override
+  String checkTrendSemantics(String count) {
+    return 'Panel output for $count logged days against what the weather allowed';
+  }
+
+  @override
+  String checkLogRow(String weekday, String day, String made, String expected) {
+    return '$weekday $day: $made of $expected kWh';
+  }
 }

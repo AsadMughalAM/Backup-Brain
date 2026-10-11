@@ -127,10 +127,18 @@ describe('validation', () => {
     await assertFails(ref.set({ weekday: 1, startMinute: 1440, endMinute: 60 }));
   });
 
-  test('other per-system logs are owner-only', async () => {
+  test('solar logs are validated and owner-only', async () => {
     const ref = db('alice').doc('users/alice/systems/main/solarLogs/2026-10-11');
-    await assertSucceeds(ref.set({ expectedKWh: 4 }));
+    await assertSucceeds(ref.set({ date: '2026-10-11', actualKWh: 8.2, expectedKWh: 9.6, clearShare: 0.9 }));
+    await assertFails(ref.set({ date: '2026-10-11', actualKWh: -1, expectedKWh: 9.6 }));
+    await assertFails(ref.set({ expectedKWh: 4 }));
     await assertFails(db('bob').doc('users/alice/systems/main/solarLogs/2026-10-11').get());
+  });
+
+  test('other per-system logs are owner-only', async () => {
+    const ref = db('alice').doc('users/alice/systems/main/healthSnapshots/h1');
+    await assertSucceeds(ref.set({ healthFactor: 0.8 }));
+    await assertFails(db('bob').doc('users/alice/systems/main/healthSnapshots/h1').get());
   });
 });
 

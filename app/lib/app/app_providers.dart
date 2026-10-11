@@ -26,7 +26,9 @@ import '../features/setup/data/setup_draft_local_repository.dart';
 import '../features/setup/data/setup_presets_asset_repository.dart';
 import '../features/setup/domain/setup_draft_repository.dart';
 import '../features/setup/domain/setup_presets_repository.dart';
+import '../features/solar/data/solar_log_repository_impl.dart';
 import '../features/solar/data/sources/open_meteo_source.dart';
+import '../features/solar/domain/solar_log_repository.dart';
 import '../features/solar/data/weather_repository_impl.dart';
 import '../features/solar/domain/weather_repository.dart';
 import 'l10n/app_localizations.dart';
@@ -79,6 +81,12 @@ List<Override> appOverrides(SharedPreferences prefs) => [
   ),
   pricingRepositoryProvider.overrideWith(
     (ref) => ConfigPricingRepository(ref.watch(firestoreProvider)),
+  ),
+  solarLogRepositoryProvider.overrideWith(
+    (ref) => FirestoreSolarLogRepository(
+      ref.watch(firestoreProvider),
+      ref.watch(firebaseAuthProvider),
+    ),
   ),
   outageRepositoryProvider.overrideWith(
     (ref) => FirestoreOutageRepository(
