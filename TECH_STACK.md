@@ -170,6 +170,7 @@ backup-brain/
 ├── .firebaserc                  # project aliases: dev, prod
 ├── firestore.rules
 ├── firestore.indexes.json
+├── firestore-tests/             # rules tests in the emulator: `pnpm install && pnpm test`
 │
 ├── app/                         # Flutter application
 │   ├── pubspec.yaml

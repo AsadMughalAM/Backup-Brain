@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "backup-brain-dev",
+    "dev": "backup-brain-dev"
+  }
+}

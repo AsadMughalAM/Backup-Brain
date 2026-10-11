@@ -1,0 +1,4 @@
+# Install scripts these test dependencies ship but the rules tests don't need.
+allowBuilds:
+  '@firebase/util': false
+  protobufjs: false

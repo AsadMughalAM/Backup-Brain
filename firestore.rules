@@ -1,0 +1,67 @@
+rules_version = '2';
+
+// Deny by default; tested in the emulator (firestore-tests/) before deploy.
+// Layout: TECH_STACK.md §4. Field shapes: ARCHITECTURE.md §8.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function isNumberIn(v, lo, hi) {
+      return (v is int || v is float) && v >= lo && v <= hi;
+    }
+
+    function validSystem(d) {
+      return d.hasSolar is bool
+        && d.inverter is map
+        && d.inverter.type in ['ups', 'hybrid', 'ongrid']
+        && isNumberIn(d.inverter.ratedW, 1, 100000)
+        && d.battery is map
+        && d.battery.chemistry in ['lead_acid', 'tubular', 'lifepo4']
+        && isNumberIn(d.battery.voltage, 1, 1000)
+        && isNumberIn(d.battery.ah, 1, 100000)
+        && d.battery.count is int && d.battery.count >= 1
+        && isNumberIn(d.soc, 0, 1);
+    }
+
+    function validAppliance(d) {
+      return d.name is string && d.name.size() > 0 && d.name.size() <= 60
+        && isNumberIn(d.watts, 0, 100000)
+        && d.quantity is int && d.quantity >= 1 && d.quantity <= 100
+        && isNumberIn(d.dutyCycle, 0.01, 1)
+        && d.priority in ['essential', 'comfort', 'avoid_on_backup']
+        && d.isOn is bool;
+    }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /systems/{systemId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && validSystem(request.resource.data);
+
+        // appliances are validated; other per-system logs (outages,
+        // schedule, solarLogs, healthSnapshots, weatherCache) are owner-only.
+        match /{collection}/{docId} {
+          allow read, delete: if isOwner(uid);
+          allow create, update: if isOwner(uid)
+            && (collection != 'appliances' || validAppliance(request.resource.data));
+        }
+      }
+
+      match /chats/{document=**} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // Reference data: written only by the admin SDK (seedCatalog).
+    match /batteryCatalog/{productId} {
+      allow read: if request.auth != null;
+    }
+    match /config/{docId} {
+      allow read: if request.auth != null;
+    }
+  }
+}
