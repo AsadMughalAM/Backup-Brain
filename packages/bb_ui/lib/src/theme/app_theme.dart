@@ -52,6 +52,7 @@ abstract final class AppTheme {
       bottomSheetTheme: ComponentThemes.bottomSheet(c),
       inputDecorationTheme: ComponentThemes.input(c, textTheme),
       dividerTheme: ComponentThemes.divider(c),
+      sliderTheme: ComponentThemes.slider(c),
       snackBarTheme: ComponentThemes.snackBar(scheme, textTheme),
       extensions: [c, e, AppTypography.standard],
     );

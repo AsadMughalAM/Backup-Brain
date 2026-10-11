@@ -1,0 +1,4 @@
+{
+  "@@locale": "ur_Latn",
+  "_comment": "Roman Urdu. Inherits every string from app_ur.arb for now; when Urdu script (Nastaliq) is added, app_ur.arb switches to it and the Roman Urdu strings move here."
+}

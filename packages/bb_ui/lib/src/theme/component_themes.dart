@@ -76,6 +76,18 @@ abstract final class ComponentThemes {
     );
   }
 
+  /// BbSlider look (DESIGN.md §10.2): navy, 4 px muted track.
+  static SliderThemeData slider(AppColors c) => SliderThemeData(
+    trackHeight: 4,
+    activeTrackColor: c.secondary,
+    inactiveTrackColor: c.surfaceMuted,
+    thumbColor: c.secondary,
+    overlayColor: c.secondary.withValues(alpha: 0.12),
+    activeTickMarkColor: c.onSecondary.withValues(alpha: 0.4),
+    inactiveTickMarkColor: c.outline.withValues(alpha: 0.4),
+    valueIndicatorColor: c.secondary,
+  );
+
   static DividerThemeData divider(AppColors c) =>
       DividerThemeData(color: c.outlineVariant, thickness: 1, space: 1);
 

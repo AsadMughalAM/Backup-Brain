@@ -1,0 +1,64 @@
+{
+  "@@locale": "ur",
+
+  "appTitle": "Backup Brain",
+
+  "tabHome": "Ghar",
+  "tabLoads": "Appliances",
+  "tabSolar": "Solar",
+  "tabBattery": "Battery",
+  "tabAssistant": "Madadgar",
+
+  "greeting": "Assalam-o-alaikum",
+  "switchTheme": "Theme badlein",
+  "settings": "Settings",
+
+  "durationHoursMinutes": "{hours}h {minutes}m",
+  "durationMinutes": "{minutes}m",
+  "durationUnlimited": "Koi load nahi",
+  "gainedTime": "+{time}",
+
+  "backupLeftAt": "{load} par baqi",
+  "stopsProtectingAt": "Battery bachane ke liye {percent} par band ho jayega",
+  "backupSemantics": "{load} par {time} ka backup baqi hai. Battery {percent}.",
+  "whatToTurnOff": "Kya band karun?",
+  "statBattery": "Battery",
+  "statLoad": "Abhi ka load",
+
+  "overloadTitle": "Overload",
+  "overloadBody": "{load} aap ke inverter ki had ({rated}) se zyada hai. Abhi kuch band karein.",
+
+  "adviceTurnOff": "{name} band karein, backup {time} zyada chalega.",
+  "adviceOnlyEssentials": "Sirf zaroori cheezein chal rahi hain — backup pehle hi sab se lamba hai.",
+
+  "loadsTitle": "Load planner",
+  "batteryNow": "Battery abhi",
+  "turnOffFirst": "Pehle yeh band karein",
+  "turnOff": "Band karein",
+  "topCombined": "Upar wali {count} band karein: kul {time}",
+  "nothingToTurnOff": "Band karne ko kuch nahi — sirf zaroori cheezein on hain.",
+  "appliancesSection": "Appliances",
+  "priorityEssential": "Zaroori",
+  "priorityComfort": "Soch kar chalayein",
+  "priorityAvoid": "Backup par na chalayein",
+
+  "welcomeTitle": "Jaanein aap ka backup kitni der chalega",
+  "welcomeBody": "Backup Brain aap ki battery aur appliances dekh kar saaf jawab deta hai, aur batata hai pehle kya band karein. Yeh offline bhi chalta hai.",
+  "tryDemo": "Demo ghar dekhein",
+  "tryDemoLoading": "Tayyar ho raha hai…",
+  "welcomeOwnSetupSoon": "Apni battery aur appliances set karna agle step mein aa raha hai.",
+  "needsInternetFirstTime": "Shuru karne ke liye ek dafa internet se connect karein. Us ke baad Backup Brain offline bhi chalega.",
+
+  "comingSoonTitle": "Jald aa raha hai",
+  "comingSolar": "Solar forecast: kal ki dhoop battery ko kitna charge karegi.",
+  "comingBattery": "Battery ki sehat, aur battery kahan se lein ya repair karwayein.",
+  "comingAssistant": "Apne backup ke baare mein English ya Roman Urdu mein kuch bhi poochein.",
+
+  "settingsTheme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "settingsLanguage": "Zabaan",
+  "languageEnglish": "English",
+  "languageRomanUrdu": "Roman Urdu"
+}

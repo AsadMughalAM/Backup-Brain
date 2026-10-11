@@ -1,0 +1,20 @@
+{
+  "_comment": "The demo household from ARCHITECTURE.md §12. The demo script quotes the numbers this produces; energy_engine tests lock them.",
+  "system": {
+    "hasSolar": false,
+    "inverter": { "type": "hybrid", "ratedW": 2000, "efficiency": 0.9 },
+    "battery": { "chemistry": "lifepo4", "voltage": 24, "ah": 150, "count": 1 },
+    "soc": 0.6
+  },
+  "appliances": [
+    { "id": "fan-bedroom", "name": "Ceiling fan (bedroom)", "icon": "fan", "watts": 75, "quantity": 1, "dutyCycle": 1, "priority": "comfort", "isOn": true },
+    { "id": "fan-lounge", "name": "Ceiling fan (lounge)", "icon": "fan", "watts": 75, "quantity": 1, "dutyCycle": 1, "priority": "comfort", "isOn": true },
+    { "id": "fridge", "name": "Fridge", "icon": "fridge", "watts": 200, "quantity": 1, "dutyCycle": 0.4, "priority": "comfort", "isOn": true },
+    { "id": "tv", "name": "LED TV", "icon": "tv", "watts": 90, "quantity": 1, "dutyCycle": 1, "priority": "comfort", "isOn": true },
+    { "id": "laptop", "name": "Laptop", "icon": "laptop", "watts": 40, "quantity": 1, "dutyCycle": 1, "priority": "comfort", "isOn": true },
+    { "id": "router", "name": "Wi-Fi router", "icon": "router", "watts": 10, "quantity": 1, "dutyCycle": 1, "priority": "essential", "isOn": true },
+    { "id": "led", "name": "LED bulbs", "icon": "light", "watts": 10, "quantity": 5, "dutyCycle": 1, "priority": "essential", "isOn": true },
+    { "id": "iron", "name": "Iron", "icon": "iron", "watts": 1000, "quantity": 1, "dutyCycle": 1, "priority": "avoid_on_backup", "isOn": false },
+    { "id": "motor", "name": "Water motor", "icon": "water", "watts": 750, "quantity": 1, "dutyCycle": 1, "priority": "avoid_on_backup", "isOn": false }
+  ]
+}

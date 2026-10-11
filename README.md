@@ -4,7 +4,7 @@ An AI home energy manager for Pakistani households living with load-shedding. It
 
 **Stack:** Flutter (Android first) · Firebase (Auth, Firestore, Cloud Functions) · Open-Meteo · Claude API
 
-**Status:** Hackathon build, early stage. The Flutter app is still the starter template, connected to Firebase project `backup-brain-dev` (Firestore in `asia-south1`). The calculation engine (`packages/energy_engine`) is being built first.
+**Status:** Hackathon build. Working: the calculation engine (F1 backup time, F2 load planner), the `bb_ui` design system, and the app shell with Dashboard and Load Planner on the demo household (ARCHITECTURE §12), backed by Firebase `backup-brain-dev` (Firestore in `asia-south1`, rules deployed). Next: full onboarding, then solar (F3) and the estimator (F5).
 
 ## Docs
 
