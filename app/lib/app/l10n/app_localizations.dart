@@ -1526,6 +1526,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{label}: 30 minutes later'**
   String scheduleLater(String label);
+
+  /// No description provided for @alertChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Outage alerts'**
+  String get alertChannelName;
+
+  /// No description provided for @alertTitleLikely.
+  ///
+  /// In en, this message translates to:
+  /// **'Power may go at {time}'**
+  String alertTitleLikely(String time);
+
+  /// No description provided for @alertTitleScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Load-shedding at {time}'**
+  String alertTitleScheduled(String time);
+
+  /// No description provided for @alertBodyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery will be about {soc}: {backup} of backup at your current load.'**
+  String alertBodyReady(String soc, String backup);
+
+  /// No description provided for @alertBodyShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery will be about {soc}: only {backup}, less than the usual {outage}. Switch heavy loads off now.'**
+  String alertBodyShort(String soc, String backup, String outage);
+
+  /// No description provided for @settingsOutageAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Outage alerts'**
+  String get settingsOutageAlerts;
+
+  /// No description provided for @settingsOutageAlertsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A notification 30 minutes before the next likely or scheduled outage. Works offline.'**
+  String get settingsOutageAlertsBody;
 }
 
 class _AppLocalizationsDelegate

@@ -878,6 +878,36 @@ class AppLocalizationsUr extends AppLocalizations {
   String scheduleLater(String label) {
     return '$label: 30 minute baad';
   }
+
+  @override
+  String get alertChannelName => 'Load-shedding alerts';
+
+  @override
+  String alertTitleLikely(String time) {
+    return 'Light shayad $time par jayegi';
+  }
+
+  @override
+  String alertTitleScheduled(String time) {
+    return '$time par load-shedding';
+  }
+
+  @override
+  String alertBodyReady(String soc, String backup) {
+    return 'Battery taqreeban $soc hogi: abhi ke load par $backup backup.';
+  }
+
+  @override
+  String alertBodyShort(String soc, String backup, String outage) {
+    return 'Battery taqreeban $soc hogi: sirf $backup, aam $outage se kam. Bhaari cheezain abhi band karein.';
+  }
+
+  @override
+  String get settingsOutageAlerts => 'Load-shedding alerts';
+
+  @override
+  String get settingsOutageAlertsBody =>
+      'Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi.';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

@@ -447,7 +447,7 @@ bb_ui and energy_engine never import each other or anything from app/.
 4. Don't `await` writes in the UI when offline; write and continue (the local cache updates immediately).
 5. Weather: fetch Open-Meteo when online, save a trimmed copy to `weatherCache`, and use the latest cache when offline. Show the forecast's age ("updated 3 h ago").
 6. Pricing: use `config/pricing_pk` from Firestore when available, otherwise the bundled `assets/data/pricing_pk.json`.
-7. Outage alerts from the user's schedule and learned pattern are **local notifications scheduled on the device**, so they fire without internet. FCM is only for server-originated messages.
+7. Outage alerts from the user's schedule and learned pattern are **local notifications scheduled on the device**, so they fire without internet. FCM is only for server-originated messages. One pending alert (`core/services/alert_scheduler.dart`), kept in step by `app/session/outage_alerts.dart`; Android needs core-library desugaring and the plugin's boot receivers in the manifest.
 8. Features that truly need the network (F9 assistant, F7 shops) show a clear "needs internet" state, never a crash.
 
 ### 7.3 Data & Firestore rules

@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/locale/locale_controller.dart';
+import '../../../../app/session/outage_alerts.dart';
+import '../../../../core/services/alert_scheduler.dart';
 import '../../../../app/theme_mode/theme_mode_controller.dart';
 import '../widgets/account_section.dart';
 import '../widgets/home_section.dart';
@@ -47,6 +49,10 @@ class SettingsScreen extends ConsumerWidget {
             selected: language,
             onSelect: ref.read(localeProvider.notifier).set,
           ),
+          if (alertsSupported) ...[
+            const BbGap.xl(),
+            const _OutageAlertsSwitch(),
+          ],
         ],
       ),
     );
@@ -82,4 +88,44 @@ class _Choices<T> extends StatelessWidget {
         ),
     ],
   );
+}
+
+/// F8 alerts on or off. The row is one control for screen readers.
+class _OutageAlertsSwitch extends ConsumerWidget {
+  const _OutageAlertsSwitch();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final on = ref.watch(outageAlertsEnabledProvider);
+    return MergeSemantics(
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.settingsOutageAlerts,
+                  style: context.textTheme.titleMedium,
+                ),
+                const BbGap.xs(),
+                Text(
+                  l10n.settingsOutageAlertsBody,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: context.colors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const BbGap.md(),
+          BbSwitch(
+            value: on,
+            onChanged: ref.read(outageAlertsEnabledProvider.notifier).set,
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backup_brain/core/services/alert_scheduler.dart';
 import 'package:backup_brain/features/assistant/domain/assistant_repository.dart';
 import 'package:backup_brain/features/assistant/domain/energy_snapshot.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
@@ -352,4 +353,27 @@ class FakeOutageRepository implements OutageRepository {
     schedule.removeWhere((e) => e.id == id);
     _scheduleChanges.add([...schedule]);
   }
+}
+
+class FakeAlertScheduler implements AlertScheduler {
+  /// The pending alert, or null after a cancel.
+  ({DateTime atUtc, String title, String body})? pending;
+  var schedules = 0;
+  final tapController = StreamController<void>.broadcast();
+
+  @override
+  Future<void> schedule({
+    required DateTime atUtc,
+    required String title,
+    required String body,
+  }) async {
+    schedules++;
+    pending = (atUtc: atUtc, title: title, body: body);
+  }
+
+  @override
+  Future<void> cancel() async => pending = null;
+
+  @override
+  Stream<void> get taps => tapController.stream;
 }

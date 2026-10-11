@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/firebase/firebase_providers.dart';
+import '../core/services/alert_scheduler.dart';
 import '../features/assistant/data/callable_assistant_repository.dart';
 import '../features/assistant/domain/assistant_repository.dart';
 import '../features/auth/data/firebase_auth_repository.dart';
@@ -23,6 +24,8 @@ import '../features/setup/domain/setup_presets_repository.dart';
 import '../features/solar/data/sources/open_meteo_source.dart';
 import '../features/solar/data/weather_repository_impl.dart';
 import '../features/solar/domain/weather_repository.dart';
+import 'l10n/app_localizations.dart';
+import 'locale/locale_controller.dart';
 
 /// Composition root: binds each repository interface to its implementation.
 /// Tests pass their own overrides instead.
@@ -57,6 +60,14 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firebaseAuthProvider),
       OpenMeteoSource(Dio(_weatherTimeouts)),
     ),
+  ),
+  alertSchedulerProvider.overrideWith(
+    (ref) => alertsSupported
+        ? LocalAlertScheduler(
+            channelName: lookupAppLocalizations(ref.read(localeProvider).locale)
+                .alertChannelName,
+          )
+        : const NoAlertScheduler(),
   ),
   outageRepositoryProvider.overrideWith(
     (ref) => FirestoreOutageRepository(

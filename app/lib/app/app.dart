@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'l10n/app_localizations.dart';
 import 'locale/locale_controller.dart';
 import 'router.dart';
+import '../core/services/alert_scheduler.dart';
 import 'session/household_setup.dart';
+import 'session/outage_alerts.dart';
 import 'theme_mode/theme_mode_controller.dart';
 
 class App extends ConsumerWidget {
@@ -18,6 +20,12 @@ class App extends ConsumerWidget {
     final language = ref.watch(localeProvider);
     // Lives for the whole session: gives each new account a household.
     ref.watch(householdSetupProvider);
+    // Keeps the F8 outage alert in step with the prediction.
+    ref.watch(outageAlertsProvider);
+    // Tapping an alert opens the Outages screen.
+    ref.listen(alertTapsProvider, (_, next) {
+      if (next.hasValue) ref.read(routerProvider).push(Routes.outages);
+    });
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,

@@ -876,4 +876,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String scheduleLater(String label) {
     return '$label: 30 minutes later';
   }
+
+  @override
+  String get alertChannelName => 'Outage alerts';
+
+  @override
+  String alertTitleLikely(String time) {
+    return 'Power may go at $time';
+  }
+
+  @override
+  String alertTitleScheduled(String time) {
+    return 'Load-shedding at $time';
+  }
+
+  @override
+  String alertBodyReady(String soc, String backup) {
+    return 'Battery will be about $soc: $backup of backup at your current load.';
+  }
+
+  @override
+  String alertBodyShort(String soc, String backup, String outage) {
+    return 'Battery will be about $soc: only $backup, less than the usual $outage. Switch heavy loads off now.';
+  }
+
+  @override
+  String get settingsOutageAlerts => 'Outage alerts';
+
+  @override
+  String get settingsOutageAlertsBody =>
+      'A notification 30 minutes before the next likely or scheduled outage. Works offline.';
 }

@@ -693,5 +693,49 @@
         "type": "String"
       }
     }
-  }
+  },
+  "alertChannelName": "Outage alerts",
+  "alertTitleLikely": "Power may go at {time}",
+  "@alertTitleLikely": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "alertTitleScheduled": "Load-shedding at {time}",
+  "@alertTitleScheduled": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "alertBodyReady": "Battery will be about {soc}: {backup} of backup at your current load.",
+  "@alertBodyReady": {
+    "placeholders": {
+      "soc": {
+        "type": "String"
+      },
+      "backup": {
+        "type": "String"
+      }
+    }
+  },
+  "alertBodyShort": "Battery will be about {soc}: only {backup}, less than the usual {outage}. Switch heavy loads off now.",
+  "@alertBodyShort": {
+    "placeholders": {
+      "soc": {
+        "type": "String"
+      },
+      "backup": {
+        "type": "String"
+      },
+      "outage": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsOutageAlerts": "Outage alerts",
+  "settingsOutageAlertsBody": "A notification 30 minutes before the next likely or scheduled outage. Works offline."
 }

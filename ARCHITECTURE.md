@@ -283,6 +283,7 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - Recharge forecast: `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)` combined with F3 solar contribution. Unknown charger power defaults to C/10 of the bank (`EngineDefaults.chargeRateC`). *Implemented so far: grid charging only, so readiness is the no-sun case; solar is a later addition.*
 - When the power comes back, the battery's charge is set to the engine's estimate (F1 run in reverse over the outage at the logged load); the user can correct it on the Load Planner.
 - Alert: *"Next outage likely at 7 PM (based on your last 14 days). Battery will only be at 65% by then — avoid running the iron now."*
+  - Implemented as one local notification **30 minutes before** the next predicted or scheduled outage (Android; inexact timing, so no exact-alarm permission). It is rescheduled when the prediction moves, cancelled while the power is out, survives a reboot, and can be switched off in Settings. Tapping it opens the Outages screen.
 - Community/crowdsourced outage reports by area = P2 stretch.
 
 ---

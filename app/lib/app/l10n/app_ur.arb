@@ -237,5 +237,12 @@
   "recentOutagesEmpty": "Abhi kuch log nahi hua.",
   "outageStillOut": "abhi tak",
   "scheduleEarlier": "{label}: 30 minute pehle",
-  "scheduleLater": "{label}: 30 minute baad"
+  "scheduleLater": "{label}: 30 minute baad",
+  "alertChannelName": "Load-shedding alerts",
+  "alertTitleLikely": "Light shayad {time} par jayegi",
+  "alertTitleScheduled": "{time} par load-shedding",
+  "alertBodyReady": "Battery taqreeban {soc} hogi: abhi ke load par {backup} backup.",
+  "alertBodyShort": "Battery taqreeban {soc} hogi: sirf {backup}, aam {outage} se kam. Bhaari cheezain abhi band karein.",
+  "settingsOutageAlerts": "Load-shedding alerts",
+  "settingsOutageAlertsBody": "Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi."
 }
