@@ -12,6 +12,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.surface,
     required this.surfaceRaised,
     required this.surfaceMuted,
+    required this.hero,
     required this.textPrimary,
     required this.textMuted,
     required this.textOnPrimary,
@@ -49,6 +50,10 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// Input fills, tonal buttons, segmented track, inner groups in cards.
   final Color surfaceMuted;
+
+  /// Midnight navy hero card in both themes. Content on it is drawn with
+  /// the dark palette (`BbCard` hero variant), so it needs no on-hero tokens.
+  final Color hero;
   final Color textPrimary;
 
   /// Labels, captions, units, placeholders, timestamps.
@@ -99,6 +104,7 @@ class AppColors extends ThemeExtension<AppColors> {
     'surface': surface,
     'surfaceRaised': surfaceRaised,
     'surfaceMuted': surfaceMuted,
+    'hero': hero,
     'textPrimary': textPrimary,
     'textMuted': textMuted,
     'textOnPrimary': textOnPrimary,
@@ -131,6 +137,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? surface,
     Color? surfaceRaised,
     Color? surfaceMuted,
+    Color? hero,
     Color? textPrimary,
     Color? textMuted,
     Color? textOnPrimary,
@@ -160,6 +167,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surface: surface ?? this.surface,
     surfaceRaised: surfaceRaised ?? this.surfaceRaised,
     surfaceMuted: surfaceMuted ?? this.surfaceMuted,
+    hero: hero ?? this.hero,
     textPrimary: textPrimary ?? this.textPrimary,
     textMuted: textMuted ?? this.textMuted,
     textOnPrimary: textOnPrimary ?? this.textOnPrimary,
@@ -195,6 +203,7 @@ class AppColors extends ThemeExtension<AppColors> {
       surface: c(surface, other.surface),
       surfaceRaised: c(surfaceRaised, other.surfaceRaised),
       surfaceMuted: c(surfaceMuted, other.surfaceMuted),
+      hero: c(hero, other.hero),
       textPrimary: c(textPrimary, other.textPrimary),
       textMuted: c(textMuted, other.textMuted),
       textOnPrimary: c(textOnPrimary, other.textOnPrimary),

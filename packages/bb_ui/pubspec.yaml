@@ -28,9 +28,3 @@ flutter:
           weight: 500
         - asset: assets/fonts/Geist-SemiBold.otf
           weight: 600
-    - family: GeistMono
-      fonts:
-        - asset: assets/fonts/GeistMono-Regular.otf
-          weight: 400
-        - asset: assets/fonts/GeistMono-Medium.otf
-          weight: 500

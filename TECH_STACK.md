@@ -213,7 +213,7 @@ backup-brain/
 ├── packages/
 │   ├── bb_ui/                # DESIGN SYSTEM — Flutter only; no Riverpod, Firebase, l10n
 │   │   ├── pubspec.yaml         # declares bundled fonts
-│   │   ├── assets/fonts/        # Geist + Geist Mono (see DESIGN.md §3); Urdu-script font later
+│   │   ├── assets/fonts/        # Geist (see DESIGN.md §3); Urdu-script font later
 │   │   ├── lib/
 │   │   │   ├── bb_ui.dart                    # public exports only (no primitives exported)
 │   │   │   └── src/
@@ -387,7 +387,7 @@ All color meaning, palette values, semantic tokens (`AppColors`, `EnergyColors`)
 
 ### 6.6 Typography
 
-- **Fonts:** Geist (UI) + Geist Mono (every live number), bundled in `bb_ui/assets/fonts/` so they work offline. Never `google_fonts`. Full type scale and weights: **`DESIGN.md` §3**.
+- **Fonts:** Geist for all text and numbers (live numbers use tabular figures), bundled in `bb_ui/assets/fonts/` so they work offline. Never `google_fonts`. Full type scale and weights: **`DESIGN.md` §3**.
 - **Roles:** Material `TextTheme` roles plus our metric styles (`metricHero`, `metricLarge`, `metricMedium`, `metricSmall`, `metricCaption`) in `AppTypography`.
 - **Tabular figures** (`FontFeature.tabularFigures()`) on all live numbers so the countdown doesn't jitter as digits change.
 - Layouts must work at system text scale **1.0 and 1.5** without overflow (older users enlarge text).

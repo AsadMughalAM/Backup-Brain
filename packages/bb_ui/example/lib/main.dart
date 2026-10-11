@@ -62,7 +62,7 @@ class _GalleryPage extends StatelessWidget {
           const _Section('BbButton / BbIconButton', child: _ButtonsDemo()),
           const _Section('BbBanner', child: _BannersDemo()),
           const _Section('BbCard', child: _CardsDemo()),
-          const _Section('Metrics (Geist Mono)', child: _MetricsDemo()),
+          const _Section('Metrics', child: _MetricsDemo()),
           const _Section('Type scale (Geist)', child: _TypeScale()),
           _Section('AppColors', child: _Swatches(colors.tokens)),
           _Section('EnergyColors', child: _Swatches(context.energy.tokens)),
@@ -321,7 +321,7 @@ class _CardsDemo extends StatelessWidget {
             Icon(
               BbIcons.ai,
               size: AppSizes.iconSm,
-              color: context.colors.textMuted,
+              color: context.colors.onPrimaryContainer,
             ),
             const BbGap.sm(),
             const Expanded(

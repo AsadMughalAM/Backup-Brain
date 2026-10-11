@@ -133,9 +133,9 @@ class _DashboardBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                BbIcons.loads,
+                BbIcons.ai,
                 size: AppSizes.iconSm,
-                color: context.colors.textMuted,
+                color: context.colors.onPrimaryContainer,
               ),
               const BbGap.md(),
               Expanded(child: Text(_advice(l10n))),

@@ -8,6 +8,7 @@ final lightAppColors = AppColors(
   surface: CanvasP.c0,
   surfaceRaised: CanvasP.c0,
   surfaceMuted: CanvasP.c100,
+  hero: NavyP.c900,
   textPrimary: NavyP.c950,
   textMuted: CanvasP.c600,
   textOnPrimary: NavyP.c950,

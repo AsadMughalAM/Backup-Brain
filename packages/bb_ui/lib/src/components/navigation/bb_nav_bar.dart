@@ -23,9 +23,9 @@ class BbNavItem {
   final String label;
 }
 
-/// Bottom navigation (DESIGN.md §10.5): the selected tab gets the yellow
-/// pill behind a Fill icon — one of the two yellow highlights allowed per
-/// screen.
+/// Bottom navigation (DESIGN.md §10.5): the selected tab gets a navy pill
+/// behind a Fill icon. Navy, not yellow, so the screen's yellow budget goes
+/// to its one CTA.
 ///
 /// ```dart
 /// BbNavBar(
@@ -110,14 +110,14 @@ class _NavTab extends StatelessWidget {
                   height: 32,
                   decoration: BoxDecoration(
                     color: selected
-                        ? colors.primary
-                        : colors.primary.withValues(alpha: 0),
+                        ? colors.secondary
+                        : colors.secondary.withValues(alpha: 0),
                     borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: Icon(
                     selected ? item.activeIcon : item.icon,
                     size: AppSizes.iconMd,
-                    color: selected ? colors.textOnPrimary : colors.textMuted,
+                    color: selected ? colors.onSecondary : colors.textMuted,
                   ),
                 ),
               ),

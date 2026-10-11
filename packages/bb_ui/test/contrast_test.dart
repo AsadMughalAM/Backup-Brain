@@ -35,8 +35,19 @@ const List<_Pair> _appColorPairs = [
   ('textPrimary', 'warningContainer', _text),
   ('textPrimary', 'dangerContainer', _text),
   ('info', 'secondaryContainer', _ui),
-  // BbCountdownRing caption sits on the hero card.
-  ('textMuted', 'secondaryContainer', _text),
+  // Body text on the highlight (AI advice) card.
+  ('textPrimary', 'primaryContainer', _text),
+];
+
+/// The hero card draws its content with the dark palette in both themes
+/// (BbCard hero variant), so dark tokens are checked against each `hero`.
+const List<_Pair> _heroPairs = [
+  ('textPrimary', 'hero', _text),
+  ('textMuted', 'hero', _text),
+  ('primary', 'hero', _ui),
+  ('warning', 'hero', _ui),
+  ('danger', 'hero', _ui),
+  ('focusRing', 'hero', _ui),
 ];
 
 const List<_Pair> _energyPairs = [
@@ -48,6 +59,8 @@ const List<_Pair> _energyPairs = [
 ];
 
 void main() {
+  final darkColors = AppTheme.dark().extension<AppColors>()!.tokens;
+
   for (final (name, theme) in [
     ('light', AppTheme.light()),
     ('dark', AppTheme.dark()),
@@ -60,6 +73,14 @@ void main() {
         test('$fg on $bg ≥ $min:1', () {
           expect(
             contrastRatio(colors[fg]!, colors[bg]!),
+            greaterThanOrEqualTo(min),
+          );
+        });
+      }
+      for (final (fg, bg, min) in _heroPairs) {
+        test('hero: dark $fg on $bg ≥ $min:1', () {
+          expect(
+            contrastRatio(darkColors[fg]!, colors[bg]!),
             greaterThanOrEqualTo(min),
           );
         });

@@ -10,7 +10,7 @@ import '../foundations/tokens/breakpoints.dart';
 /// ```dart
 /// context.colors.textPrimary   // AppColors
 /// context.energy.solar         // EnergyColors
-/// context.text.metricLarge     // AppTypography (Geist Mono)
+/// context.text.metricLarge     // AppTypography (metric styles)
 /// context.textTheme.bodyMedium // Material roles (Geist)
 /// ```
 extension BbThemeContext on BuildContext {

@@ -7,7 +7,9 @@ import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
 
 /// The backup countdown (DESIGN.md §10.6): a ring whose arc is the battery
-/// level in its status color, with the time left in the center.
+/// level, with the time left in the center. The arc is Spark Yellow (energy)
+/// while the battery is healthy and switches to the warning/danger status
+/// color at 50% / 20%. Sits on the hero card.
 ///
 /// All text comes in already formatted and localized; this widget only
 /// draws. Pair an overload with a `danger` [BbBanner] — the ring pulses
@@ -56,7 +58,11 @@ class _BbCountdownRingState extends State<BbCountdownRing>
     with SingleTickerProviderStateMixin {
   late final _pulse = AnimationController(vsync: this);
 
-  static const _stroke = 12.0;
+  static const _stroke = 14.0;
+
+  // Track is the text color at low alpha so it suits whatever surface the
+  // ring sits on (opacity, not a new color — DESIGN.md §2.7 rule 7).
+  static const _trackAlpha = 0.12;
 
   @override
   void didUpdateWidget(BbCountdownRing old) {
@@ -86,8 +92,8 @@ class _BbCountdownRingState extends State<BbCountdownRing>
       builder: (context, soc, child) => CustomPaint(
         painter: _RingPainter(
           fraction: soc,
-          track: colors.outlineVariant,
-          arc: context.energy.battery(soc),
+          track: colors.textPrimary.withValues(alpha: _trackAlpha),
+          arc: soc > 0.5 ? colors.primary : context.energy.battery(soc),
           stroke: _stroke,
         ),
         child: child,

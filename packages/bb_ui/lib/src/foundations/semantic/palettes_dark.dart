@@ -9,6 +9,7 @@ final darkAppColors = AppColors(
   surface: CanvasP.c900,
   surfaceRaised: CanvasP.c850,
   surfaceMuted: CanvasP.c800,
+  hero: NavyP.c900,
   textPrimary: CanvasP.c100,
   textMuted: CanvasP.c400,
   textOnPrimary: NavyP.c950,

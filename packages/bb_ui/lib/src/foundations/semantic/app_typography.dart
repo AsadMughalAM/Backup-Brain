@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../primitives/font_primitives.dart';
 
 /// LAYER 2 — the type scale (DESIGN.md §3.4). Material roles go into
-/// [textTheme]; the Geist Mono metric styles for live numbers live on this
-/// extension. Read via `context.text` / `context.textTheme`.
+/// [textTheme]; the metric styles for live numbers live on this extension. Read via `context.text` / `context.textTheme`.
 ///
 /// Styles carry no color: Text inherits `textPrimary` from the theme, and
 /// muted text picks `textMuted` explicitly.
@@ -19,11 +18,11 @@ class AppTypography extends ThemeExtension<AppTypography> {
   });
 
   static final standard = AppTypography(
-    metricHero: _mono(56, 60, FontP.medium, -2.0),
-    metricLarge: _mono(32, 36, FontP.medium, -1.0),
-    metricMedium: _mono(20, 24, FontP.medium, -0.4),
-    metricSmall: _mono(16, 20, FontP.medium, 0),
-    metricCaption: _mono(11, 16, FontP.regular, 0),
+    metricHero: _metric(60, 64, FontP.semibold, -2.4),
+    metricLarge: _metric(34, 40, FontP.semibold, -1.2),
+    metricMedium: _metric(20, 24, FontP.semibold, -0.4),
+    metricSmall: _metric(16, 20, FontP.medium, -0.1),
+    metricCaption: _metric(12, 16, FontP.medium, 0),
   );
 
   /// Backup countdown "3h 20m". May clamp at 1.3× text scale; nothing else
@@ -67,11 +66,12 @@ class AppTypography extends ThemeExtension<AppTypography> {
         letterSpacing: ls,
       );
 
-  // Tabular figures keep every digit the same width, so a ticking countdown
-  // doesn't jitter and number columns line up.
-  static TextStyle _mono(double size, double line, FontWeight w, double ls) =>
+  // Geist, not a monospace: tabular figures already keep every digit the
+  // same width (no jitter while the countdown ticks, columns line up),
+  // without making numbers look like code.
+  static TextStyle _metric(double size, double line, FontWeight w, double ls) =>
       TextStyle(
-        fontFamily: FontP.mono,
+        fontFamily: FontP.sans,
         package: FontP.package,
         fontSize: size,
         height: line / size,

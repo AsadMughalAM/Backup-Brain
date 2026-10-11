@@ -5,7 +5,6 @@ abstract final class FontP {
   /// Fonts are declared in bb_ui's pubspec, so styles must name the package.
   static const package = 'bb_ui';
   static const sans = 'Geist';
-  static const mono = 'GeistMono';
 
   static const regular = FontWeight.w400,
       medium = FontWeight.w500,

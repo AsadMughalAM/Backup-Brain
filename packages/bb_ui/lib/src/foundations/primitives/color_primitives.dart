@@ -2,37 +2,41 @@
 // never exported, never used by widgets. Semantic tokens reference these.
 import 'dart:ui';
 
+/// Warm stone neutrals (hue ≈ 40°). Warm, not cool, so they sit in harmony
+/// with Spark Yellow instead of fighting it.
 abstract final class CanvasP {
   static const c0 = Color(0xFFFFFFFF),
-      c50 = Color(0xFFF7F8FA),
-      c100 = Color(0xFFEEF0F3),
-      c200 = Color(0xFFE1E4E9),
-      c300 = Color(0xFFC9CED6),
-      c400 = Color(0xFF9AA2AF),
-      c500 = Color(0xFF7D8592),
-      c600 = Color(0xFF5A6270),
-      c700 = Color(0xFF3E4550),
-      c800 = Color(0xFF222733),
-      c850 = Color(0xFF1A1E27),
-      c900 = Color(0xFF13161D),
-      c950 = Color(0xFF0B0D12);
+      c50 = Color(0xFFF6F4F0),
+      c100 = Color(0xFFEDEAE4),
+      c200 = Color(0xFFE2DED6),
+      c300 = Color(0xFFCBC6BC),
+      c400 = Color(0xFFA39D92),
+      c500 = Color(0xFF857F74),
+      c600 = Color(0xFF5E594F),
+      c700 = Color(0xFF423E37),
+      c800 = Color(0xFF2A2824),
+      c850 = Color(0xFF211F1C),
+      c900 = Color(0xFF1A1917),
+      c950 = Color(0xFF121110);
 
   /// Only for the dark-theme scrim and shadows; never text or surfaces.
   static const black = Color(0xFF000000);
 }
 
+/// Midnight navy: deep and low-chroma so it reads as night sky, not as a
+/// pastel UI tint.
 abstract final class NavyP {
-  static const c50 = Color(0xFFF2F5FB),
-      c100 = Color(0xFFE4EAF6),
-      c200 = Color(0xFFC5D3EE),
-      c300 = Color(0xFF9DB4E8),
-      c400 = Color(0xFF7E9EE0),
-      c500 = Color(0xFF4F72C2),
-      c600 = Color(0xFF3A5FB0),
-      c700 = Color(0xFF2A4A8E),
-      c800 = Color(0xFF1F3A70),
-      c900 = Color(0xFF152851),
-      c950 = Color(0xFF0E1526);
+  static const c50 = Color(0xFFF1F3F8),
+      c100 = Color(0xFFE3E7F0),
+      c200 = Color(0xFFC6CEDF),
+      c300 = Color(0xFFA3B2D1),
+      c400 = Color(0xFF7C90BE),
+      c500 = Color(0xFF5670A6),
+      c600 = Color(0xFF3F5891),
+      c700 = Color(0xFF2E4378),
+      c800 = Color(0xFF1F2F57),
+      c900 = Color(0xFF16213D),
+      c950 = Color(0xFF0E1424);
 }
 
 abstract final class YellowP {

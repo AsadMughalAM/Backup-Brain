@@ -7,8 +7,8 @@ import '../surfaces/bb_card.dart';
 import 'bb_metric.dart';
 import 'bb_tone.dart';
 
-/// One headline number in a card (DESIGN.md §10.4): icon + label, the value
-/// with its unit, and an optional delta line. Used in the dashboard's 2 × 2
+/// One headline number in a card (DESIGN.md §10.4): icon in a tinted disc,
+/// label, the value with its unit, and an optional delta line. Used in the dashboard's 2 × 2
 /// grid, so the value scales down rather than overflow a narrow column.
 ///
 /// ```dart
@@ -44,6 +44,8 @@ class BbStatTile extends StatelessWidget {
   /// number, never color alone.
   final BbTone tone;
 
+  static const _discSize = 40.0;
+
   @override
   Widget build(BuildContext context) {
     final muted = context.colors.textMuted;
@@ -55,27 +57,27 @@ class BbStatTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Icon(
-                  icon,
-                  size: AppSizes.iconSm,
-                  color: tone.iconColor(context),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelMedium?.copyWith(
-                      color: muted,
-                    ),
-                  ),
-                ),
-              ],
+            Container(
+              width: _discSize,
+              height: _discSize,
+              decoration: BoxDecoration(
+                color: tone.containerColor(context),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: AppSizes.iconSm,
+                color: tone.iconColor(context),
+              ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.labelMedium?.copyWith(color: muted),
+            ),
+            const SizedBox(height: AppSpacing.xxs),
             BbMetric(value: value, unit: unit),
             if (delta != null) ...[
               const SizedBox(height: AppSpacing.xs),

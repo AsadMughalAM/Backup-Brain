@@ -37,4 +37,17 @@ enum BbTone {
     solar => context.energy.solarStroke,
     _ => textColor(context),
   };
+
+  /// Soft fill behind an icon of this tone, e.g. the stat tile's icon disc.
+  Color containerColor(BuildContext context) {
+    final c = context.colors;
+    return switch (this) {
+      neutral || muted || load => c.surfaceMuted,
+      solar => c.primaryContainer,
+      grid => c.secondaryContainer,
+      success => c.successContainer,
+      warning => c.warningContainer,
+      danger => c.dangerContainer,
+    };
+  }
 }

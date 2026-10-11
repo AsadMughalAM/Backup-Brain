@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../foundations/semantic/app_colors.dart';
 import '../../foundations/tokens/elevation.dart';
 import '../../foundations/tokens/radius.dart';
 import '../../foundations/tokens/spacing.dart';
+import '../../theme/app_theme.dart';
 import '../../theme/context_extensions.dart';
 
 enum BbCardVariant {
   /// `surface` + soft shadow (light) / lighter surface (dark).
   standard,
 
-  /// Dashboard hero: `secondaryContainer`, larger radius and padding.
+  /// Dashboard hero: midnight `hero` fill, larger radius and padding. Its
+  /// content is drawn with the dark palette in both themes.
   hero,
 
-  /// `surface` with a yellow leading stripe — the top AI advice card.
+  /// Soft yellow `primaryContainer` tint, no shadow — the top AI advice card.
   highlight,
 }
 
@@ -42,7 +45,9 @@ class BbCard extends StatelessWidget {
   final List<Widget>? children;
   final BbCardVariant variant;
 
-  static const _stripeWidth = 3.0;
+  // Built once: the hero's content always uses the dark palette, so yellow,
+  // status colors and text are the tones designed for a dark surface.
+  static final _heroTheme = AppTheme.dark();
 
   @override
   Widget build(BuildContext context) {
@@ -68,31 +73,37 @@ class BbCard extends StatelessWidget {
             ],
           )
         : Padding(
-            padding: EdgeInsets.all(hero ? 20 : AppSpacing.lg),
+            padding: EdgeInsets.all(hero ? AppSpacing.xl : AppSpacing.lg),
             child: child,
           );
-    if (variant == BbCardVariant.highlight) {
-      content = Stack(
-        children: [
-          content,
-          PositionedDirectional(
-            start: 0,
-            top: 0,
-            bottom: 0,
-            width: _stripeWidth,
-            child: ColoredBox(color: colors.primary),
+    if (hero) {
+      final dark = _heroTheme.extension<AppColors>()!;
+      content = Theme(
+        data: _heroTheme,
+        child: DefaultTextStyle.merge(
+          style: _heroTheme.textTheme.bodyMedium,
+          child: IconTheme.merge(
+            data: IconThemeData(color: dark.textPrimary),
+            child: content,
           ),
-        ],
+        ),
       );
     }
 
+    final (fill, shadows) = switch (variant) {
+      BbCardVariant.standard => (
+        colors.surface,
+        AppElevation.level1.shadows(Theme.of(context).brightness),
+      ),
+      BbCardVariant.hero => (colors.hero, <BoxShadow>[]),
+      BbCardVariant.highlight => (colors.primaryContainer, <BoxShadow>[]),
+    };
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: hero ? colors.secondaryContainer : colors.surface,
+        color: fill,
         borderRadius: radius,
-        boxShadow: hero
-            ? null
-            : AppElevation.level1.shadows(Theme.of(context).brightness),
+        boxShadow: shadows,
       ),
       child: ClipRRect(borderRadius: radius, child: content),
     );

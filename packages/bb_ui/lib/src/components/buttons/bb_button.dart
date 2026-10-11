@@ -131,7 +131,7 @@ class BbButton extends StatelessWidget {
     final colors = context.colors;
     final (fill, content) = _palette(colors);
     final disabled = onPressed == null;
-    final radius = BorderRadius.circular(AppRadius.md);
+    final radius = BorderRadius.circular(AppRadius.pill);
 
     return Tappable(
       onTap: disabled || loading ? null : onPressed,
@@ -192,7 +192,7 @@ class BbButton extends StatelessWidget {
           curve: AppMotion.enter,
           child: FocusRing(
             visible: s.focused,
-            radius: AppRadius.md,
+            radius: AppRadius.pill,
             child: button,
           ),
         );

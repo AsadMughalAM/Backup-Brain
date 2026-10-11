@@ -17,20 +17,22 @@ enum AppElevation {
   /// Bottom sheets, dialogs.
   level3;
 
-  /// Soft navy-tinted shadows in light mode (DESIGN.md §5.3). Dark mode has
+  /// Soft warm-ink shadows in light mode (DESIGN.md §5.3). Dark mode has
   /// none: elevation there comes from a lighter surface color instead.
   List<BoxShadow> shadows(Brightness brightness) {
     if (brightness == Brightness.dark) return const [];
     return switch (this) {
       level0 => const [],
-      level1 => [_shadow(0.08, 1, 3)],
-      level2 => [_shadow(0.08, 4, 12)],
-      level3 => [_shadow(0.12, 12, 32)],
+      // A tight contact shadow plus a wide ambient one reads as soft depth
+      // rather than a drop shadow.
+      level1 => [_shadow(0.04, 1, 2), _shadow(0.06, 8, 24)],
+      level2 => [_shadow(0.05, 2, 4), _shadow(0.08, 12, 32)],
+      level3 => [_shadow(0.06, 4, 8), _shadow(0.14, 24, 56)],
     };
   }
 
   static BoxShadow _shadow(double alpha, double y, double blur) => BoxShadow(
-    color: NavyP.c950.withValues(alpha: alpha),
+    color: CanvasP.c950.withValues(alpha: alpha),
     offset: Offset(0, y),
     blurRadius: blur,
   );

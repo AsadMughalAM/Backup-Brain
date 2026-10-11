@@ -6,8 +6,9 @@ import 'bb_tone.dart';
 
 enum BbMetricSize { hero, large, medium, small }
 
-/// A live number with its unit (DESIGN.md §3.5): the value in Geist Mono, the
-/// unit one step smaller in `textMuted`, baseline-aligned. Never truncated.
+/// A live number with its unit (DESIGN.md §3.5): the value in Geist with
+/// tabular figures, the unit one step smaller in `textMuted`,
+/// baseline-aligned. Never truncated.
 ///
 /// ```dart
 /// BbMetric(value: '420', unit: 'W')
