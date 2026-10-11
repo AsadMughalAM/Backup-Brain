@@ -12,6 +12,8 @@ import '../features/loads/domain/appliance_repository.dart';
 import '../features/solar/data/sources/open_meteo_source.dart';
 import '../features/solar/data/weather_repository_impl.dart';
 import '../features/solar/domain/weather_repository.dart';
+import '../features/settings/data/firebase_auth_repository.dart';
+import '../features/settings/domain/auth_repository.dart';
 
 /// Composition root: binds each repository interface to its implementation.
 /// Tests pass their own overrides instead.
@@ -23,6 +25,9 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firebaseAuthProvider),
       loadDemoHouseholdAsset,
     ),
+  ),
+  authRepositoryProvider.overrideWith(
+    (ref) => FirebaseAuthRepository(ref.watch(firebaseAuthProvider)),
   ),
   applianceRepositoryProvider.overrideWith(
     (ref) => FirestoreApplianceRepository(

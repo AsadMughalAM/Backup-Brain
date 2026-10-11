@@ -321,6 +321,110 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get languageRomanUrdu => 'Roman Urdu';
+
+  @override
+  String get accountSection => 'Account';
+
+  @override
+  String get saveDataTitle => 'Apna data mehfooz karein';
+
+  @override
+  String get saveDataBody =>
+      'Sign in karein taake phone badalne ya kho jane par bhi aap ki battery aur appliances ki setting mehfooz rahe.';
+
+  @override
+  String get continueWithGoogle => 'Google se jaari rakhein';
+
+  @override
+  String get useEmail => 'Email istemal karein';
+
+  @override
+  String signedInAs(String who) {
+    return '$who se signed in';
+  }
+
+  @override
+  String get googleAccount => 'aap ke Google account';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get alreadyHaveAccount => 'Mera account pehle se hai';
+
+  @override
+  String get createAccountTitle => 'Apna account banayein';
+
+  @override
+  String get signInTitle => 'Sign in';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get showPassword => 'Password dikhayein';
+
+  @override
+  String get hidePassword => 'Password chhupayein';
+
+  @override
+  String get createAccount => 'Account banayein';
+
+  @override
+  String get creatingAccount => 'Account ban raha hai…';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get signingIn => 'Sign in ho raha hai…';
+
+  @override
+  String get orDivider => 'ya';
+
+  @override
+  String get switchToSignIn => 'Account pehle se hai? Sign in karein';
+
+  @override
+  String get switchToCreate => 'Naye hain? Account banayein';
+
+  @override
+  String get forgotPassword => 'Password bhool gaye?';
+
+  @override
+  String resetSent(String email) {
+    return '$email par password reset ka link bhej diya hai.';
+  }
+
+  @override
+  String get errorInvalidEmail => 'Sahi email address likhein.';
+
+  @override
+  String get errorPasswordShort => 'Kam az kam 6 characters istemal karein.';
+
+  @override
+  String get errorWrongCredentials => 'Email ya password ghalat hai.';
+
+  @override
+  String get errorEmailInUse =>
+      'Is email ka account pehle se hai. Sign in karein.';
+
+  @override
+  String get errorWeakPassword => 'Zyada mazboot password chunein.';
+
+  @override
+  String get errorNetwork =>
+      'Internet connection nahi hai. Online hone par dobara koshish karein.';
+
+  @override
+  String get errorTooManyRequests =>
+      'Bohat zyada koshishein. Ek minute ruk kar dobara koshish karein.';
+
+  @override
+  String get errorUnknown => 'Kuch ghalat ho gaya. Dobara koshish karein.';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

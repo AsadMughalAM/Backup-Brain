@@ -12,7 +12,20 @@
           "package_name": "com.backupbrain.backup_brain"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "508395139625-c5qq44i41gukj5beeqi8cpl5meqrchdl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.backupbrain.backup_brain",
+            "certificate_hash": "9169d438b1530ebde64059d3b8b49a7193c82967"
+          }
+        },
+        {
+          "client_id": "508395139625-emdfqrgt345l47upi26n12iluhqul69t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC8fMH9nETFyQD5pVE_2x5HbB40VBswlak"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508395139625-emdfqrgt345l47upi26n12iluhqul69t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

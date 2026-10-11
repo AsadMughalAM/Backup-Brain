@@ -16,6 +16,7 @@ export 'src/components/feedback/bb_empty_state.dart';
 export 'src/components/feedback/bb_spinner.dart';
 export 'src/components/inputs/bb_chip.dart';
 export 'src/components/inputs/bb_switch.dart';
+export 'src/components/inputs/bb_text_field.dart';
 export 'src/components/layout/bb_gap.dart';
 export 'src/components/layout/bb_page_padding.dart';
 export 'src/components/navigation/bb_nav_bar.dart';

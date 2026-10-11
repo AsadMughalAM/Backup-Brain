@@ -10,6 +10,7 @@ import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/onboarding/presentation/screens/welcome_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
+import '../features/settings/presentation/screens/sign_in_screen.dart';
 import 'l10n/app_localizations.dart';
 
 abstract final class Routes {
@@ -20,6 +21,9 @@ abstract final class Routes {
   static const battery = '/battery';
   static const assistant = '/assistant';
   static const settings = '/settings';
+
+  /// `?mode=signIn` opens it on "Sign in" instead of "Create account".
+  static const signIn = '/sign-in';
 }
 
 /// Five tabs in a stateful shell (each tab keeps its scroll position), plus
@@ -38,7 +42,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (!system.hasValue && !system.hasError) return null;
       final hasSystem = system.value != null;
       final atWelcome = state.matchedLocation == Routes.welcome;
-      if (!hasSystem && !atWelcome) return Routes.welcome;
+      // A returning user signs in before any household exists on this
+      // device, so sign-in must be reachable without one.
+      final atSignIn = state.matchedLocation == Routes.signIn;
+      if (!hasSystem && !atWelcome && !atSignIn) return Routes.welcome;
       if (hasSystem && atWelcome) return Routes.home;
       return null;
     },
@@ -50,6 +57,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.settings,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: Routes.signIn,
+        builder: (context, state) => SignInScreen(
+          initialMode: state.uri.queryParameters['mode'] == 'signIn'
+              ? SignInMode.signIn
+              : SignInMode.create,
+        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),
