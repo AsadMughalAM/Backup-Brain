@@ -23,15 +23,23 @@ enum BbCardVariant {
 /// ```dart
 /// BbCard(child: Text(advice))
 /// BbCard(variant: BbCardVariant.hero, child: BbCountdownRing(...))
+/// BbCard.list(children: [for (final a in appliances) BbLoadToggleTile(...)])
 /// ```
 class BbCard extends StatelessWidget {
   const BbCard({
     super.key,
-    required this.child,
+    required Widget this.child,
     this.variant = BbCardVariant.standard,
-  });
+  }) : children = null;
 
-  final Widget child;
+  /// A list group (DESIGN.md §5.2): rows sit flush to the card and bring
+  /// their own 16 px padding; hairline dividers inset 16 go between them.
+  const BbCard.list({super.key, required List<Widget> this.children})
+    : child = null,
+      variant = BbCardVariant.standard;
+
+  final Widget? child;
+  final List<Widget>? children;
   final BbCardVariant variant;
 
   static const _stripeWidth = 3.0;
@@ -41,9 +49,28 @@ class BbCard extends StatelessWidget {
     final colors = context.colors;
     final hero = variant == BbCardVariant.hero;
     final radius = BorderRadius.circular(hero ? AppRadius.xl : AppRadius.lg);
-    final padding = EdgeInsets.all(hero ? 20 : AppSpacing.lg);
+    final rows = children;
 
-    Widget content = Padding(padding: padding, child: child);
+    Widget content = rows != null
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (final (i, row) in rows.indexed) ...[
+                if (i > 0)
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: AppSpacing.lg,
+                    color: colors.outlineVariant,
+                  ),
+                row,
+              ],
+            ],
+          )
+        : Padding(
+            padding: EdgeInsets.all(hero ? 20 : AppSpacing.lg),
+            child: child,
+          );
     if (variant == BbCardVariant.highlight) {
       content = Stack(
         children: [
