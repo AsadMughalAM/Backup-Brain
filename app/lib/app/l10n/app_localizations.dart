@@ -297,6 +297,420 @@ abstract class AppLocalizations {
   /// **'Avoid on backup'**
   String get priorityAvoid;
 
+  /// No description provided for @setupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your home'**
+  String get setupTitle;
+
+  /// No description provided for @setupStepHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get setupStepHome;
+
+  /// No description provided for @setupStepBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get setupStepBattery;
+
+  /// No description provided for @setupStepAppliances.
+  ///
+  /// In en, this message translates to:
+  /// **'Appliances'**
+  String get setupStepAppliances;
+
+  /// No description provided for @setupStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}: {name}'**
+  String setupStepOf(int step, int total, String name);
+
+  /// No description provided for @setupNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get setupNext;
+
+  /// No description provided for @setupBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get setupBack;
+
+  /// No description provided for @setupFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Show my backup time'**
+  String get setupFinish;
+
+  /// No description provided for @setupTryDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Just looking? Try the demo home'**
+  String get setupTryDemo;
+
+  /// No description provided for @setupUnderTwoMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes under 2 minutes. You can change anything later.'**
+  String get setupUnderTwoMinutes;
+
+  /// No description provided for @cityQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Where is your home?'**
+  String get cityQuestion;
+
+  /// No description provided for @cityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For your local sun forecast. Not listed? Pick the nearest city.'**
+  String get cityHint;
+
+  /// No description provided for @solarQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have solar panels?'**
+  String get solarQuestion;
+
+  /// No description provided for @solarYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, I have solar'**
+  String get solarYes;
+
+  /// No description provided for @solarYesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels on the roof'**
+  String get solarYesHint;
+
+  /// No description provided for @solarNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No, just UPS and battery'**
+  String get solarNo;
+
+  /// No description provided for @solarNoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You still get backup time and solar cost estimates'**
+  String get solarNoHint;
+
+  /// No description provided for @panelCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'How many panels?'**
+  String get panelCountLabel;
+
+  /// No description provided for @panelWattsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Watts per panel'**
+  String get panelWattsLabel;
+
+  /// No description provided for @panelWattsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Printed on the panel\'s label, e.g. 550 W'**
+  String get panelWattsHint;
+
+  /// No description provided for @panelsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{kw} of panels in total'**
+  String panelsTotal(String kw);
+
+  /// No description provided for @batteryQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'What battery do you have?'**
+  String get batteryQuestion;
+
+  /// No description provided for @chemLeadAcid.
+  ///
+  /// In en, this message translates to:
+  /// **'Dry battery (lead-acid)'**
+  String get chemLeadAcid;
+
+  /// No description provided for @chemLeadAcidHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Sealed, no water needed'**
+  String get chemLeadAcidHint;
+
+  /// No description provided for @chemTubular.
+  ///
+  /// In en, this message translates to:
+  /// **'Tubular battery'**
+  String get chemTubular;
+
+  /// No description provided for @chemTubularHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tall battery you top up with water'**
+  String get chemTubularHint;
+
+  /// No description provided for @chemLithium.
+  ///
+  /// In en, this message translates to:
+  /// **'Lithium battery'**
+  String get chemLithium;
+
+  /// No description provided for @chemLithiumHint.
+  ///
+  /// In en, this message translates to:
+  /// **'LiFePO4 pack, often with a solar inverter'**
+  String get chemLithiumHint;
+
+  /// No description provided for @batteryCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'How many batteries?'**
+  String get batteryCountLabel;
+
+  /// No description provided for @batterySizeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery size'**
+  String get batterySizeLabel;
+
+  /// No description provided for @batteryVoltageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pack voltage'**
+  String get batteryVoltageLabel;
+
+  /// No description provided for @batteryLabelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Printed on the battery, e.g. 12V 200Ah'**
+  String get batteryLabelHint;
+
+  /// No description provided for @inverterLabelUps.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS size'**
+  String get inverterLabelUps;
+
+  /// No description provided for @inverterLabelHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Inverter size'**
+  String get inverterLabelHybrid;
+
+  /// No description provided for @inverterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Written on its label. A 1 kVA UPS is about 800 W.'**
+  String get inverterHint;
+
+  /// No description provided for @socQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How full is it right now?'**
+  String get socQuestion;
+
+  /// No description provided for @socHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the UPS display. You can change it anytime.'**
+  String get socHint;
+
+  /// No description provided for @setupPreviewValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Your backup: about {time}'**
+  String setupPreviewValue(String time);
+
+  /// No description provided for @appliancesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'What runs during load-shedding?'**
+  String get appliancesQuestion;
+
+  /// No description provided for @appliancesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'We picked what most homes run. Change the numbers to match yours.'**
+  String get appliancesHint;
+
+  /// No description provided for @heavyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy appliances'**
+  String get heavyTitle;
+
+  /// No description provided for @heavyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Usually kept off on backup. Add yours so we can warn you.'**
+  String get heavyHint;
+
+  /// No description provided for @applianceEach.
+  ///
+  /// In en, this message translates to:
+  /// **'{watts} each'**
+  String applianceEach(String watts);
+
+  /// No description provided for @setupBackupAt.
+  ///
+  /// In en, this message translates to:
+  /// **'backup at {load}'**
+  String setupBackupAt(String load);
+
+  /// No description provided for @fewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer'**
+  String get fewer;
+
+  /// No description provided for @more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get more;
+
+  /// No description provided for @setUpMyHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up my home'**
+  String get setUpMyHome;
+
+  /// No description provided for @setupDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your home is ready'**
+  String get setupDoneTitle;
+
+  /// No description provided for @setupDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup about {time}. Create an account to keep it safe, on any phone.'**
+  String setupDoneBody(String time);
+
+  /// No description provided for @editHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit my home'**
+  String get editHomeTitle;
+
+  /// No description provided for @editHomeSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get editHomeSave;
+
+  /// No description provided for @myHomeSection.
+  ///
+  /// In en, this message translates to:
+  /// **'My home'**
+  String get myHomeSection;
+
+  /// No description provided for @editHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit my home'**
+  String get editHome;
+
+  /// No description provided for @homeSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{city} · {battery}'**
+  String homeSummary(String city, String battery);
+
+  /// No description provided for @homeSummarySolar.
+  ///
+  /// In en, this message translates to:
+  /// **'{city} · {battery} · {kw} solar'**
+  String homeSummarySolar(String city, String battery, String kw);
+
+  /// No description provided for @batteryBank.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} × {size}'**
+  String batteryBank(int count, String size);
+
+  /// No description provided for @guideOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Where is this written?'**
+  String get guideOpen;
+
+  /// No description provided for @guideHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the example'**
+  String get guideHide;
+
+  /// No description provided for @guideCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Look for this line on the sticker. Yours may look a little different.'**
+  String get guideCaption;
+
+  /// No description provided for @guideSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Example sticker. Look for a line like {line}.'**
+  String guideSemantics(String line);
+
+  /// No description provided for @guideBattery1.
+  ///
+  /// In en, this message translates to:
+  /// **'DEEP CYCLE BATTERY'**
+  String get guideBattery1;
+
+  /// No description provided for @guideBattery2.
+  ///
+  /// In en, this message translates to:
+  /// **'12V 200Ah'**
+  String get guideBattery2;
+
+  /// No description provided for @guideBattery3.
+  ///
+  /// In en, this message translates to:
+  /// **'Charge before use · Keep upright'**
+  String get guideBattery3;
+
+  /// No description provided for @guideUps1.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS / INVERTER'**
+  String get guideUps1;
+
+  /// No description provided for @guideUps2.
+  ///
+  /// In en, this message translates to:
+  /// **'1000VA / 800W'**
+  String get guideUps2;
+
+  /// No description provided for @guideUps3.
+  ///
+  /// In en, this message translates to:
+  /// **'Input 220V AC · Battery 12V DC'**
+  String get guideUps3;
+
+  /// No description provided for @guidePanel1.
+  ///
+  /// In en, this message translates to:
+  /// **'MONO PV MODULE'**
+  String get guidePanel1;
+
+  /// No description provided for @guidePanel2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pmax 550W'**
+  String get guidePanel2;
+
+  /// No description provided for @guidePanel3.
+  ///
+  /// In en, this message translates to:
+  /// **'Voc 49.6V · Isc 14.0A'**
+  String get guidePanel3;
+
   /// No description provided for @comingSoonTitle.
   ///
   /// In en, this message translates to:
@@ -452,54 +866,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorUnknown;
-
-  /// No description provided for @introNext.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get introNext;
-
-  /// No description provided for @introPageOf.
-  ///
-  /// In en, this message translates to:
-  /// **'Page {current} of {total}'**
-  String introPageOf(int current, int total);
-
-  /// No description provided for @intro1Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup Brain'**
-  String get intro1Title;
-
-  /// No description provided for @intro1Body.
-  ///
-  /// In en, this message translates to:
-  /// **'Know exactly how long your battery will last during load-shedding — in hours and minutes.'**
-  String get intro1Body;
-
-  /// No description provided for @intro2Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch off the right things'**
-  String get intro2Title;
-
-  /// No description provided for @intro2Body.
-  ///
-  /// In en, this message translates to:
-  /// **'See which appliance to turn off first and how much backup time it gives you back.'**
-  String get intro2Body;
-
-  /// No description provided for @intro3Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Plan with the sun'**
-  String get intro3Title;
-
-  /// No description provided for @intro3Body.
-  ///
-  /// In en, this message translates to:
-  /// **'Solar forecasts, battery health and costs — so every outage is planned, not a surprise.'**
-  String get intro3Body;
 
   /// No description provided for @signUpTitle.
   ///

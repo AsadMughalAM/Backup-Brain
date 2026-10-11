@@ -12,10 +12,6 @@ enum BbIconButtonVariant {
 
   /// 40 px `surfaceMuted` circle.
   tonal,
-
-  /// 64 px yellow circle inside a thin yellow ring — the intro's "next"
-  /// arrow. Counts as the screen's one primary action.
-  hero,
 }
 
 /// Icon-only button with a 48 × 48 hit area and a required [tooltip], which
@@ -23,7 +19,6 @@ enum BbIconButtonVariant {
 ///
 /// ```dart
 /// BbIconButton(icon: BbIcons.themeDark, tooltip: l10n.switchTheme, onPressed: toggle)
-/// BbIconButton(icon: BbIcons.forward, tooltip: l10n.next, variant: BbIconButtonVariant.hero, onPressed: next)
 /// ```
 class BbIconButton extends StatelessWidget {
   const BbIconButton({
@@ -44,8 +39,7 @@ class BbIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final hero = variant == BbIconButtonVariant.hero;
-    final diameter = hero ? 64.0 : 40.0;
+    const diameter = 40.0;
     return Tooltip(
       message: tooltip,
       excludeFromSemantics: true,
@@ -58,7 +52,6 @@ class BbIconButton extends StatelessWidget {
               alpha: 0,
             ),
             BbIconButtonVariant.tonal => colors.surfaceMuted,
-            BbIconButtonVariant.hero => colors.primary,
           };
           final overlay = colors.textPrimary.withValues(
             alpha: s.pressed
@@ -76,25 +69,11 @@ class BbIconButton extends StatelessWidget {
               color: overlay,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: hero ? AppSizes.iconLg : AppSizes.iconMd,
-              color: hero ? colors.textOnPrimary : colors.textPrimary,
-            ),
+            child: Icon(icon, size: AppSizes.iconMd, color: colors.textPrimary),
           );
-          if (hero) {
-            button = Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: colors.primary, width: 2),
-              ),
-              child: button,
-            );
-          }
           button = FocusRing(
             visible: s.focused,
-            radius: hero ? 38 : diameter / 2,
+            radius: diameter / 2,
             child: button,
           );
           return s.enabled

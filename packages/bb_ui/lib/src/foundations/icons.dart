@@ -56,6 +56,14 @@ abstract final class BbIcons {
   static const IconData router = PhosphorIconsRegular.wifiHigh;
   static const IconData water = PhosphorIconsRegular.drop;
   static const IconData iron = PhosphorIconsRegular.tShirt;
+  static const IconData fridge = PhosphorIconsRegular.thermometerCold;
+  static const IconData ac = PhosphorIconsRegular.snowflake;
+  static const IconData cooler = PhosphorIconsRegular.wind;
+  static const IconData laptop = PhosphorIconsRegular.laptop;
+  static const IconData desktop = PhosphorIconsRegular.desktop;
+  static const IconData charger = PhosphorIconsRegular.deviceMobile;
+  static const IconData washer = PhosphorIconsRegular.washingMachine;
+  static const IconData microwave = PhosphorIconsRegular.oven;
   static const IconData plug = PhosphorIconsRegular.plug;
 
   static const IconData offline = PhosphorIconsRegular.wifiSlash;
@@ -92,5 +100,7 @@ abstract final class BbIcons {
   static const IconData send = PhosphorIconsFill.paperPlaneRight;
   static const IconData more = PhosphorIconsRegular.dotsThree;
   static const IconData check = PhosphorIconsRegular.check;
+  static const IconData radioOff = PhosphorIconsRegular.circle;
+  static const IconData radioOn = PhosphorIconsFill.checkCircle;
   static const IconData refresh = PhosphorIconsRegular.arrowClockwise;
 }

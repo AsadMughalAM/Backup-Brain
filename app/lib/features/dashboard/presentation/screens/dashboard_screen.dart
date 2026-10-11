@@ -86,9 +86,17 @@ class _SettingUpHome extends ConsumerWidget {
                 ),
               ),
               const BbGap.lg(),
-              BbButton.tonal(
+              BbButton(
+                label: l10n.setUpMyHome,
+                expand: true,
+                onPressed: () => context.go(Routes.setup),
+              ),
+              const BbGap.sm(),
+              BbButton.ghost(
                 label: l10n.useDemoHousehold,
-                onPressed: () => ref.read(householdSetupProvider).ensure(),
+                expand: true,
+                onPressed: () =>
+                    ref.read(householdSetupProvider.notifier).useDemo(),
               ),
             ],
           ),

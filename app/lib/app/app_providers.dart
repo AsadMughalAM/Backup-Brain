@@ -16,6 +16,10 @@ import '../features/loads/data/appliance_repository_impl.dart';
 import '../features/loads/domain/appliance_repository.dart';
 import '../features/outages/data/outage_repository_impl.dart';
 import '../features/outages/domain/outage_repository.dart';
+import '../features/setup/data/setup_draft_local_repository.dart';
+import '../features/setup/data/setup_presets_asset_repository.dart';
+import '../features/setup/domain/setup_draft_repository.dart';
+import '../features/setup/domain/setup_presets_repository.dart';
 import '../features/solar/data/sources/open_meteo_source.dart';
 import '../features/solar/data/weather_repository_impl.dart';
 import '../features/solar/domain/weather_repository.dart';
@@ -40,6 +44,12 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firebaseAuthProvider),
       loadDemoHouseholdAsset,
     ),
+  ),
+  setupDraftRepositoryProvider.overrideWithValue(
+    LocalSetupDraftRepository(prefs),
+  ),
+  setupPresetsRepositoryProvider.overrideWithValue(
+    const AssetSetupPresetsRepository(),
   ),
   weatherRepositoryProvider.overrideWith(
     (ref) => FirestoreWeatherRepository(

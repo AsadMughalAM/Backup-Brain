@@ -1,0 +1,76 @@
+{
+  "_comment": "Equipment sizes offered as one-tap choices in setup, with the most common size as the default. Lead-acid and tubular are counted as 12 V units; lithium packs come in several voltages.",
+  "battery": {
+    "leadAcid": {
+      "voltages": [
+        12
+      ],
+      "defaultVoltage": 12,
+      "ampHours": [
+        100,
+        150,
+        180,
+        200,
+        220
+      ],
+      "defaultAmpHours": 200
+    },
+    "lithium": {
+      "voltages": [
+        12,
+        24,
+        48
+      ],
+      "defaultVoltage": 24,
+      "ampHours": [
+        100,
+        150,
+        200,
+        280
+      ],
+      "defaultAmpHours": 150
+    }
+  },
+  "batteryCount": {
+    "min": 1,
+    "max": 8,
+    "default": 1
+  },
+  "inverterW": {
+    "ups": [
+      800,
+      1000,
+      1500,
+      2000,
+      3000
+    ],
+    "upsDefault": 1000,
+    "hybrid": [
+      2000,
+      3000,
+      4000,
+      6000,
+      8000
+    ],
+    "hybridDefault": 4000
+  },
+  "panels": {
+    "watts": [
+      450,
+      540,
+      550,
+      580
+    ],
+    "defaultWatts": 550,
+    "countMin": 1,
+    "countMax": 40,
+    "defaultCount": 6
+  },
+  "socChoices": [
+    1.0,
+    0.75,
+    0.5,
+    0.25
+  ],
+  "defaultSoc": 1.0
+}

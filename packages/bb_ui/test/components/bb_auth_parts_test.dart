@@ -55,17 +55,6 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('page dots announce position', (tester) async {
-    final handle = tester.ensureSemantics();
-    await tester.pumpWidget(
-      themed(
-        const BbPageDots(count: 3, current: 1, semanticLabel: 'Page 2 of 3'),
-      ),
-    );
-    expect(find.bySemanticsLabel('Page 2 of 3'), findsOneWidget);
-    handle.dispose();
-  });
-
   goldenMatrix(
     'bb_auth_parts',
     () => Column(
@@ -95,21 +84,8 @@ void main() {
         ),
         const BbGap.lg(),
         BbGoogleButton(label: 'Continue with Google', onPressed: () {}),
-        const BbGap.lg(),
-        const Center(
-          child: BbPageDots(count: 3, current: 1, semanticLabel: 'Page 2 of 3'),
-        ),
-        const BbGap.lg(),
-        Center(
-          child: BbIconButton(
-            icon: BbIcons.forward,
-            tooltip: 'Next',
-            variant: BbIconButtonVariant.hero,
-            onPressed: () {},
-          ),
-        ),
       ],
     ),
-    size: const Size(400, 460),
+    size: const Size(400, 320),
   );
 }

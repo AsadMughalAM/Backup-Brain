@@ -8,6 +8,7 @@ class HouseholdSystem {
     required this.inverter,
     required this.soc,
     this.solar,
+    this.panels,
     this.location,
   });
 
@@ -19,6 +20,10 @@ class HouseholdSystem {
 
   /// Null when the household has no panels.
   final SolarSpec? solar;
+
+  /// How the kWp is made up, so it can be shown and edited as "6 × 550 W".
+  /// Null for households saved before it was recorded.
+  final PanelArray? panels;
   final HomeLocation? location;
 
   bool get hasSolar => solar != null;
@@ -31,6 +36,7 @@ class HouseholdSystem {
     inverter: inverter,
     soc: soc ?? this.soc,
     solar: solar,
+    panels: panels,
     location: location,
   );
 }
@@ -41,4 +47,13 @@ class HomeLocation {
 
   final String city;
   final SiteLocation site;
+}
+
+class PanelArray {
+  const PanelArray({required this.count, required this.watts});
+
+  final int count;
+
+  /// Rated watts of one panel.
+  final double watts;
 }

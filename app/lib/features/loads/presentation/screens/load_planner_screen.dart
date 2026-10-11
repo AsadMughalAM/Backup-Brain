@@ -9,6 +9,7 @@ import '../../../backup/domain/system_repository.dart';
 import '../../domain/appliance_repository.dart';
 import '../../domain/entities/appliance.dart';
 import '../controllers/loads_controller.dart';
+import '../../../../core/widgets/appliance_icon.dart';
 import '../widgets/appliance_visuals.dart';
 
 /// F2 — live backup time at the top, "turn off first" ranking, then every

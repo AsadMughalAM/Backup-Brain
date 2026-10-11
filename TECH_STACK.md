@@ -37,7 +37,7 @@ Why:
 | Navigation | **go_router** | Routes, deep links from notifications |
 | Calculation engine | **Pure Dart package** `packages/energy_engine` | F1, F2, F3 model, F5, F6, F8 pattern |
 | Design system | **Flutter package** `packages/bb_ui` (tokens, light/dark themes, reusable components) | Every screen — see Section 6 |
-| Auth | **Firebase Auth** + `google_sign_in` | Sign-in required: Intro → Sign up / Login with **Google or email + password**, then Home. A new account gets the demo household (server-checked, never over existing data) until the setup form exists. Leftover anonymous accounts are linked on sign-up (same uid). Phone OTP later (needs Blaze) |
+| Auth | **Firebase Auth** + `google_sign_in` | Sign-in required to save: first open is setup (answers kept on the phone in SharedPreferences), then Sign up / Login with **Google or email + password**, then Home. At sign-in the phone's finished setup becomes the account's household, unless the server already has one (that one wins). Demo household available from setup once signed in. Leftover anonymous accounts are linked on sign-up (same uid). Phone OTP later (needs Blaze) |
 | Database | **Cloud Firestore** (offline persistence default) | User data, logs, catalog, config |
 | Server logic | **Cloud Functions for Firebase (2nd gen), TypeScript, Node LTS** | AI proxy, Places proxy, admin jobs |
 | Secrets | **Firebase / Google Secret Manager** via `defineSecret` | AI API key, Places API key |
@@ -146,7 +146,7 @@ config/pricing_pk                       // panel/inverter/battery prices, tariff
 config/app                              // feature flags, minimum app version, AI enabled
 ```
 
-Static, rarely changing reference data ships **inside the app** as assets: `assets/data/appliances_pk.json`, `assets/data/cities_psh.json`, plus the first copy of `pricing_pk.json` as an offline fallback.
+Static, rarely changing reference data ships **inside the app** as assets: `assets/data/appliances_pk.json`, `assets/data/cities_psh.json`, `assets/data/equipment_pk.json` (setup's one-tap battery, inverter and panel sizes), plus the first copy of `pricing_pk.json` as an offline fallback.
 
 ### 4.1 Security rules (summary — full file in `firestore.rules`)
 

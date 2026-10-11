@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/router.dart';
+import '../../../../core/utils/formatters.dart';
+import '../../../setup/presentation/controllers/setup_controller.dart';
 import '../controllers/auth_controller.dart';
 import '../widgets/auth_layout.dart';
 import '../widgets/auth_messages.dart';
@@ -62,10 +64,22 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final l10n = AppLocalizations.of(context);
     final state = ref.watch(authControllerProvider);
     final failure = state.failure;
+    // Coming from setup: remind people what the account will keep.
+    final preview = ref.watch(setupPreviewProvider(SetupMode.firstRun));
 
     return AuthScaffold(
       title: l10n.signUpTitle,
       children: [
+        if (preview != null) ...[
+          BbBanner(
+            tone: BbBannerTone.success,
+            title: l10n.setupDoneTitle,
+            message: l10n.setupDoneBody(
+              Formatters.duration(l10n, preview.hours),
+            ),
+          ),
+          const BbGap.lg(),
+        ],
         if (failure != null) ...[
           BbBanner(
             tone: BbBannerTone.warning,

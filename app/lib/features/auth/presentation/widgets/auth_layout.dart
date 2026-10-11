@@ -93,7 +93,7 @@ class AuthScaffold extends StatelessWidget {
                     variant: BbIconButtonVariant.tonal,
                     onPressed: () => context.canPop()
                         ? context.pop()
-                        : context.go(Routes.intro),
+                        : context.go(Routes.setup),
                   ),
                 ),
                 const BbGap.xxxl(),

@@ -61,6 +61,9 @@ class _GalleryPage extends StatelessWidget {
           const _Section('BbStatTile', child: _StatTilesDemo()),
           const _Section('BbSolarForecastStrip', child: _SolarStripDemo()),
           const _Section('BbChip', child: _ChipsDemo()),
+          const _Section('BbStepIndicator', child: _StepsDemo()),
+          const _Section('BbChoiceCard', child: _ChoiceDemo()),
+          const _Section('BbQuantityStepper', child: _StepperDemo()),
           const _Section('BbEmptyState', child: _EmptyStateDemo()),
           const _Section('BbButton / BbIconButton', child: _ButtonsDemo()),
           const _Section('BbBanner', child: _BannersDemo()),
@@ -636,5 +639,84 @@ class _EmptyStateDemo extends StatelessWidget {
           'Connect once to get the sun forecast. After that it works offline.',
       action: BbButton.secondary(label: 'Try again', onPressed: () {}),
     ),
+  );
+}
+
+class _StepsDemo extends StatefulWidget {
+  const _StepsDemo();
+
+  @override
+  State<_StepsDemo> createState() => _StepsDemoState();
+}
+
+class _StepsDemoState extends State<_StepsDemo> {
+  var _step = 1;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      BbStepIndicator(
+        labels: const ['Home', 'Battery', 'Appliances'],
+        current: _step,
+        semanticLabel: 'Step ${_step + 1} of 3',
+      ),
+      const BbGap.md(),
+      BbButton.ghost(
+        label: 'Next step',
+        onPressed: () => setState(() => _step = (_step + 1) % 3),
+      ),
+    ],
+  );
+}
+
+class _ChoiceDemo extends StatefulWidget {
+  const _ChoiceDemo();
+
+  @override
+  State<_ChoiceDemo> createState() => _ChoiceDemoState();
+}
+
+class _ChoiceDemoState extends State<_ChoiceDemo> {
+  var _solar = true;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      BbChoiceCard(
+        icon: BbIcons.solarPanel,
+        title: 'Yes, I have solar',
+        subtitle: 'Panels on the roof',
+        selected: _solar,
+        onSelected: () => setState(() => _solar = true),
+      ),
+      const BbGap.md(),
+      BbChoiceCard(
+        icon: BbIcons.battery,
+        title: 'No, just UPS and battery',
+        subtitle: 'Backup time, and what solar would cost',
+        selected: !_solar,
+        onSelected: () => setState(() => _solar = false),
+      ),
+    ],
+  );
+}
+
+class _StepperDemo extends StatefulWidget {
+  const _StepperDemo();
+
+  @override
+  State<_StepperDemo> createState() => _StepperDemoState();
+}
+
+class _StepperDemoState extends State<_StepperDemo> {
+  var _fans = 2;
+
+  @override
+  Widget build(BuildContext context) => BbQuantityStepper(
+    value: _fans,
+    label: 'Ceiling fan',
+    decreaseLabel: 'Fewer',
+    increaseLabel: 'More',
+    onChanged: (v) => setState(() => _fans = v),
   );
 }

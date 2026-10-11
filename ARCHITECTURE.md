@@ -398,8 +398,14 @@ There is **no REST API**. Calculations (backup, switch-offs, solar forecast, siz
 
 ## 10. Screens / UX
 
-0. **Intro → Sign up / Login:** three intro slides, then Google or email sign-up; sign-in lands on the Dashboard.
-1. **Onboarding (≤ 2 min):** city → "Do you have solar?" → battery details (with photo-guide of the label) → pick appliances from presets.
+0. **First open → setup → account.** The app opens straight on setup (below), not on intro slides: the first thing people do is the useful thing. Every answer and the current step are saved on the phone as they are given, so leaving and coming back resumes where they were. Finishing leads to Sign up (Google or email), which repeats the payoff ("Your home is ready. Backup about 2h 45m"); a finished setup with no account reopens on Sign up. At sign-in the phone's setup becomes the account's household and the local copy is deleted. If the account already has a household (server-checked), that one is kept and the phone's answers are dropped, never merged. Returning users tap "Login" at the top of setup.
+1. **Onboarding (≤ 2 min), the app's first screen (also shown to a signed-in account with no household):** three steps, tap-only (chips, cards, − n +), with the common Pakistani size pre-picked for everything except the three facts only the user knows.
+   - **Home:** city (chips; "not listed → nearest city") + "Do you have solar?" → if yes, panel count × watts per panel (shows the kWp total).
+   - **Battery:** type described by what it looks like (dry / tubular "you top up with water" / lithium) → count, size (Ah; pack voltage for lithium), UPS or inverter size (hybrid if solar, UPS if not), how full it is now. Hints say where each number is printed, and "Where is this written?" opens an inline drawing of the sticker (battery, UPS, panel) with the line to read highlighted ("12V 200Ah", "1000VA / 800W", "Pmax 550W"). A real photo guide can replace the drawing later.
+   - **Appliances:** the usual ones pre-counted (2 fans, 4 LED bulbs, fridge, TV, router); heavy ones (iron, motor, AC…) listed apart at 0 and saved switched off.
+   - From step 2 a sticky line shows the live backup time ("Your backup: about 2h 45m · at 370 W"), so the payoff is visible before finishing. Finishing lands on Home with the user's own numbers. "Try the demo home" stays available on step 1.
+   - **Edit my home** (Settings → My home) reopens the same three steps filled in from the saved household. Appliances of one type merge into one preset entry ("Fan (bedroom)" + "Fan (lounge)" = Ceiling fan × 2); types setup doesn't offer are kept untouched; each type keeps its on/off from the Load planner. Saving lands on Home with the new numbers. The household also stores panel count and watts so panels edit as "6 × 550 W".
+   - Presets live in `assets/data/` (`cities_psh.json`, `appliances_pk.json`, `equipment_pk.json`).
 2. **Dashboard:** big backup countdown ring; grid status toggle (Light gayi / aa gayi); today's solar forecast strip; top AI advice card; battery health badge.
 3. **Load Planner:** appliance toggles with live-updating backup time; "What should I turn off?" ranked list; target-hours input.
 4. **Solar:** forecast chart (hourly), expected SoC at sunset, performance check & trend.

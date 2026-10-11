@@ -30,6 +30,18 @@ class Appliance {
   /// Position in the user's list.
   final int order;
 
+  Appliance copyWith({bool? isOn}) => Appliance(
+    id: id,
+    name: name,
+    iconKey: iconKey,
+    watts: watts,
+    priority: priority,
+    quantity: quantity,
+    dutyCycle: dutyCycle,
+    isOn: isOn ?? this.isOn,
+    order: order,
+  );
+
   ApplianceLoad get load => ApplianceLoad(
     id: id,
     name: name,

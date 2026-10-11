@@ -27,6 +27,12 @@ abstract final class Formatters {
 
   static String watts(double w) => '${number(w)} W';
 
+  static String kiloWatts(double kw) => '${_oneDecimal.format(kw)} kW';
+
+  static String ampHours(double ah) => '${number(ah)} Ah';
+
+  static String volts(double v) => '${number(v)} V';
+
   /// [fraction] is 0–1.
   static String percent(double fraction) => '${(fraction * 100).round()}%';
 
