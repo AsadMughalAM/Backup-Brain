@@ -45,7 +45,7 @@ Why:
 | Local alerts | **flutter_local_notifications** | Schedule-based outage alerts that fire offline |
 | Weather | **Open-Meteo** (free, no key), called from the app | F3, F4 |
 | Places | **Google Places API**, called only from Cloud Functions | F7 shop finder |
-| AI | **Claude API**, called only from Cloud Functions | F9 assistant, advice text |
+| AI | **Gemini** through **Firebase AI Logic** (Gemini Developer API), called from the app; Firebase holds the key on its server | F9 assistant, advice text |
 | Crash reporting | **Firebase Crashlytics** | Field stability |
 | Analytics (optional) | **Firebase Analytics** | Demo funnel metrics |
 | Local dev | **Firebase Local Emulator Suite** (Auth, Firestore, Functions) | Develop without touching production |
@@ -59,6 +59,7 @@ Why:
 | Models | `freezed`, `freezed_annotation`, `json_serializable`, `json_annotation`, `build_runner` (dev) |
 | Routing | `go_router` |
 | Network | `dio` (Open-Meteo) |
+| AI | `firebase_ai` (Gemini via Firebase AI Logic) |
 | Connectivity | `connectivity_plus` |
 | Notifications | `flutter_local_notifications`, `timezone` |
 | Location | `geolocator` |
@@ -73,11 +74,11 @@ Why:
 
 ### 2.3 Cloud Functions packages
 
-`firebase-functions`, `firebase-admin`, `@anthropic-ai/sdk`, `zod` (input validation). Dev: `typescript`, `eslint`, `vitest` (or `jest`).
+`firebase-functions`, `firebase-admin`, `zod` (input validation). Dev: `typescript`, `eslint`, `vitest` (or `jest`).
 
 ### 2.4 Cost & plan
 
-- Firebase project must be on the **Blaze (pay-as-you-go) plan** because Cloud Functions require it. The no-cost tier covers hackathon usage.
+- Firebase project must be on the **Blaze (pay-as-you-go) plan** for Cloud Functions (F7 Places). The no-cost tier covers hackathon usage. F9 does not need Blaze: the Gemini Developer API through Firebase AI Logic runs on the free Spark plan.
 - **Set a budget alert** (e.g. USD 5) in Google Cloud Billing on day one.
 - AI model name and max tokens live in Functions config, never hardcoded in multiple places.
 
@@ -99,7 +100,7 @@ Why:
     │            │            │ HTTPS (Auth token attached)
     ▼            ▼            ▼
  Firestore   Open-Meteo   Cloud Functions (TypeScript)
-                            ├─ assistantChat  ──► Claude API
+                          (F9 skips Functions: app ──► Firebase AI Logic ──► Gemini)
                             ├─ findNearbyShops ─► Google Places API
                             └─ admin/seed jobs ─► Firestore (admin)
 ```
@@ -108,14 +109,13 @@ Why:
 
 The calculation engine exists **only in Dart**. It is **never re-implemented in TypeScript.** The assistant gets engine numbers like this:
 
-- **Phase 1 (hackathon): context snapshot.** Before calling `assistantChat`, the app runs the engine and sends a compact JSON snapshot: current backup time, top switch-off suggestions, today's solar forecast summary, battery health, next likely outage. The function puts this in the system prompt and the model explains it. The model is told it must not invent numbers outside the snapshot.
-- **Phase 2: client-executed tools.** The function returns the model's tool requests to the app; the app runs the Dart engine and sends results back; the loop continues until the model answers. Same single engine, richer questions ("what if I turn off 2 fans?").
+- **Phase 1 (hackathon): context snapshot.** Before each message the app runs the engine and builds a compact JSON snapshot (`features/assistant/domain/energy_snapshot.dart`): current backup time and load, top switch-off suggestions, today's and tomorrow's solar forecast; battery health and next likely outage join once F6/F8 exist. Numbers arrive already formatted the way the app shows them. The app puts the snapshot in the system prompt and calls Gemini through Firebase AI Logic; the prompt forbids any number outside the snapshot.
+- **Phase 2: client-executed tools.** Gemini function calling: the model asks for a tool, the app runs the Dart engine and sends the result back; the loop continues until the model answers. Same single engine, richer questions ("what if I turn off 2 fans?").
 
 ### 3.2 Callable Cloud Functions (replace the REST list in ARCHITECTURE.md §9)
 
 | Function | Input | Output | Feature |
 |---|---|---|---|
-| `assistantChat` | `{messages[], snapshot, language}` | `{reply, toolRequests?}` | F9 |
 | `findNearbyShops` | `{lat, lon, radiusM, kind: 'battery'\|'ups_repair'\|'solar_installer'}` | `{shops[]}` (name, address, distance, rating, mapsUrl) | F7 |
 | `generateAdviceCards` *(P1)* | `{snapshot, language}` | `{cards[]}` | Dashboard |
 | `seedCatalog` *(admin only)* | — | writes `batteryCatalog`, `config` | Setup |
@@ -288,7 +288,6 @@ backup-brain/
 │   ├── tsconfig.json
 │   └── src/
 │       ├── index.ts             # exports only — no logic here
-│       ├── assistant/           # assistantChat, prompt builder, snapshot schema
 │       ├── places/              # findNearbyShops, Places client, response mapper
 │       ├── admin/               # seedCatalog and other admin-only jobs
 │       └── shared/              # auth guard, zod schemas, error helpers, config
@@ -460,9 +459,9 @@ bb_ui and energy_engine never import each other or anything from app/.
 ### 7.4 Security & secrets
 
 1. The app contains **no secret keys**. Only the public Firebase config generated by FlutterFire.
-2. Claude and Places API keys live in Secret Manager and are read with `defineSecret` in Functions.
+2. The Places API key lives in Secret Manager and is read with `defineSecret` in Functions. The Gemini key is created and held by Firebase AI Logic on Google's side; the app never sees it.
 3. Every callable function checks `request.auth` and validates input with `zod`. Reject unauthenticated calls.
-4. Rate-limit `assistantChat` per user (e.g. a counter document per day) to protect the AI budget.
+4. Protect the AI budget: Firebase AI Logic's per-user rate limit (console → AI Logic → Settings), and **App Check** enforced on AI Logic before any public release.
 5. Firestore rules are deny-by-default and tested in the emulator before deploy.
 
 ### 7.5 Engine rules
@@ -562,7 +561,7 @@ firebase deploy --only functions,firestore:rules,firestore:indexes
 5. Dashboard countdown (F1) + Load Planner (F2). **Verify airplane mode.**
 6. Open-Meteo source + `solar_model` + Solar screen (F3).
 7. `solar_sizing` + Estimator screen (F5) with bundled pricing fallback.
-8. `assistantChat` function (snapshot mode) + chat screen (F9).
+8. Engine snapshot + Gemini via Firebase AI Logic + chat screen (F9).
 9. Outage logging + local notifications + `outage_pattern` (F8), `battery_health` (F6).
 10. `seedCatalog`, battery recommendations, `findNearbyShops` (F7), F4 performance.
 11. Roman Urdu pass, Demo Mode data, Crashlytics check, demo rehearsal on a real device.

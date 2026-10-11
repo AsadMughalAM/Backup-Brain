@@ -136,10 +136,6 @@ class AppLocalizationsUr extends AppLocalizations {
       'Battery ki sehat, aur battery kahan se lein ya repair karwayein.';
 
   @override
-  String get comingAssistant =>
-      'Apne backup ke baare mein English ya Roman Urdu mein kuch bhi poochein.';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -450,6 +446,63 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get solarFetching => 'Forecast aa raha hai…';
+
+  @override
+  String get assistantIntroTitle => 'Apne backup ke baare mein poochein';
+
+  @override
+  String get assistantIntroBody =>
+      'Main aap ki Home, Loads aur Solar screens ke numbers samjhata hoon, English ya Roman Urdu mein.';
+
+  @override
+  String get assistantSuggestBackup => 'Kitni der chalegi battery?';
+
+  @override
+  String get assistantSuggestTurnOff => 'Pehle kya band karun?';
+
+  @override
+  String get assistantSuggestSolar => 'Kal solar kitna charge karega?';
+
+  @override
+  String get assistantFootnote =>
+      'Jawab app ke apne numbers se aate hain. Phir bhi AI se ghalti ho sakti hai, is liye pakke numbers Home screen par dekhein.';
+
+  @override
+  String get assistantInputLabel => 'Sawal poochein';
+
+  @override
+  String get assistantSend => 'Bhejein';
+
+  @override
+  String get assistantTyping => 'Assistant likh raha hai';
+
+  @override
+  String get assistantOffline =>
+      'Internet nahi hai, is liye assistant abhi jawab nahi de sakta. Aap ke numbers offline bhi chalte hain:';
+
+  @override
+  String get assistantBusy =>
+      'Assistant abhi masroof hai. Tab tak aap ke numbers:';
+
+  @override
+  String get assistantUnavailable =>
+      'Assistant abhi dastyab nahi. Tab tak aap ke numbers:';
+
+  @override
+  String assistantFallbackBackup(String time, String load) {
+    return '$load par backup $time chalega.';
+  }
+
+  @override
+  String get assistantNoData =>
+      'Aap ka ghar abhi set up nahi hua, is liye samjhane ko koi numbers nahi. Pehle Home par demo household load karein.';
+
+  @override
+  String get assistantSafetyTitle => 'Battery abhi disconnect karein';
+
+  @override
+  String get assistantSafetyBody =>
+      'Phooli hui, garam ya boo wali battery ko aag lag sakti hai. Inverter band karein, battery disconnect karein aur technician ko bulayein. Check hone tak istemal na karein.';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

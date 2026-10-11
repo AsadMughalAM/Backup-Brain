@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/firebase/firebase_providers.dart';
+import '../features/assistant/data/gemini_assistant_repository.dart';
+import '../features/assistant/domain/assistant_repository.dart';
 import '../features/auth/data/firebase_auth_repository.dart';
 import '../features/auth/domain/auth_repository.dart';
 import '../core/services/demo_household_asset.dart';
@@ -42,6 +45,9 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firebaseAuthProvider),
       OpenMeteoSource(Dio(_weatherTimeouts)),
     ),
+  ),
+  assistantRepositoryProvider.overrideWith(
+    (ref) => GeminiAssistantRepository(FirebaseAI.googleAI()),
   ),
 ];
 

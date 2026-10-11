@@ -309,12 +309,6 @@ abstract class AppLocalizations {
   /// **'Battery health, plus where to buy or repair a battery.'**
   String get comingBattery;
 
-  /// No description provided for @comingAssistant.
-  ///
-  /// In en, this message translates to:
-  /// **'Ask anything about your backup in English or Roman Urdu.'**
-  String get comingAssistant;
-
   /// No description provided for @settingsTheme.
   ///
   /// In en, this message translates to:
@@ -842,6 +836,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Getting forecast…'**
   String get solarFetching;
+
+  /// No description provided for @assistantIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about your backup'**
+  String get assistantIntroTitle;
+
+  /// No description provided for @assistantIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'I explain the numbers from your Home, Loads and Solar screens, in English or Roman Urdu.'**
+  String get assistantIntroBody;
+
+  /// No description provided for @assistantSuggestBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'How long will my battery last?'**
+  String get assistantSuggestBackup;
+
+  /// No description provided for @assistantSuggestTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'What should I turn off first?'**
+  String get assistantSuggestTurnOff;
+
+  /// No description provided for @assistantSuggestSolar.
+  ///
+  /// In en, this message translates to:
+  /// **'Will solar charge my battery tomorrow?'**
+  String get assistantSuggestSolar;
+
+  /// No description provided for @assistantFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'Answers use your app\'s own numbers. AI can still word things wrongly, so check the Home screen for exact figures.'**
+  String get assistantFootnote;
+
+  /// No description provided for @assistantInputLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question'**
+  String get assistantInputLabel;
+
+  /// No description provided for @assistantSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get assistantSend;
+
+  /// No description provided for @assistantTyping.
+  ///
+  /// In en, this message translates to:
+  /// **'Assistant is typing'**
+  String get assistantTyping;
+
+  /// No description provided for @assistantOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet, so the assistant can\'t answer right now. Your numbers still work offline:'**
+  String get assistantOffline;
+
+  /// No description provided for @assistantBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant is busy right now. Meanwhile, your numbers:'**
+  String get assistantBusy;
+
+  /// No description provided for @assistantUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant isn\'t available right now. Meanwhile, your numbers:'**
+  String get assistantUnavailable;
+
+  /// No description provided for @assistantFallbackBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup lasts {time} at {load}.'**
+  String assistantFallbackBackup(String time, String load);
+
+  /// No description provided for @assistantNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your home isn\'t set up yet, so there are no numbers to explain. Load the demo household on Home first.'**
+  String get assistantNoData;
+
+  /// No description provided for @assistantSafetyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect the battery now'**
+  String get assistantSafetyTitle;
+
+  /// No description provided for @assistantSafetyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don\'t use it until it has been checked.'**
+  String get assistantSafetyBody;
 }
 
 class _AppLocalizationsDelegate

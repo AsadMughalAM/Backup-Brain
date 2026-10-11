@@ -477,6 +477,7 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 | `account` · `email` · `google` · `signOut` | `userCircle` · `envelope` · `googleLogo` · `signOut` | Account & sign-in |
 | `showPassword` · `hidePassword` | `eye` · `eyeSlash` | Password visibility toggle in `BbTextField` |
 | `back` · `next` · `close` · `add` · `more` | `arrowLeft` · `caretRight` · `x` · `plus` · `dotsThree` | Navigation & actions |
+| `send` | `paperPlaneRight` (Fill) | Send a chat message |
 | `expand` · `check` | `caretDown` · `check` | `BbDropdown` caret, selected `BbChip` |
 | `refresh` | `arrowClockwise` | Refresh forecast |
 | `homeActive` · `loadsActive` · `solarActive` · `batteryActive` · `assistantActive` | Fill of the tab glyph | Selected nav tab (§6.2) |
@@ -513,7 +514,7 @@ Offline-first means **most screens never load from scratch** — Firestore cache
 | First load of a region whose **shape is known** (dashboard cards, lists, charts, package cards) and **no cached data** | **Skeleton** | `BbSkeleton` |
 | A **button** triggered an action (save, find shops, send) | **Inline spinner inside the button** | `BbButton(loading: true)` |
 | **Refreshing** data that is already on screen (weather update, pull-to-refresh) | Keep content visible + **2-px linear progress** under the app bar, or inline 12-px spinner next to "updated …" | `BbProgressBar.indeterminate` / `BbSpinner.xs` |
-| **AI assistant** is composing a reply | **Typing indicator** (3 dots) in a chat bubble | `BbTypingIndicator` **NEW** |
+| **AI assistant** is composing a reply | **Typing indicator** (3 dots) in a chat bubble | `BbTypingIndicator` |
 | A **known-length** task (seeding, uploading, onboarding steps) | **Determinate progress bar** | `BbProgressBar` |
 
 **Banned:** full-screen blocking spinners, spinners in the middle of empty cards, centered `CircularProgressIndicator` on a blank screen, shimmer on already-loaded content, and loaders with only a color and no shape.
@@ -705,7 +706,7 @@ No forecast yet → `BbEmptyState` "Needs internet once" with a loading `BbButto
 
 **Battery:** `BbHealthIndicator` → trend chart → warnings (`BbBanner`) → "My battery is kharab" (`secondary` button) → diagnosis sheet → recommendations → shops list (needs internet state).
 
-**Assistant:** chat bubbles — user = `secondary` fill + `onSecondary`, radius `lg` with 4-px tail corner; assistant = `surfaceMuted` fill; suggested prompts as `BbChip`s; numbers inside replies rendered in `metricSmall`; `BbTypingIndicator` while waiting.
+**Assistant:** chat bubbles (`BbChatBubble`) — user = `secondary` fill + `onSecondary`, radius `lg` with 4-px tail corner; assistant = `surfaceMuted` fill; suggested prompts as `BbChip`s; numbers inside replies rendered in `metricSmall`; `BbTypingIndicator` while waiting.
 
 ---
 
