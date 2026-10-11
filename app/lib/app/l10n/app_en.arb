@@ -273,7 +273,6 @@
   "guidePanel3": "Voc 49.6V · Isc 14.0A",
   "comingSoonTitle": "Coming soon",
   "comingBattery": "Battery health, plus where to buy or repair a battery.",
-  "comingAssistant": "Ask anything about your backup in English or Roman Urdu.",
   "settingsTheme": "Theme",
   "themeSystem": "System",
   "themeLight": "Light",
@@ -491,5 +490,31 @@
   "solarNoPanelsBody": "Add your panels during setup to see how much the sun will charge your battery.",
   "solarNeedsInternetTitle": "Needs internet once",
   "solarNeedsInternetBody": "Connect once to get the sun forecast. After that it works offline.",
-  "solarFetching": "Getting forecast…"
+  "solarFetching": "Getting forecast…",
+  "assistantIntroTitle": "Ask about your backup",
+  "assistantIntroBody": "I explain the numbers from your Home, Loads and Solar screens, in English or Roman Urdu.",
+  "assistantSuggestBackup": "How long will my battery last?",
+  "assistantSuggestTurnOff": "What should I turn off first?",
+  "assistantSuggestSolar": "Will solar charge my battery tomorrow?",
+  "assistantFootnote": "Answers use your app's own numbers. AI can still word things wrongly, so check the Home screen for exact figures.",
+  "assistantInputLabel": "Ask a question",
+  "assistantSend": "Send",
+  "assistantTyping": "Assistant is typing",
+  "assistantOffline": "No internet, so the assistant can't answer right now. Your numbers still work offline:",
+  "assistantUnavailable": "The assistant isn't available right now. Meanwhile, your numbers:",
+  "assistantFallbackBackup": "Backup lasts {time} at {load}.",
+  "@assistantFallbackBackup": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "assistantNoData": "Your home isn't set up yet, so there are no numbers to explain. Load the demo household on Home first.",
+  "assistantSafetyTitle": "Disconnect the battery now",
+  "assistantSafetyBody": "A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don't use it until it has been checked.",
+  "assistantDailyLimit": "You've used today's assistant messages. They reset at midnight. Meanwhile, your numbers:"
 }

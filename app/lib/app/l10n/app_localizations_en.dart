@@ -370,10 +370,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Battery health, plus where to buy or repair a battery.';
 
   @override
-  String get comingAssistant =>
-      'Ask anything about your backup in English or Roman Urdu.';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -655,4 +651,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get solarFetching => 'Getting forecast…';
+
+  @override
+  String get assistantIntroTitle => 'Ask about your backup';
+
+  @override
+  String get assistantIntroBody =>
+      'I explain the numbers from your Home, Loads and Solar screens, in English or Roman Urdu.';
+
+  @override
+  String get assistantSuggestBackup => 'How long will my battery last?';
+
+  @override
+  String get assistantSuggestTurnOff => 'What should I turn off first?';
+
+  @override
+  String get assistantSuggestSolar => 'Will solar charge my battery tomorrow?';
+
+  @override
+  String get assistantFootnote =>
+      'Answers use your app\'s own numbers. AI can still word things wrongly, so check the Home screen for exact figures.';
+
+  @override
+  String get assistantInputLabel => 'Ask a question';
+
+  @override
+  String get assistantSend => 'Send';
+
+  @override
+  String get assistantTyping => 'Assistant is typing';
+
+  @override
+  String get assistantOffline =>
+      'No internet, so the assistant can\'t answer right now. Your numbers still work offline:';
+
+  @override
+  String get assistantUnavailable =>
+      'The assistant isn\'t available right now. Meanwhile, your numbers:';
+
+  @override
+  String assistantFallbackBackup(String time, String load) {
+    return 'Backup lasts $time at $load.';
+  }
+
+  @override
+  String get assistantNoData =>
+      'Your home isn\'t set up yet, so there are no numbers to explain. Load the demo household on Home first.';
+
+  @override
+  String get assistantSafetyTitle => 'Disconnect the battery now';
+
+  @override
+  String get assistantSafetyBody =>
+      'A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don\'t use it until it has been checked.';
+
+  @override
+  String get assistantDailyLimit =>
+      'You\'ve used today\'s assistant messages. They reset at midnight. Meanwhile, your numbers:';
 }

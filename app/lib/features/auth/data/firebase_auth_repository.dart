@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../domain/auth_repository.dart';
@@ -37,9 +40,11 @@ class FirebaseAuthRepository implements AuthRepository {
     if (kIsWeb) {
       final provider = GoogleAuthProvider();
       if (anonymous) {
-        await _linkOrSwitch(() => user.linkWithPopup(provider));
+        await _linkOrSwitch(
+          () => _untilPopupAbandoned(user.linkWithPopup(provider)),
+        );
       } else {
-        await _auth.signInWithPopup(provider);
+        await _untilPopupAbandoned(_auth.signInWithPopup(provider));
       }
       return;
     }
@@ -114,6 +119,30 @@ class FirebaseAuthRepository implements AuthRepository {
         rethrow;
       }
     }
+  }
+
+  /// Google's Cross-Origin-Opener-Policy hides the popup's `window.closed`
+  /// from the SDK, so closing the popup never settles [popup]. If the page
+  /// gets focus back and no result follows shortly, treat it as a cancel.
+  /// A late success still signs in: the router reacts to the account stream.
+  static Future<T> _untilPopupAbandoned<T>(Future<T> popup) {
+    final abandoned = Completer<T>();
+    Timer? grace;
+    final listener = AppLifecycleListener(
+      onResume: () {
+        grace?.cancel();
+        grace = Timer(const Duration(seconds: 3), () {
+          if (abandoned.isCompleted) return;
+          abandoned.completeError(
+            FirebaseAuthException(code: 'popup-closed-by-user'),
+          );
+        });
+      },
+    );
+    return Future.any([popup, abandoned.future]).whenComplete(() {
+      grace?.cancel();
+      listener.dispose();
+    });
   }
 
   static Future<void> _guard(Future<void> Function() action) async {

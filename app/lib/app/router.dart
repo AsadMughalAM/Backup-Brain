@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/widgets/coming_soon_screen.dart';
+import '../features/assistant/presentation/screens/assistant_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
@@ -111,14 +112,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               description: l10n.comingBattery,
             ),
           ),
-          _branch(
-            Routes.assistant,
-            (l10n) => ComingSoonScreen(
-              title: l10n.tabAssistant,
-              icon: BbIcons.assistant,
-              description: l10n.comingAssistant,
-            ),
-          ),
+          _branch(Routes.assistant, (_) => const AssistantScreen()),
         ],
       ),
     ],

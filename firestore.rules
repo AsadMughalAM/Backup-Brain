@@ -78,5 +78,8 @@ service cloud.firestore {
     match /config/{docId} {
       allow read: if request.auth != null;
     }
+
+    // aiUsage/{uid} (assistant daily limit) has no rule on purpose: only the
+    // assistantChat function writes it, so users can't reset their count.
   }
 }

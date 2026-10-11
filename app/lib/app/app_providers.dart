@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/firebase/firebase_providers.dart';
+import '../features/assistant/data/callable_assistant_repository.dart';
+import '../features/assistant/domain/assistant_repository.dart';
 import '../features/auth/data/firebase_auth_repository.dart';
 import '../features/auth/domain/auth_repository.dart';
 import '../core/services/demo_household_asset.dart';
@@ -51,6 +54,11 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firestoreProvider),
       ref.watch(firebaseAuthProvider),
       OpenMeteoSource(Dio(_weatherTimeouts)),
+    ),
+  ),
+  assistantRepositoryProvider.overrideWith(
+    (ref) => CallableAssistantRepository(
+      FirebaseFunctions.instanceFor(region: 'asia-south1'),
     ),
   ),
 ];

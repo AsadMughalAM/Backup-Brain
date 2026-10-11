@@ -71,9 +71,13 @@ class BbChip extends StatelessWidget {
                   Icon(BbIcons.check, size: AppSizes.iconXs, color: fg),
                   const SizedBox(width: AppSpacing.xs),
                 ],
-                Text(
-                  label,
-                  style: context.textTheme.labelLarge?.copyWith(color: fg),
+                // Long labels (suggested questions, big text scale) wrap
+                // instead of overflowing the pill.
+                Flexible(
+                  child: Text(
+                    label,
+                    style: context.textTheme.labelLarge?.copyWith(color: fg),
+                  ),
                 ),
               ],
             ),

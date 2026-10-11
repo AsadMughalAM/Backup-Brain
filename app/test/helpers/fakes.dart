@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backup_brain/features/assistant/domain/assistant_repository.dart';
+import 'package:backup_brain/features/assistant/domain/energy_snapshot.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/data/models/system_dto.dart';
 import 'package:backup_brain/features/backup/domain/entities/household_system.dart';
@@ -257,4 +259,24 @@ SetupPresets setupPresets() {
     appliances: read('appliances_pk.json'),
     equipment: read('equipment_pk.json'),
   );
+}
+
+class FakeAssistantRepository implements AssistantRepository {
+  FakeAssistantRepository({this.answer = 'Your backup lasts 3h 28m.'});
+
+  /// Null fails the next calls like a dropped connection.
+  String? answer;
+  final calls = <({List<ChatTurn> history, EnergySnapshot snapshot})>[];
+
+  @override
+  Future<String> reply({
+    required List<ChatTurn> history,
+    required EnergySnapshot snapshot,
+    required ReplyLanguage language,
+  }) async {
+    calls.add((history: history, snapshot: snapshot));
+    final a = answer;
+    if (a == null) throw const AssistantFailure(AssistantFailureCode.offline);
+    return a;
+  }
 }

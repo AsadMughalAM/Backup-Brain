@@ -8,6 +8,7 @@ import 'package:backup_brain/features/setup/domain/setup_draft_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,7 @@ Future<void> pumpApp(
   required FakeApplianceRepository appliances,
   // What the phone already has saved, e.g. a half-finished setup.
   Map<String, Object> saved = const {},
+  List<Override> extra = const [],
 }) async {
   tester.view.physicalSize = const Size(1080, 2340);
   tester.view.devicePixelRatio = 2.75;
@@ -39,6 +41,7 @@ Future<void> pumpApp(
         setupPresetsRepositoryProvider.overrideWithValue(
           const FileSetupPresetsRepository(),
         ),
+        ...extra,
       ],
       child: const App(),
     ),

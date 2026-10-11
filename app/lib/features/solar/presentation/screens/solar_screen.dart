@@ -9,7 +9,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../domain/weather_repository.dart';
 import '../controllers/forecast_refresh_controller.dart';
-import '../controllers/solar_outlook.dart';
+import '../../domain/solar_outlook.dart';
 import '../widgets/solar_day_hero.dart';
 import '../widgets/sun_forecast_card.dart';
 

@@ -1,10 +1,10 @@
 import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/services/clock.dart';
-import '../../../backup/domain/system_repository.dart';
-import '../../../loads/domain/appliance_repository.dart';
-import '../../domain/weather_repository.dart';
+import '../../../core/services/clock.dart';
+import '../../backup/domain/system_repository.dart';
+import '../../loads/domain/appliance_repository.dart';
+import 'weather_repository.dart';
 
 /// F3 for both days, ready to show. Every number on the Solar screen comes
 /// from here.
