@@ -1,0 +1,10 @@
+name: energy_engine
+description: Pure Dart calculation engine for Backup Brain (backup time, load planning, solar, sizing, health).
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+dev_dependencies:
+  lints: ^6.1.0
+  test: ^1.33.0
