@@ -136,7 +136,7 @@ if chemistry in (lead_acid, tubular) and load_W > 0.2 × nominal_Wh:
 ```
 
 **Output example**
-> "Approximately **3 h 20 min** left at current usage (420 W). Turning off the fridge and one fan extends this to **5 h 45 min**."
+> "Approximately **3 h 28 min** left at current usage (420 W). Turning off the TV and the fridge extends this to **5 h 49 min**." (numbers from the demo household in §12)
 
 **UI:** big countdown ring, current load, "stops protecting battery at X%" note, link to F2.
 
@@ -420,7 +420,7 @@ Product-level phases. The step-by-step technical order is `TECH_STACK.md` §9; e
 6. `assistantChat` Cloud Function with an engine snapshot (F9)
 
 **Phase 2 — P1 features**
-7. Outage logging + `engine/health.ts` (F6)
+7. Outage logging + `battery_health.dart` (F6)
 8. Performance check (F4)
 9. Outage pattern prediction + readiness (F8)
 10. Battery diagnose / recommend / shops (F7)
@@ -436,9 +436,15 @@ Product-level phases. The step-by-step technical order is `TECH_STACK.md` §9; e
 
 ## 12. Hackathon Demo Script (target ~3 minutes)
 
-1. **Hook:** "Battery shows 60%. How long will it actually last?" → Dashboard shows **3 h 20 min**.
-2. Toggle iron + water motor on → countdown drops live → red overload warning.
-3. Tap "What should I turn off?" → ranked list → apply → **5 h 45 min**.
+**Demo household** (the `SimulatedSource` fixture; every number below comes from the engine and is locked by a test in `packages/energy_engine/test/`):
+
+- Battery: LiFePO4, 24 V × 150 Ah × 1 (3.6 kWh), SoC 60%, health 1.0. It must be lithium: with lead-acid at 60% only 10% of capacity is usable, so a realistic bank would show under 1 hour.
+- Inverter: hybrid, rated 2000 W, efficiency 0.90.
+- Appliances ON (420 W total): 2 × ceiling fan 75 W, fridge 200 W × duty 0.4, LED TV 90 W, laptop 40 W, router 10 W, 5 × LED bulb 10 W.
+
+1. **Hook:** "Battery shows 60%. How long will it actually last?" → Dashboard shows **3 h 28 min**.
+2. Toggle iron (1000 W) + water motor (750 W) on → 2170 W → countdown drops live → red overload warning (> 2000 W).
+3. Turn them off again, tap "What should I turn off?" → ranked list (TV, fridge, fan…) → apply the top two → **5 h 49 min**.
 4. Solar tab: "Tomorrow cloudy, 35% below normal, battery reaches 70% by sunset" — real Open-Meteo data for Lahore.
 5. Estimator: neighbour without solar enters 400 units/month → 3 packages with cost and payback.
 6. Battery tab: simulated ageing battery → "18% less capacity" → "kharab?" → diagnosis → 3 recommended batteries + nearby shops.

@@ -404,7 +404,7 @@ All color meaning, palette values, semantic tokens (`AppColors`, `EnergyColors`)
 
 ### 6.8 Guardrails (keep the system reliable)
 
-- `tool/check_design_tokens.sh` runs in CI and fails if any file **outside** `packages/bb_ui/lib/src/foundations/` contains `Color(0x`, `Colors.`, `fontSize:` or `TextStyle(` constructors (plus the icon/spinner/font checks in `DESIGN.md` §14.3).
+- `tool/check_design_tokens.sh` runs in CI and fails if any file **outside** `packages/bb_ui/lib/src/foundations/` and `packages/bb_ui/lib/src/theme/` contains `Color(0x`, `Colors.`, `fontSize:` or `TextStyle(` constructors (plus the icon/spinner/font checks in `DESIGN.md` §14.3). `theme/` is exempt because the `ColorScheme` mapping needs `Colors.transparent` (DESIGN §2.6). Match whole identifiers (`\bColors\.`, `\bIcons\.`) so `AppColors.`, `EnergyColors.` and `BbIcons.` don't trip the check.
 - `theme_parity_test.dart` fails if light and dark palettes don't define the same set of tokens.
 - `contrast_test.dart` checks every text/background pair in both themes against the WCAG thresholds in `DESIGN.md` §2.8.
 - Golden tests catch accidental visual changes; update goldens only on purpose.
@@ -502,6 +502,8 @@ bb_ui and energy_engine never import each other or anything from app/.
 | Local | Emulator Suite | Daily development; `bootstrap.dart` switches to emulators when `USE_EMULATORS=true` (`--dart-define`) |
 | dev | `backup-brain-dev` | Team testing on devices |
 | prod | `backup-brain-prod` | Demo build |
+
+**Region:** Firestore lives in `asia-south1` (Mumbai, closest to Pakistan) in every project. Deploy Cloud Functions to the same region. A Firestore location can never be changed, so pick it when creating the database.
 
 Demo Mode (from ARCHITECTURE.md) is a **user setting**, not an environment: it swaps the data source to `SimulatedSource` so the demo never depends on live hardware or real outages.
 

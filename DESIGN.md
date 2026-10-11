@@ -840,7 +840,7 @@ Web layout follows §4.2 (expanded: 12 columns, 32-px margins, 24-px gutters, 10
 
 ### 14.3 Additions to `tool/check_design_tokens.sh`
 
-Also fail the build if any file outside `bb_ui/lib/src/foundations/` contains:
+Also fail the build if any file outside `bb_ui/lib/src/foundations/` and `bb_ui/lib/src/theme/` contains (whole-identifier matches, so `BbIcons.` is allowed):
 - `lucide`, `Icons.` (Material icons), `CupertinoIcons.`, `PhosphorIcons` (must go through `BbIcons`)
 - `CircularProgressIndicator(` or `LinearProgressIndicator(` (must use `BbSpinner` / `BbProgressBar`)
 - `fontFamily:` or `google_fonts`

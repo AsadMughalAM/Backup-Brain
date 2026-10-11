@@ -4,7 +4,7 @@ An AI home energy manager for Pakistani households living with load-shedding. It
 
 **Stack:** Flutter (Android first) · Firebase (Auth, Firestore, Cloud Functions) · Open-Meteo · Claude API
 
-**Status:** Hackathon build. The project is in the spec stage and no app code exists yet.
+**Status:** Hackathon build, early stage. The Flutter app is still the starter template, connected to Firebase project `backup-brain-dev` (Firestore in `asia-south1`). The calculation engine (`packages/energy_engine`) is being built first.
 
 ## Docs
 
@@ -18,6 +18,8 @@ An AI home energy manager for Pakistani households living with load-shedding. It
 ## Setup
 
 Use **pnpm** for every Node tool, never npm, npx or yarn.
+
+**Prerequisites:** Flutter stable (3.47+, Dart 3.13), Android Studio (for the Android SDK and its bundled JDK), Node 22+, pnpm. On Windows, install pnpm with `winget install pnpm.pnpm`, because the corepack bundled with Node 22.13 fails with a signing-key error. The first Android build downloads Gradle and the NDK (about 1.5 GB) and is slow; later builds are fast.
 
 ```bash
 # one-time
