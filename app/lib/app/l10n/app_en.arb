@@ -119,7 +119,19 @@
   "setupStepBattery": "Battery",
   "setupStepAppliances": "Appliances",
   "setupStepOf": "Step {step} of {total}: {name}",
-  "@setupStepOf": {"placeholders": {"step": {"type": "int"}, "total": {"type": "int"}, "name": {"type": "String"}}},
+  "@setupStepOf": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "setupNext": "Next",
   "setupBack": "Back",
   "setupFinish": "Show my backup time",
@@ -136,7 +148,13 @@
   "panelWattsLabel": "Watts per panel",
   "panelWattsHint": "Printed on the panel's label, e.g. 550 W",
   "panelsTotal": "{kw} of panels in total",
-  "@panelsTotal": {"placeholders": {"kw": {"type": "String"}}},
+  "@panelsTotal": {
+    "placeholders": {
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
   "batteryQuestion": "What battery do you have?",
   "chemLeadAcid": "Dry battery (lead-acid)",
   "chemLeadAcidHint": "Sealed, no water needed",
@@ -154,19 +172,45 @@
   "socQuestion": "How full is it right now?",
   "socHint": "Check the UPS display. You can change it anytime.",
   "setupPreviewValue": "Your backup: about {time}",
-  "@setupPreviewValue": {"placeholders": {"time": {"type": "String"}}},
+  "@setupPreviewValue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "appliancesQuestion": "What runs during load-shedding?",
   "appliancesHint": "We picked what most homes run. Change the numbers to match yours.",
   "heavyTitle": "Heavy appliances",
   "heavyHint": "Usually kept off on backup. Add yours so we can warn you.",
   "applianceEach": "{watts} each",
-  "@applianceEach": {"placeholders": {"watts": {"type": "String"}}},
+  "@applianceEach": {
+    "placeholders": {
+      "watts": {
+        "type": "String"
+      }
+    }
+  },
   "setupBackupAt": "backup at {load}",
-  "@setupBackupAt": {"placeholders": {"load": {"type": "String"}}},
+  "@setupBackupAt": {
+    "placeholders": {
+      "load": {
+        "type": "String"
+      }
+    }
+  },
   "fewer": "Fewer",
   "more": "More",
   "setUpMyHome": "Set up my home",
-
+  "setupDoneTitle": "Your home is ready",
+  "setupDoneBody": "Backup about {time}. Create an account to keep it safe, on any phone.",
+  "@setupDoneBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "comingSoonTitle": "Coming soon",
   "comingBattery": "Battery health, plus where to buy or repair a battery.",
   "comingAssistant": "Ask anything about your backup in English or Roman Urdu.",
@@ -208,24 +252,6 @@
   "errorNetwork": "No internet connection. Try again when you're online.",
   "errorTooManyRequests": "Too many attempts. Wait a minute and try again.",
   "errorUnknown": "Something went wrong. Please try again.",
-  "introNext": "Next",
-  "introPageOf": "Page {current} of {total}",
-  "@introPageOf": {
-    "placeholders": {
-      "current": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "intro1Title": "Backup Brain",
-  "intro1Body": "Know exactly how long your battery will last during load-shedding — in hours and minutes.",
-  "intro2Title": "Switch off the right things",
-  "intro2Body": "See which appliance to turn off first and how much backup time it gives you back.",
-  "intro3Title": "Plan with the sun",
-  "intro3Body": "Solar forecasts, battery health and costs — so every outage is planned, not a surprise.",
   "signUpTitle": "Join for a smarter backup.",
   "loginTitle": "Welcome back!",
   "back": "Back",

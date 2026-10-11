@@ -1,52 +1,61 @@
 import 'package:bb_ui/bb_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
+import '../../../../app/router.dart';
 import '../../../../app/session/household_setup.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../auth/domain/auth_repository.dart';
 import '../../domain/entities/setup_draft.dart';
 import '../../domain/entities/setup_presets.dart';
+import '../../domain/setup_presets_repository.dart';
 import '../controllers/setup_controller.dart';
 import '../widgets/appliances_step.dart';
 import '../widgets/battery_step.dart';
 import '../widgets/home_step.dart';
 
-/// First-run setup (ARCHITECTURE.md §10): three short steps, tap-only
-/// answers with common sizes pre-picked, and the backup time shown live
-/// from step 2 so people see the payoff before they finish.
-class SetupScreen extends ConsumerStatefulWidget {
+/// The first screen of the app (ARCHITECTURE.md §10): three short steps,
+/// tap-only answers with common sizes pre-picked, and the backup time shown
+/// live from step 2 so people see the payoff before they finish. Answers
+/// are kept on the phone as they are given; an account comes after, to
+/// save them.
+class SetupScreen extends ConsumerWidget {
   const SetupScreen({super.key});
-
-  @override
-  ConsumerState<SetupScreen> createState() => _SetupScreenState();
-}
-
-class _SetupScreenState extends ConsumerState<SetupScreen> {
-  var _step = 0;
 
   static const _steps = 3;
 
-  bool _canContinue(SetupDraft d) => switch (_step) {
+  static bool _canContinue(SetupDraft d) => switch (d.step) {
     0 => d.homeDone,
     1 => d.batteryDone,
     _ => true,
   };
 
-  void _back() => setState(() => _step--);
-
-  void _next(String languageCode) {
-    if (_step < _steps - 1) {
-      setState(() => _step++);
-      return;
-    }
-    ref.read(setupControllerProvider.notifier).finish(languageCode);
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final setup = ref.read(setupControllerProvider.notifier);
     final draft = ref.watch(setupControllerProvider).value;
+    final signedIn = ref.watch(isSignedInProvider) ?? false;
+    final step = draft?.step ?? 0;
+
+    void back() => setup.setStep(step - 1);
+    void next() {
+      if (step < _steps - 1) {
+        setup.setStep(step + 1);
+        return;
+      }
+      setup.finish();
+      // Signed in: save now and the router moves to Home. Signed out: an
+      // account comes next, and the home is saved to it at sign-in.
+      if (signedIn) {
+        ref.read(householdSetupProvider.notifier).adoptLocalHome();
+      } else {
+        context.go(Routes.signUp);
+      }
+    }
+
     final presets = ref.watch(setupPresetsProvider).value;
     final languageCode = l10n.localeName.split('_').first;
     final labels = [
@@ -57,12 +66,21 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
 
     return PopScope(
       // System back steps back through setup before leaving it.
-      canPop: _step == 0,
+      canPop: step == 0,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) _back();
+        if (!didPop) back();
       },
       child: BbScaffold(
         title: l10n.setupTitle,
+        actions: [
+          // Returning users skip setup: their home is in their account.
+          if (!signedIn)
+            BbButton.ghost(
+              label: l10n.login,
+              size: BbButtonSize.sm,
+              onPressed: () => context.go(Routes.login),
+            ),
+        ],
         body: draft == null || presets == null
             ? const SizedBox.shrink()
             : Column(
@@ -71,25 +89,25 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                   const BbGap.sm(),
                   BbStepIndicator(
                     labels: labels,
-                    current: _step,
+                    current: step,
                     semanticLabel: l10n.setupStepOf(
-                      _step + 1,
+                      step + 1,
                       _steps,
-                      labels[_step],
+                      labels[step],
                     ),
                   ),
                   const BbGap.md(),
                   Expanded(
                     child: ListView(
                       // A fresh list per step starts at the top.
-                      key: ValueKey(_step),
+                      key: ValueKey(step),
                       padding: const EdgeInsets.only(
                         top: AppSpacing.md,
                         bottom: AppSpacing.xl,
                       ),
                       children: [
                         _stepBody(draft, presets, languageCode),
-                        if (_step == 0) ...[
+                        if (step == 0) ...[
                           const BbGap.xl(),
                           Text(
                             l10n.setupUnderTwoMinutes,
@@ -98,12 +116,14 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                               color: context.colors.textMuted,
                             ),
                           ),
-                          BbButton.ghost(
-                            label: l10n.setupTryDemo,
-                            onPressed: () => ref
-                                .read(householdSetupProvider.notifier)
-                                .useDemo(),
-                          ),
+                          // The demo needs an account to live in.
+                          if (signedIn)
+                            BbButton.ghost(
+                              label: l10n.setupTryDemo,
+                              onPressed: () => ref
+                                  .read(householdSetupProvider.notifier)
+                                  .useDemo(),
+                            ),
                         ],
                       ],
                     ),
@@ -113,18 +133,18 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
         bottomAction: draft == null
             ? null
             : _BottomBar(
-                step: _step,
-                isLast: _step == _steps - 1,
+                step: step,
+                isLast: step == _steps - 1,
                 canContinue: _canContinue(draft),
-                onBack: _back,
-                onNext: () => _next(languageCode),
+                onBack: back,
+                onNext: next,
               ),
       ),
     );
   }
 
-  Widget _stepBody(SetupDraft d, SetupPresets p, String languageCode) =>
-      switch (_step) {
+  static Widget _stepBody(SetupDraft d, SetupPresets p, String languageCode) =>
+      switch (d.step) {
         0 => HomeStep(draft: d, presets: p),
         1 => BatteryStep(draft: d, presets: p),
         _ => AppliancesStep(draft: d, presets: p, languageCode: languageCode),

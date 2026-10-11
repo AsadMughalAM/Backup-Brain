@@ -53,7 +53,7 @@ void main() {
       expect(find.text('Overload'), findsOneWidget);
     });
 
-    testWidgets('sign out from Settings returns to the intro', (tester) async {
+    testWidgets('sign out from Settings returns to setup', (tester) async {
       final auth = FakeAuthRepository(account: signedInAsAsad);
       await pumpApp(
         tester,
@@ -67,12 +67,12 @@ void main() {
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
       expect(auth.calls, ['signOut']);
-      expect(find.text('Backup Brain'), findsOneWidget); // intro slide 1
+      expect(find.text('Where is your home?'), findsOneWidget);
     });
   });
 
   group('signed out', () {
-    testWidgets('intro → sign up → setup, and the demo is one tap away', (
+    testWidgets('signing up without setup: setup next, demo one tap away', (
       tester,
     ) async {
       final auth = FakeAuthRepository();
@@ -83,7 +83,8 @@ void main() {
         system: system,
         appliances: FakeApplianceRepository(),
       );
-      expect(find.text('Backup Brain'), findsOneWidget);
+      // First open is setup, not an account form.
+      expect(find.text('Where is your home?'), findsOneWidget);
       await goToSignUp(tester);
       expect(find.text('Join for a smarter backup.'), findsOneWidget);
 

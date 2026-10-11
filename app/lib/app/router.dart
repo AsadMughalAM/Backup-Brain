@@ -6,19 +6,18 @@ import 'package:go_router/go_router.dart';
 import '../core/widgets/coming_soon_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
 import '../features/backup/domain/system_repository.dart';
-import '../features/auth/presentation/screens/intro_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
+import '../features/setup/domain/setup_draft_repository.dart';
 import '../features/setup/presentation/screens/setup_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'session/household_setup.dart';
 
 abstract final class Routes {
-  static const intro = '/intro';
   static const signUp = '/sign-up';
   static const login = '/login';
   static const home = '/';
@@ -29,13 +28,17 @@ abstract final class Routes {
   static const settings = '/settings';
   static const setup = '/setup';
 
-  static const _signedOut = {intro, signUp, login};
+  static const _auth = {signUp, login};
+
+  /// Where a signed-out user may be: setup first, then an account.
+  static const _signedOut = {setup, signUp, login};
 }
 
-/// Signed out → intro / sign-up / login only. Signed in → the five tabs;
-/// signing in from any auth screen lands on Home by itself. A new account
-/// with no household goes through setup first, and setup ends on Home as
-/// soon as the household is saved.
+/// Signed out → setup first (it is the useful part, so it comes before any
+/// account), then sign-up / login; a finished setup opens on sign-up.
+/// Signed in → the five tabs; signing in from any auth screen lands on Home
+/// by itself. An account with no household and no finished setup on this
+/// phone goes to setup, which ends on Home once the household is saved.
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier(0);
   ref.listen(isSignedInProvider, (_, _) => refresh.value++);
@@ -53,13 +56,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       final signedIn = ref.read(isSignedInProvider);
       // Firebase restores the session from disk first: wait, don't flash.
       if (signedIn == null) return null;
-      final atAuth = Routes._signedOut.contains(state.matchedLocation);
-      if (!signedIn && !atAuth) return Routes.intro;
-      if (signedIn && atAuth) return Routes.home;
-      if (!signedIn) return null;
+      final location = state.matchedLocation;
+      if (!signedIn) {
+        if (Routes._signedOut.contains(location)) return null;
+        final draft = ref.read(setupDraftRepositoryProvider).load();
+        return draft?.finished == true ? Routes.signUp : Routes.setup;
+      }
+      if (Routes._auth.contains(location)) return Routes.home;
 
       final hasHousehold = ref.read(householdSystemProvider).value != null;
-      final atSetup = state.matchedLocation == Routes.setup;
+      final atSetup = location == Routes.setup;
       if (hasHousehold && atSetup) return Routes.home;
       final needsSetup =
           !hasHousehold &&
@@ -68,10 +74,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: Routes.intro,
-        builder: (context, state) => const IntroScreen(),
-      ),
       GoRoute(
         path: Routes.signUp,
         builder: (context, state) => const SignUpScreen(),

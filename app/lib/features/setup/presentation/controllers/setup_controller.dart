@@ -2,27 +2,44 @@ import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/fire_and_forget.dart';
-import '../../../backup/domain/system_repository.dart';
-import '../../../loads/domain/appliance_repository.dart';
 import '../../domain/entities/setup_draft.dart';
 import '../../domain/entities/setup_presets.dart';
+import '../../domain/setup_draft_repository.dart';
 import '../../domain/setup_presets_repository.dart';
 
-final setupPresetsProvider = FutureProvider<SetupPresets>(
-  (ref) => ref.watch(setupPresetsRepositoryProvider).load(),
-);
-
-/// The setup answers. Every change is one tap; nothing is saved until the
-/// last step, so going back and forth is free.
+/// The setup answers. Every change is one tap and is saved on the phone at
+/// once, so leaving the app mid-setup loses nothing.
 class SetupController extends AsyncNotifier<SetupDraft> {
   @override
-  Future<SetupDraft> build() async =>
-      SetupDraft.initial(await ref.watch(setupPresetsProvider.future));
+  Future<SetupDraft> build() async {
+    final presets = await ref.watch(setupPresetsProvider.future);
+    final saved = ref.read(setupDraftRepositoryProvider).load();
+    return saved == null ? SetupDraft.initial(presets) : _fit(saved, presets);
+  }
+
+  /// A saved draft from an older preset list: drop a city that no longer
+  /// exists and give new appliances their usual count.
+  static SetupDraft _fit(SetupDraft saved, SetupPresets presets) =>
+      saved.copyWith(
+        clearCity: !presets.cities.any((c) => c.id == saved.cityId),
+        quantities: {
+          for (final a in presets.appliances)
+            a.id: saved.quantities[a.id] ?? a.defaultQuantity,
+        },
+      );
 
   void _update(SetupDraft Function(SetupDraft d) change) {
     final draft = state.value;
-    if (draft != null) state = AsyncData(change(draft));
+    if (draft == null) return;
+    final next = change(draft);
+    state = AsyncData(next);
+    fireAndForget(
+      ref.read(setupDraftRepositoryProvider).save(next),
+      'setup draft',
+    );
   }
+
+  void setStep(int step) => _update((d) => d.copyWith(step: step));
 
   void pickCity(String id) => _update((d) => d.copyWith(cityId: id));
 
@@ -53,25 +70,10 @@ class SetupController extends AsyncNotifier<SetupDraft> {
   void setQuantity(String applianceId, int n) =>
       _update((d) => d.copyWith(quantities: {...d.quantities, applianceId: n}));
 
-  /// Saves the household. Writes land in the offline cache at once; the
-  /// router leaves setup as soon as the system appears there.
-  void finish(String languageCode) {
-    final draft = state.value;
-    final presets = ref.read(setupPresetsProvider).value;
-    if (draft == null || presets == null) return;
-    // Appliances first, so the dashboard never shows the system with an
-    // empty appliance list.
-    fireAndForget(
-      ref
-          .read(applianceRepositoryProvider)
-          .addAll(draft.toAppliances(presets, languageCode)),
-      'setup appliances',
-    );
-    fireAndForget(
-      ref.read(systemRepositoryProvider).save(draft.toSystem(presets)),
-      'setup system',
-    );
-  }
+  /// Marks every step answered. The household is written to an account by
+  /// `HouseholdSetup.adoptLocalHome`, now if signed in or right after
+  /// sign-in otherwise.
+  void finish() => _update((d) => d.copyWith(finished: true));
 }
 
 final setupControllerProvider =

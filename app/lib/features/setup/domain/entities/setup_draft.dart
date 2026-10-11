@@ -4,9 +4,10 @@ import '../../../backup/domain/entities/household_system.dart';
 import '../../../loads/domain/entities/appliance.dart';
 import 'setup_presets.dart';
 
-/// The answers so far. Only city, "do you have solar?" and battery type
-/// must be picked; every size starts on the most common choice, so most
-/// people only confirm.
+/// The answers so far, and where the user is in setup. Saved on the phone
+/// after every tap, so setup resumes where it was left. Only city, "do you
+/// have solar?" and battery type must be picked; every size starts on the
+/// most common choice, so most people only confirm.
 class SetupDraft {
   const SetupDraft({
     required this.quantities,
@@ -20,6 +21,8 @@ class SetupDraft {
     this.voltage,
     this.ampHours,
     this.inverterW,
+    this.step = 0,
+    this.finished = false,
   });
 
   factory SetupDraft.initial(SetupPresets p) => SetupDraft(
@@ -46,6 +49,12 @@ class SetupDraft {
 
   /// Appliance preset id → how many; 0 = not used.
   final Map<String, int> quantities;
+
+  /// Zero-based step on screen.
+  final int step;
+
+  /// All steps answered; waiting to be saved to an account.
+  final bool finished;
 
   bool get homeDone => cityId != null && hasSolar != null;
   bool get batteryDone => chemistry != null;
@@ -119,10 +128,13 @@ class SetupDraft {
     double? voltage,
     double? ampHours,
     double? inverterW,
+    int? step,
+    bool? finished,
+    bool clearCity = false,
     bool resetBatterySizes = false,
     bool resetInverter = false,
   }) => SetupDraft(
-    cityId: cityId ?? this.cityId,
+    cityId: clearCity ? null : cityId ?? this.cityId,
     hasSolar: hasSolar ?? this.hasSolar,
     panelCount: panelCount ?? this.panelCount,
     panelWatts: panelWatts ?? this.panelWatts,
@@ -133,5 +145,7 @@ class SetupDraft {
     voltage: resetBatterySizes ? null : voltage ?? this.voltage,
     ampHours: resetBatterySizes ? null : ampHours ?? this.ampHours,
     inverterW: resetInverter ? null : inverterW ?? this.inverterW,
+    step: step ?? this.step,
+    finished: finished ?? this.finished,
   );
 }

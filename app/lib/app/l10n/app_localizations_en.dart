@@ -286,6 +286,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setUpMyHome => 'Set up my home';
 
   @override
+  String get setupDoneTitle => 'Your home is ready';
+
+  @override
+  String setupDoneBody(String time) {
+    return 'Backup about $time. Create an account to keep it safe, on any phone.';
+  }
+
+  @override
   String get comingSoonTitle => 'Coming soon';
 
   @override
@@ -374,35 +382,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Something went wrong. Please try again.';
-
-  @override
-  String get introNext => 'Next';
-
-  @override
-  String introPageOf(int current, int total) {
-    return 'Page $current of $total';
-  }
-
-  @override
-  String get intro1Title => 'Backup Brain';
-
-  @override
-  String get intro1Body =>
-      'Know exactly how long your battery will last during load-shedding — in hours and minutes.';
-
-  @override
-  String get intro2Title => 'Switch off the right things';
-
-  @override
-  String get intro2Body =>
-      'See which appliance to turn off first and how much backup time it gives you back.';
-
-  @override
-  String get intro3Title => 'Plan with the sun';
-
-  @override
-  String get intro3Body =>
-      'Solar forecasts, battery health and costs — so every outage is planned, not a surprise.';
 
   @override
   String get signUpTitle => 'Join for a smarter backup.';

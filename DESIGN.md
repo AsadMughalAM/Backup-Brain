@@ -182,7 +182,7 @@ Never use `ColorScheme.fromSeed` — it would generate hues outside our three fa
 2. **Yellow is a fill, never text on light.** On light surfaces yellow text/icons fail contrast (1.6:1). Use `textOnPrimary` ink *on* yellow, or `energy.solarText` for solar numbers.
 3. **Ink on yellow, always.** Yellow buttons/pills carry `textOnPrimary` (11:1+). Never white on yellow.
 4. **Status colors are for status.** Green ≠ "nice", red ≠ "brand". A green button does not exist; a red button only exists as `BbButton.danger` for destructive actions.
-5. **No gradients**, except the 2-stop solar area fill in charts (`energy.solar` 32% → 0% alpha) and the **auth "sky"** on Intro / Sign up / Login: `secondary` → `secondaryContainer` → `background` (dark: `secondaryContainer` → `surface` → `background`) with a solid `primary` sun disc in the corner. Never through grey; titles on it use `onSecondary` (dark: `onSecondaryContainer`).
+5. **No gradients**, except the 2-stop solar area fill in charts (`energy.solar` 32% → 0% alpha) and the **auth "sky"** on Sign up / Login: `secondary` → `secondaryContainer` → `background` (dark: `secondaryContainer` → `surface` → `background`) with a solid `primary` sun disc in the corner. Never through grey; titles on it use `onSecondary` (dark: `onSecondaryContainer`).
 6. **No pure black or pure white text** in dark mode. Canvas950 is the darkest pixel; canvas100 is the brightest text.
 7. **Opacity, not new colors,** for states: pressed overlay = `textPrimary` @ 12%, hover @ 8%, disabled content @ 38% (TECH_STACK `opacity.dart`).
 

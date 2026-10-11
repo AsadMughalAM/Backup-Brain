@@ -287,6 +287,14 @@ class AppLocalizationsUr extends AppLocalizations {
   String get setUpMyHome => 'Apna ghar set karein';
 
   @override
+  String get setupDoneTitle => 'Aap ka ghar tayyar hai';
+
+  @override
+  String setupDoneBody(String time) {
+    return 'Backup taqreeban $time. Ise mehfooz rakhne ke liye account banayein, kisi bhi phone par.';
+  }
+
+  @override
   String get comingSoonTitle => 'Jald aa raha hai';
 
   @override
@@ -375,35 +383,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Kuch ghalat ho gaya. Dobara koshish karein.';
-
-  @override
-  String get introNext => 'Aagay';
-
-  @override
-  String introPageOf(int current, int total) {
-    return 'Safha $current az $total';
-  }
-
-  @override
-  String get intro1Title => 'Backup Brain';
-
-  @override
-  String get intro1Body =>
-      'Load-shedding mein jaanein aap ki battery kitne ghante aur minute chalegi.';
-
-  @override
-  String get intro2Title => 'Sahi cheez band karein';
-
-  @override
-  String get intro2Body =>
-      'Dekhein pehle kaunsa appliance band karna hai aur us se kitna backup barhta hai.';
-
-  @override
-  String get intro3Title => 'Dhoop ke saath plan karein';
-
-  @override
-  String get intro3Body =>
-      'Solar forecast, battery ki sehat aur kharcha — taake har load-shedding pehle se plan ho.';
 
   @override
   String get signUpTitle => 'Behtar backup ke liye shamil hon.';

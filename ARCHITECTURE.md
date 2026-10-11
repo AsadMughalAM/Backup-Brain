@@ -395,8 +395,8 @@ There is **no REST API**. Calculations (backup, switch-offs, solar forecast, siz
 
 ## 10. Screens / UX
 
-0. **Intro → Sign up / Login:** three intro slides, then Google or email sign-up; sign-in lands on the Dashboard.
-1. **Onboarding (≤ 2 min), shown to a new account after sign-up:** three steps, tap-only (chips, cards, − n +), with the common Pakistani size pre-picked for everything except the three facts only the user knows.
+0. **First open → setup → account.** The app opens straight on setup (below), not on intro slides: the first thing people do is the useful thing. Every answer and the current step are saved on the phone as they are given, so leaving and coming back resumes where they were. Finishing leads to Sign up (Google or email), which repeats the payoff ("Your home is ready. Backup about 2h 45m"); a finished setup with no account reopens on Sign up. At sign-in the phone's setup becomes the account's household and the local copy is deleted. If the account already has a household (server-checked), that one is kept and the phone's answers are dropped, never merged. Returning users tap "Login" at the top of setup.
+1. **Onboarding (≤ 2 min), the app's first screen (also shown to a signed-in account with no household):** three steps, tap-only (chips, cards, − n +), with the common Pakistani size pre-picked for everything except the three facts only the user knows.
    - **Home:** city (chips; "not listed → nearest city") + "Do you have solar?" → if yes, panel count × watts per panel (shows the kWp total).
    - **Battery:** type described by what it looks like (dry / tubular "you top up with water" / lithium) → count, size (Ah; pack voltage for lithium), UPS or inverter size (hybrid if solar, UPS if not), how full it is now. Hints say where each number is printed (photo guide of the label: later).
    - **Appliances:** the usual ones pre-counted (2 fans, 4 LED bulbs, fridge, TV, router); heavy ones (iron, motor, AC…) listed apart at 0 and saved switched off.

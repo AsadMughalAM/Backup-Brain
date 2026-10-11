@@ -579,6 +579,18 @@ abstract class AppLocalizations {
   /// **'Set up my home'**
   String get setUpMyHome;
 
+  /// No description provided for @setupDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your home is ready'**
+  String get setupDoneTitle;
+
+  /// No description provided for @setupDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup about {time}. Create an account to keep it safe, on any phone.'**
+  String setupDoneBody(String time);
+
   /// No description provided for @comingSoonTitle.
   ///
   /// In en, this message translates to:
@@ -740,54 +752,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorUnknown;
-
-  /// No description provided for @introNext.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get introNext;
-
-  /// No description provided for @introPageOf.
-  ///
-  /// In en, this message translates to:
-  /// **'Page {current} of {total}'**
-  String introPageOf(int current, int total);
-
-  /// No description provided for @intro1Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup Brain'**
-  String get intro1Title;
-
-  /// No description provided for @intro1Body.
-  ///
-  /// In en, this message translates to:
-  /// **'Know exactly how long your battery will last during load-shedding — in hours and minutes.'**
-  String get intro1Body;
-
-  /// No description provided for @intro2Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch off the right things'**
-  String get intro2Title;
-
-  /// No description provided for @intro2Body.
-  ///
-  /// In en, this message translates to:
-  /// **'See which appliance to turn off first and how much backup time it gives you back.'**
-  String get intro2Body;
-
-  /// No description provided for @intro3Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Plan with the sun'**
-  String get intro3Title;
-
-  /// No description provided for @intro3Body.
-  ///
-  /// In en, this message translates to:
-  /// **'Solar forecasts, battery health and costs — so every outage is planned, not a surprise.'**
-  String get intro3Body;
 
   /// No description provided for @signUpTitle.
   ///

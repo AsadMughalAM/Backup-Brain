@@ -11,3 +11,7 @@ abstract interface class SetupPresetsRepository {
 final setupPresetsRepositoryProvider = Provider<SetupPresetsRepository>(
   (ref) => throw UnimplementedError('Overridden in app_providers.dart'),
 );
+
+final setupPresetsProvider = FutureProvider<SetupPresets>(
+  (ref) => ref.watch(setupPresetsRepositoryProvider).load(),
+);
