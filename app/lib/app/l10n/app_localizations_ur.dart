@@ -132,10 +132,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get comingSoonTitle => 'Jald aa raha hai';
 
   @override
-  String get comingSolar =>
-      'Solar forecast: kal ki dhoop battery ko kitna charge karegi.';
-
-  @override
   String get comingBattery =>
       'Battery ki sehat, aur battery kahan se lein ya repair karwayein.';
 
@@ -313,6 +309,147 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get useDemoHousehold => 'Demo ghar load karein';
+
+  @override
+  String get solarToday => 'Aaj';
+
+  @override
+  String get solarTomorrow => 'Kal';
+
+  @override
+  String solarFullBy(String time) {
+    return 'Battery $time tak full';
+  }
+
+  @override
+  String get solarStaysFull => 'Battery full rahegi';
+
+  @override
+  String solarReaches(String percent) {
+    return 'Suraj doobne tak battery $percent';
+  }
+
+  @override
+  String get solarSunOver => 'Aaj ki dhoop khatam';
+
+  @override
+  String solarStartNow(String percent) {
+    return 'Abhi $percent se';
+  }
+
+  @override
+  String solarStartSunrise(String percent) {
+    return 'Agar subah $percent se shuru ho';
+  }
+
+  @override
+  String solarAtSunset(String time) {
+    return 'suraj doobne par, $time';
+  }
+
+  @override
+  String get solarBatteryNow => 'battery abhi';
+
+  @override
+  String solarNightUntil(String time, String load) {
+    return '$load par taqreeban $time tak chalegi';
+  }
+
+  @override
+  String solarNightAll(String load) {
+    return '$load par poori raat chalegi';
+  }
+
+  @override
+  String get solarNightNoLoad => 'Koi cheez bijli nahi le rahi';
+
+  @override
+  String get solarSunToday => 'Aaj ki dhoop';
+
+  @override
+  String get solarSunTomorrow => 'Kal ki dhoop';
+
+  @override
+  String get unitKWh => 'units';
+
+  @override
+  String solarBelowClear(String percent) {
+    return 'Saaf din se $percent kam dhoop';
+  }
+
+  @override
+  String get solarNearClear => 'Taqreeban saaf din jitni dhoop';
+
+  @override
+  String solarChartSemantics(String range) {
+    return 'Ghante war dhoop ka forecast, kul $range units';
+  }
+
+  @override
+  String get solarLegendForecast => 'Forecast';
+
+  @override
+  String get solarLegendClearDay => 'Saaf din';
+
+  @override
+  String solarAdvicePeak(String start, String end) {
+    return 'Sab se zyada dhoop $start se $end tak. Istri ya pani ki motor tab chalayein.';
+  }
+
+  @override
+  String solarAdviceWeak(String percent, String time) {
+    return 'Dhoop kam hai. Battery sirf $percent tak pohanch sakti hai, is liye $time ke baad bhaari load na chalayein.';
+  }
+
+  @override
+  String solarUpdated(String city, String age) {
+    return '$city · $age update hua';
+  }
+
+  @override
+  String get ageJustNow => 'abhi abhi';
+
+  @override
+  String ageMinutes(int minutes) {
+    return '$minutes min pehle';
+  }
+
+  @override
+  String ageHours(int hours) {
+    return '$hours ghante pehle';
+  }
+
+  @override
+  String ageDays(int days) {
+    return '$days din pehle';
+  }
+
+  @override
+  String get solarUpdateFailed =>
+      'Update nahi ho saka. Mehfooz forecast dikha rahe hain.';
+
+  @override
+  String get tryAgain => 'Dobara koshish karein';
+
+  @override
+  String get refreshForecast => 'Forecast refresh karein';
+
+  @override
+  String get solarNoPanelsTitle => 'Solar panels shamil nahi';
+
+  @override
+  String get solarNoPanelsBody =>
+      'Setup mein apne panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.';
+
+  @override
+  String get solarNeedsInternetTitle => 'Ek dafa internet chahiye';
+
+  @override
+  String get solarNeedsInternetBody =>
+      'Dhoop ka forecast lene ke liye ek dafa connect karein. Us ke baad yeh offline bhi chalega.';
+
+  @override
+  String get solarFetching => 'Forecast aa raha hai…';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

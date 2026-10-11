@@ -7,4 +7,8 @@ export 'src/defaults.dart';
 export 'src/load_planner.dart';
 export 'src/models/appliance_load.dart';
 export 'src/models/battery_spec.dart';
+export 'src/models/hourly_weather.dart';
 export 'src/models/inverter_spec.dart';
+export 'src/models/solar_spec.dart';
+export 'src/solar_geometry.dart';
+export 'src/solar_model.dart';

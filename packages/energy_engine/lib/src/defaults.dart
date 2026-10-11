@@ -1,5 +1,6 @@
 import 'models/battery_spec.dart';
 import 'models/inverter_spec.dart';
+import 'models/solar_spec.dart';
 
 /// Engine default constants (ARCHITECTURE.md §5). This is the only place they
 /// live; every one can be overridden through the inputs.
@@ -22,4 +23,40 @@ abstract final class EngineDefaults {
   /// battery delivers noticeably less than its rated capacity.
   static const peukertLoadRatio = 0.2;
   static const peukertDerate = 0.85;
+
+  // F3 solar model (ARCHITECTURE.md §5 F3).
+
+  /// Wiring, inverter and mismatch losses of a typical rooftop system.
+  static const performanceRatio = 0.78;
+
+  /// Dust on the panels: clean within a week, within a month, or older /
+  /// unknown.
+  static double soilingFactor(int? daysSinceCleaned) =>
+      daysSinceCleaned == null || daysSinceCleaned >= 30
+      ? 0.90
+      : daysSinceCleaned >= 7
+      ? 0.95
+      : 1.00;
+
+  static double shadingFactor(PanelShading shading) => switch (shading) {
+    PanelShading.none => 1.00,
+    PanelShading.partial => 0.85,
+    PanelShading.heavy => 0.65,
+  };
+
+  /// Panels lose 0.4% output per °C above 25 °C, and in sun they run about
+  /// 20 °C hotter than the air.
+  static const panelTempCoefficient = 0.004;
+  static const panelTempRiseC = 20.0;
+  static const panelRatedTempC = 25.0;
+
+  static double chargeEfficiency(BatteryChemistry chemistry) =>
+      chemistry.isLeadAcidFamily ? 0.80 : 0.90;
+
+  /// ± spread on forecast energy: weather forecasts are not exact, so the
+  /// app shows a range rather than one confident number.
+  static const solarForecastUncertainty = 0.15;
+
+  /// Length of the "most sun" window suggested for heavy loads.
+  static const peakWindowHours = 3;
 }

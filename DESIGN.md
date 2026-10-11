@@ -478,6 +478,7 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 | `showPassword` · `hidePassword` | `eye` · `eyeSlash` | Password visibility toggle in `BbTextField` |
 | `back` · `next` · `close` · `add` · `more` | `arrowLeft` · `caretRight` · `x` · `plus` · `dotsThree` | Navigation & actions |
 | `expand` · `check` | `caretDown` · `check` | `BbDropdown` caret, selected `BbChip` |
+| `refresh` | `arrowClockwise` | Refresh forecast |
 | `homeActive` · `loadsActive` · `solarActive` · `batteryActive` · `assistantActive` | Fill of the tab glyph | Selected nav tab (§6.2) |
 
 > Glyph names follow Phosphor's catalog (phosphoricons.com). Confirm each exists in the installed package version during setup; if one is missing, choose the closest Phosphor glyph and update only this table + `icons.dart`.
@@ -661,7 +662,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 | **`BbPowerFlow`** | Three nodes (Solar · Grid · Battery) flowing to Home, 48-px circles with Regular icons; connecting lines 2 px in each source's energy color, **dashed** when inactive; small moving dots (`slow`, disabled with reduced motion) show direction. |
 | **`BbLoadToggleTile`** | `BbListTile` + appliance icon + name + `metricSmall` watts + `BbSwitch`. Shows `BbPriorityBadge`. When toggled, the countdown updates live. |
 | **`BbPriorityBadge`** | `essential` = `secondaryContainer` "Keep"; `comfort` = `surfaceMuted` "Use carefully"; `avoid_on_backup` = `warningContainer` + `warning` icon "Avoid on backup". |
-| **`BbSolarForecastStrip`** | Horizontal row of hourly bars (sunrise → sunset), bar = `energy.solar` fill with `solarStroke` top edge, hour labels in `metricCaption`; header shows "Today ~3.8 kWh · 35% below normal" with range. |
+| **`BbSolarForecastStrip`** | Horizontal row of hourly bars (sunrise → sunset), bar = `energy.solar` fill with `solarStroke` top edge, hour labels every 3 h in `metricCaption`. Behind each bar a faint "clear day" bar (`textPrimary` @ 8%) shows what clouds take away; a legend names both. Bars grow in with `slow`. The header ("Sun today · 3.3–4.5 kWh · 49% less sun than a clear day") is composed by the screen above the strip. |
 | **`BbHealthIndicator`** | Small semicircle gauge (health factor) in status token + `metricMedium` "82%" + `bodySmall` explanation. |
 
 ---
@@ -686,7 +687,19 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 
 **Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority → target-hours `BbNumberField`.
 
-**Solar:** forecast chart (hourly area, solar yellow) → `BbStatTile`s (expected kWh range, SoC at sunset, night coverage) → performance check card.
+**Solar:** answer first, zero taps.
+```
+[App bar]  "Solar"  ·  refresh
+[BbChip Today | Tomorrow]                 ← auto-picks Tomorrow after sunset
+[Hero card] "Battery full by 1:15 PM" / "Battery reaches 79% by sunset"
+            "Starting from 60% now"  (assumption, muted)
+            ( ring = SoC at sunset, "at sunset, 5:30 PM" )
+            "Lasts until about 10:25 PM at 420 W"
+[Advice card: highlight]  "Most sun 12–3 PM. Run the iron or water motor then." / "Weak sun… avoid heavy loads after 5:30 PM"
+[Card] "Sun today" · 3.3–4.5 kWh (solarText) · cloud icon + "49% less sun than a clear day" · BbSolarForecastStrip
+[Footer] timer icon · "Lahore · updated 20 min ago" · xs spinner while refreshing · retry on failure
+```
+No forecast yet → `BbEmptyState` "Needs internet once" with a loading `BbButton.secondary`. No panels → `BbEmptyState`. Performance check (F4) goes under the sun card later.
 
 **Estimator:** stepped form (`BbProgressBar` determinate, 3 steps) → 3 package cards (`BbCard`, recommended one = `highlight` variant + `primaryContainer` badge "Recommended") with PKR range in `metricMedium` → payback → installer checklist → disclaimer `bodySmall` muted + "prices last updated".
 

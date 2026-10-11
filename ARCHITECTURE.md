@@ -189,7 +189,10 @@ Then simulate the battery hour by hour: solar energy first covers the daytime lo
 - Expected generation today/tomorrow (kWh) vs. a clear-sky baseline → "% below normal"
 - Expected battery SoC at sunset
 - Night sufficiency: "Battery at sunset will cover your night load until ~2:30 AM"
+- Best time for heavy loads: the sunniest 3 hours still ahead ("Most sun from 12 PM to 3 PM")
 - Advice example: *"Today's solar may be 35% below normal due to clouds and smog. Your battery may reach only 70% by evening — avoid heavy loads after 6 PM."*
+
+**Assumptions:** today starts from the current SoC and the current time; tomorrow starts from the battery's cutoff SoC (the honest worst case after a night on backup). The house load is the planner's current load. Hours where the load exceeds solar are assumed covered by the grid. The clear-sky baseline is computed from sun position (Haurwitz model), so it needs no extra data. Forecast energy is shown as a ±15% range.
 
 ---
 
@@ -362,6 +365,7 @@ System          { id, userId, hasSolar: bool,
                   inverter: { type: 'ups'|'hybrid'|'ongrid', ratedW, efficiency, chargerW },
                   battery:  { chemistry: 'lead_acid'|'tubular'|'lifepo4', voltage, ah, count,
                               ageMonths, minSoC },
+                  location?: { city, lat, lon },   // where the panels are; the forecast is fetched here
                   solar?:   { kWp, panelW, panelCount, tiltDeg, azimuthDeg,
                               shading: 'none'|'partial'|'heavy', lastCleanedAt } }
 
@@ -441,12 +445,13 @@ Product-level phases. The step-by-step technical order is `TECH_STACK.md` §9; e
 
 - Battery: LiFePO4, 24 V × 150 Ah × 1 (3.6 kWh), SoC 60%, health 1.0. It must be lithium: with lead-acid at 60% only 10% of capacity is usable, so a realistic bank would show under 1 hour.
 - Inverter: hybrid, rated 2000 W, efficiency 0.90.
+- Solar: 4 × 540 W panels (2.16 kWp), no shading, in Lahore (31.52° N, 74.36° E).
 - Appliances ON (420 W total): 2 × ceiling fan 75 W, fridge 200 W × duty 0.4, LED TV 90 W, laptop 40 W, router 10 W, 5 × LED bulb 10 W.
 
 1. **Hook:** "Battery shows 60%. How long will it actually last?" → Dashboard shows **3 h 28 min**.
 2. Toggle iron (1000 W) + water motor (750 W) on → 2170 W → countdown drops live → red overload warning (> 2000 W).
 3. Turn them off again, tap "What should I turn off?" → ranked list (TV, fridge, fan…) → apply the top two → **5 h 49 min**.
-4. Solar tab: "Tomorrow cloudy, 35% below normal, battery reaches 70% by sunset" — real Open-Meteo data for Lahore.
+4. Solar tab: opens on the answer, e.g. "Battery reaches 79% by sunset · 49% less sun than a clear day" + "avoid heavy loads after 5:30 PM"; tap Tomorrow → "reaches 73%". Real Open-Meteo data for Lahore, so the numbers change daily (the quoted ones are from the 11 Oct 2026 fixture).
 5. Estimator: neighbour without solar enters 400 units/month → 3 packages with cost and payback.
 6. Battery tab: simulated ageing battery → "18% less capacity" → "kharab?" → diagnosis → 3 recommended batteries + nearby shops.
 7. Chat in Roman Urdu: "Raat 2 baje tak fan chal sakta hai?" → assistant answers using engine numbers.

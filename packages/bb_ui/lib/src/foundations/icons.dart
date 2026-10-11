@@ -89,4 +89,5 @@ abstract final class BbIcons {
   static const IconData add = PhosphorIconsRegular.plus;
   static const IconData more = PhosphorIconsRegular.dotsThree;
   static const IconData check = PhosphorIconsRegular.check;
+  static const IconData refresh = PhosphorIconsRegular.arrowClockwise;
 }

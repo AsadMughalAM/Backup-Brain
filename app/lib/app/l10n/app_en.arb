@@ -115,7 +115,6 @@
   "priorityComfort": "Use carefully",
   "priorityAvoid": "Avoid on backup",
   "comingSoonTitle": "Coming soon",
-  "comingSolar": "Solar forecast: how much tomorrow's sun will charge your battery.",
   "comingBattery": "Battery health, plus where to buy or repair a battery.",
   "comingAssistant": "Ask anything about your backup in English or Roman Urdu.",
   "settingsTheme": "Theme",
@@ -200,5 +199,158 @@
   },
   "settingUpHomeTitle": "Setting up your home",
   "settingUpHomeBody": "We're loading the demo household so you can see your backup time. Your own setup comes next.",
-  "useDemoHousehold": "Load the demo household"
+  "useDemoHousehold": "Load the demo household",
+  "solarToday": "Today",
+  "solarTomorrow": "Tomorrow",
+  "solarFullBy": "Battery full by {time}",
+  "@solarFullBy": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "solarStaysFull": "Battery stays full",
+  "solarReaches": "Battery reaches {percent} by sunset",
+  "@solarReaches": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "solarSunOver": "No more sun today",
+  "solarStartNow": "Starting from {percent} now",
+  "@solarStartNow": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "solarStartSunrise": "If it starts the day at {percent}",
+  "@solarStartSunrise": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "solarAtSunset": "at sunset, {time}",
+  "@solarAtSunset": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "solarBatteryNow": "battery now",
+  "solarNightUntil": "Lasts until about {time} at {load}",
+  "@solarNightUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "solarNightAll": "Lasts all night at {load}",
+  "@solarNightAll": {
+    "placeholders": {
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "solarNightNoLoad": "Nothing is drawing power",
+  "solarSunToday": "Sun today",
+  "solarSunTomorrow": "Sun tomorrow",
+  "unitKWh": "kWh",
+  "solarBelowClear": "{percent} less sun than a clear day",
+  "@solarBelowClear": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "solarNearClear": "About as sunny as a clear day",
+  "solarChartSemantics": "Hourly sun forecast, {range} kWh in total",
+  "@solarChartSemantics": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "solarLegendForecast": "Forecast",
+  "solarLegendClearDay": "Clear day",
+  "solarAdvicePeak": "Most sun from {start} to {end}. Run heavy loads like the iron or water motor then.",
+  "@solarAdvicePeak": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "solarAdviceWeak": "Weak sun. Your battery may reach only {percent}, so avoid heavy loads after {time}.",
+  "@solarAdviceWeak": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "solarUpdated": "{city} · updated {age}",
+  "@solarUpdated": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "ageJustNow": "just now",
+  "ageMinutes": "{minutes} min ago",
+  "@ageMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "ageHours": "{hours} h ago",
+  "@ageHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "ageDays": "{days} d ago",
+  "@ageDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "solarUpdateFailed": "Couldn't update. Showing the saved forecast.",
+  "tryAgain": "Try again",
+  "refreshForecast": "Refresh forecast",
+  "solarNoPanelsTitle": "No solar panels added",
+  "solarNoPanelsBody": "Add your panels during setup to see how much the sun will charge your battery.",
+  "solarNeedsInternetTitle": "Needs internet once",
+  "solarNeedsInternetBody": "Connect once to get the sun forecast. After that it works offline.",
+  "solarFetching": "Getting forecast…"
 }

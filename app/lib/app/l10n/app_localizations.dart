@@ -303,12 +303,6 @@ abstract class AppLocalizations {
   /// **'Coming soon'**
   String get comingSoonTitle;
 
-  /// No description provided for @comingSolar.
-  ///
-  /// In en, this message translates to:
-  /// **'Solar forecast: how much tomorrow\'s sun will charge your battery.'**
-  String get comingSolar;
-
   /// No description provided for @comingBattery.
   ///
   /// In en, this message translates to:
@@ -632,6 +626,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Load the demo household'**
   String get useDemoHousehold;
+
+  /// No description provided for @solarToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get solarToday;
+
+  /// No description provided for @solarTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get solarTomorrow;
+
+  /// No description provided for @solarFullBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery full by {time}'**
+  String solarFullBy(String time);
+
+  /// No description provided for @solarStaysFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery stays full'**
+  String get solarStaysFull;
+
+  /// No description provided for @solarReaches.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery reaches {percent} by sunset'**
+  String solarReaches(String percent);
+
+  /// No description provided for @solarSunOver.
+  ///
+  /// In en, this message translates to:
+  /// **'No more sun today'**
+  String get solarSunOver;
+
+  /// No description provided for @solarStartNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting from {percent} now'**
+  String solarStartNow(String percent);
+
+  /// No description provided for @solarStartSunrise.
+  ///
+  /// In en, this message translates to:
+  /// **'If it starts the day at {percent}'**
+  String solarStartSunrise(String percent);
+
+  /// No description provided for @solarAtSunset.
+  ///
+  /// In en, this message translates to:
+  /// **'at sunset, {time}'**
+  String solarAtSunset(String time);
+
+  /// No description provided for @solarBatteryNow.
+  ///
+  /// In en, this message translates to:
+  /// **'battery now'**
+  String get solarBatteryNow;
+
+  /// No description provided for @solarNightUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Lasts until about {time} at {load}'**
+  String solarNightUntil(String time, String load);
+
+  /// No description provided for @solarNightAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Lasts all night at {load}'**
+  String solarNightAll(String load);
+
+  /// No description provided for @solarNightNoLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is drawing power'**
+  String get solarNightNoLoad;
+
+  /// No description provided for @solarSunToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun today'**
+  String get solarSunToday;
+
+  /// No description provided for @solarSunTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun tomorrow'**
+  String get solarSunTomorrow;
+
+  /// No description provided for @unitKWh.
+  ///
+  /// In en, this message translates to:
+  /// **'kWh'**
+  String get unitKWh;
+
+  /// No description provided for @solarBelowClear.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} less sun than a clear day'**
+  String solarBelowClear(String percent);
+
+  /// No description provided for @solarNearClear.
+  ///
+  /// In en, this message translates to:
+  /// **'About as sunny as a clear day'**
+  String get solarNearClear;
+
+  /// No description provided for @solarChartSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly sun forecast, {range} kWh in total'**
+  String solarChartSemantics(String range);
+
+  /// No description provided for @solarLegendForecast.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecast'**
+  String get solarLegendForecast;
+
+  /// No description provided for @solarLegendClearDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear day'**
+  String get solarLegendClearDay;
+
+  /// No description provided for @solarAdvicePeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Most sun from {start} to {end}. Run heavy loads like the iron or water motor then.'**
+  String solarAdvicePeak(String start, String end);
+
+  /// No description provided for @solarAdviceWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak sun. Your battery may reach only {percent}, so avoid heavy loads after {time}.'**
+  String solarAdviceWeak(String percent, String time);
+
+  /// No description provided for @solarUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{city} · updated {age}'**
+  String solarUpdated(String city, String age);
+
+  /// No description provided for @ageJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get ageJustNow;
+
+  /// No description provided for @ageMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min ago'**
+  String ageMinutes(int minutes);
+
+  /// No description provided for @ageHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h ago'**
+  String ageHours(int hours);
+
+  /// No description provided for @ageDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d ago'**
+  String ageDays(int days);
+
+  /// No description provided for @solarUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update. Showing the saved forecast.'**
+  String get solarUpdateFailed;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get tryAgain;
+
+  /// No description provided for @refreshForecast.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh forecast'**
+  String get refreshForecast;
+
+  /// No description provided for @solarNoPanelsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No solar panels added'**
+  String get solarNoPanelsTitle;
+
+  /// No description provided for @solarNoPanelsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your panels during setup to see how much the sun will charge your battery.'**
+  String get solarNoPanelsBody;
+
+  /// No description provided for @solarNeedsInternetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs internet once'**
+  String get solarNeedsInternetTitle;
+
+  /// No description provided for @solarNeedsInternetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect once to get the sun forecast. After that it works offline.'**
+  String get solarNeedsInternetBody;
+
+  /// No description provided for @solarFetching.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting forecast…'**
+  String get solarFetching;
 }
 
 class _AppLocalizationsDelegate

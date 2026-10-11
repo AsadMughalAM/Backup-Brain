@@ -58,7 +58,7 @@ final class BackupCalculator {
   BackupEstimate estimate(BackupInput input, {required double loadW}) {
     _validate(input, loadW);
     final battery = input.battery;
-    final minSoc = battery.minSoc ?? EngineDefaults.minSoc(battery.chemistry);
+    final minSoc = battery.cutoffSoc;
     final efficiency =
         input.inverter.efficiency ??
         EngineDefaults.inverterEfficiency(input.inverter.type);

@@ -1,3 +1,5 @@
+import '../defaults.dart';
+
 enum BatteryChemistry {
   leadAcid,
   tubular,
@@ -28,4 +30,7 @@ final class BatterySpec {
   final double? minSoc;
 
   double get nominalWh => voltage * ampHours * count;
+
+  /// The SoC the inverter stops at: [minSoc] or the chemistry default.
+  double get cutoffSoc => minSoc ?? EngineDefaults.minSoc(chemistry);
 }

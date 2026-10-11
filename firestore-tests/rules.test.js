@@ -16,6 +16,9 @@ const system = {
   soc: 0.6,
 };
 
+const solar = { kWp: 2.16, panelW: 540, panelCount: 4, shading: 'none' };
+const location = { city: 'Lahore', lat: 31.5204, lon: 74.3587 };
+
 const appliance = {
   name: 'Ceiling fan',
   watts: 75,
@@ -69,6 +72,25 @@ describe('validation', () => {
     await assertFails(ref.set({ ...system, battery: { ...system.battery, chemistry: 'nicad' } }));
     await assertFails(ref.set({ ...system, soc: 60 }));
     await assertFails(ref.set({ ...system, battery: { ...system.battery, count: 0 } }));
+  });
+
+  test('accepts solar panels and a location (the demo household)', async () => {
+    const ref = db('alice').doc('users/alice/systems/main');
+    await assertSucceeds(ref.set({ ...system, hasSolar: true, solar, location }));
+  });
+
+  test('rejects bad panels or coordinates', async () => {
+    const ref = db('alice').doc('users/alice/systems/main');
+    await assertFails(ref.set({ ...system, solar: { ...solar, kWp: 0 } }));
+    await assertFails(ref.set({ ...system, solar: { ...solar, shading: 'some' } }));
+    await assertFails(ref.set({ ...system, location: { ...location, lat: 95 } }));
+    await assertFails(ref.set({ ...system, location: { ...location, city: '' } }));
+  });
+
+  test('the weather cache is owner-only', async () => {
+    const ref = db('alice').doc('users/alice/systems/main/weatherCache/2026-10-11');
+    await assertSucceeds(ref.set({ lat: 31.52, lon: 74.36 }));
+    await assertFails(db('bob').doc('users/alice/systems/main/weatherCache/2026-10-11').get());
   });
 
   test('accepts a valid appliance and an isOn toggle', async () => {

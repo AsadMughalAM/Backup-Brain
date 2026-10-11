@@ -12,7 +12,9 @@ enum BbCardVariant {
   standard,
 
   /// Dashboard hero: midnight `hero` fill, larger radius and padding. Its
-  /// content is drawn with the dark palette in both themes.
+  /// content is drawn with the dark palette in both themes, so read
+  /// `context.colors` / `context.textTheme` from a context *inside* the
+  /// card (a child widget or `Builder`), never the caller's.
   hero,
 
   /// Soft yellow `primaryContainer` tint, no shadow — the top AI advice card.

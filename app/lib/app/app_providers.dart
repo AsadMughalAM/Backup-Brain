@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,6 +11,9 @@ import '../features/backup/data/system_repository_impl.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/loads/data/appliance_repository_impl.dart';
 import '../features/loads/domain/appliance_repository.dart';
+import '../features/solar/data/sources/open_meteo_source.dart';
+import '../features/solar/data/weather_repository_impl.dart';
+import '../features/solar/domain/weather_repository.dart';
 
 /// Composition root: binds each repository interface to its implementation.
 /// Tests pass their own overrides instead.
@@ -32,4 +36,17 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       loadDemoHouseholdAsset,
     ),
   ),
+  weatherRepositoryProvider.overrideWith(
+    (ref) => FirestoreWeatherRepository(
+      ref.watch(firestoreProvider),
+      ref.watch(firebaseAuthProvider),
+      OpenMeteoSource(Dio(_weatherTimeouts)),
+    ),
+  ),
 ];
+
+// Give up quickly on a weak connection: the saved forecast stays on screen.
+final _weatherTimeouts = BaseOptions(
+  connectTimeout: const Duration(seconds: 10),
+  receiveTimeout: const Duration(seconds: 15),
+);

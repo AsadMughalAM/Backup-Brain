@@ -11,6 +11,12 @@ abstract final class SystemDto {
     BatteryChemistry.lifepo4: 'lifepo4',
   };
 
+  static const _shading = {
+    PanelShading.none: 'none',
+    PanelShading.partial: 'partial',
+    PanelShading.heavy: 'heavy',
+  };
+
   static const _inverterType = {
     InverterType.ups: 'ups',
     InverterType.hybrid: 'hybrid',
@@ -20,8 +26,26 @@ abstract final class SystemDto {
   static HouseholdSystem fromMap(Map<String, dynamic> map) {
     final battery = map['battery'] as Map<String, dynamic>;
     final inverter = map['inverter'] as Map<String, dynamic>;
+    final solar = map['solar'] as Map<String, dynamic>?;
+    final location = map['location'] as Map<String, dynamic>?;
     return HouseholdSystem(
-      hasSolar: map['hasSolar'] as bool? ?? false,
+      // `hasSolar` is stored for queries and rules; the panel spec is the
+      // source of truth in the app.
+      solar: map['hasSolar'] == true && solar != null
+          ? SolarSpec(
+              kWp: (solar['kWp'] as num).toDouble(),
+              shading: _decode(_shading, solar['shading'] ?? 'none'),
+            )
+          : null,
+      location: location == null
+          ? null
+          : HomeLocation(
+              city: location['city'] as String,
+              site: SiteLocation(
+                lat: (location['lat'] as num).toDouble(),
+                lon: (location['lon'] as num).toDouble(),
+              ),
+            ),
       soc: (map['soc'] as num).toDouble(),
       battery: BatterySpec(
         chemistry: _decode(_chemistry, battery['chemistry']),
@@ -40,6 +64,14 @@ abstract final class SystemDto {
 
   static Map<String, dynamic> toMap(HouseholdSystem s) => {
     'hasSolar': s.hasSolar,
+    if (s.solar case final solar?)
+      'solar': {'kWp': solar.kWp, 'shading': _shading[solar.shading]},
+    if (s.location case final location?)
+      'location': {
+        'city': location.city,
+        'lat': location.site.lat,
+        'lon': location.site.lon,
+      },
     'soc': s.soc,
     'battery': {
       'chemistry': _chemistry[s.battery.chemistry],
