@@ -1,0 +1,10 @@
+/// Backup Brain calculation engine. Pure Dart: no Flutter, no Firebase, no
+/// clock. Every number the app or the AI shows comes from here.
+library;
+
+export 'src/backup_calculator.dart';
+export 'src/defaults.dart';
+export 'src/load_planner.dart';
+export 'src/models/appliance_load.dart';
+export 'src/models/battery_spec.dart';
+export 'src/models/inverter_spec.dart';
