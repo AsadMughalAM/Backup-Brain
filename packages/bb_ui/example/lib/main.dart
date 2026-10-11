@@ -44,12 +44,10 @@ class _GalleryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('bb_ui Gallery'),
         actions: [
-          IconButton(
+          BbIconButton(
             tooltip: 'Switch theme',
             onPressed: onToggleTheme,
-            icon: Icon(
-              context.isDarkTheme ? BbIcons.themeLight : BbIcons.themeDark,
-            ),
+            icon: context.isDarkTheme ? BbIcons.themeLight : BbIcons.themeDark,
           ),
         ],
       ),
@@ -59,6 +57,11 @@ class _GalleryPage extends StatelessWidget {
           vertical: AppSpacing.xl,
         ),
         children: [
+          const _Section('BbCountdownRing', child: _RingDemo()),
+          const _Section('BbStatTile', child: _StatTilesDemo()),
+          const _Section('BbButton / BbIconButton', child: _ButtonsDemo()),
+          const _Section('BbBanner', child: _BannersDemo()),
+          const _Section('BbCard', child: _CardsDemo()),
           const _Section('Metrics (Geist Mono)', child: _MetricsDemo()),
           const _Section('Type scale (Geist)', child: _TypeScale()),
           _Section('AppColors', child: _Swatches(colors.tokens)),
@@ -88,6 +91,248 @@ class _Section extends StatelessWidget {
         child,
       ],
     ),
+  );
+}
+
+/// Drag the slider to watch the arc animate and change status color; the
+/// switch triggers the one-time overload pulse.
+class _RingDemo extends StatefulWidget {
+  const _RingDemo();
+
+  @override
+  State<_RingDemo> createState() => _RingDemoState();
+}
+
+class _RingDemoState extends State<_RingDemo> {
+  var _soc = 0.62;
+  var _overloaded = false;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      BbCard(
+        variant: BbCardVariant.hero,
+        child: Center(
+          child: BbCountdownRing(
+            soc: _soc,
+            timeLabel: '3h 28m',
+            caption: 'left at 420 W',
+            footnote: 'Stops protecting battery at 15%',
+            isOverloaded: _overloaded,
+          ),
+        ),
+      ),
+      Slider(value: _soc, onChanged: (v) => setState(() => _soc = v)),
+      SwitchListTile(
+        title: const Text('Overload'),
+        value: _overloaded,
+        onChanged: (v) => setState(() => _overloaded = v),
+      ),
+      if (_overloaded)
+        const BbBanner(
+          tone: BbBannerTone.danger,
+          title: 'Overload',
+          message: 'Load is above what your inverter can supply.',
+        ),
+    ],
+  );
+}
+
+class _StatTilesDemo extends StatelessWidget {
+  const _StatTilesDemo();
+
+  @override
+  Widget build(BuildContext context) => const Column(
+    children: [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: BbStatTile(
+              icon: BbIcons.batteryHigh,
+              tone: BbTone.success,
+              label: 'Battery',
+              value: '62',
+              unit: '%',
+            ),
+          ),
+          BbGap.md(),
+          Expanded(
+            child: BbStatTile(
+              icon: BbIcons.loads,
+              tone: BbTone.load,
+              label: 'Load',
+              value: '420',
+              unit: 'W',
+            ),
+          ),
+        ],
+      ),
+      BbGap.md(),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: BbStatTile(
+              icon: BbIcons.solar,
+              tone: BbTone.solar,
+              label: 'Solar today',
+              value: '3.8',
+              unit: 'kWh',
+              delta: '35% below normal',
+            ),
+          ),
+          BbGap.md(),
+          Expanded(
+            child: BbStatTile(
+              icon: BbIcons.schedule,
+              tone: BbTone.grid,
+              label: 'Next outage',
+              value: '7:00',
+              unit: 'PM',
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+class _ButtonsDemo extends StatefulWidget {
+  const _ButtonsDemo();
+
+  @override
+  State<_ButtonsDemo> createState() => _ButtonsDemoState();
+}
+
+class _ButtonsDemoState extends State<_ButtonsDemo> {
+  var _loading = false;
+
+  Future<void> _fakeLoad() async {
+    setState(() => _loading = true);
+    await Future<void>.delayed(const Duration(seconds: 2));
+    if (mounted) setState(() => _loading = false);
+  }
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      BbButton(
+        label: 'What should I turn off?',
+        icon: BbIcons.loads,
+        onPressed: () {},
+      ),
+      const BbGap.sm(),
+      BbButton.secondary(label: 'My battery is kharab', onPressed: () {}),
+      const BbGap.sm(),
+      BbButton.tonal(
+        label: 'Add appliance',
+        icon: BbIcons.add,
+        onPressed: () {},
+      ),
+      const BbGap.sm(),
+      BbButton.ghost(label: 'See all', onPressed: () {}),
+      const BbGap.sm(),
+      BbButton.danger(label: 'Delete appliance', onPressed: () {}),
+      const BbGap.sm(),
+      const BbButton(label: 'Disabled', onPressed: null),
+      const BbGap.sm(),
+      BbButton.secondary(
+        label: 'Find shops (tap me)',
+        loading: _loading,
+        loadingLabel: 'Finding shops…',
+        icon: BbIcons.location,
+        onPressed: _fakeLoad,
+      ),
+      const BbGap.sm(),
+      BbButton(
+        label: 'Light gayi',
+        size: BbButtonSize.lg,
+        expand: true,
+        icon: BbIcons.gridOff,
+        onPressed: () {},
+      ),
+      const BbGap.sm(),
+      Row(
+        children: [
+          BbIconButton(
+            icon: BbIcons.settings,
+            tooltip: 'Settings',
+            onPressed: () {},
+          ),
+          BbIconButton(
+            icon: BbIcons.close,
+            tooltip: 'Close',
+            variant: BbIconButtonVariant.tonal,
+            onPressed: () {},
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+class _BannersDemo extends StatelessWidget {
+  const _BannersDemo();
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      BbBanner(
+        message: 'Prices last updated 3 Oct. Estimates only.',
+        onDismiss: () {},
+        dismissLabel: 'Close',
+      ),
+      const BbGap.sm(),
+      const BbBanner(
+        tone: BbBannerTone.success,
+        message: 'Battery will be full by 4:30 PM.',
+      ),
+      const BbGap.sm(),
+      const BbBanner(
+        tone: BbBannerTone.warning,
+        title: 'Deep discharge',
+        message: 'Avoid discharging below 50%.',
+      ),
+      const BbGap.sm(),
+      const BbBanner(
+        tone: BbBannerTone.danger,
+        title: 'Battery swelling or heat',
+        message: 'Disconnect the battery and call a technician.',
+      ),
+    ],
+  );
+}
+
+class _CardsDemo extends StatelessWidget {
+  const _CardsDemo();
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      const BbCard(child: Text('Standard card')),
+      const BbGap.md(),
+      BbCard(
+        variant: BbCardVariant.highlight,
+        child: Row(
+          children: [
+            Icon(
+              BbIcons.ai,
+              size: AppSizes.iconSm,
+              color: context.colors.textMuted,
+            ),
+            const BbGap.sm(),
+            const Expanded(
+              child: Text(
+                'Tomorrow may be 35% below normal. Avoid heavy loads after 6 PM.',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
   );
 }
 

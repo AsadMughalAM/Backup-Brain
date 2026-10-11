@@ -29,6 +29,14 @@ const List<_Pair> _appColorPairs = [
   ('warning', 'warningContainer', _text),
   ('danger', 'surface', _text),
   ('danger', 'dangerContainer', _text),
+  // BbBanner: body text and status icon on each container.
+  ('textPrimary', 'secondaryContainer', _text),
+  ('textPrimary', 'successContainer', _text),
+  ('textPrimary', 'warningContainer', _text),
+  ('textPrimary', 'dangerContainer', _text),
+  ('info', 'secondaryContainer', _ui),
+  // BbCountdownRing caption sits on the hero card.
+  ('textMuted', 'secondaryContainer', _text),
 ];
 
 const List<_Pair> _energyPairs = [

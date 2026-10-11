@@ -2,6 +2,18 @@
 /// primitives stay private so widgets can't bypass the semantic tokens.
 library;
 
+export 'src/components/buttons/bb_button.dart';
+export 'src/components/buttons/bb_icon_button.dart';
+export 'src/components/data_display/bb_metric.dart';
+export 'src/components/data_display/bb_stat_tile.dart';
+export 'src/components/data_display/bb_tone.dart';
+export 'src/components/energy/bb_countdown_ring.dart';
+export 'src/components/feedback/bb_banner.dart';
+export 'src/components/feedback/bb_spinner.dart';
+export 'src/components/layout/bb_gap.dart';
+export 'src/components/layout/bb_page_padding.dart';
+export 'src/components/navigation/bb_scaffold.dart';
+export 'src/components/surfaces/bb_card.dart';
 export 'src/foundations/icons.dart';
 export 'src/foundations/semantic/app_colors.dart';
 export 'src/foundations/semantic/app_typography.dart';
