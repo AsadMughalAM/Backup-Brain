@@ -33,6 +33,7 @@ flutterfire configure
 flutter pub get
 dart run build_runner build -d
 flutter run --dart-define=USE_EMULATORS=true
+flutter run -d chrome            # quick dev preview without a phone (Android is the real target)
 
 # tests
 cd packages/energy_engine && dart test

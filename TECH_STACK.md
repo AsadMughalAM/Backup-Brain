@@ -32,7 +32,7 @@ Why:
 
 | Layer | Technology | Used for |
 |---|---|---|
-| Mobile app | **Flutter** (stable channel), Dart 3 | All UI, Android first, iOS second |
+| Mobile app | **Flutter** (stable channel), Dart 3 | All UI, Android first, iOS second. A web build (`flutter run -d chrome`) exists as a **dev preview only**: offline behaviour and the airplane-mode check are verified on Android, never on web |
 | State management | **Riverpod** (`flutter_riverpod` + `riverpod_annotation`) | Controllers, dependency injection |
 | Navigation | **go_router** | Routes, deep links from notifications |
 | Calculation engine | **Pure Dart package** `packages/energy_engine` | F1, F2, F3 model, F5, F6, F8 pattern |

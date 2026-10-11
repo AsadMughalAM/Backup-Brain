@@ -30,7 +30,14 @@ Future<void> bootstrap() async {
   }
 
   // Offline persistence is on by default on Android/iOS; the cache is what
-  // makes the countdown work during load-shedding.
+  // makes the countdown work during load-shedding. The web build is only a
+  // dev preview, but give it a persistent cache too so it behaves the same.
+  if (kIsWeb) {
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+    );
+  }
+
   final prefs = await SharedPreferences.getInstance();
 
   runApp(ProviderScope(overrides: appOverrides(prefs), child: const App()));
