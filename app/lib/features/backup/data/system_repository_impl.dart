@@ -43,6 +43,10 @@ class FirestoreSystemRepository implements SystemRepository {
           .update({'soc': soc, 'updatedAt': FieldValue.serverTimestamp()});
 
   @override
+  Future<bool> existsOnServer() async =>
+      (await _doc(_uid).get(const GetOptions(source: Source.server))).exists;
+
+  @override
   Future<void> loadDemo() async {
     final demo = await _loadDemo();
     await save(SystemDto.fromMap(demo['system'] as Map<String, dynamic>));

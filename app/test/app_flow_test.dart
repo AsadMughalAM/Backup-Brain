@@ -1,98 +1,170 @@
-import 'package:backup_brain/app/app.dart';
-import 'package:backup_brain/core/services/preferences.dart';
-import 'package:backup_brain/features/backup/domain/system_repository.dart';
-import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import 'helpers/app_harness.dart';
 import 'helpers/fakes.dart';
 
-Future<void> _pumpApp(
-  WidgetTester tester, {
-  required FakeSystemRepository system,
-  required FakeApplianceRepository appliances,
-}) async {
-  tester.view.physicalSize = const Size(1080, 2340);
-  tester.view.devicePixelRatio = 2.75;
-  addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues({});
-  final prefs = await SharedPreferences.getInstance();
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-        systemRepositoryProvider.overrideWithValue(system),
-        applianceRepositoryProvider.overrideWithValue(appliances),
-      ],
-      child: const App(),
-    ),
-  );
-  await tester.pumpAndSettle();
-}
-
 void main() {
-  testWidgets('demo household: dashboard shows the §12 hook number', (
-    tester,
-  ) async {
-    await _pumpApp(
+  group('signed in', () {
+    testWidgets('dashboard shows the §12 hook number and greets by name', (
       tester,
-      system: FakeSystemRepository(demoSystem()),
-      appliances: FakeApplianceRepository(demoAppliances()),
-    );
-    expect(find.text('3h 28m'), findsOneWidget);
-    expect(find.text('left at 420 W'), findsOneWidget);
-    // Actionable advice from the engine's top suggestion.
-    expect(find.textContaining('Turn off LED TV'), findsOneWidget);
+    ) async {
+      await pumpApp(
+        tester,
+        auth: FakeAuthRepository(account: signedInAsAsad),
+        system: FakeSystemRepository(demoSystem()),
+        appliances: FakeApplianceRepository(demoAppliances()),
+      );
+      expect(find.text('Assalam-o-alaikum, Asad'), findsOneWidget);
+      expect(find.text('3h 28m'), findsOneWidget);
+      expect(find.text('left at 420 W'), findsOneWidget);
+      expect(find.textContaining('Turn off LED TV'), findsOneWidget);
+    });
+
+    testWidgets('load planner: TV and fridge off gives 5h 49m', (tester) async {
+      final appliances = FakeApplianceRepository(demoAppliances());
+      await pumpApp(
+        tester,
+        auth: FakeAuthRepository(account: signedInAsAsad),
+        system: FakeSystemRepository(demoSystem()),
+        appliances: appliances,
+      );
+      await tester.tap(find.text('What should I turn off?'));
+      await tester.pumpAndSettle();
+      await appliances.setOn('tv', isOn: false);
+      await appliances.setOn('fridge', isOn: false);
+      await tester.pumpAndSettle();
+      expect(find.text('5h 49m'), findsOneWidget);
+    });
+
+    testWidgets('iron + water motor: overload warning (demo step 2)', (
+      tester,
+    ) async {
+      final appliances = FakeApplianceRepository(demoAppliances());
+      await pumpApp(
+        tester,
+        auth: FakeAuthRepository(account: signedInAsAsad),
+        system: FakeSystemRepository(demoSystem()),
+        appliances: appliances,
+      );
+      await appliances.setOn('iron', isOn: true);
+      await appliances.setOn('motor', isOn: true);
+      await tester.pumpAndSettle();
+      expect(find.text('Overload'), findsOneWidget);
+    });
+
+    testWidgets('sign out from Settings returns to the intro', (tester) async {
+      final auth = FakeAuthRepository(account: signedInAsAsad);
+      await pumpApp(
+        tester,
+        auth: auth,
+        system: FakeSystemRepository(demoSystem()),
+        appliances: FakeApplianceRepository(demoAppliances()),
+      );
+      await tester.tap(find.byTooltip('Settings'));
+      await tester.pumpAndSettle();
+      expect(find.text('Signed in as Asad Ali'), findsOneWidget);
+      await tester.tap(find.text('Sign out'));
+      await tester.pumpAndSettle();
+      expect(auth.calls, ['signOut']);
+      expect(find.text('Backup Brain'), findsOneWidget); // intro slide 1
+    });
   });
 
-  testWidgets('load planner: turning off TV and fridge gives 5h 49m', (
-    tester,
-  ) async {
-    final appliances = FakeApplianceRepository(demoAppliances());
-    await _pumpApp(
+  group('signed out', () {
+    testWidgets('intro → sign up → lands on Home with the demo household', (
       tester,
-      system: FakeSystemRepository(demoSystem()),
-      appliances: appliances,
-    );
-    await tester.tap(find.text('What should I turn off?'));
-    await tester.pumpAndSettle();
-    expect(find.text('Load planner'), findsOneWidget);
+    ) async {
+      final auth = FakeAuthRepository();
+      final system = FakeSystemRepository();
+      await pumpApp(
+        tester,
+        auth: auth,
+        system: system,
+        appliances: FakeApplianceRepository(),
+      );
+      expect(find.text('Backup Brain'), findsOneWidget);
+      await goToSignUp(tester);
+      expect(find.text('Join for a smarter backup.'), findsOneWidget);
 
-    await appliances.setOn('tv', isOn: false);
-    await appliances.setOn('fridge', isOn: false);
-    await tester.pumpAndSettle();
-    expect(find.text('5h 49m'), findsOneWidget);
-  });
+      await tester.enterText(field('Enter your name'), 'Asad Ali');
+      await tester.enterText(field('Enter your email'), 'asad@example.pk');
+      await tester.enterText(field('Enter your password'), 'secret12');
+      await tester.tap(find.text('Sign up'));
+      await tester.pumpAndSettle();
 
-  testWidgets('iron + water motor on: overload warning (demo step 2)', (
-    tester,
-  ) async {
-    final appliances = FakeApplianceRepository(demoAppliances());
-    await _pumpApp(
+      expect(auth.calls, ['signUp Asad Ali <asad@example.pk>']);
+      expect(system.demoLoads, 1);
+      expect(find.text('3h 28m'), findsOneWidget);
+      expect(find.text('Assalam-o-alaikum, Asad'), findsOneWidget);
+    });
+
+    testWidgets('Google on the login screen goes straight to Home', (
       tester,
-      system: FakeSystemRepository(demoSystem()),
-      appliances: appliances,
-    );
-    await appliances.setOn('iron', isOn: true);
-    await appliances.setOn('motor', isOn: true);
-    await tester.pumpAndSettle();
-    expect(find.text('Overload'), findsOneWidget);
-  });
+    ) async {
+      final auth = FakeAuthRepository();
+      await pumpApp(
+        tester,
+        auth: auth,
+        system: FakeSystemRepository(),
+        appliances: FakeApplianceRepository(),
+      );
+      await goToSignUp(tester);
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+      expect(find.text('Welcome back!'), findsOneWidget);
 
-  testWidgets('no household yet: welcome, then demo opens the dashboard', (
-    tester,
-  ) async {
-    final system = FakeSystemRepository();
-    final appliances = FakeApplianceRepository();
-    await _pumpApp(tester, system: system, appliances: appliances);
-    expect(find.text('Try the demo household'), findsOneWidget);
+      await tester.tap(find.text('Continue with Google'));
+      await tester.pumpAndSettle();
+      expect(auth.calls, ['google']);
+      expect(find.text('3h 28m'), findsOneWidget);
+    });
 
-    // What OnboardingController does after signing in.
-    await appliances.loadDemo();
-    await system.loadDemo();
-    await tester.pumpAndSettle();
-    expect(find.text('3h 28m'), findsOneWidget);
+    testWidgets('returning user: existing household is never overwritten', (
+      tester,
+    ) async {
+      final system = FakeSystemRepository(demoSystem().copyWith(soc: 0.8));
+      await pumpApp(
+        tester,
+        auth: FakeAuthRepository(),
+        system: system,
+        appliances: FakeApplianceRepository(demoAppliances()),
+      );
+      await goToSignUp(tester);
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+      await tester.enterText(field('Enter your email'), 'asad@example.pk');
+      await tester.enterText(field('Enter your password'), 'secret12');
+      await tester.tap(find.text('Login').first);
+      await tester.pumpAndSettle();
+
+      expect(system.demoLoads, 0);
+      expect(find.text('80'), findsOneWidget); // their battery, not demo 60%
+    });
+
+    testWidgets('offline right after sign-up: setup card with retry', (
+      tester,
+    ) async {
+      final system = FakeSystemRepository()..offline = true;
+      await pumpApp(
+        tester,
+        auth: FakeAuthRepository(),
+        system: system,
+        appliances: FakeApplianceRepository(),
+      );
+      await goToSignUp(tester);
+      await tester.enterText(field('Enter your name'), 'Asad');
+      await tester.enterText(field('Enter your email'), 'asad@example.pk');
+      await tester.enterText(field('Enter your password'), 'secret12');
+      await tester.tap(find.text('Sign up'));
+      await tester.pumpAndSettle();
+
+      expect(system.demoLoads, 0);
+      expect(find.text('Setting up your home'), findsOneWidget);
+
+      system.offline = false;
+      await tester.tap(find.text('Load the demo household'));
+      await tester.pumpAndSettle();
+      expect(find.text('3h 28m'), findsOneWidget);
+    });
   });
 }

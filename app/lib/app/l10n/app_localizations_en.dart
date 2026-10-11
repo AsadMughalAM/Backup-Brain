@@ -129,27 +129,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get priorityAvoid => 'Avoid on backup';
 
   @override
-  String get welcomeTitle => 'Know exactly how long your backup will last';
-
-  @override
-  String get welcomeBody =>
-      'Backup Brain turns your battery and appliances into one clear answer, and tells you what to switch off first. It works offline.';
-
-  @override
-  String get tryDemo => 'Try the demo household';
-
-  @override
-  String get tryDemoLoading => 'Setting up…';
-
-  @override
-  String get welcomeOwnSetupSoon =>
-      'Setting up your own battery and appliances comes next.';
-
-  @override
-  String get needsInternetFirstTime =>
-      'Connect to the internet once to get started. After that, Backup Brain works offline.';
-
-  @override
   String get comingSoonTitle => 'Coming soon';
 
   @override
@@ -189,17 +168,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSection => 'Account';
 
   @override
-  String get saveDataTitle => 'Save your data';
-
-  @override
-  String get saveDataBody =>
-      'Sign in so your battery and appliance setup is safe if you change or lose your phone.';
-
-  @override
   String get continueWithGoogle => 'Continue with Google';
-
-  @override
-  String get useEmail => 'Use email';
 
   @override
   String signedInAs(String who) {
@@ -213,46 +182,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signOut => 'Sign out';
 
   @override
-  String get alreadyHaveAccount => 'I already have an account';
-
-  @override
-  String get createAccountTitle => 'Create your account';
-
-  @override
-  String get signInTitle => 'Sign in';
-
-  @override
-  String get email => 'Email';
-
-  @override
-  String get password => 'Password';
-
-  @override
   String get showPassword => 'Show password';
 
   @override
   String get hidePassword => 'Hide password';
-
-  @override
-  String get createAccount => 'Create account';
-
-  @override
-  String get creatingAccount => 'Creating account…';
-
-  @override
-  String get signIn => 'Sign in';
-
-  @override
-  String get signingIn => 'Signing in…';
-
-  @override
-  String get orDivider => 'or';
-
-  @override
-  String get switchToSignIn => 'Already have an account? Sign in';
-
-  @override
-  String get switchToCreate => 'New here? Create an account';
 
   @override
   String get forgotPassword => 'Forgot password?';
@@ -288,4 +221,96 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get introNext => 'Next';
+
+  @override
+  String introPageOf(int current, int total) {
+    return 'Page $current of $total';
+  }
+
+  @override
+  String get intro1Title => 'Backup Brain';
+
+  @override
+  String get intro1Body =>
+      'Know exactly how long your battery will last during load-shedding — in hours and minutes.';
+
+  @override
+  String get intro2Title => 'Switch off the right things';
+
+  @override
+  String get intro2Body =>
+      'See which appliance to turn off first and how much backup time it gives you back.';
+
+  @override
+  String get intro3Title => 'Plan with the sun';
+
+  @override
+  String get intro3Body =>
+      'Solar forecasts, battery health and costs — so every outage is planned, not a surprise.';
+
+  @override
+  String get signUpTitle => 'Join for a smarter backup.';
+
+  @override
+  String get loginTitle => 'Welcome back!';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get nameHint => 'Enter your name';
+
+  @override
+  String get emailHint => 'Enter your email';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get rememberMe => 'Remember me';
+
+  @override
+  String get signUp => 'Sign up';
+
+  @override
+  String get signingUp => 'Signing up…';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get loggingIn => 'Logging in…';
+
+  @override
+  String get orDivider => 'Or';
+
+  @override
+  String get haveAccountQuestion => 'Already have an account?';
+
+  @override
+  String get noAccountQuestion => 'Don\'t have an account?';
+
+  @override
+  String get createAnAccount => 'Create an account';
+
+  @override
+  String get errorNameRequired => 'Enter your name.';
+
+  @override
+  String greetingName(String name) {
+    return 'Assalam-o-alaikum, $name';
+  }
+
+  @override
+  String get settingUpHomeTitle => 'Setting up your home';
+
+  @override
+  String get settingUpHomeBody =>
+      'We\'re loading the demo household so you can see your backup time. Your own setup comes next.';
+
+  @override
+  String get useDemoHousehold => 'Load the demo household';
 }

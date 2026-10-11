@@ -4,16 +4,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/widgets/coming_soon_screen.dart';
-import '../features/backup/domain/system_repository.dart';
+import '../features/auth/domain/auth_repository.dart';
+import '../features/auth/presentation/screens/intro_screen.dart';
+import '../features/auth/presentation/screens/login_screen.dart';
+import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
-import '../features/onboarding/presentation/screens/welcome_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
-import '../features/settings/presentation/screens/sign_in_screen.dart';
 import 'l10n/app_localizations.dart';
 
 abstract final class Routes {
-  static const welcome = '/welcome';
+  static const intro = '/intro';
+  static const signUp = '/sign-up';
+  static const login = '/login';
   static const home = '/';
   static const loads = '/loads';
   static const solar = '/solar';
@@ -21,49 +24,44 @@ abstract final class Routes {
   static const assistant = '/assistant';
   static const settings = '/settings';
 
-  /// `?mode=signIn` opens it on "Sign in" instead of "Create account".
-  static const signIn = '/sign-in';
+  static const _signedOut = {intro, signUp, login};
 }
 
-/// Five tabs in a stateful shell (each tab keeps its scroll position), plus
-/// the welcome flow until the household is set up.
+/// Signed out → intro / sign-up / login only. Signed in → the five tabs;
+/// signing in from any auth screen lands on Home by itself.
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier(0);
-  ref.listen(householdSystemProvider, (_, _) => refresh.value++);
+  ref.listen(isSignedInProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
     initialLocation: Routes.home,
     refreshListenable: refresh,
     redirect: (context, state) {
-      final system = ref.read(householdSystemProvider);
-      // Still reading the local cache: stay put rather than flash welcome.
-      if (!system.hasValue && !system.hasError) return null;
-      final hasSystem = system.value != null;
-      final atWelcome = state.matchedLocation == Routes.welcome;
-      // A returning user signs in before any household exists on this
-      // device, so sign-in must be reachable without one.
-      final atSignIn = state.matchedLocation == Routes.signIn;
-      if (!hasSystem && !atWelcome && !atSignIn) return Routes.welcome;
-      if (hasSystem && atWelcome) return Routes.home;
+      final signedIn = ref.read(isSignedInProvider);
+      // Firebase restores the session from disk first: wait, don't flash.
+      if (signedIn == null) return null;
+      final atAuth = Routes._signedOut.contains(state.matchedLocation);
+      if (!signedIn && !atAuth) return Routes.intro;
+      if (signedIn && atAuth) return Routes.home;
       return null;
     },
     routes: [
       GoRoute(
-        path: Routes.welcome,
-        builder: (context, state) => const WelcomeScreen(),
+        path: Routes.intro,
+        builder: (context, state) => const IntroScreen(),
+      ),
+      GoRoute(
+        path: Routes.signUp,
+        builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: Routes.login,
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: Routes.settings,
         builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: Routes.signIn,
-        builder: (context, state) => SignInScreen(
-          initialMode: state.uri.queryParameters['mode'] == 'signIn'
-              ? SignInMode.signIn
-              : SignInMode.create,
-        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => _TabShell(shell: shell),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/data/models/system_dto.dart';
 import 'package:backup_brain/features/backup/domain/entities/household_system.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
@@ -47,8 +48,23 @@ class FakeSystemRepository implements SystemRepository {
   @override
   Future<void> setSoc(double soc) async => _emit(_system!.copyWith(soc: soc));
 
+  /// How many times the demo household was written.
+  int demoLoads = 0;
+
   @override
-  Future<void> loadDemo() async => _emit(demoSystem());
+  Future<void> loadDemo() async {
+    demoLoads++;
+    _emit(demoSystem());
+  }
+
+  /// Set to make the server check fail, like being offline.
+  bool offline = false;
+
+  @override
+  Future<bool> existsOnServer() async {
+    if (offline) throw StateError('offline');
+    return _system != null;
+  }
 }
 
 class FakeApplianceRepository implements ApplianceRepository {
@@ -87,4 +103,74 @@ class FakeApplianceRepository implements ApplianceRepository {
 
   @override
   Future<void> loadDemo() async => _changes.add(_items = demoAppliances());
+}
+
+const signedInAsAsad = AccountInfo(
+  uid: 'asad',
+  kind: AccountKind.email,
+  email: 'asad@example.pk',
+  displayName: 'Asad Ali',
+);
+
+/// Records calls; [failWith] makes the next actions throw that failure.
+class FakeAuthRepository implements AuthRepository {
+  FakeAuthRepository({this.account, this.failWith});
+
+  AccountInfo? account;
+  AuthFailureCode? failWith;
+  final calls = <String>[];
+  final _changes = StreamController<AccountInfo?>.broadcast();
+
+  Future<void> _act(String call, AccountInfo? after) async {
+    calls.add(call);
+    final code = failWith;
+    if (code != null) throw AuthFailure(code);
+    _changes.add(account = after);
+  }
+
+  @override
+  Stream<AccountInfo?> watchAccount() async* {
+    yield account;
+    yield* _changes.stream;
+  }
+
+  @override
+  Future<void> continueWithGoogle() => _act(
+    'google',
+    const AccountInfo(
+      uid: 'g1',
+      kind: AccountKind.google,
+      displayName: 'Arham',
+    ),
+  );
+
+  @override
+  Future<void> signUpWithEmail({
+    required String name,
+    required String email,
+    required String password,
+  }) => _act(
+    'signUp $name <$email>',
+    AccountInfo(
+      uid: 'new',
+      kind: AccountKind.email,
+      email: email,
+      displayName: name,
+    ),
+  );
+
+  @override
+  Future<void> signInWithEmail(String email, String password) => _act(
+    'login $email',
+    AccountInfo(uid: 'old', kind: AccountKind.email, email: email),
+  );
+
+  @override
+  Future<void> sendPasswordReset(String email) => _act('reset $email', account);
+
+  @override
+  Future<void> setRememberMe(bool remember) async {}
+
+  @override
+  Future<void> signOut() => _act('signOut', null);
 }

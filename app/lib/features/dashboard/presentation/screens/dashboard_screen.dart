@@ -6,8 +6,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/router.dart';
+import '../../../../app/session/household_setup.dart';
 import '../../../../app/theme_mode/theme_mode_controller.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../auth/domain/auth_repository.dart';
 import '../../../backup/domain/entities/household_system.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../../loads/domain/appliance_repository.dart';
@@ -22,11 +24,15 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final plan = ref.watch(loadPlanProvider);
-    final system = ref.watch(householdSystemProvider).value;
+    final systemState = ref.watch(householdSystemProvider);
+    final system = systemState.value;
     final brightness = Theme.of(context).brightness;
+    final firstName = ref.watch(accountProvider).value?.firstName;
+    // Loaded, but this account has no household yet (just signed up).
+    final noHousehold = systemState.hasValue && system == null;
 
     return BbScaffold(
-      title: l10n.greeting,
+      title: firstName == null ? l10n.greeting : l10n.greetingName(firstName),
       actions: [
         BbIconButton(
           icon: brightness == Brightness.dark
@@ -42,9 +48,50 @@ class DashboardScreen extends ConsumerWidget {
           onPressed: () => context.push(Routes.settings),
         ),
       ],
-      body: plan == null || system == null
+      body: noHousehold
+          ? const _SettingUpHome()
+          : plan == null || system == null
           ? const SizedBox.shrink()
           : _DashboardBody(plan: plan, system: system),
+    );
+  }
+}
+
+/// Shown for the moment between sign-up and the demo household arriving,
+/// or if that couldn't happen (offline) — with a way to retry.
+class _SettingUpHome extends ConsumerWidget {
+  const _SettingUpHome();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+      children: [
+        BbCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.settingUpHomeTitle,
+                style: context.textTheme.titleMedium,
+              ),
+              const BbGap.xs(),
+              Text(
+                l10n.settingUpHomeBody,
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colors.textMuted,
+                ),
+              ),
+              const BbGap.lg(),
+              BbButton.tonal(
+                label: l10n.useDemoHousehold,
+                onPressed: () => ref.read(householdSetupProvider).ensure(),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

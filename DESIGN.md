@@ -182,7 +182,7 @@ Never use `ColorScheme.fromSeed` — it would generate hues outside our three fa
 2. **Yellow is a fill, never text on light.** On light surfaces yellow text/icons fail contrast (1.6:1). Use `textOnPrimary` ink *on* yellow, or `energy.solarText` for solar numbers.
 3. **Ink on yellow, always.** Yellow buttons/pills carry `textOnPrimary` (11:1+). Never white on yellow.
 4. **Status colors are for status.** Green ≠ "nice", red ≠ "brand". A green button does not exist; a red button only exists as `BbButton.danger` for destructive actions.
-5. **No gradients**, except the 2-stop solar area fill in charts (`energy.solar` 32% → 0% alpha).
+5. **No gradients**, except the 2-stop solar area fill in charts (`energy.solar` 32% → 0% alpha) and the **auth "sky"** on Intro / Sign up / Login: `secondary` → `secondaryContainer` → `background` (dark: `secondaryContainer` → `surface` → `background`) with a solid `primary` sun disc in the corner. Never through grey; titles on it use `onSecondary` (dark: `onSecondaryContainer`).
 6. **No pure black or pure white text** in dark mode. Canvas950 is the darkest pixel; canvas100 is the brightest text.
 7. **Opacity, not new colors,** for states: pressed overlay = `textPrimary` @ 12%, hover @ 8%, disabled content @ 38% (TECH_STACK `opacity.dart`).
 
@@ -613,6 +613,8 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - Sizes: `sm` 40 h, `md` 48 h (default), `lg` 56 h (sticky bottom CTA, full width). Label `labelLarge`; icon 20, leading only.
 - States: pressed = 12% `textPrimary` overlay + scale 0.98 (`fast`); disabled = 38% opacity, no overlay; focused = 2-px `focusRing` offset 2; loading = §8.3.
 - `BbIconButton`: 48 × 48 hit area, 24 icon, circular; variants `standard` (no fill), `tonal` (`surfaceMuted` circle 40).
+- `BbIconButton.hero`: 64 px `primary` circle inside a 2 px `primary` ring — the intro's next arrow; counts as the screen's one primary action.
+- `BbGoogleButton` **NEW**: outlined pill (`surface` fill, 1 px `outlineVariant`), Google's four-color G (SVG asset, as Google's branding requires), `labelLarge` label.
 
 ### 10.2 Inputs
 
@@ -620,6 +622,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - **`BbSwitch`:** track 52 × 32 pill; on = `secondary` track + `onSecondary` thumb; off = `surfaceMuted` track + `outline` border + `textMuted` thumb.
 - **`BbSegmentedControl`:** track `surfaceMuted`, radius `md`, 4 px inset; selected segment = `surface` + level1 (light) / `surfaceRaised` (dark), label `textPrimary` 600; unselected `textMuted`.
 - **`BbSlider`:** track 4 px `surfaceMuted`, active `secondary`, thumb 20 px `secondary` with value label in `metricSmall` while dragging.
+- **`BbTextField(pill: true)`** **NEW**: sign-in style — pill radius, leading icon, label shown inside as the placeholder (still the accessible name), 1 px `outlineVariant`.
 - **`BbDropdown`:** looks like `BbTextField` + `caretDown` icon; menu = level2 surface.
 
 ### 10.3 Surfaces
@@ -645,6 +648,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 - **`BbNavBar`** (bottom, 5 tabs: Home · Loads · Solar · Battery · Assistant): height 64 + safe area, `surface` + `level1` (shadow cast upward in light; lighter surface in dark), no border. Selected tab = **navy pill indicator** 56 × 32 (`secondary`) behind a **Fill** icon in `onSecondary`, label `labelMedium` `textPrimary` 600; unselected = Regular icon + label in `textMuted`. Navy since v2, so the yellow budget goes to the screen's CTA.
 - **`BbAppBar`:** `background` color (blends with page), title `titleLarge` (or large `headlineMedium` variant on top-level tabs that collapses on scroll), actions = `BbIconButton`s; gains `level1` (and `surface` fill) when content scrolls under it.
+- **`BbPageDots`** **NEW**: intro position — current dot is a 24 × 8 `secondary` pill, others 8 px `outlineVariant` dots (shape changes, not only color).
 - **`BbTabs`:** text tabs, `labelLarge`; selected = `textPrimary` + 2-px `secondary` underline (full label width); unselected `textMuted`.
 
 ### 10.6 Energy components (domain visuals, still dumb)

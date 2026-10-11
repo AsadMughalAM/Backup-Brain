@@ -391,6 +391,7 @@ There is **no REST API**. Calculations (backup, switch-offs, solar forecast, siz
 
 ## 10. Screens / UX
 
+0. **Intro → Sign up / Login:** three intro slides, then Google or email sign-up; sign-in lands on the Dashboard.
 1. **Onboarding (≤ 2 min):** city → "Do you have solar?" → battery details (with photo-guide of the label) → pick appliances from presets.
 2. **Dashboard:** big backup countdown ring; grid status toggle (Light gayi / aa gayi); today's solar forecast strip; top AI advice card; battery health badge.
 3. **Load Planner:** appliance toggles with live-updating backup time; "What should I turn off?" ranked list; target-hours input.

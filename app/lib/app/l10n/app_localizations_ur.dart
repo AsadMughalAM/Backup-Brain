@@ -129,27 +129,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get priorityAvoid => 'Backup par na chalayein';
 
   @override
-  String get welcomeTitle => 'Jaanein aap ka backup kitni der chalega';
-
-  @override
-  String get welcomeBody =>
-      'Backup Brain aap ki battery aur appliances dekh kar saaf jawab deta hai, aur batata hai pehle kya band karein. Yeh offline bhi chalta hai.';
-
-  @override
-  String get tryDemo => 'Demo ghar dekhein';
-
-  @override
-  String get tryDemoLoading => 'Tayyar ho raha hai…';
-
-  @override
-  String get welcomeOwnSetupSoon =>
-      'Apni battery aur appliances set karna agle step mein aa raha hai.';
-
-  @override
-  String get needsInternetFirstTime =>
-      'Shuru karne ke liye ek dafa internet se connect karein. Us ke baad Backup Brain offline bhi chalega.';
-
-  @override
   String get comingSoonTitle => 'Jald aa raha hai';
 
   @override
@@ -189,17 +168,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get accountSection => 'Account';
 
   @override
-  String get saveDataTitle => 'Apna data mehfooz karein';
-
-  @override
-  String get saveDataBody =>
-      'Sign in karein taake phone badalne ya kho jane par bhi aap ki battery aur appliances ki setting mehfooz rahe.';
-
-  @override
   String get continueWithGoogle => 'Google se jaari rakhein';
-
-  @override
-  String get useEmail => 'Email istemal karein';
 
   @override
   String signedInAs(String who) {
@@ -213,46 +182,10 @@ class AppLocalizationsUr extends AppLocalizations {
   String get signOut => 'Sign out';
 
   @override
-  String get alreadyHaveAccount => 'Mera account pehle se hai';
-
-  @override
-  String get createAccountTitle => 'Apna account banayein';
-
-  @override
-  String get signInTitle => 'Sign in';
-
-  @override
-  String get email => 'Email';
-
-  @override
-  String get password => 'Password';
-
-  @override
   String get showPassword => 'Password dikhayein';
 
   @override
   String get hidePassword => 'Password chhupayein';
-
-  @override
-  String get createAccount => 'Account banayein';
-
-  @override
-  String get creatingAccount => 'Account ban raha hai…';
-
-  @override
-  String get signIn => 'Sign in';
-
-  @override
-  String get signingIn => 'Sign in ho raha hai…';
-
-  @override
-  String get orDivider => 'ya';
-
-  @override
-  String get switchToSignIn => 'Account pehle se hai? Sign in karein';
-
-  @override
-  String get switchToCreate => 'Naye hain? Account banayein';
 
   @override
   String get forgotPassword => 'Password bhool gaye?';
@@ -288,6 +221,98 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Kuch ghalat ho gaya. Dobara koshish karein.';
+
+  @override
+  String get introNext => 'Aagay';
+
+  @override
+  String introPageOf(int current, int total) {
+    return 'Safha $current az $total';
+  }
+
+  @override
+  String get intro1Title => 'Backup Brain';
+
+  @override
+  String get intro1Body =>
+      'Load-shedding mein jaanein aap ki battery kitne ghante aur minute chalegi.';
+
+  @override
+  String get intro2Title => 'Sahi cheez band karein';
+
+  @override
+  String get intro2Body =>
+      'Dekhein pehle kaunsa appliance band karna hai aur us se kitna backup barhta hai.';
+
+  @override
+  String get intro3Title => 'Dhoop ke saath plan karein';
+
+  @override
+  String get intro3Body =>
+      'Solar forecast, battery ki sehat aur kharcha — taake har load-shedding pehle se plan ho.';
+
+  @override
+  String get signUpTitle => 'Behtar backup ke liye shamil hon.';
+
+  @override
+  String get loginTitle => 'Khush aamdeed!';
+
+  @override
+  String get back => 'Wapas';
+
+  @override
+  String get nameHint => 'Apna naam likhein';
+
+  @override
+  String get emailHint => 'Apna email likhein';
+
+  @override
+  String get passwordHint => 'Apna password likhein';
+
+  @override
+  String get rememberMe => 'Mujhe yaad rakhein';
+
+  @override
+  String get signUp => 'Sign up';
+
+  @override
+  String get signingUp => 'Sign up ho raha hai…';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get loggingIn => 'Login ho raha hai…';
+
+  @override
+  String get orDivider => 'Ya';
+
+  @override
+  String get haveAccountQuestion => 'Account pehle se hai?';
+
+  @override
+  String get noAccountQuestion => 'Account nahi hai?';
+
+  @override
+  String get createAnAccount => 'Account banayein';
+
+  @override
+  String get errorNameRequired => 'Apna naam likhein.';
+
+  @override
+  String greetingName(String name) {
+    return 'Assalam-o-alaikum, $name';
+  }
+
+  @override
+  String get settingUpHomeTitle => 'Aap ka ghar tayyar ho raha hai';
+
+  @override
+  String get settingUpHomeBody =>
+      'Hum demo ghar load kar rahe hain taake aap backup time dekh sakein. Apni setting agle step mein.';
+
+  @override
+  String get useDemoHousehold => 'Demo ghar load karein';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

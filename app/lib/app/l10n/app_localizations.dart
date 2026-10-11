@@ -297,42 +297,6 @@ abstract class AppLocalizations {
   /// **'Avoid on backup'**
   String get priorityAvoid;
 
-  /// No description provided for @welcomeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Know exactly how long your backup will last'**
-  String get welcomeTitle;
-
-  /// No description provided for @welcomeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Backup Brain turns your battery and appliances into one clear answer, and tells you what to switch off first. It works offline.'**
-  String get welcomeBody;
-
-  /// No description provided for @tryDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Try the demo household'**
-  String get tryDemo;
-
-  /// No description provided for @tryDemoLoading.
-  ///
-  /// In en, this message translates to:
-  /// **'Setting up…'**
-  String get tryDemoLoading;
-
-  /// No description provided for @welcomeOwnSetupSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Setting up your own battery and appliances comes next.'**
-  String get welcomeOwnSetupSoon;
-
-  /// No description provided for @needsInternetFirstTime.
-  ///
-  /// In en, this message translates to:
-  /// **'Connect to the internet once to get started. After that, Backup Brain works offline.'**
-  String get needsInternetFirstTime;
-
   /// No description provided for @comingSoonTitle.
   ///
   /// In en, this message translates to:
@@ -405,29 +369,11 @@ abstract class AppLocalizations {
   /// **'Account'**
   String get accountSection;
 
-  /// No description provided for @saveDataTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Save your data'**
-  String get saveDataTitle;
-
-  /// No description provided for @saveDataBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in so your battery and appliance setup is safe if you change or lose your phone.'**
-  String get saveDataBody;
-
   /// No description provided for @continueWithGoogle.
   ///
   /// In en, this message translates to:
   /// **'Continue with Google'**
   String get continueWithGoogle;
-
-  /// No description provided for @useEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Use email'**
-  String get useEmail;
 
   /// No description provided for @signedInAs.
   ///
@@ -447,36 +393,6 @@ abstract class AppLocalizations {
   /// **'Sign out'**
   String get signOut;
 
-  /// No description provided for @alreadyHaveAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'I already have an account'**
-  String get alreadyHaveAccount;
-
-  /// No description provided for @createAccountTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Create your account'**
-  String get createAccountTitle;
-
-  /// No description provided for @signInTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in'**
-  String get signInTitle;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @password.
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get password;
-
   /// No description provided for @showPassword.
   ///
   /// In en, this message translates to:
@@ -488,48 +404,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide password'**
   String get hidePassword;
-
-  /// No description provided for @createAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Create account'**
-  String get createAccount;
-
-  /// No description provided for @creatingAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Creating account…'**
-  String get creatingAccount;
-
-  /// No description provided for @signIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in'**
-  String get signIn;
-
-  /// No description provided for @signingIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Signing in…'**
-  String get signingIn;
-
-  /// No description provided for @orDivider.
-  ///
-  /// In en, this message translates to:
-  /// **'or'**
-  String get orDivider;
-
-  /// No description provided for @switchToSignIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Already have an account? Sign in'**
-  String get switchToSignIn;
-
-  /// No description provided for @switchToCreate.
-  ///
-  /// In en, this message translates to:
-  /// **'New here? Create an account'**
-  String get switchToCreate;
 
   /// No description provided for @forgotPassword.
   ///
@@ -590,6 +464,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorUnknown;
+
+  /// No description provided for @introNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get introNext;
+
+  /// No description provided for @introPageOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {current} of {total}'**
+  String introPageOf(int current, int total);
+
+  /// No description provided for @intro1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Brain'**
+  String get intro1Title;
+
+  /// No description provided for @intro1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Know exactly how long your battery will last during load-shedding — in hours and minutes.'**
+  String get intro1Body;
+
+  /// No description provided for @intro2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch off the right things'**
+  String get intro2Title;
+
+  /// No description provided for @intro2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'See which appliance to turn off first and how much backup time it gives you back.'**
+  String get intro2Body;
+
+  /// No description provided for @intro3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan with the sun'**
+  String get intro3Title;
+
+  /// No description provided for @intro3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar forecasts, battery health and costs — so every outage is planned, not a surprise.'**
+  String get intro3Body;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join for a smarter backup.'**
+  String get signUpTitle;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get loginTitle;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @nameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get nameHint;
+
+  /// No description provided for @emailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailHint;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me'**
+  String get rememberMe;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUp;
+
+  /// No description provided for @signingUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing up…'**
+  String get signingUp;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @loggingIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging in…'**
+  String get loggingIn;
+
+  /// No description provided for @orDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'Or'**
+  String get orDivider;
+
+  /// No description provided for @haveAccountQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get haveAccountQuestion;
+
+  /// No description provided for @noAccountQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get noAccountQuestion;
+
+  /// No description provided for @createAnAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get createAnAccount;
+
+  /// No description provided for @errorNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name.'**
+  String get errorNameRequired;
+
+  /// No description provided for @greetingName.
+  ///
+  /// In en, this message translates to:
+  /// **'Assalam-o-alaikum, {name}'**
+  String greetingName(String name);
+
+  /// No description provided for @settingUpHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting up your home'**
+  String get settingUpHomeTitle;
+
+  /// No description provided for @settingUpHomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re loading the demo household so you can see your backup time. Your own setup comes next.'**
+  String get settingUpHomeBody;
+
+  /// No description provided for @useDemoHousehold.
+  ///
+  /// In en, this message translates to:
+  /// **'Load the demo household'**
+  String get useDemoHousehold;
 }
 
 class _AppLocalizationsDelegate

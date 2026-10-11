@@ -13,7 +13,7 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Stream<AccountInfo?> watchAccount() =>
       // userChanges (not authStateChanges) also fires when an anonymous
-      // account is linked, which keeps the same uid.
+      // account is linked (same uid) or the display name is set.
       _auth.userChanges().map((user) {
         if (user == null) return null;
         final providers = user.providerData.map((p) => p.providerId).toSet();
@@ -22,15 +22,21 @@ class FirebaseAuthRepository implements AuthRepository {
             : providers.contains(EmailAuthProvider.PROVIDER_ID)
             ? AccountKind.email
             : AccountKind.anonymous;
-        return AccountInfo(kind: kind, email: user.email);
+        return AccountInfo(
+          uid: user.uid,
+          kind: kind,
+          email: user.email,
+          displayName: user.displayName,
+        );
       });
 
   @override
   Future<void> continueWithGoogle() => _guard(() async {
     final user = _auth.currentUser;
+    final anonymous = user != null && user.isAnonymous;
     if (kIsWeb) {
       final provider = GoogleAuthProvider();
-      if (user != null && user.isAnonymous) {
+      if (anonymous) {
         await _linkOrSwitch(() => user.linkWithPopup(provider));
       } else {
         await _auth.signInWithPopup(provider);
@@ -44,7 +50,7 @@ class FirebaseAuthRepository implements AuthRepository {
     final credential = GoogleAuthProvider.credential(
       idToken: account.authentication.idToken,
     );
-    if (user != null && user.isAnonymous) {
+    if (anonymous) {
       await _linkOrSwitch(() => user.linkWithCredential(credential));
     } else {
       await _auth.signInWithCredential(credential);
@@ -52,22 +58,24 @@ class FirebaseAuthRepository implements AuthRepository {
   });
 
   @override
-  Future<void> createWithEmail(String email, String password) =>
-      _guard(() async {
-        final credential = EmailAuthProvider.credential(
-          email: email,
-          password: password,
-        );
-        final user = _auth.currentUser;
-        if (user != null && user.isAnonymous) {
-          await user.linkWithCredential(credential);
-        } else {
-          await _auth.createUserWithEmailAndPassword(
+  Future<void> signUpWithEmail({
+    required String name,
+    required String email,
+    required String password,
+  }) => _guard(() async {
+    final credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
+    final user = _auth.currentUser;
+    final result = user != null && user.isAnonymous
+        ? await user.linkWithCredential(credential)
+        : await _auth.createUserWithEmailAndPassword(
             email: email,
             password: password,
           );
-        }
-      });
+    await result.user?.updateDisplayName(name);
+  });
 
   @override
   Future<void> signInWithEmail(String email, String password) => _guard(
@@ -79,13 +87,21 @@ class FirebaseAuthRepository implements AuthRepository {
       _guard(() => _auth.sendPasswordResetEmail(email: email));
 
   @override
+  Future<void> setRememberMe(bool remember) async {
+    if (!kIsWeb) return;
+    await _auth.setPersistence(
+      remember ? Persistence.LOCAL : Persistence.SESSION,
+    );
+  }
+
+  @override
   Future<void> signOut() => _guard(() async {
     await _auth.signOut();
     // So the next Google sign-in shows the account picker again.
     if (!kIsWeb && _googleInit != null) await GoogleSignIn.instance.signOut();
   });
 
-  /// The Google account may already be linked to another Backup Brain user
+  /// The Google account may already belong to another Backup Brain user
   /// (e.g. from an older phone). Then sign in to that one: its data wins.
   Future<void> _linkOrSwitch(Future<UserCredential> Function() link) async {
     try {

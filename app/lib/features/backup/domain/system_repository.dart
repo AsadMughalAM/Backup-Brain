@@ -15,6 +15,10 @@ abstract interface class SystemRepository {
 
   /// Writes the bundled demo household's system (Demo Mode).
   Future<void> loadDemo();
+
+  /// Whether the signed-in user already has a system, asked of the server —
+  /// never the cache, which is empty on a new phone. Throws when offline.
+  Future<bool> existsOnServer();
 }
 
 /// Bound to the Firestore implementation in `app/app_providers.dart`.

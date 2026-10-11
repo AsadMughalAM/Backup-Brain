@@ -1,68 +1,123 @@
 {
   "@@locale": "en",
-
   "appTitle": "Backup Brain",
-
   "tabHome": "Home",
   "tabLoads": "Loads",
   "tabSolar": "Solar",
   "tabBattery": "Battery",
   "tabAssistant": "Assistant",
-
   "greeting": "Assalam-o-alaikum",
   "switchTheme": "Switch theme",
   "settings": "Settings",
-
   "durationHoursMinutes": "{hours}h {minutes}m",
-  "@durationHoursMinutes": { "placeholders": { "hours": { "type": "int" }, "minutes": { "type": "int" } } },
+  "@durationHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "durationMinutes": "{minutes}m",
-  "@durationMinutes": { "placeholders": { "minutes": { "type": "int" } } },
+  "@durationMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "durationUnlimited": "No load",
   "gainedTime": "+{time}",
-  "@gainedTime": { "placeholders": { "time": { "type": "String" } } },
-
+  "@gainedTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "backupLeftAt": "left at {load}",
-  "@backupLeftAt": { "placeholders": { "load": { "type": "String" } } },
+  "@backupLeftAt": {
+    "placeholders": {
+      "load": {
+        "type": "String"
+      }
+    }
+  },
   "stopsProtectingAt": "Stops protecting battery at {percent}",
-  "@stopsProtectingAt": { "placeholders": { "percent": { "type": "String" } } },
+  "@stopsProtectingAt": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
   "backupSemantics": "{time} of backup left at {load}. Battery {percent}.",
-  "@backupSemantics": { "placeholders": { "time": { "type": "String" }, "load": { "type": "String" }, "percent": { "type": "String" } } },
+  "@backupSemantics": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
   "whatToTurnOff": "What should I turn off?",
   "statBattery": "Battery",
   "statLoad": "Load now",
-
   "overloadTitle": "Overload",
   "overloadBody": "{load} is more than your inverter can supply ({rated}). Turn something off now.",
-  "@overloadBody": { "placeholders": { "load": { "type": "String" }, "rated": { "type": "String" } } },
-
+  "@overloadBody": {
+    "placeholders": {
+      "load": {
+        "type": "String"
+      },
+      "rated": {
+        "type": "String"
+      }
+    }
+  },
   "adviceTurnOff": "Turn off {name} to get {time} more backup.",
-  "@adviceTurnOff": { "placeholders": { "name": { "type": "String" }, "time": { "type": "String" } } },
+  "@adviceTurnOff": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "adviceOnlyEssentials": "Only essentials are on — your backup is already as long as it can be.",
-
   "loadsTitle": "Load planner",
   "batteryNow": "Battery now",
   "turnOffFirst": "Turn off first",
   "turnOff": "Turn off",
   "topCombined": "Turn off the top {count}: {time} in total",
-  "@topCombined": { "placeholders": { "count": { "type": "int" }, "time": { "type": "String" } } },
+  "@topCombined": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "nothingToTurnOff": "Nothing to switch off — only essentials are on.",
   "appliancesSection": "Appliances",
   "priorityEssential": "Keep",
   "priorityComfort": "Use carefully",
   "priorityAvoid": "Avoid on backup",
-
-  "welcomeTitle": "Know exactly how long your backup will last",
-  "welcomeBody": "Backup Brain turns your battery and appliances into one clear answer, and tells you what to switch off first. It works offline.",
-  "tryDemo": "Try the demo household",
-  "tryDemoLoading": "Setting up…",
-  "welcomeOwnSetupSoon": "Setting up your own battery and appliances comes next.",
-  "needsInternetFirstTime": "Connect to the internet once to get started. After that, Backup Brain works offline.",
-
   "comingSoonTitle": "Coming soon",
   "comingSolar": "Solar forecast: how much tomorrow's sun will charge your battery.",
   "comingBattery": "Battery health, plus where to buy or repair a battery.",
   "comingAssistant": "Ask anything about your backup in English or Roman Urdu.",
-
   "settingsTheme": "Theme",
   "themeSystem": "System",
   "themeLight": "Light",
@@ -70,35 +125,29 @@
   "settingsLanguage": "Language",
   "languageEnglish": "English",
   "languageRomanUrdu": "Roman Urdu",
-
   "accountSection": "Account",
-  "saveDataTitle": "Save your data",
-  "saveDataBody": "Sign in so your battery and appliance setup is safe if you change or lose your phone.",
   "continueWithGoogle": "Continue with Google",
-  "useEmail": "Use email",
   "signedInAs": "Signed in as {who}",
-  "@signedInAs": { "placeholders": { "who": { "type": "String" } } },
+  "@signedInAs": {
+    "placeholders": {
+      "who": {
+        "type": "String"
+      }
+    }
+  },
   "googleAccount": "your Google account",
   "signOut": "Sign out",
-  "alreadyHaveAccount": "I already have an account",
-
-  "createAccountTitle": "Create your account",
-  "signInTitle": "Sign in",
-  "email": "Email",
-  "password": "Password",
   "showPassword": "Show password",
   "hidePassword": "Hide password",
-  "createAccount": "Create account",
-  "creatingAccount": "Creating account…",
-  "signIn": "Sign in",
-  "signingIn": "Signing in…",
-  "orDivider": "or",
-  "switchToSignIn": "Already have an account? Sign in",
-  "switchToCreate": "New here? Create an account",
   "forgotPassword": "Forgot password?",
   "resetSent": "We sent a password reset link to {email}.",
-  "@resetSent": { "placeholders": { "email": { "type": "String" } } },
-
+  "@resetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "errorInvalidEmail": "Enter a valid email address.",
   "errorPasswordShort": "Use at least 6 characters.",
   "errorWrongCredentials": "Email or password is incorrect.",
@@ -106,5 +155,50 @@
   "errorWeakPassword": "Choose a stronger password.",
   "errorNetwork": "No internet connection. Try again when you're online.",
   "errorTooManyRequests": "Too many attempts. Wait a minute and try again.",
-  "errorUnknown": "Something went wrong. Please try again."
+  "errorUnknown": "Something went wrong. Please try again.",
+  "introNext": "Next",
+  "introPageOf": "Page {current} of {total}",
+  "@introPageOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "intro1Title": "Backup Brain",
+  "intro1Body": "Know exactly how long your battery will last during load-shedding — in hours and minutes.",
+  "intro2Title": "Switch off the right things",
+  "intro2Body": "See which appliance to turn off first and how much backup time it gives you back.",
+  "intro3Title": "Plan with the sun",
+  "intro3Body": "Solar forecasts, battery health and costs — so every outage is planned, not a surprise.",
+  "signUpTitle": "Join for a smarter backup.",
+  "loginTitle": "Welcome back!",
+  "back": "Back",
+  "nameHint": "Enter your name",
+  "emailHint": "Enter your email",
+  "passwordHint": "Enter your password",
+  "rememberMe": "Remember me",
+  "signUp": "Sign up",
+  "signingUp": "Signing up…",
+  "login": "Login",
+  "loggingIn": "Logging in…",
+  "orDivider": "Or",
+  "haveAccountQuestion": "Already have an account?",
+  "noAccountQuestion": "Don't have an account?",
+  "createAnAccount": "Create an account",
+  "errorNameRequired": "Enter your name.",
+  "greetingName": "Assalam-o-alaikum, {name}",
+  "@greetingName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingUpHomeTitle": "Setting up your home",
+  "settingUpHomeBody": "We're loading the demo household so you can see your backup time. Your own setup comes next.",
+  "useDemoHousehold": "Load the demo household"
 }
