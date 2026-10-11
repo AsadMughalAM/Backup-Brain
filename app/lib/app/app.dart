@@ -10,7 +10,9 @@ import '../features/solar/presentation/controllers/forecast_refresh_controller.d
 import 'l10n/app_localizations.dart';
 import 'locale/locale_controller.dart';
 import 'router.dart';
+import '../core/services/alert_scheduler.dart';
 import 'session/household_setup.dart';
+import 'session/outage_alerts.dart';
 import 'theme_mode/theme_mode_controller.dart';
 
 class App extends ConsumerStatefulWidget {
@@ -47,9 +49,14 @@ class _AppState extends ConsumerState<App> {
     final language = ref.watch(localeProvider);
     // Lives for the whole session: gives each new account a household.
     ref.watch(householdSetupProvider);
-    // Lives for the whole session: outage reminders and the countdown
-    // notice follow the app's state.
+    // Lives for the whole session: the 30-minute outage alert, and the
+    // "Power gone?" reminders and countdown notice, follow the app's state.
+    ref.watch(outageAlertsProvider);
     ref.watch(outageNotificationsProvider);
+    // Tapping an alert opens the Outages screen.
+    ref.listen(alertTapsProvider, (_, next) {
+      if (next.hasValue) ref.read(routerProvider).push(Routes.outages);
+    });
     ref.listen(householdSystemProvider.select((s) => s.value?.location?.site), (
       before,
       site,

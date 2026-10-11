@@ -1,6 +1,9 @@
 /// Every Firestore path in the app (TECH_STACK.md §4 and §7.3). No string
 /// paths anywhere else.
 abstract final class FirestorePaths {
+  /// F5 market prices; written only by the admin SDK.
+  static const pricingConfig = 'config/pricing_pk';
+
   /// MVP: one system per user.
   static const mainSystemId = 'main';
 
@@ -19,6 +22,10 @@ abstract final class FirestorePaths {
   /// The user's area load-shedding schedule, one doc per weekly slot (F8).
   static String schedule(String uid, [String systemId = mainSystemId]) =>
       '${system(uid, systemId)}/schedule';
+
+  /// What the panels made per day vs. expected (F4), keyed `yyyy-MM-dd`.
+  static String solarLogs(String uid, [String systemId = mainSystemId]) =>
+      '${system(uid, systemId)}/solarLogs';
 
   /// One trimmed Open-Meteo forecast per day, keyed `yyyy-MM-dd`.
   static String weatherCache(String uid, [String systemId = mainSystemId]) =>

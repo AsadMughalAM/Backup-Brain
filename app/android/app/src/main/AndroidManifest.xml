@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Outage reminders are local, inexact alarms: they survive a reboot
-         and need no exact-alarm permission (TECH_STACK.md §7.2 rule 7). -->
+    <!-- F8 outage alerts and reminders are local, inexact alarms: they
+         survive a reboot and need no exact-alarm permission. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:label="backup_brain"
@@ -50,6 +50,11 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- F7: open Google Maps searches for battery shops (url_launcher). -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

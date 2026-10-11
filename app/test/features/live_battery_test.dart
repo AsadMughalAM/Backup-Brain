@@ -1,9 +1,12 @@
+import 'package:backup_brain/app/app.dart';
 import 'package:backup_brain/core/services/clock.dart';
+import 'package:backup_brain/features/battery/presentation/controllers/reading_controller.dart';
 import 'package:bb_ui/bb_ui.dart';
 import 'package:backup_brain/features/backup/domain/entities/household_system.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -139,6 +142,8 @@ void main() {
     await _tapHome(tester, find.text('Power back?'));
     expect(home.outages.outages.single.isOngoing, isFalse);
     expect(home.system.current!.soc, closeTo(atReturn, 1e-9));
+    // F6 gets the cut's real average load: 1 h at 420 W, 1 h at 330 W.
+    expect(home.outages.outages.single.avgLoadW, closeTo(375, 1e-6));
     await _reveal(tester, find.text('Power on'));
     expect(find.text('Since 7:00 PM'), findsNothing);
 
@@ -232,5 +237,35 @@ void main() {
     );
     // 60% − 13% = 47% → shown rounded down to 45.
     expect(await _batteryTile(tester), '45');
+  });
+
+  testWidgets('a battery reading after the power came back (F6) becomes '
+      'the known charge from that moment', (tester) async {
+    final back = _sevenPm.subtract(const Duration(hours: 2));
+    final home = await _pump(
+      tester,
+      history: [
+        OutageEvent(
+          id: 'cut',
+          startedAt: back.subtract(const Duration(hours: 1)),
+          endedAt: back,
+          startSoc: 0.8,
+          endSoc: 0.67,
+          avgLoadW: 420,
+        ),
+      ],
+    );
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(App)),
+    );
+    container.read(readingControllerProvider).save('cut', 0.5);
+    await tester.pumpAndSettle();
+
+    expect(home.outages.outages.single.endSocMeasured, isTrue);
+    expect(home.system.current!.soc, 0.5);
+    expect(home.system.current!.socAt, back.toUtc());
+    expect(home.system.current!.socCheckedAt, back.toUtc());
+    // Two hours of grid since: 50% + 18% = 68%, shown rounded down.
+    expect(await _batteryTile(tester), '65');
   });
 }

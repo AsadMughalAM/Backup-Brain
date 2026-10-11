@@ -271,8 +271,6 @@
   "guidePanel1": "MONO PV MODULE",
   "guidePanel2": "Pmax 550W",
   "guidePanel3": "Voc 49.6V · Isc 14.0A",
-  "comingSoonTitle": "Coming soon",
-  "comingBattery": "Battery health, plus where to buy or repair a battery.",
   "settingsTheme": "Theme",
   "themeSystem": "System",
   "themeLight": "Light",
@@ -487,7 +485,7 @@
   "tryAgain": "Try again",
   "refreshForecast": "Refresh forecast",
   "solarNoPanelsTitle": "No solar panels added",
-  "solarNoPanelsBody": "Add your panels during setup to see how much the sun will charge your battery.",
+  "solarNoPanelsBody": "Your home is saved without solar panels. Add them to see how much the sun will charge your battery.",
   "solarNeedsInternetTitle": "Needs internet once",
   "solarNeedsInternetBody": "Connect once to get the sun forecast. After that it works offline.",
   "solarFetching": "Getting forecast…",
@@ -694,6 +692,485 @@
       }
     }
   },
+  "alertChannelName": "Outage alerts",
+  "alertTitleLikely": "Power may go at {time}",
+  "@alertTitleLikely": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "alertTitleScheduled": "Load-shedding at {time}",
+  "@alertTitleScheduled": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "alertBodyReady": "Battery will be about {soc}: {backup} of backup at your current load.",
+  "@alertBodyReady": {
+    "placeholders": {
+      "soc": {
+        "type": "String"
+      },
+      "backup": {
+        "type": "String"
+      }
+    }
+  },
+  "alertBodyShort": "Battery will be about {soc}: only {backup}, less than the usual {outage}. Switch heavy loads off now.",
+  "@alertBodyShort": {
+    "placeholders": {
+      "soc": {
+        "type": "String"
+      },
+      "backup": {
+        "type": "String"
+      },
+      "outage": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsOutageAlerts": "Outage alerts",
+  "settingsOutageAlertsBody": "A notification 30 minutes before the next likely or scheduled outage. Works offline.",
+  "solarAddPanels": "Add my panels",
+  "assistantBusy": "The assistant is busy. Try again in a minute. Meanwhile, your numbers:",
+  "estimatorTitle": "Solar cost estimator",
+  "estimatorIntro": "What would solar cost for your home? Rough sizes, prices and savings in a few taps.",
+  "estimatorUsage": "Monthly electricity use",
+  "estimatorUnits": "Units (kWh)",
+  "estimatorBill": "Bill (Rs)",
+  "estimatorUnitsLabel": "Units per month",
+  "estimatorBillLabel": "Monthly bill in rupees",
+  "estimatorTariffNote": "Converted at Rs {tariff} per unit.",
+  "@estimatorTariffNote": {
+    "placeholders": {
+      "tariff": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatorCity": "City",
+  "estimatorGoal": "What matters most?",
+  "goalBill": "Lower bill",
+  "goalBillHint": "No battery, the cheapest",
+  "goalBoth": "Bill and backup",
+  "goalBothHint": "A battery for load-shedding",
+  "goalBackup": "Full backup",
+  "goalBackupHint": "A battery for the whole night",
+  "estimatorBackupHours": "Backup hours needed",
+  "estimatorHoursLess": "Fewer hours",
+  "estimatorHoursMore": "More hours",
+  "estimatorNightLoad": "Load at night (W)",
+  "estimatorNightLoadHint": "Fans, lights and fridge together. Taken from your home if you leave it empty.",
+  "estimatorEmptyTitle": "Packages appear here",
+  "estimatorEnterUsage": "Enter your monthly units or bill to see three packages with cost and payback.",
+  "packageBasic": "Basic",
+  "packageBasicSub": "On-grid: cuts the bill, no backup",
+  "packageHybrid": "Hybrid",
+  "packageHybridSub": "Cuts the bill and covers load-shedding",
+  "packageFull": "Full backup",
+  "packageFullSub": "The whole night on battery",
+  "packageRecommended": "Recommended",
+  "packageCost": "Rs {min}–{max}",
+  "@packageCost": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "packagePanels": "{count} × {watts} W panels ({kw})",
+  "@packagePanels": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "watts": {
+        "type": "String"
+      },
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "packageInverterOngrid": "{size} on-grid inverter",
+  "@packageInverterOngrid": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "packageInverterHybrid": "{size} hybrid inverter",
+  "@packageInverterHybrid": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "packageBattery": "{kwh} kWh lithium battery: about {hours} at {load}",
+  "@packageBattery": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "packageNoBattery": "No battery: no backup during load-shedding",
+  "packageProduction": "Makes about {units} units a month",
+  "@packageProduction": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "packageSavings": "Saves about Rs {amount} a month",
+  "@packageSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "packagePayback": "Pays for itself in {min}–{max} years",
+  "@packagePayback": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "installerTitle": "Questions to ask your installer",
+  "installerQ1": "Are the panels tier-1, and what output warranty do they carry?",
+  "installerQ2": "Is the inverter hybrid, and which batteries does it support?",
+  "installerQ3": "Which lithium (LiFePO4) battery brand, how many cycles, what warranty?",
+  "installerQ4": "Does the price include structure, wiring, breakers and earthing?",
+  "installerQ5": "Who handles net metering with the DISCO, and how long does it take?",
+  "estimatorDisclaimer": "Estimates only: get quotes from 2–3 installers. Prices last updated {date}.",
+  "@estimatorDisclaimer": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatorPricesUnverified": "Prices come from online listings (October 2026), not installer quotes.",
+  "healthLabel": "Battery health",
+  "healthGood": "Healthy",
+  "healthWearing": "Wearing out",
+  "healthWeak": "Weak: think about replacing it",
+  "healthHolds": "Holds about {now} kWh of its {label} kWh label.",
+  "@healthHolds": {
+    "placeholders": {
+      "now": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "healthBasis": "From your last {count} battery readings after outages.",
+  "@healthBasis": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "healthNoneTitle": "No health check yet",
+  "healthNoneBody": "After an outage, enter the battery % your inverter shows. With 3 readings the app works out how much your battery really holds.",
+  "healthProgress": "{done} of {needed} readings",
+  "@healthProgress": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      }
+    }
+  },
+  "healthLossTitle": "Battery holds less than before",
+  "healthLossBody": "It delivers about {loss} less than it should. Avoid draining it to the bottom, and check the inverter's charging is set for your battery type.",
+  "@healthLossBody": {
+    "placeholders": {
+      "loss": {
+        "type": "String"
+      }
+    }
+  },
+  "healthDeepTitle": "Often drained too far",
+  "healthDeepBody": "It often ends below {cutoff}, which shortens battery life. Switch heavy loads off earlier during outages.",
+  "@healthDeepBody": {
+    "placeholders": {
+      "cutoff": {
+        "type": "String"
+      }
+    }
+  },
+  "readingsTitle": "Enter the battery %",
+  "readingsBody": "What did the inverter show when the power came back?",
+  "readingsEnter": "Enter %",
+  "readingTitle": "Battery reading",
+  "readingQuestion": "Battery % when the power came back ({when})",
+  "@readingQuestion": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "readingHint": "Check your inverter's display. A close guess is fine; it starts at the app's estimate.",
+  "readingLess": "5% less",
+  "readingMore": "5% more",
+  "readingValue": "Battery {value}",
+  "@readingValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryDetails": "Your battery",
+  "batterySize": "{volts} · {ah} × {count} = {kwh} kWh",
+  "@batterySize": {
+    "placeholders": {
+      "volts": {
+        "type": "String"
+      },
+      "ah": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      },
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryCutoff": "The inverter stops at {cutoff} to protect it.",
+  "@batteryCutoff": {
+    "placeholders": {
+      "cutoff": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryKharab": "Battery problem? Get help",
+  "helpTitle": "Battery problem?",
+  "helpSymptoms": "What's happening?",
+  "symptomShortBackup": "Backup lasts only minutes",
+  "symptomWontCharge": "Won't charge fully",
+  "symptomLowWater": "Water level is low",
+  "symptomSwollen": "Swollen or bulging",
+  "symptomSmellOrHeat": "Smells or gets hot",
+  "verdictNoneTitle": "Pick what you notice",
+  "verdictNoneBody": "The app suggests whether to look after it, repair it or replace it.",
+  "verdictMaintenanceTitle": "Try looking after it first",
+  "verdictMaintenanceBody": "Top up tubular batteries with distilled water to the mark, charge fully on grid for a day, and check the inverter's charging is set to your battery type. If it is still short, see a repair shop.",
+  "verdictRepairTitle": "Worth a repair shop's check",
+  "verdictRepairBody": "Often it is the charger, a loose terminal or a blown fuse, not the battery. A UPS repair shop can test it before you buy a new one.",
+  "verdictReplaceTitle": "Time to replace it",
+  "verdictReplaceBody": "Your readings show it has lost most of its capacity. Compare the options below by what they cost over their life, not just today.",
+  "buyTitle": "Which battery to buy",
+  "buyIntro": "For a bank like yours ({kwh} kWh). Cheapest over its life first.",
+  "@buyIntro": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "buyBestValue": "Cheapest over its life",
+  "buyLife": "Lasts about {years} years ({cycles} cycles) · {months}-month warranty",
+  "@buyLife": {
+    "placeholders": {
+      "years": {
+        "type": "String"
+      },
+      "cycles": {
+        "type": "String"
+      },
+      "months": {
+        "type": "String"
+      }
+    }
+  },
+  "buyPerKWhYear": "Rs {amount} per usable kWh per year",
+  "@buyPerKWhYear": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "buyDisclaimer": "Typical market prices, not quotes. Prices last updated {date}.",
+  "@buyDisclaimer": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyTitle": "Find help nearby",
+  "nearbyBody": "Opens a Google Maps search around {city}.",
+  "@nearbyBody": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyBodyNoCity": "Opens a Google Maps search near you.",
+  "nearbyBatteryShops": "Battery shops",
+  "nearbyUpsRepair": "UPS and inverter repair",
+  "nearbySolarInstallers": "Solar installers",
+  "queryBatteryShop": "battery shop",
+  "queryUpsRepair": "UPS inverter repair",
+  "querySolarInstaller": "solar installer",
+  "checkOpen": "Are my panels working well?",
+  "checkTitle": "Panel check",
+  "checkNoneTitle": "No check yet",
+  "checkNoneBody": "Enter how much your panels made (from the inverter display or app). The app compares it with what that day's weather should have given.",
+  "checkHealthyTitle": "Panels are working well",
+  "checkHealthyBody": "They made at least 90% of what the weather allowed.",
+  "checkSlightTitle": "A little low",
+  "checkSlightBody": "Likely dust or some shade. Clean the panels (early morning or evening, with water, no soap) and check again in a few days.",
+  "checkLowTitle": "Well below what it should make",
+  "checkLowBody": "Low on three clear days this week. Check wiring and the inverter's MPPT, or a faulty panel. Consider a solar technician.",
+  "checkEnterTitle": "Enter what the panels made",
+  "checkToday": "Today",
+  "checkYesterday": "Yesterday",
+  "checkDaysAgo": "{days} days ago",
+  "@checkDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "checkNoWeather": "No weather saved for that day. Open the Solar tab online once.",
+  "checkExpected": "For that day's weather the panels should make about {kwh} kWh.",
+  "@checkExpected": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "checkTodayHint": "Today isn't over: enter it after sunset for a fair check.",
+  "checkActualLabel": "kWh made (from the inverter)",
+  "checkActualError": "Enter a number, e.g. 8.5",
+  "checkTrendTitle": "Last two weeks",
+  "checkMade": "Made",
+  "checkShouldMake": "Should make",
+  "checkTrendSemantics": "Panel output for {count} logged days against what the weather allowed",
+  "@checkTrendSemantics": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "checkLogRow": "{weekday} {day}: {made} of {expected} kWh",
+  "@checkLogRow": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      },
+      "made": {
+        "type": "String"
+      },
+      "expected": {
+        "type": "String"
+      }
+    }
+  },
+  "pricesOnlineTitle": "Check today's prices online",
+  "pricesOnlineBody": "Opens live listings. These are sellers' asking prices; the estimates above use reviewed prices.",
+  "pricesOnlineSearching": "Search: {query}",
+  "@pricesOnlineSearching": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "priceSiteGoogle": "Google",
+  "priceSiteDaraz": "Daraz",
+  "priceSiteOlx": "OLX",
+  "pakistan": "Pakistan",
+  "priceQueryGoogle": "{product} price in {place}",
+  "@priceQueryGoogle": {
+    "placeholders": {
+      "product": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "priceProductPanels": "Panels",
+  "priceProductInverter": "Inverter",
+  "priceProductBattery": "Battery",
+  "priceQueryPanel": "{watts}W solar panel",
+  "@priceQueryPanel": {
+    "placeholders": {
+      "watts": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryHybrid": "{kw}kW hybrid inverter",
+  "@priceQueryHybrid": {
+    "placeholders": {
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryOngrid": "{kw}kW on grid inverter",
+  "@priceQueryOngrid": {
+    "placeholders": {
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryLithium": "{kwh} kWh lithium battery",
+  "@priceQueryLithium": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryTubular": "200Ah tubular battery",
+  "priceQueryDry": "100Ah dry battery",
   "batteryCheckTitle": "What does your UPS screen show?",
   "batteryCheckHint": "One tap keeps the countdown right.",
   "batteryCheckOpen": "Check battery %",

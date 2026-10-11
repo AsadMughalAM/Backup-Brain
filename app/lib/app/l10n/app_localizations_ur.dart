@@ -364,13 +364,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get guidePanel3 => 'Voc 49.6V · Isc 14.0A';
 
   @override
-  String get comingSoonTitle => 'Jald aa raha hai';
-
-  @override
-  String get comingBattery =>
-      'Battery ki sehat, aur battery kahan se lein ya repair karwayein.';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -641,7 +634,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get solarNoPanelsBody =>
-      'Setup mein apne panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.';
+      'Aap ka ghar solar panels ke baghair save hai. Panels shamil karein, phir dekhein dhoop battery ko kitna charge karegi.';
 
   @override
   String get solarNeedsInternetTitle => 'Ek dafa internet chahiye';
@@ -878,6 +871,565 @@ class AppLocalizationsUr extends AppLocalizations {
   String scheduleLater(String label) {
     return '$label: 30 minute baad';
   }
+
+  @override
+  String get alertChannelName => 'Load-shedding alerts';
+
+  @override
+  String alertTitleLikely(String time) {
+    return 'Light shayad $time par jayegi';
+  }
+
+  @override
+  String alertTitleScheduled(String time) {
+    return '$time par load-shedding';
+  }
+
+  @override
+  String alertBodyReady(String soc, String backup) {
+    return 'Battery taqreeban $soc hogi: abhi ke load par $backup backup.';
+  }
+
+  @override
+  String alertBodyShort(String soc, String backup, String outage) {
+    return 'Battery taqreeban $soc hogi: sirf $backup, aam $outage se kam. Bhaari cheezain abhi band karein.';
+  }
+
+  @override
+  String get settingsOutageAlerts => 'Load-shedding alerts';
+
+  @override
+  String get settingsOutageAlertsBody =>
+      'Agli load-shedding se 30 minute pehle notification. Internet ke baghair bhi.';
+
+  @override
+  String get solarAddPanels => 'Apne panels shamil karein';
+
+  @override
+  String get assistantBusy =>
+      'Assistant abhi masroof hai. Ek minute baad dobara koshish karein. Tab tak aap ke numbers:';
+
+  @override
+  String get estimatorTitle => 'Solar ka kharcha';
+
+  @override
+  String get estimatorIntro =>
+      'Aap ke ghar ke liye solar ka kitna kharcha aayega? Chand taps mein size, qeemat aur bachat ka andaza.';
+
+  @override
+  String get estimatorUsage => 'Mahana bijli ka istemal';
+
+  @override
+  String get estimatorUnits => 'Units (kWh)';
+
+  @override
+  String get estimatorBill => 'Bill (Rs)';
+
+  @override
+  String get estimatorUnitsLabel => 'Mahana units';
+
+  @override
+  String get estimatorBillLabel => 'Mahana bill (rupay)';
+
+  @override
+  String estimatorTariffNote(String tariff) {
+    return 'Rs $tariff fi unit ke hisaab se.';
+  }
+
+  @override
+  String get estimatorCity => 'Shehr';
+
+  @override
+  String get estimatorGoal => 'Sab se zaroori kya hai?';
+
+  @override
+  String get goalBill => 'Bill kam karna';
+
+  @override
+  String get goalBillHint => 'Battery nahi, sab se sasta';
+
+  @override
+  String get goalBoth => 'Bill aur backup';
+
+  @override
+  String get goalBothHint => 'Load-shedding ke liye battery';
+
+  @override
+  String get goalBackup => 'Poora backup';
+
+  @override
+  String get goalBackupHint => 'Poori raat ki battery';
+
+  @override
+  String get estimatorBackupHours => 'Kitne ghante backup chahiye';
+
+  @override
+  String get estimatorHoursLess => 'Kam ghante';
+
+  @override
+  String get estimatorHoursMore => 'Zyada ghante';
+
+  @override
+  String get estimatorNightLoad => 'Raat ka load (W)';
+
+  @override
+  String get estimatorNightLoadHint =>
+      'Pankhe, bulb aur fridge mila kar. Khaali chhorein to aap ke ghar se liya jayega.';
+
+  @override
+  String get estimatorEmptyTitle => 'Packages yahan nazar aayenge';
+
+  @override
+  String get estimatorEnterUsage =>
+      'Mahana units ya bill likhein, phir teen packages qeemat aur wapsi ke saath dekhein.';
+
+  @override
+  String get packageBasic => 'Basic';
+
+  @override
+  String get packageBasicSub => 'On-grid: bill kam, backup nahi';
+
+  @override
+  String get packageHybrid => 'Hybrid';
+
+  @override
+  String get packageHybridSub => 'Bill bhi kam, load-shedding mein backup bhi';
+
+  @override
+  String get packageFull => 'Poora backup';
+
+  @override
+  String get packageFullSub => 'Poori raat battery par';
+
+  @override
+  String get packageRecommended => 'Behtar intikhab';
+
+  @override
+  String packageCost(String min, String max) {
+    return 'Rs $min–$max';
+  }
+
+  @override
+  String packagePanels(String count, String watts, String kw) {
+    return '$count × $watts W panels ($kw)';
+  }
+
+  @override
+  String packageInverterOngrid(String size) {
+    return '$size on-grid inverter';
+  }
+
+  @override
+  String packageInverterHybrid(String size) {
+    return '$size hybrid inverter';
+  }
+
+  @override
+  String packageBattery(String kwh, String hours, String load) {
+    return '$kwh kWh lithium battery: $load par taqreeban $hours';
+  }
+
+  @override
+  String get packageNoBattery => 'Battery nahi: load-shedding mein backup nahi';
+
+  @override
+  String packageProduction(String units) {
+    return 'Mahana taqreeban $units units banayega';
+  }
+
+  @override
+  String packageSavings(String amount) {
+    return 'Mahana taqreeban Rs $amount ki bachat';
+  }
+
+  @override
+  String packagePayback(String min, String max) {
+    return '$min–$max saal mein qeemat wapas';
+  }
+
+  @override
+  String get installerTitle => 'Installer se yeh zaroor poochein';
+
+  @override
+  String get installerQ1 =>
+      'Kya panels tier-1 hain, aur output ki warranty kitni hai?';
+
+  @override
+  String get installerQ2 =>
+      'Kya inverter hybrid hai, aur kaun si batteries chalata hai?';
+
+  @override
+  String get installerQ3 =>
+      'Lithium (LiFePO4) battery kaun si brand, kitne cycles, kitni warranty?';
+
+  @override
+  String get installerQ4 =>
+      'Kya qeemat mein structure, wiring, breakers aur earthing shamil hain?';
+
+  @override
+  String get installerQ5 =>
+      'DISCO se net metering kaun karwayega, aur kitna waqt lagega?';
+
+  @override
+  String estimatorDisclaimer(String date) {
+    return 'Sirf andaza hai: 2–3 installers se qeemat lein. Qeematein aakhri dafa $date ko update hui.';
+  }
+
+  @override
+  String get estimatorPricesUnverified =>
+      'Qeematein online listings (October 2026) se hain, installers ke quotes nahi.';
+
+  @override
+  String get healthLabel => 'Battery ki sehat';
+
+  @override
+  String get healthGood => 'Sehatmand';
+
+  @override
+  String get healthWearing => 'Kamzor ho rahi hai';
+
+  @override
+  String get healthWeak => 'Kamzor: badalne ka sochein';
+
+  @override
+  String healthHolds(String now, String label) {
+    return 'Taqreeban $now kWh rakhti hai, label par $label kWh hai.';
+  }
+
+  @override
+  String healthBasis(String count) {
+    return 'Load-shedding ke baad aap ki aakhri $count readings se.';
+  }
+
+  @override
+  String get healthNoneTitle => 'Abhi sehat ka andaza nahi';
+
+  @override
+  String get healthNoneBody =>
+      'Load-shedding ke baad inverter par battery % dekh kar yahan likhein. 3 readings ke baad app batayegi ke battery asal mein kitna charge rakhti hai.';
+
+  @override
+  String healthProgress(String done, String needed) {
+    return '$needed mein se $done readings';
+  }
+
+  @override
+  String get healthLossTitle => 'Battery pehle se kam charge rakhti hai';
+
+  @override
+  String healthLossBody(String loss) {
+    return 'Yeh taqreeban $loss kam de rahi hai. Isay bilkul khaali na karein, aur check karein ke inverter ki charging aap ki battery ki qisam par set hai.';
+  }
+
+  @override
+  String get healthDeepTitle => 'Aksar zyada khaali hoti hai';
+
+  @override
+  String healthDeepBody(String cutoff) {
+    return 'Aksar $cutoff se neeche chali jati hai, is se battery ki umar kam hoti hai. Load-shedding mein bhaari cheezain pehle band karein.';
+  }
+
+  @override
+  String get readingsTitle => 'Battery % likhein';
+
+  @override
+  String get readingsBody => 'Light wapas aane par inverter par kitna % tha?';
+
+  @override
+  String get readingsEnter => '% likhein';
+
+  @override
+  String get readingTitle => 'Battery reading';
+
+  @override
+  String readingQuestion(String when) {
+    return 'Light aane par battery % ($when)';
+  }
+
+  @override
+  String get readingHint =>
+      'Inverter ki screen dekhein. Andaza bhi theek hai; app ke andaze se shuru hota hai.';
+
+  @override
+  String get readingLess => '5% kam';
+
+  @override
+  String get readingMore => '5% zyada';
+
+  @override
+  String readingValue(String value) {
+    return 'Battery $value';
+  }
+
+  @override
+  String get batteryDetails => 'Aap ki battery';
+
+  @override
+  String batterySize(String volts, String ah, String count, String kwh) {
+    return '$volts · $ah × $count = $kwh kWh';
+  }
+
+  @override
+  String batteryCutoff(String cutoff) {
+    return 'Hifazat ke liye inverter $cutoff par band ho jata hai.';
+  }
+
+  @override
+  String get batteryKharab => 'Battery kharab? Madad lein';
+
+  @override
+  String get helpTitle => 'Battery kharab?';
+
+  @override
+  String get helpSymptoms => 'Kya ho raha hai?';
+
+  @override
+  String get symptomShortBackup => 'Backup sirf chand minute';
+
+  @override
+  String get symptomWontCharge => 'Poori charge nahi hoti';
+
+  @override
+  String get symptomLowWater => 'Paani kam hai';
+
+  @override
+  String get symptomSwollen => 'Phooli hui hai';
+
+  @override
+  String get symptomSmellOrHeat => 'Boo aati hai ya garam hoti hai';
+
+  @override
+  String get verdictNoneTitle => 'Jo nazar aaye woh chunein';
+
+  @override
+  String get verdictNoneBody =>
+      'App batayegi ke dekh bhaal karein, repair karwayein ya nayi lein.';
+
+  @override
+  String get verdictMaintenanceTitle => 'Pehle dekh bhaal karke dekhein';
+
+  @override
+  String get verdictMaintenanceBody =>
+      'Tubular battery mein nishaan tak distilled paani daalein, grid par ek din poori charge karein, aur check karein ke inverter ki charging aap ki battery ki qisam par set hai. Phir bhi masla ho to repair shop jayein.';
+
+  @override
+  String get verdictRepairTitle => 'Repair shop par check karwayein';
+
+  @override
+  String get verdictRepairBody =>
+      'Aksar masla charger, dheela terminal ya fuse hota hai, battery nahi. Nayi lene se pehle UPS repair shop test kar sakti hai.';
+
+  @override
+  String get verdictReplaceTitle => 'Ab badalne ka waqt hai';
+
+  @override
+  String get verdictReplaceBody =>
+      'Readings ke mutabiq battery apni zyada tar capacity kho chuki hai. Neeche options ko poori umar ke kharche se mila kar dekhein, sirf aaj ki qeemat se nahi.';
+
+  @override
+  String get buyTitle => 'Kaunsi battery lein';
+
+  @override
+  String buyIntro(String kwh) {
+    return 'Aap jaisi battery ($kwh kWh) ke liye. Poori umar mein sab se sasti pehle.';
+  }
+
+  @override
+  String get buyBestValue => 'Umar bhar mein sab se sasti';
+
+  @override
+  String buyLife(String years, String cycles, String months) {
+    return 'Taqreeban $years saal ($cycles cycles) · $months mahine warranty';
+  }
+
+  @override
+  String buyPerKWhYear(String amount) {
+    return 'Rs $amount fi qabil-e-istemal kWh fi saal';
+  }
+
+  @override
+  String buyDisclaimer(String date) {
+    return 'Aam bazaar ki qeematein hain, quote nahi. Qeematein aakhri dafa $date ko update hui.';
+  }
+
+  @override
+  String get nearbyTitle => 'Qareeb madad dhoondein';
+
+  @override
+  String nearbyBody(String city) {
+    return '$city mein Google Maps search khulegi.';
+  }
+
+  @override
+  String get nearbyBodyNoCity => 'Aap ke qareeb Google Maps search khulegi.';
+
+  @override
+  String get nearbyBatteryShops => 'Battery ki dukaanein';
+
+  @override
+  String get nearbyUpsRepair => 'UPS aur inverter repair';
+
+  @override
+  String get nearbySolarInstallers => 'Solar installers';
+
+  @override
+  String get queryBatteryShop => 'battery shop';
+
+  @override
+  String get queryUpsRepair => 'UPS inverter repair';
+
+  @override
+  String get querySolarInstaller => 'solar installer';
+
+  @override
+  String get checkOpen => 'Kya mere panels theek chal rahe hain?';
+
+  @override
+  String get checkTitle => 'Panels ki jaanch';
+
+  @override
+  String get checkNoneTitle => 'Abhi jaanch nahi hui';
+
+  @override
+  String get checkNoneBody =>
+      'Panels ne kitni bijli banayi (inverter ki screen ya app se) likhein. App isay us din ke mausam ke andaze se milayegi.';
+
+  @override
+  String get checkHealthyTitle => 'Panels theek chal rahe hain';
+
+  @override
+  String get checkHealthyBody =>
+      'Mausam ke hisaab se kam az kam 90% bijli bani.';
+
+  @override
+  String get checkSlightTitle => 'Thora kam';
+
+  @override
+  String get checkSlightBody =>
+      'Shayad gard ya thora saya hai. Panels saaf karein (subah ya shaam, sirf paani se) aur chand din baad dobara dekhein.';
+
+  @override
+  String get checkLowTitle => 'Jitna banna chahiye us se kaafi kam';
+
+  @override
+  String get checkLowBody =>
+      'Is hafte teen saaf dinon mein kam. Wiring, inverter ka MPPT ya koi kharab panel check karwayein. Solar technician se rabta karein.';
+
+  @override
+  String get checkEnterTitle => 'Panels ne kitna banaya, likhein';
+
+  @override
+  String get checkToday => 'Aaj';
+
+  @override
+  String get checkYesterday => 'Kal';
+
+  @override
+  String checkDaysAgo(String days) {
+    return '$days din pehle';
+  }
+
+  @override
+  String get checkNoWeather =>
+      'Us din ka mausam save nahi. Ek dafa internet ke saath Solar tab kholein.';
+
+  @override
+  String checkExpected(String kwh) {
+    return 'Us din ke mausam ke hisaab se panels ko taqreeban $kwh kWh banana chahiye.';
+  }
+
+  @override
+  String get checkTodayHint =>
+      'Aaj abhi khatam nahi hua: sahi jaanch ke liye shaam ke baad likhein.';
+
+  @override
+  String get checkActualLabel => 'Kitne kWh bane (inverter se)';
+
+  @override
+  String get checkActualError => 'Number likhein, maslan 8.5';
+
+  @override
+  String get checkTrendTitle => 'Pichhle do hafte';
+
+  @override
+  String get checkMade => 'Bana';
+
+  @override
+  String get checkShouldMake => 'Banna chahiye';
+
+  @override
+  String checkTrendSemantics(String count) {
+    return '$count din ki panels ki bijli, mausam ke andaze ke muqable mein';
+  }
+
+  @override
+  String checkLogRow(String weekday, String day, String made, String expected) {
+    return '$weekday $day: $expected mein se $made kWh';
+  }
+
+  @override
+  String get pricesOnlineTitle => 'Aaj ki qeematein online dekhein';
+
+  @override
+  String get pricesOnlineBody =>
+      'Live listings khulengi. Yeh bechne walon ki maangi hui qeematein hain; upar ke andaze jaanchi hui qeematon se hain.';
+
+  @override
+  String pricesOnlineSearching(String query) {
+    return 'Search: $query';
+  }
+
+  @override
+  String get priceSiteGoogle => 'Google';
+
+  @override
+  String get priceSiteDaraz => 'Daraz';
+
+  @override
+  String get priceSiteOlx => 'OLX';
+
+  @override
+  String get pakistan => 'Pakistan';
+
+  @override
+  String priceQueryGoogle(String product, String place) {
+    return '$product price in $place';
+  }
+
+  @override
+  String get priceProductPanels => 'Panels';
+
+  @override
+  String get priceProductInverter => 'Inverter';
+
+  @override
+  String get priceProductBattery => 'Battery';
+
+  @override
+  String priceQueryPanel(String watts) {
+    return '${watts}W solar panel';
+  }
+
+  @override
+  String priceQueryHybrid(String kw) {
+    return '${kw}kW hybrid inverter';
+  }
+
+  @override
+  String priceQueryOngrid(String kw) {
+    return '${kw}kW on grid inverter';
+  }
+
+  @override
+  String priceQueryLithium(String kwh) {
+    return '$kwh kWh lithium battery';
+  }
+
+  @override
+  String get priceQueryTubular => '200Ah tubular battery';
+
+  @override
+  String get priceQueryDry => '100Ah dry battery';
 
   @override
   String get batteryCheckTitle => 'UPS screen par kitna dikh raha hai?';

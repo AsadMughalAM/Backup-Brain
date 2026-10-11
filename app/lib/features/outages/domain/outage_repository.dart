@@ -9,6 +9,7 @@ class OutageEvent {
     this.endedAt,
     this.startSoc,
     this.endSoc,
+    this.endSocMeasured = false,
     this.avgLoadW,
   });
 
@@ -21,6 +22,10 @@ class OutageEvent {
   /// Battery charge (0–1) when the power went and when it came back.
   final double? startSoc;
   final double? endSoc;
+
+  /// True when [endSoc] was read off the inverter by the user, not
+  /// estimated. Only measured readings tell battery health (F6).
+  final bool endSocMeasured;
 
   /// House load when the power went; the battery estimate assumes it held.
   final double? avgLoadW;
@@ -60,6 +65,13 @@ abstract interface class OutageRepository {
 
   /// Logged by mistake ("the power didn't go").
   Future<void> remove(String id);
+
+  /// The cut's time-weighted house load so far (F6 needs the average, and
+  /// loads change during a cut).
+  Future<void> setAvgLoad(String id, double loadW);
+
+  /// The battery % the user read off the inverter when the power came back.
+  Future<void> recordEndSoc(String id, double soc);
 
   Stream<List<ScheduleEntry>> watchSchedule();
 

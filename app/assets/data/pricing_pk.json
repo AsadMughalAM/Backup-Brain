@@ -1,0 +1,91 @@
+{
+  "_comment": "F5 estimator prices in PKR, min–max. From Pakistani online listings and price guides dated October 2026 (see sources); they disagree, so ranges are wide. Not installer quotes: replace with 2–3 local quotes and set verified=true. Firestore config/pricing_pk, when present, wins over this bundled copy (TECH_STACK §7.2).",
+  "lastUpdated": "2026-10-11",
+  "verified": false,
+  "tariffPerUnit": 50,
+  "panel": {
+    "watts": 580,
+    "pricePerW": {
+      "min": 37,
+      "max": 45
+    }
+  },
+  "inverterSizesKw": [
+    3,
+    4,
+    6,
+    8,
+    10,
+    12
+  ],
+  "ongridInverter": {
+    "3": {
+      "min": 70000,
+      "max": 110000
+    },
+    "4": {
+      "min": 80000,
+      "max": 130000
+    },
+    "6": {
+      "min": 150000,
+      "max": 230000
+    },
+    "8": {
+      "min": 160000,
+      "max": 260000
+    },
+    "10": {
+      "min": 170000,
+      "max": 300000
+    },
+    "12": {
+      "min": 220000,
+      "max": 350000
+    }
+  },
+  "hybridInverter": {
+    "3": {
+      "min": 70000,
+      "max": 120000
+    },
+    "4": {
+      "min": 120000,
+      "max": 180000
+    },
+    "6": {
+      "min": 150000,
+      "max": 295000
+    },
+    "8": {
+      "min": 320000,
+      "max": 405000
+    },
+    "10": {
+      "min": 400000,
+      "max": 520000
+    },
+    "12": {
+      "min": 520000,
+      "max": 745000
+    }
+  },
+  "batteryPerKWh": {
+    "lifepo4": {
+      "min": 45000,
+      "max": 65000
+    }
+  },
+  "installationPerKw": {
+    "min": 16000,
+    "max": 29000
+  },
+  "sources": [
+    "Panels Rs 37–45/W: en.dailyqudrat.pk/106499 (Oct 10, 2026), jbmssolar.pk",
+    "Hybrid inverters: solarhubofficial.com/6kw-hybrid-solar-inverter-price-in-pakistan, maxpower.com.pk/news/hybrid-inverter-prices-in-pakistan-2026, w11stop.com/hybrid-inverter",
+    "On-grid inverters: w11stop.com/on-grid-tied-inverter, w11stop.com/growatt/growatt-6kw-on-grid-inverter, luminey.com/blog/10kw-inverter-price-in-pakistan, solarcitizen.com.pk/growatt-inverter-price-pakistan (3/4/8/12 kW interpolated)",
+    "Lithium Rs 45–65k/kWh: solarcitizen.com.pk/lithium-battery-price-pakistan, powerpack.com.pk",
+    "Installation: toolsfluent.com/blog/10kw-solar-system-pakistan-complete-guide (structure), solarpricepakistan.com.pk/solar-panel-installation-cost-in-pakistan (wiring, labour)",
+    "Tariff: toolsfluent.com/blog/electricity-bill-per-units-pakistan-2026, pakobserver.net (NEPRA slabs)"
+  ]
+}

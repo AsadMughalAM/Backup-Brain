@@ -2,12 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:backup_brain/core/services/alert_scheduler.dart';
+import 'package:backup_brain/core/services/external_links.dart';
+import 'package:backup_brain/features/battery/data/battery_catalog_repository_impl.dart';
+import 'package:backup_brain/features/battery/domain/battery_catalog_repository.dart';
 import 'package:backup_brain/features/assistant/domain/assistant_repository.dart';
 import 'package:backup_brain/features/assistant/domain/energy_snapshot.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/data/models/system_dto.dart';
 import 'package:backup_brain/features/backup/domain/entities/household_system.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
+import 'package:backup_brain/features/estimator/data/pricing_repository_impl.dart';
+import 'package:backup_brain/features/estimator/domain/pricing_repository.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
@@ -17,6 +23,7 @@ import 'package:backup_brain/features/setup/data/models/setup_presets_dto.dart';
 import 'package:backup_brain/features/setup/domain/entities/setup_presets.dart';
 import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:backup_brain/features/solar/data/models/weather_dto.dart';
+import 'package:backup_brain/features/solar/domain/solar_log_repository.dart';
 import 'package:backup_brain/features/solar/domain/entities/weather_forecast.dart';
 import 'package:backup_brain/features/solar/domain/weather_repository.dart';
 import 'package:energy_engine/energy_engine.dart';
@@ -393,23 +400,44 @@ class FakeOutageRepository implements OutageRepository {
   }
 
   @override
-  Future<void> moveStart(String id, DateTime at) async {
-    final i = outages.indexWhere((o) => o.id == id);
-    final o = outages[i];
-    outages[i] = OutageEvent(
-      id: o.id,
-      startedAt: at,
-      startSoc: o.startSoc,
-      avgLoadW: o.avgLoadW,
-    );
-    _outageChanges.add([...outages]);
-  }
+  Future<void> recordEndSoc(String id, double soc) async =>
+      _replace(id, (o) => _copy(o, endSoc: soc, endSocMeasured: true));
+
+  @override
+  Future<void> setAvgLoad(String id, double loadW) async =>
+      _replace(id, (o) => _copy(o, avgLoadW: loadW));
+
+  @override
+  Future<void> moveStart(String id, DateTime at) async =>
+      _replace(id, (o) => _copy(o, startedAt: at));
 
   @override
   Future<void> remove(String id) async {
     outages.removeWhere((o) => o.id == id);
     _outageChanges.add([...outages]);
   }
+
+  void _replace(String id, OutageEvent Function(OutageEvent) change) {
+    final i = outages.indexWhere((o) => o.id == id);
+    outages[i] = change(outages[i]);
+    _outageChanges.add([...outages]);
+  }
+
+  static OutageEvent _copy(
+    OutageEvent o, {
+    DateTime? startedAt,
+    double? endSoc,
+    bool? endSocMeasured,
+    double? avgLoadW,
+  }) => OutageEvent(
+    id: o.id,
+    startedAt: startedAt ?? o.startedAt,
+    endedAt: o.endedAt,
+    startSoc: o.startSoc,
+    endSoc: endSoc ?? o.endSoc,
+    endSocMeasured: endSocMeasured ?? o.endSocMeasured,
+    avgLoadW: avgLoadW ?? o.avgLoadW,
+  );
 
   @override
   Future<void> addSlot(ScheduleSlot slot) async {
@@ -476,4 +504,86 @@ class TestClock {
   }
 
   void advance(Duration by) => _changes.add(_now = _now.add(by));
+}
+
+class FakeAlertScheduler implements AlertScheduler {
+  /// The pending alert, or null after a cancel.
+  ({DateTime atUtc, String title, String body})? pending;
+  var schedules = 0;
+  final tapController = StreamController<void>.broadcast();
+
+  @override
+  Future<void> schedule({
+    required DateTime atUtc,
+    required String title,
+    required String body,
+  }) async {
+    schedules++;
+    pending = (atUtc: atUtc, title: title, body: body);
+  }
+
+  @override
+  Future<void> cancel() async => pending = null;
+
+  @override
+  Stream<void> get taps => tapController.stream;
+}
+
+/// The real bundled prices, so tests also prove the asset parses.
+class FakePricingRepository implements PricingRepository {
+  @override
+  Future<PriceSheet> load() async => PricingDto.fromMap(
+    json.decode(File('assets/data/pricing_pk.json').readAsStringSync())
+        as Map<String, dynamic>,
+  );
+}
+
+/// The real bundled catalog, so tests also prove the asset parses.
+class FakeBatteryCatalogRepository implements BatteryCatalogRepository {
+  @override
+  Future<BatteryCatalog> load() async => BatteryCatalogDto.fromMap(
+    json.decode(File('assets/data/battery_catalog_pk.json').readAsStringSync())
+        as Map<String, dynamic>,
+  );
+}
+
+class FakeExternalLinks implements ExternalLinks {
+  final searches = <String>[];
+
+  @override
+  Future<bool> openMapsSearch(String query) async {
+    searches.add(query);
+    return true;
+  }
+
+  final priceSearches = <(PriceSite, String)>[];
+
+  @override
+  Future<bool> openPriceSearch(PriceSite site, String query) async {
+    priceSearches.add((site, query));
+    return true;
+  }
+}
+
+class FakeSolarLogRepository implements SolarLogRepository {
+  FakeSolarLogRepository([List<SolarLog> logs = const []]) : logs = [...logs];
+
+  /// Newest first.
+  final List<SolarLog> logs;
+  final _changes = StreamController<List<SolarLog>>.broadcast();
+
+  @override
+  Stream<List<SolarLog>> watchRecent() async* {
+    yield [...logs];
+    yield* _changes.stream;
+  }
+
+  @override
+  Future<void> save(SolarLog log) async {
+    logs
+      ..removeWhere((l) => l.day == log.day)
+      ..add(log)
+      ..sort((a, b) => b.day.compareTo(a.day));
+    _changes.add([...logs]);
+  }
 }

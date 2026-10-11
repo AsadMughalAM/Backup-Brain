@@ -60,6 +60,59 @@ abstract final class EngineDefaults {
   /// Length of the "most sun" window suggested for heavy loads.
   static const peakWindowHours = 3;
 
+  // F4 solar performance (ARCHITECTURE.md §5 F4).
+
+  static const performanceHealthy = 0.90;
+  static const performanceLow = 0.75;
+
+  /// A day counts as clear when the model expected at least this share of
+  /// a clear sky's energy; only clear days can prove a fault.
+  static const clearDayShare = 0.70;
+
+  /// Low clear days within [performanceWindowDays] before it is a fault.
+  static const lowClearDaysForAlarm = 3;
+  static const performanceWindowDays = 7;
+
+  /// Below this expected output the day says nothing about the panels.
+  static const minExpectedKWh = 0.5;
+
+  // F5 sizing (ARCHITECTURE.md §5 F5).
+
+  /// The "Full backup" package's battery covers at least a whole night.
+  static const fullBackupHours = 10.0;
+
+  /// Battery banks are quoted in half-kWh steps.
+  static const batteryStepKWh = 0.5;
+
+  /// An inverter should run at most 80% of its rating: size it 1.25 × the
+  /// peak load.
+  static const inverterHeadroom = 1.25;
+
+  // F6 battery health (ARCHITECTURE.md §5 F6).
+
+  /// Readings needed before the app names a health figure.
+  static const healthMinSessions = 3;
+
+  /// Health is the median of this many latest readings.
+  static const healthWindow = 10;
+
+  /// Smaller drops in charge are dominated by reading error.
+  static const healthMinSocDrop = 0.10;
+
+  /// Warn when capacity is this much below the baseline.
+  static const capacityLossWarning = 0.15;
+
+  /// Warn when more than this share of outages ended below the cutoff.
+  static const deepDischargeShare = 0.30;
+
+  // F7 repair or replace (ARCHITECTURE.md §5 F7).
+
+  /// Below this measured health, short backup means replace, not repair.
+  static const replaceBelowHealth = 0.6;
+
+  /// Daily load-shedding: about one deep cycle a day.
+  static const cyclesPerYear = 365;
+
   // F8 outages and recharge (ARCHITECTURE.md §5 F8).
 
   /// Grid chargers in UPS / hybrid inverters typically charge at about C/10

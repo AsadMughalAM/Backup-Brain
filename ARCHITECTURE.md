@@ -216,6 +216,8 @@ Then simulate the battery hour by hour: solar energy first covers the daytime lo
   - < 0.75 for 3+ clear days → "significantly underperforming — check wiring, inverter MPPT, or a faulty panel; consider a technician"
 - Show a 7-/30-day trend chart.
 
+**As built (engine `solar_performance.dart`):** the Open-Meteo request adds `past_days=7`, so "expected for the actual weather" is F3's model run on that past day's recorded hours (whole local days only). A day is *clear* when expected ≥ 70% of clear-sky energy; days expecting < 0.5 kWh are not judged. The latest day sets healthy (≥ 0.90) or slightly low; *significantly low* needs 3+ clear days below 0.75 within 7 days, so one bad forecast can't raise the alarm. Logs keep `expectedKWh` and `clearShare` because old weather leaves the cache. The trend is a two-week made-vs-should-make bar strip (`BbSolarForecastStrip`) plus a per-day list, not a 30-day chart yet.
+
 ---
 
 ### F5 — Solar Cost & Sizing Estimator (P0)
@@ -240,6 +242,10 @@ battery_Wh            = night_load_W × backup_hours / (usable_DoD × inverter_e
 - Payback: `annual_savings = units_offset × tariff_per_unit × 12`; `payback_years = total_cost / annual_savings`. Tariff per unit and any net-metering/net-billing rate are **configurable** (government policy changes; do not assume).
 - AI summary in plain language + "questions to ask your installer" checklist.
 
+**As built (engine `solar_sizing.dart`):** all packages quote LiFePO4 (usable DoD = 1 − 0.15) and a hybrid inverter's 0.90 efficiency; batteries round up to 0.5 kWh. *Basic* = bill-sized panels + on-grid inverter sized to the panels. *Hybrid* = same panels + a battery for the user's backup hours + hybrid inverter ≥ 1.25 × peak load. *Full backup* = a battery for max(backup hours, 10 h) and extra panels to refill it from one day's sun (`battery_kWh / (PSH × PR × charge_eff)`). Savings count only units the household actually buys: `min(solar_kWh, monthly_kWh) × tariff`. Above the largest standard inverter, several are quoted. PSH per city lives in `cities_psh.json`; prices in `pricing_pk.json`, taken from Pakistani online listings and price guides (October 2026, sources inside the file) until installer quotes replace them; the screen says which. The AI summary is not built yet.
+
+**Live prices (F5 and F7):** a "Check today's prices online" card opens Google (with the city), Daraz or OLX searches for the recommended parts or battery types. These are sellers' asking prices shown by those sites; the app never reads or computes with them (golden rule 1). Gemini search grounding was considered but needs a billed Gemini key.
+
 ---
 
 ### F6 — Battery Health Monitor (P1)
@@ -260,6 +266,8 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - recharge time trending up > 25% → "charging problem or ageing"
 - lead-acid battery older than 18–24 months with health < 0.6 → suggest replacement → link to F7
 
+**As built (engine `battery_health.dart`):** a session counts only when the user entered the battery % shown on the inverter after the outage (`endSoCSource: 'user'`), because the app's own end estimate would just echo the model; drops under 10% are ignored as reading error. At least 3 readings before any verdict; health = median of the last 10. Capacity loss is measured against the label, or against the median of the first 3 readings once there are 6. Not built yet: the recharge-time trend (no recharge data) and the battery-age rule (setup does not record age). Health is shown on the Battery tab and sent to the assistant, but not yet fed into the F1 countdown (`BackupInput.healthFactor`).
+
 **Output example:** *"Your battery is delivering about 18% less backup than 3 months ago. Avoid discharging below 50% and check that UPS charging is set to the correct battery type (tubular vs. dry)."*
 
 ---
@@ -278,6 +286,8 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - Optional: AI web-search refresh of prices (LLM with web search tool) — always show source + date.
 - Never present prices as guaranteed. No affiliate ranking bias in MVP.
 
+**As built (MVP):** *Diagnose* = rules in `battery_diagnosis.dart`: swollen or smell/heat → the fixed safety text only; measured health (F6) < 60% with short backup or no charge → replace; low water in a tubular → maintenance; won't charge → repair shop; short backup without a measurement → maintenance first. *Recommend* = generic types (dry lead-acid, tubular, LiFePO4) from the bundled `assets/data/battery_catalog_pk.json` (prices per kWh from October 2026 online listings, no brands), priced for the user's bank size and ranked by `cost_per_usable_kWh_per_year` with one deep cycle a day. *Find shops* = a **Google Maps search link** (battery shop / UPS inverter repair / solar installer + the home city) opened with `url_launcher`: no Places API, no key, no Blaze. The brand catalog in Firestore and `findNearbyShops` stay for later.
+
 ---
 
 ### F8 — Outage Schedule & Recharge Readiness (P1)
@@ -294,6 +304,7 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - **Reminders (local notifications, offline):** 10 minutes after each expected cut starts (schedule or pattern, next 7 days, at most 20), "Power gone?" with **Yes, it went** / **No**; "Yes" logs the cut from the expected start. During a cut, one "Power back?" 10 minutes after it should end, judged from when it started, asked once. Nothing for a cut already logged. Inexact alarms (may be up to ~1 h late in Doze); no exact-alarm permission. Permission is asked once, at the first logged cut.
 - **Countdown notice:** while a cut is logged, an ongoing notification "Power cut since 8:00 PM · Backup about 3h 10m at 420 W" counts down by itself (system chronometer, no app running), re-posted only when the end moves by 5+ minutes, removed when the power is back. It never switches anything (golden rule 8).
 - Alert: *"Next outage likely at 7 PM (based on your last 14 days). Battery will only be at 65% by then — avoid running the iron now."*
+  - Implemented as one local notification **30 minutes before** the next predicted or scheduled outage (Android; inexact timing, so no exact-alarm permission). It is rescheduled when the prediction moves, cancelled while the power is out, survives a reboot, and can be switched off in Settings. Tapping it opens the Outages screen.
 - Community/crowdsourced outage reports by area = P2 stretch.
 
 ---
@@ -388,9 +399,9 @@ Appliance       { id, systemId, name, watts, quantity, dutyCycle,
                   priority: 'essential'|'comfort'|'avoid_on_backup', isOn }
 
 OutageEvent     { id, systemId, startedAt, endedAt?, source: 'manual'|'auto',
-                  startSoC?, endSoC?, avgLoadW? }
+                  startSoC?, endSoC?, endSoCSource?: 'estimate'|'user', avgLoadW? }
 
-SolarDailyLog   { id, systemId, date, actualKWh?, expectedKWh, performanceIndex? }
+SolarDailyLog   { id (= date), systemId, date 'yyyy-MM-dd', actualKWh, expectedKWh, clearShare }   // index = actual / expected, computed
 
 HealthSnapshot  { id, systemId, date, estimatedCapacityWh, healthFactor, warnings[] }
 

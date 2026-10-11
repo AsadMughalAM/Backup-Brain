@@ -26,6 +26,7 @@ abstract final class SetupPresetsDto {
             id: c['id'] as String,
             name: c['name'] as String,
             site: SiteLocation(lat: _d(c['lat']), lon: _d(c['lon'])),
+            psh: (c['psh'] as num?)?.toDouble(),
           ),
       ],
       appliances: [

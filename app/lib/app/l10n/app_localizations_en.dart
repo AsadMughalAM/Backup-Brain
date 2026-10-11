@@ -363,13 +363,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guidePanel3 => 'Voc 49.6V · Isc 14.0A';
 
   @override
-  String get comingSoonTitle => 'Coming soon';
-
-  @override
-  String get comingBattery =>
-      'Battery health, plus where to buy or repair a battery.';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -640,7 +633,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get solarNoPanelsBody =>
-      'Add your panels during setup to see how much the sun will charge your battery.';
+      'Your home is saved without solar panels. Add them to see how much the sun will charge your battery.';
 
   @override
   String get solarNeedsInternetTitle => 'Needs internet once';
@@ -876,6 +869,566 @@ class AppLocalizationsEn extends AppLocalizations {
   String scheduleLater(String label) {
     return '$label: 30 minutes later';
   }
+
+  @override
+  String get alertChannelName => 'Outage alerts';
+
+  @override
+  String alertTitleLikely(String time) {
+    return 'Power may go at $time';
+  }
+
+  @override
+  String alertTitleScheduled(String time) {
+    return 'Load-shedding at $time';
+  }
+
+  @override
+  String alertBodyReady(String soc, String backup) {
+    return 'Battery will be about $soc: $backup of backup at your current load.';
+  }
+
+  @override
+  String alertBodyShort(String soc, String backup, String outage) {
+    return 'Battery will be about $soc: only $backup, less than the usual $outage. Switch heavy loads off now.';
+  }
+
+  @override
+  String get settingsOutageAlerts => 'Outage alerts';
+
+  @override
+  String get settingsOutageAlertsBody =>
+      'A notification 30 minutes before the next likely or scheduled outage. Works offline.';
+
+  @override
+  String get solarAddPanels => 'Add my panels';
+
+  @override
+  String get assistantBusy =>
+      'The assistant is busy. Try again in a minute. Meanwhile, your numbers:';
+
+  @override
+  String get estimatorTitle => 'Solar cost estimator';
+
+  @override
+  String get estimatorIntro =>
+      'What would solar cost for your home? Rough sizes, prices and savings in a few taps.';
+
+  @override
+  String get estimatorUsage => 'Monthly electricity use';
+
+  @override
+  String get estimatorUnits => 'Units (kWh)';
+
+  @override
+  String get estimatorBill => 'Bill (Rs)';
+
+  @override
+  String get estimatorUnitsLabel => 'Units per month';
+
+  @override
+  String get estimatorBillLabel => 'Monthly bill in rupees';
+
+  @override
+  String estimatorTariffNote(String tariff) {
+    return 'Converted at Rs $tariff per unit.';
+  }
+
+  @override
+  String get estimatorCity => 'City';
+
+  @override
+  String get estimatorGoal => 'What matters most?';
+
+  @override
+  String get goalBill => 'Lower bill';
+
+  @override
+  String get goalBillHint => 'No battery, the cheapest';
+
+  @override
+  String get goalBoth => 'Bill and backup';
+
+  @override
+  String get goalBothHint => 'A battery for load-shedding';
+
+  @override
+  String get goalBackup => 'Full backup';
+
+  @override
+  String get goalBackupHint => 'A battery for the whole night';
+
+  @override
+  String get estimatorBackupHours => 'Backup hours needed';
+
+  @override
+  String get estimatorHoursLess => 'Fewer hours';
+
+  @override
+  String get estimatorHoursMore => 'More hours';
+
+  @override
+  String get estimatorNightLoad => 'Load at night (W)';
+
+  @override
+  String get estimatorNightLoadHint =>
+      'Fans, lights and fridge together. Taken from your home if you leave it empty.';
+
+  @override
+  String get estimatorEmptyTitle => 'Packages appear here';
+
+  @override
+  String get estimatorEnterUsage =>
+      'Enter your monthly units or bill to see three packages with cost and payback.';
+
+  @override
+  String get packageBasic => 'Basic';
+
+  @override
+  String get packageBasicSub => 'On-grid: cuts the bill, no backup';
+
+  @override
+  String get packageHybrid => 'Hybrid';
+
+  @override
+  String get packageHybridSub => 'Cuts the bill and covers load-shedding';
+
+  @override
+  String get packageFull => 'Full backup';
+
+  @override
+  String get packageFullSub => 'The whole night on battery';
+
+  @override
+  String get packageRecommended => 'Recommended';
+
+  @override
+  String packageCost(String min, String max) {
+    return 'Rs $min–$max';
+  }
+
+  @override
+  String packagePanels(String count, String watts, String kw) {
+    return '$count × $watts W panels ($kw)';
+  }
+
+  @override
+  String packageInverterOngrid(String size) {
+    return '$size on-grid inverter';
+  }
+
+  @override
+  String packageInverterHybrid(String size) {
+    return '$size hybrid inverter';
+  }
+
+  @override
+  String packageBattery(String kwh, String hours, String load) {
+    return '$kwh kWh lithium battery: about $hours at $load';
+  }
+
+  @override
+  String get packageNoBattery => 'No battery: no backup during load-shedding';
+
+  @override
+  String packageProduction(String units) {
+    return 'Makes about $units units a month';
+  }
+
+  @override
+  String packageSavings(String amount) {
+    return 'Saves about Rs $amount a month';
+  }
+
+  @override
+  String packagePayback(String min, String max) {
+    return 'Pays for itself in $min–$max years';
+  }
+
+  @override
+  String get installerTitle => 'Questions to ask your installer';
+
+  @override
+  String get installerQ1 =>
+      'Are the panels tier-1, and what output warranty do they carry?';
+
+  @override
+  String get installerQ2 =>
+      'Is the inverter hybrid, and which batteries does it support?';
+
+  @override
+  String get installerQ3 =>
+      'Which lithium (LiFePO4) battery brand, how many cycles, what warranty?';
+
+  @override
+  String get installerQ4 =>
+      'Does the price include structure, wiring, breakers and earthing?';
+
+  @override
+  String get installerQ5 =>
+      'Who handles net metering with the DISCO, and how long does it take?';
+
+  @override
+  String estimatorDisclaimer(String date) {
+    return 'Estimates only: get quotes from 2–3 installers. Prices last updated $date.';
+  }
+
+  @override
+  String get estimatorPricesUnverified =>
+      'Prices come from online listings (October 2026), not installer quotes.';
+
+  @override
+  String get healthLabel => 'Battery health';
+
+  @override
+  String get healthGood => 'Healthy';
+
+  @override
+  String get healthWearing => 'Wearing out';
+
+  @override
+  String get healthWeak => 'Weak: think about replacing it';
+
+  @override
+  String healthHolds(String now, String label) {
+    return 'Holds about $now kWh of its $label kWh label.';
+  }
+
+  @override
+  String healthBasis(String count) {
+    return 'From your last $count battery readings after outages.';
+  }
+
+  @override
+  String get healthNoneTitle => 'No health check yet';
+
+  @override
+  String get healthNoneBody =>
+      'After an outage, enter the battery % your inverter shows. With 3 readings the app works out how much your battery really holds.';
+
+  @override
+  String healthProgress(String done, String needed) {
+    return '$done of $needed readings';
+  }
+
+  @override
+  String get healthLossTitle => 'Battery holds less than before';
+
+  @override
+  String healthLossBody(String loss) {
+    return 'It delivers about $loss less than it should. Avoid draining it to the bottom, and check the inverter\'s charging is set for your battery type.';
+  }
+
+  @override
+  String get healthDeepTitle => 'Often drained too far';
+
+  @override
+  String healthDeepBody(String cutoff) {
+    return 'It often ends below $cutoff, which shortens battery life. Switch heavy loads off earlier during outages.';
+  }
+
+  @override
+  String get readingsTitle => 'Enter the battery %';
+
+  @override
+  String get readingsBody =>
+      'What did the inverter show when the power came back?';
+
+  @override
+  String get readingsEnter => 'Enter %';
+
+  @override
+  String get readingTitle => 'Battery reading';
+
+  @override
+  String readingQuestion(String when) {
+    return 'Battery % when the power came back ($when)';
+  }
+
+  @override
+  String get readingHint =>
+      'Check your inverter\'s display. A close guess is fine; it starts at the app\'s estimate.';
+
+  @override
+  String get readingLess => '5% less';
+
+  @override
+  String get readingMore => '5% more';
+
+  @override
+  String readingValue(String value) {
+    return 'Battery $value';
+  }
+
+  @override
+  String get batteryDetails => 'Your battery';
+
+  @override
+  String batterySize(String volts, String ah, String count, String kwh) {
+    return '$volts · $ah × $count = $kwh kWh';
+  }
+
+  @override
+  String batteryCutoff(String cutoff) {
+    return 'The inverter stops at $cutoff to protect it.';
+  }
+
+  @override
+  String get batteryKharab => 'Battery problem? Get help';
+
+  @override
+  String get helpTitle => 'Battery problem?';
+
+  @override
+  String get helpSymptoms => 'What\'s happening?';
+
+  @override
+  String get symptomShortBackup => 'Backup lasts only minutes';
+
+  @override
+  String get symptomWontCharge => 'Won\'t charge fully';
+
+  @override
+  String get symptomLowWater => 'Water level is low';
+
+  @override
+  String get symptomSwollen => 'Swollen or bulging';
+
+  @override
+  String get symptomSmellOrHeat => 'Smells or gets hot';
+
+  @override
+  String get verdictNoneTitle => 'Pick what you notice';
+
+  @override
+  String get verdictNoneBody =>
+      'The app suggests whether to look after it, repair it or replace it.';
+
+  @override
+  String get verdictMaintenanceTitle => 'Try looking after it first';
+
+  @override
+  String get verdictMaintenanceBody =>
+      'Top up tubular batteries with distilled water to the mark, charge fully on grid for a day, and check the inverter\'s charging is set to your battery type. If it is still short, see a repair shop.';
+
+  @override
+  String get verdictRepairTitle => 'Worth a repair shop\'s check';
+
+  @override
+  String get verdictRepairBody =>
+      'Often it is the charger, a loose terminal or a blown fuse, not the battery. A UPS repair shop can test it before you buy a new one.';
+
+  @override
+  String get verdictReplaceTitle => 'Time to replace it';
+
+  @override
+  String get verdictReplaceBody =>
+      'Your readings show it has lost most of its capacity. Compare the options below by what they cost over their life, not just today.';
+
+  @override
+  String get buyTitle => 'Which battery to buy';
+
+  @override
+  String buyIntro(String kwh) {
+    return 'For a bank like yours ($kwh kWh). Cheapest over its life first.';
+  }
+
+  @override
+  String get buyBestValue => 'Cheapest over its life';
+
+  @override
+  String buyLife(String years, String cycles, String months) {
+    return 'Lasts about $years years ($cycles cycles) · $months-month warranty';
+  }
+
+  @override
+  String buyPerKWhYear(String amount) {
+    return 'Rs $amount per usable kWh per year';
+  }
+
+  @override
+  String buyDisclaimer(String date) {
+    return 'Typical market prices, not quotes. Prices last updated $date.';
+  }
+
+  @override
+  String get nearbyTitle => 'Find help nearby';
+
+  @override
+  String nearbyBody(String city) {
+    return 'Opens a Google Maps search around $city.';
+  }
+
+  @override
+  String get nearbyBodyNoCity => 'Opens a Google Maps search near you.';
+
+  @override
+  String get nearbyBatteryShops => 'Battery shops';
+
+  @override
+  String get nearbyUpsRepair => 'UPS and inverter repair';
+
+  @override
+  String get nearbySolarInstallers => 'Solar installers';
+
+  @override
+  String get queryBatteryShop => 'battery shop';
+
+  @override
+  String get queryUpsRepair => 'UPS inverter repair';
+
+  @override
+  String get querySolarInstaller => 'solar installer';
+
+  @override
+  String get checkOpen => 'Are my panels working well?';
+
+  @override
+  String get checkTitle => 'Panel check';
+
+  @override
+  String get checkNoneTitle => 'No check yet';
+
+  @override
+  String get checkNoneBody =>
+      'Enter how much your panels made (from the inverter display or app). The app compares it with what that day\'s weather should have given.';
+
+  @override
+  String get checkHealthyTitle => 'Panels are working well';
+
+  @override
+  String get checkHealthyBody =>
+      'They made at least 90% of what the weather allowed.';
+
+  @override
+  String get checkSlightTitle => 'A little low';
+
+  @override
+  String get checkSlightBody =>
+      'Likely dust or some shade. Clean the panels (early morning or evening, with water, no soap) and check again in a few days.';
+
+  @override
+  String get checkLowTitle => 'Well below what it should make';
+
+  @override
+  String get checkLowBody =>
+      'Low on three clear days this week. Check wiring and the inverter\'s MPPT, or a faulty panel. Consider a solar technician.';
+
+  @override
+  String get checkEnterTitle => 'Enter what the panels made';
+
+  @override
+  String get checkToday => 'Today';
+
+  @override
+  String get checkYesterday => 'Yesterday';
+
+  @override
+  String checkDaysAgo(String days) {
+    return '$days days ago';
+  }
+
+  @override
+  String get checkNoWeather =>
+      'No weather saved for that day. Open the Solar tab online once.';
+
+  @override
+  String checkExpected(String kwh) {
+    return 'For that day\'s weather the panels should make about $kwh kWh.';
+  }
+
+  @override
+  String get checkTodayHint =>
+      'Today isn\'t over: enter it after sunset for a fair check.';
+
+  @override
+  String get checkActualLabel => 'kWh made (from the inverter)';
+
+  @override
+  String get checkActualError => 'Enter a number, e.g. 8.5';
+
+  @override
+  String get checkTrendTitle => 'Last two weeks';
+
+  @override
+  String get checkMade => 'Made';
+
+  @override
+  String get checkShouldMake => 'Should make';
+
+  @override
+  String checkTrendSemantics(String count) {
+    return 'Panel output for $count logged days against what the weather allowed';
+  }
+
+  @override
+  String checkLogRow(String weekday, String day, String made, String expected) {
+    return '$weekday $day: $made of $expected kWh';
+  }
+
+  @override
+  String get pricesOnlineTitle => 'Check today\'s prices online';
+
+  @override
+  String get pricesOnlineBody =>
+      'Opens live listings. These are sellers\' asking prices; the estimates above use reviewed prices.';
+
+  @override
+  String pricesOnlineSearching(String query) {
+    return 'Search: $query';
+  }
+
+  @override
+  String get priceSiteGoogle => 'Google';
+
+  @override
+  String get priceSiteDaraz => 'Daraz';
+
+  @override
+  String get priceSiteOlx => 'OLX';
+
+  @override
+  String get pakistan => 'Pakistan';
+
+  @override
+  String priceQueryGoogle(String product, String place) {
+    return '$product price in $place';
+  }
+
+  @override
+  String get priceProductPanels => 'Panels';
+
+  @override
+  String get priceProductInverter => 'Inverter';
+
+  @override
+  String get priceProductBattery => 'Battery';
+
+  @override
+  String priceQueryPanel(String watts) {
+    return '${watts}W solar panel';
+  }
+
+  @override
+  String priceQueryHybrid(String kw) {
+    return '${kw}kW hybrid inverter';
+  }
+
+  @override
+  String priceQueryOngrid(String kw) {
+    return '${kw}kW on grid inverter';
+  }
+
+  @override
+  String priceQueryLithium(String kwh) {
+    return '$kwh kWh lithium battery';
+  }
+
+  @override
+  String get priceQueryTubular => '200Ah tubular battery';
+
+  @override
+  String get priceQueryDry => '100Ah dry battery';
 
   @override
   String get batteryCheckTitle => 'What does your UPS screen show?';

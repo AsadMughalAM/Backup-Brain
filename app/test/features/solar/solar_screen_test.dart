@@ -207,6 +207,8 @@ void main() {
       system: system,
     );
     expect(await _see(tester, 'Panels: last cleaning unknown'), findsOneWidget);
+    await tester.ensureVisible(find.text('Cleaned today'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Cleaned today'));
     await tester.pumpAndSettle();
     expect(system.current!.solar!.lastCleanedAt, lahoreMorning);

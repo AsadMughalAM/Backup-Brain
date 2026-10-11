@@ -2,6 +2,7 @@ import 'package:bb_ui/bb_ui.dart';
 import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../core/services/clock.dart';
@@ -18,7 +19,22 @@ import '../widgets/sun_forecast_card.dart';
 /// verdict, the sun behind it, and one thing to do (DESIGN.md §11 Solar).
 /// Tomorrow is one tap away and is picked automatically after sunset.
 class SolarScreen extends ConsumerStatefulWidget {
-  const SolarScreen({super.key});
+  const SolarScreen({
+    super.key,
+    this.editHomeLocation,
+    this.estimatorLocation,
+    this.checkLocation,
+  });
+
+  /// Where "Add my panels" goes; passed in so this feature doesn't import
+  /// the app router. Null hides the button.
+  final String? editHomeLocation;
+
+  /// The F5 cost estimator, from the app bar. Null hides the button.
+  final String? estimatorLocation;
+
+  /// The F4 "are my panels working well?" check. Null hides the button.
+  final String? checkLocation;
 
   @override
   ConsumerState<SolarScreen> createState() => _SolarScreenState();
@@ -47,6 +63,14 @@ class _SolarScreenState extends ConsumerState<SolarScreen> {
           icon: BbIcons.solarPanel,
           title: l10n.solarNoPanelsTitle,
           message: l10n.solarNoPanelsBody,
+          action: switch (widget.editHomeLocation) {
+            final location? => BbButton.secondary(
+              label: l10n.solarAddPanels,
+              icon: BbIcons.solarPanel,
+              onPressed: () => context.push(location),
+            ),
+            null => null,
+          },
         ),
       );
     } else if (outlook == null ||
@@ -75,12 +99,19 @@ class _SolarScreenState extends ConsumerState<SolarScreen> {
         onPickDay: (today) => setState(() => _pickedToday = today),
         refresh: refresh,
         onRetry: forceRefresh,
+        checkLocation: widget.checkLocation,
       );
     }
 
     return BbScaffold(
       title: l10n.tabSolar,
       actions: [
+        if (widget.estimatorLocation case final estimator?)
+          BbIconButton(
+            icon: BbIcons.estimator,
+            tooltip: l10n.estimatorTitle,
+            onPressed: () => context.push(estimator),
+          ),
         if (system?.location != null)
           BbIconButton(
             icon: BbIcons.refresh,
@@ -108,7 +139,10 @@ class _OutlookBody extends ConsumerWidget {
     required this.onPickDay,
     required this.refresh,
     required this.onRetry,
+    this.checkLocation,
   });
+
+  final String? checkLocation;
 
   final SolarOutlook outlook;
   final bool showToday;
@@ -204,6 +238,15 @@ class _OutlookBody extends ConsumerWidget {
           refresh: refresh,
           onRetry: onRetry,
         ),
+        if (checkLocation case final check?) ...[
+          const BbGap.lg(),
+          BbButton.secondary(
+            label: l10n.checkOpen,
+            icon: BbIcons.solarPanel,
+            expand: true,
+            onPressed: () => context.push(check),
+          ),
+        ],
         const BbGap.lg(),
         _PanelCare(cleanedAt: cleanedAt, now: now),
       ],

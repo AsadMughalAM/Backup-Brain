@@ -3,6 +3,8 @@
 library;
 
 export 'src/backup_calculator.dart';
+export 'src/battery_diagnosis.dart';
+export 'src/battery_health.dart';
 export 'src/charge_tracker.dart';
 export 'src/defaults.dart';
 export 'src/load_planner.dart';
@@ -15,3 +17,5 @@ export 'src/outage_pattern.dart';
 export 'src/recharge_planner.dart';
 export 'src/solar_geometry.dart';
 export 'src/solar_model.dart';
+export 'src/solar_performance.dart';
+export 'src/solar_sizing.dart';

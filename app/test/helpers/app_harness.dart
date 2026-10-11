@@ -2,10 +2,13 @@ import 'package:backup_brain/app/app.dart';
 import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
+import 'package:backup_brain/features/battery/domain/battery_catalog_repository.dart';
+import 'package:backup_brain/features/estimator/domain/pricing_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/outages/domain/outage_notifier.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:backup_brain/features/setup/data/setup_draft_local_repository.dart';
+import 'package:backup_brain/features/solar/domain/solar_log_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_draft_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
 import 'package:backup_brain/features/solar/domain/weather_repository.dart';
@@ -24,6 +27,8 @@ Future<void> pumpApp(
   required FakeApplianceRepository appliances,
   FakeOutageRepository? outages,
   FakeOutageNotifier? notifier,
+  FakeSolarLogRepository? solarLogs,
+  FakeWeatherRepository? weather,
   // What the phone already has saved, e.g. a half-finished setup.
   Map<String, Object> saved = const {},
   List<Override> extra = const [],
@@ -40,6 +45,13 @@ Future<void> pumpApp(
         authRepositoryProvider.overrideWithValue(auth),
         systemRepositoryProvider.overrideWithValue(system),
         applianceRepositoryProvider.overrideWithValue(appliances),
+        pricingRepositoryProvider.overrideWithValue(FakePricingRepository()),
+        solarLogRepositoryProvider.overrideWithValue(
+          solarLogs ?? FakeSolarLogRepository(),
+        ),
+        batteryCatalogRepositoryProvider.overrideWithValue(
+          FakeBatteryCatalogRepository(),
+        ),
         outageRepositoryProvider.overrideWithValue(
           outages ?? FakeOutageRepository(),
         ),
@@ -50,7 +62,9 @@ Future<void> pumpApp(
           LocalSetupDraftRepository(prefs),
         ),
         // No saved forecast and no network, unless a test says otherwise.
-        weatherRepositoryProvider.overrideWithValue(FakeWeatherRepository()),
+        weatherRepositoryProvider.overrideWithValue(
+          weather ?? FakeWeatherRepository(),
+        ),
         setupPresetsRepositoryProvider.overrideWithValue(
           const FileSetupPresetsRepository(),
         ),

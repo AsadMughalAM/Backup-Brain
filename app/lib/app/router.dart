@@ -4,13 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/overlays/overlay_host.dart';
-import '../core/widgets/coming_soon_screen.dart';
 import '../features/assistant/presentation/screens/assistant_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
+import '../features/battery/presentation/screens/battery_help_screen.dart';
+import '../features/battery/presentation/screens/battery_reading_screen.dart';
+import '../features/battery/presentation/screens/battery_screen.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../features/estimator/presentation/screens/estimator_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/outages/presentation/screens/add_schedule_time_screen.dart';
 import '../features/outages/presentation/screens/outages_screen.dart';
@@ -18,6 +21,7 @@ import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/setup/domain/setup_draft_repository.dart';
 import '../features/setup/presentation/controllers/setup_controller.dart';
 import '../features/setup/presentation/screens/setup_screen.dart';
+import '../features/solar/presentation/screens/solar_check_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'session/household_setup.dart';
@@ -32,6 +36,10 @@ abstract final class Routes {
   static const assistant = '/assistant';
   static const settings = '/settings';
   static const outages = '/outages';
+  static const estimator = '/estimator';
+  static const solarCheck = '/solar-check';
+  static const batteryHelp = '/battery-help';
+  static String batteryReading(String outageId) => '/battery/reading/$outageId';
   static const outagesAddTime = '/outages/add-time';
   static const setup = '/setup';
   static const editHome = '/settings/home';
@@ -110,6 +118,23 @@ final routerProvider = Provider<GoRouter>((ref) {
             const OutagesScreen(addTimeLocation: Routes.outagesAddTime),
       ),
       GoRoute(
+        path: '/battery/reading/:id',
+        builder: (context, state) =>
+            BatteryReadingScreen(outageId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: Routes.batteryHelp,
+        builder: (context, state) => const BatteryHelpScreen(),
+      ),
+      GoRoute(
+        path: Routes.solarCheck,
+        builder: (context, state) => const SolarCheckScreen(),
+      ),
+      GoRoute(
+        path: Routes.estimator,
+        builder: (context, state) => const EstimatorScreen(),
+      ),
+      GoRoute(
         path: Routes.outagesAddTime,
         builder: (context, state) => const AddScheduleTimeScreen(),
       ),
@@ -118,13 +143,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         branches: [
           _branch(Routes.home, (_) => const DashboardScreen()),
           _branch(Routes.loads, (_) => const LoadPlannerScreen()),
-          _branch(Routes.solar, (_) => const SolarScreen()),
+          _branch(
+            Routes.solar,
+            (_) => const SolarScreen(
+              editHomeLocation: Routes.editHome,
+              estimatorLocation: Routes.estimator,
+              checkLocation: Routes.solarCheck,
+            ),
+          ),
           _branch(
             Routes.battery,
-            (l10n) => ComingSoonScreen(
-              title: l10n.tabBattery,
-              icon: BbIcons.batteryWarning,
-              description: l10n.comingBattery,
+            (_) => const BatteryScreen(
+              readingLocation: Routes.batteryReading,
+              shopsLocation: Routes.batteryHelp,
             ),
           ),
           _branch(Routes.assistant, (_) => const AssistantScreen()),

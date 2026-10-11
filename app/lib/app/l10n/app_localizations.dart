@@ -711,18 +711,6 @@ abstract class AppLocalizations {
   /// **'Voc 49.6V · Isc 14.0A'**
   String get guidePanel3;
 
-  /// No description provided for @comingSoonTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get comingSoonTitle;
-
-  /// No description provided for @comingBattery.
-  ///
-  /// In en, this message translates to:
-  /// **'Battery health, plus where to buy or repair a battery.'**
-  String get comingBattery;
-
   /// No description provided for @settingsTheme.
   ///
   /// In en, this message translates to:
@@ -1182,7 +1170,7 @@ abstract class AppLocalizations {
   /// No description provided for @solarNoPanelsBody.
   ///
   /// In en, this message translates to:
-  /// **'Add your panels during setup to see how much the sun will charge your battery.'**
+  /// **'Your home is saved without solar panels. Add them to see how much the sun will charge your battery.'**
   String get solarNoPanelsBody;
 
   /// No description provided for @solarNeedsInternetTitle.
@@ -1526,6 +1514,924 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{label}: 30 minutes later'**
   String scheduleLater(String label);
+
+  /// No description provided for @alertChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Outage alerts'**
+  String get alertChannelName;
+
+  /// No description provided for @alertTitleLikely.
+  ///
+  /// In en, this message translates to:
+  /// **'Power may go at {time}'**
+  String alertTitleLikely(String time);
+
+  /// No description provided for @alertTitleScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Load-shedding at {time}'**
+  String alertTitleScheduled(String time);
+
+  /// No description provided for @alertBodyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery will be about {soc}: {backup} of backup at your current load.'**
+  String alertBodyReady(String soc, String backup);
+
+  /// No description provided for @alertBodyShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery will be about {soc}: only {backup}, less than the usual {outage}. Switch heavy loads off now.'**
+  String alertBodyShort(String soc, String backup, String outage);
+
+  /// No description provided for @settingsOutageAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Outage alerts'**
+  String get settingsOutageAlerts;
+
+  /// No description provided for @settingsOutageAlertsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A notification 30 minutes before the next likely or scheduled outage. Works offline.'**
+  String get settingsOutageAlertsBody;
+
+  /// No description provided for @solarAddPanels.
+  ///
+  /// In en, this message translates to:
+  /// **'Add my panels'**
+  String get solarAddPanels;
+
+  /// No description provided for @assistantBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant is busy. Try again in a minute. Meanwhile, your numbers:'**
+  String get assistantBusy;
+
+  /// No description provided for @estimatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar cost estimator'**
+  String get estimatorTitle;
+
+  /// No description provided for @estimatorIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'What would solar cost for your home? Rough sizes, prices and savings in a few taps.'**
+  String get estimatorIntro;
+
+  /// No description provided for @estimatorUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly electricity use'**
+  String get estimatorUsage;
+
+  /// No description provided for @estimatorUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Units (kWh)'**
+  String get estimatorUnits;
+
+  /// No description provided for @estimatorBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill (Rs)'**
+  String get estimatorBill;
+
+  /// No description provided for @estimatorUnitsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Units per month'**
+  String get estimatorUnitsLabel;
+
+  /// No description provided for @estimatorBillLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly bill in rupees'**
+  String get estimatorBillLabel;
+
+  /// No description provided for @estimatorTariffNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Converted at Rs {tariff} per unit.'**
+  String estimatorTariffNote(String tariff);
+
+  /// No description provided for @estimatorCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get estimatorCity;
+
+  /// No description provided for @estimatorGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'What matters most?'**
+  String get estimatorGoal;
+
+  /// No description provided for @goalBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower bill'**
+  String get goalBill;
+
+  /// No description provided for @goalBillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No battery, the cheapest'**
+  String get goalBillHint;
+
+  /// No description provided for @goalBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill and backup'**
+  String get goalBoth;
+
+  /// No description provided for @goalBothHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A battery for load-shedding'**
+  String get goalBothHint;
+
+  /// No description provided for @goalBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Full backup'**
+  String get goalBackup;
+
+  /// No description provided for @goalBackupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A battery for the whole night'**
+  String get goalBackupHint;
+
+  /// No description provided for @estimatorBackupHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup hours needed'**
+  String get estimatorBackupHours;
+
+  /// No description provided for @estimatorHoursLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer hours'**
+  String get estimatorHoursLess;
+
+  /// No description provided for @estimatorHoursMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More hours'**
+  String get estimatorHoursMore;
+
+  /// No description provided for @estimatorNightLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Load at night (W)'**
+  String get estimatorNightLoad;
+
+  /// No description provided for @estimatorNightLoadHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fans, lights and fridge together. Taken from your home if you leave it empty.'**
+  String get estimatorNightLoadHint;
+
+  /// No description provided for @estimatorEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Packages appear here'**
+  String get estimatorEmptyTitle;
+
+  /// No description provided for @estimatorEnterUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your monthly units or bill to see three packages with cost and payback.'**
+  String get estimatorEnterUsage;
+
+  /// No description provided for @packageBasic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get packageBasic;
+
+  /// No description provided for @packageBasicSub.
+  ///
+  /// In en, this message translates to:
+  /// **'On-grid: cuts the bill, no backup'**
+  String get packageBasicSub;
+
+  /// No description provided for @packageHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Hybrid'**
+  String get packageHybrid;
+
+  /// No description provided for @packageHybridSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuts the bill and covers load-shedding'**
+  String get packageHybridSub;
+
+  /// No description provided for @packageFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full backup'**
+  String get packageFull;
+
+  /// No description provided for @packageFullSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The whole night on battery'**
+  String get packageFullSub;
+
+  /// No description provided for @packageRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get packageRecommended;
+
+  /// No description provided for @packageCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Rs {min}–{max}'**
+  String packageCost(String min, String max);
+
+  /// No description provided for @packagePanels.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} × {watts} W panels ({kw})'**
+  String packagePanels(String count, String watts, String kw);
+
+  /// No description provided for @packageInverterOngrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} on-grid inverter'**
+  String packageInverterOngrid(String size);
+
+  /// No description provided for @packageInverterHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} hybrid inverter'**
+  String packageInverterHybrid(String size);
+
+  /// No description provided for @packageBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh lithium battery: about {hours} at {load}'**
+  String packageBattery(String kwh, String hours, String load);
+
+  /// No description provided for @packageNoBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'No battery: no backup during load-shedding'**
+  String get packageNoBattery;
+
+  /// No description provided for @packageProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Makes about {units} units a month'**
+  String packageProduction(String units);
+
+  /// No description provided for @packageSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Saves about Rs {amount} a month'**
+  String packageSavings(String amount);
+
+  /// No description provided for @packagePayback.
+  ///
+  /// In en, this message translates to:
+  /// **'Pays for itself in {min}–{max} years'**
+  String packagePayback(String min, String max);
+
+  /// No description provided for @installerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions to ask your installer'**
+  String get installerTitle;
+
+  /// No description provided for @installerQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'Are the panels tier-1, and what output warranty do they carry?'**
+  String get installerQ1;
+
+  /// No description provided for @installerQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'Is the inverter hybrid, and which batteries does it support?'**
+  String get installerQ2;
+
+  /// No description provided for @installerQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'Which lithium (LiFePO4) battery brand, how many cycles, what warranty?'**
+  String get installerQ3;
+
+  /// No description provided for @installerQ4.
+  ///
+  /// In en, this message translates to:
+  /// **'Does the price include structure, wiring, breakers and earthing?'**
+  String get installerQ4;
+
+  /// No description provided for @installerQ5.
+  ///
+  /// In en, this message translates to:
+  /// **'Who handles net metering with the DISCO, and how long does it take?'**
+  String get installerQ5;
+
+  /// No description provided for @estimatorDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimates only: get quotes from 2–3 installers. Prices last updated {date}.'**
+  String estimatorDisclaimer(String date);
+
+  /// No description provided for @estimatorPricesUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices come from online listings (October 2026), not installer quotes.'**
+  String get estimatorPricesUnverified;
+
+  /// No description provided for @healthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery health'**
+  String get healthLabel;
+
+  /// No description provided for @healthGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy'**
+  String get healthGood;
+
+  /// No description provided for @healthWearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Wearing out'**
+  String get healthWearing;
+
+  /// No description provided for @healthWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak: think about replacing it'**
+  String get healthWeak;
+
+  /// No description provided for @healthHolds.
+  ///
+  /// In en, this message translates to:
+  /// **'Holds about {now} kWh of its {label} kWh label.'**
+  String healthHolds(String now, String label);
+
+  /// No description provided for @healthBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'From your last {count} battery readings after outages.'**
+  String healthBasis(String count);
+
+  /// No description provided for @healthNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No health check yet'**
+  String get healthNoneTitle;
+
+  /// No description provided for @healthNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'After an outage, enter the battery % your inverter shows. With 3 readings the app works out how much your battery really holds.'**
+  String get healthNoneBody;
+
+  /// No description provided for @healthProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {needed} readings'**
+  String healthProgress(String done, String needed);
+
+  /// No description provided for @healthLossTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery holds less than before'**
+  String get healthLossTitle;
+
+  /// No description provided for @healthLossBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It delivers about {loss} less than it should. Avoid draining it to the bottom, and check the inverter\'s charging is set for your battery type.'**
+  String healthLossBody(String loss);
+
+  /// No description provided for @healthDeepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Often drained too far'**
+  String get healthDeepTitle;
+
+  /// No description provided for @healthDeepBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It often ends below {cutoff}, which shortens battery life. Switch heavy loads off earlier during outages.'**
+  String healthDeepBody(String cutoff);
+
+  /// No description provided for @readingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the battery %'**
+  String get readingsTitle;
+
+  /// No description provided for @readingsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'What did the inverter show when the power came back?'**
+  String get readingsBody;
+
+  /// No description provided for @readingsEnter.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter %'**
+  String get readingsEnter;
+
+  /// No description provided for @readingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery reading'**
+  String get readingTitle;
+
+  /// No description provided for @readingQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery % when the power came back ({when})'**
+  String readingQuestion(String when);
+
+  /// No description provided for @readingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inverter\'s display. A close guess is fine; it starts at the app\'s estimate.'**
+  String get readingHint;
+
+  /// No description provided for @readingLess.
+  ///
+  /// In en, this message translates to:
+  /// **'5% less'**
+  String get readingLess;
+
+  /// No description provided for @readingMore.
+  ///
+  /// In en, this message translates to:
+  /// **'5% more'**
+  String get readingMore;
+
+  /// No description provided for @readingValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery {value}'**
+  String readingValue(String value);
+
+  /// No description provided for @batteryDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Your battery'**
+  String get batteryDetails;
+
+  /// No description provided for @batterySize.
+  ///
+  /// In en, this message translates to:
+  /// **'{volts} · {ah} × {count} = {kwh} kWh'**
+  String batterySize(String volts, String ah, String count, String kwh);
+
+  /// No description provided for @batteryCutoff.
+  ///
+  /// In en, this message translates to:
+  /// **'The inverter stops at {cutoff} to protect it.'**
+  String batteryCutoff(String cutoff);
+
+  /// No description provided for @batteryKharab.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery problem? Get help'**
+  String get batteryKharab;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery problem?'**
+  String get helpTitle;
+
+  /// No description provided for @helpSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s happening?'**
+  String get helpSymptoms;
+
+  /// No description provided for @symptomShortBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup lasts only minutes'**
+  String get symptomShortBackup;
+
+  /// No description provided for @symptomWontCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Won\'t charge fully'**
+  String get symptomWontCharge;
+
+  /// No description provided for @symptomLowWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water level is low'**
+  String get symptomLowWater;
+
+  /// No description provided for @symptomSwollen.
+  ///
+  /// In en, this message translates to:
+  /// **'Swollen or bulging'**
+  String get symptomSwollen;
+
+  /// No description provided for @symptomSmellOrHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Smells or gets hot'**
+  String get symptomSmellOrHeat;
+
+  /// No description provided for @verdictNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what you notice'**
+  String get verdictNoneTitle;
+
+  /// No description provided for @verdictNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app suggests whether to look after it, repair it or replace it.'**
+  String get verdictNoneBody;
+
+  /// No description provided for @verdictMaintenanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try looking after it first'**
+  String get verdictMaintenanceTitle;
+
+  /// No description provided for @verdictMaintenanceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Top up tubular batteries with distilled water to the mark, charge fully on grid for a day, and check the inverter\'s charging is set to your battery type. If it is still short, see a repair shop.'**
+  String get verdictMaintenanceBody;
+
+  /// No description provided for @verdictRepairTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth a repair shop\'s check'**
+  String get verdictRepairTitle;
+
+  /// No description provided for @verdictRepairBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Often it is the charger, a loose terminal or a blown fuse, not the battery. A UPS repair shop can test it before you buy a new one.'**
+  String get verdictRepairBody;
+
+  /// No description provided for @verdictReplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to replace it'**
+  String get verdictReplaceTitle;
+
+  /// No description provided for @verdictReplaceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your readings show it has lost most of its capacity. Compare the options below by what they cost over their life, not just today.'**
+  String get verdictReplaceBody;
+
+  /// No description provided for @buyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which battery to buy'**
+  String get buyTitle;
+
+  /// No description provided for @buyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'For a bank like yours ({kwh} kWh). Cheapest over its life first.'**
+  String buyIntro(String kwh);
+
+  /// No description provided for @buyBestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheapest over its life'**
+  String get buyBestValue;
+
+  /// No description provided for @buyLife.
+  ///
+  /// In en, this message translates to:
+  /// **'Lasts about {years} years ({cycles} cycles) · {months}-month warranty'**
+  String buyLife(String years, String cycles, String months);
+
+  /// No description provided for @buyPerKWhYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Rs {amount} per usable kWh per year'**
+  String buyPerKWhYear(String amount);
+
+  /// No description provided for @buyDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical market prices, not quotes. Prices last updated {date}.'**
+  String buyDisclaimer(String date);
+
+  /// No description provided for @nearbyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find help nearby'**
+  String get nearbyTitle;
+
+  /// No description provided for @nearbyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens a Google Maps search around {city}.'**
+  String nearbyBody(String city);
+
+  /// No description provided for @nearbyBodyNoCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens a Google Maps search near you.'**
+  String get nearbyBodyNoCity;
+
+  /// No description provided for @nearbyBatteryShops.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery shops'**
+  String get nearbyBatteryShops;
+
+  /// No description provided for @nearbyUpsRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS and inverter repair'**
+  String get nearbyUpsRepair;
+
+  /// No description provided for @nearbySolarInstallers.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar installers'**
+  String get nearbySolarInstallers;
+
+  /// No description provided for @queryBatteryShop.
+  ///
+  /// In en, this message translates to:
+  /// **'battery shop'**
+  String get queryBatteryShop;
+
+  /// No description provided for @queryUpsRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS inverter repair'**
+  String get queryUpsRepair;
+
+  /// No description provided for @querySolarInstaller.
+  ///
+  /// In en, this message translates to:
+  /// **'solar installer'**
+  String get querySolarInstaller;
+
+  /// No description provided for @checkOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Are my panels working well?'**
+  String get checkOpen;
+
+  /// No description provided for @checkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Panel check'**
+  String get checkTitle;
+
+  /// No description provided for @checkNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No check yet'**
+  String get checkNoneTitle;
+
+  /// No description provided for @checkNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter how much your panels made (from the inverter display or app). The app compares it with what that day\'s weather should have given.'**
+  String get checkNoneBody;
+
+  /// No description provided for @checkHealthyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels are working well'**
+  String get checkHealthyTitle;
+
+  /// No description provided for @checkHealthyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They made at least 90% of what the weather allowed.'**
+  String get checkHealthyBody;
+
+  /// No description provided for @checkSlightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A little low'**
+  String get checkSlightTitle;
+
+  /// No description provided for @checkSlightBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely dust or some shade. Clean the panels (early morning or evening, with water, no soap) and check again in a few days.'**
+  String get checkSlightBody;
+
+  /// No description provided for @checkLowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Well below what it should make'**
+  String get checkLowTitle;
+
+  /// No description provided for @checkLowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Low on three clear days this week. Check wiring and the inverter\'s MPPT, or a faulty panel. Consider a solar technician.'**
+  String get checkLowBody;
+
+  /// No description provided for @checkEnterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter what the panels made'**
+  String get checkEnterTitle;
+
+  /// No description provided for @checkToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get checkToday;
+
+  /// No description provided for @checkYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get checkYesterday;
+
+  /// No description provided for @checkDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String checkDaysAgo(String days);
+
+  /// No description provided for @checkNoWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'No weather saved for that day. Open the Solar tab online once.'**
+  String get checkNoWeather;
+
+  /// No description provided for @checkExpected.
+  ///
+  /// In en, this message translates to:
+  /// **'For that day\'s weather the panels should make about {kwh} kWh.'**
+  String checkExpected(String kwh);
+
+  /// No description provided for @checkTodayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Today isn\'t over: enter it after sunset for a fair check.'**
+  String get checkTodayHint;
+
+  /// No description provided for @checkActualLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'kWh made (from the inverter)'**
+  String get checkActualLabel;
+
+  /// No description provided for @checkActualError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a number, e.g. 8.5'**
+  String get checkActualError;
+
+  /// No description provided for @checkTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last two weeks'**
+  String get checkTrendTitle;
+
+  /// No description provided for @checkMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Made'**
+  String get checkMade;
+
+  /// No description provided for @checkShouldMake.
+  ///
+  /// In en, this message translates to:
+  /// **'Should make'**
+  String get checkShouldMake;
+
+  /// No description provided for @checkTrendSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Panel output for {count} logged days against what the weather allowed'**
+  String checkTrendSemantics(String count);
+
+  /// No description provided for @checkLogRow.
+  ///
+  /// In en, this message translates to:
+  /// **'{weekday} {day}: {made} of {expected} kWh'**
+  String checkLogRow(String weekday, String day, String made, String expected);
+
+  /// No description provided for @pricesOnlineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check today\'s prices online'**
+  String get pricesOnlineTitle;
+
+  /// No description provided for @pricesOnlineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens live listings. These are sellers\' asking prices; the estimates above use reviewed prices.'**
+  String get pricesOnlineBody;
+
+  /// No description provided for @pricesOnlineSearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Search: {query}'**
+  String pricesOnlineSearching(String query);
+
+  /// No description provided for @priceSiteGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get priceSiteGoogle;
+
+  /// No description provided for @priceSiteDaraz.
+  ///
+  /// In en, this message translates to:
+  /// **'Daraz'**
+  String get priceSiteDaraz;
+
+  /// No description provided for @priceSiteOlx.
+  ///
+  /// In en, this message translates to:
+  /// **'OLX'**
+  String get priceSiteOlx;
+
+  /// No description provided for @pakistan.
+  ///
+  /// In en, this message translates to:
+  /// **'Pakistan'**
+  String get pakistan;
+
+  /// No description provided for @priceQueryGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'{product} price in {place}'**
+  String priceQueryGoogle(String product, String place);
+
+  /// No description provided for @priceProductPanels.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels'**
+  String get priceProductPanels;
+
+  /// No description provided for @priceProductInverter.
+  ///
+  /// In en, this message translates to:
+  /// **'Inverter'**
+  String get priceProductInverter;
+
+  /// No description provided for @priceProductBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get priceProductBattery;
+
+  /// No description provided for @priceQueryPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'{watts}W solar panel'**
+  String priceQueryPanel(String watts);
+
+  /// No description provided for @priceQueryHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{kw}kW hybrid inverter'**
+  String priceQueryHybrid(String kw);
+
+  /// No description provided for @priceQueryOngrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{kw}kW on grid inverter'**
+  String priceQueryOngrid(String kw);
+
+  /// No description provided for @priceQueryLithium.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh lithium battery'**
+  String priceQueryLithium(String kwh);
+
+  /// No description provided for @priceQueryTubular.
+  ///
+  /// In en, this message translates to:
+  /// **'200Ah tubular battery'**
+  String get priceQueryTubular;
+
+  /// No description provided for @priceQueryDry.
+  ///
+  /// In en, this message translates to:
+  /// **'100Ah dry battery'**
+  String get priceQueryDry;
 
   /// No description provided for @batteryCheckTitle.
   ///

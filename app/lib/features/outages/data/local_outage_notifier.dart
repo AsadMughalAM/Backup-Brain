@@ -1,14 +1,18 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+import '../../../core/services/local_notifications.dart';
 import '../domain/outage_notifier.dart';
 
 /// [OutageNotifier] on Android with flutter_local_notifications. Reminders
 /// are inexact alarms that may fire up to about an hour late in Doze; that
 /// is fine for "did the power go?" and needs no exact-alarm permission.
 class LocalOutageNotifier implements OutageNotifier {
-  final _plugin = FlutterLocalNotificationsPlugin();
+  LocalOutageNotifier(this._notifications);
+
+  final LocalNotifications _notifications;
+
+  FlutterLocalNotificationsPlugin get _plugin => _notifications.plugin;
 
   static const _countdownId = 1;
   static const _firstReminderId = 100;
@@ -20,41 +24,24 @@ class LocalOutageNotifier implements OutageNotifier {
 
   @override
   Future<void> init(void Function(ReminderAnswer answer) onAnswer) async {
-    void handle(NotificationResponse response) {
+    // "Yes" opens the app; the answer that launched it comes first. Lives
+    // for the app's session, like the plugin.
+    _notifications.responses().listen((response) {
       if (response.actionId != _yes) return;
       final answer = ReminderAnswer.parse(response.payload);
       if (answer != null) onAnswer(answer);
-    }
-
-    await _plugin.initialize(
-      settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      ),
-      onDidReceiveNotificationResponse: handle,
-      onDidReceiveBackgroundNotificationResponse: _ignoreInBackground,
-    );
-    // "Yes" opens the app; when it was closed, the answer arrives here.
-    final launch = await _plugin.getNotificationAppLaunchDetails();
-    final response = launch?.notificationResponse;
-    if (launch?.didNotificationLaunchApp == true && response != null) {
-      handle(response);
-    }
+    });
   }
 
-  AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
-      .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin
-      >();
-
   @override
-  Future<bool> requestPermission() async =>
-      await _android?.requestNotificationsPermission() ?? false;
+  Future<bool> requestPermission() => _notifications.requestPermission();
 
   @override
   Future<void> setReminders(
     List<ReminderNotice> notices, {
     required ChannelText channel,
   }) async {
+    await _notifications.ready();
     for (var i = 0; i < _maxReminders; i++) {
       await _plugin.cancel(id: _firstReminderId + i);
     }
@@ -95,6 +82,7 @@ class LocalOutageNotifier implements OutageNotifier {
   }) async {
     final left = endsAt.difference(DateTime.now());
     if (left <= Duration.zero) return clearCountdown();
+    await _notifications.ready();
     await _plugin.show(
       id: _countdownId,
       title: title,
@@ -122,14 +110,10 @@ class LocalOutageNotifier implements OutageNotifier {
   }
 
   @override
-  Future<void> clearCountdown() => _plugin.cancel(id: _countdownId);
-}
-
-/// "No" needs nothing done; the plugin requires a handler for actions that
-/// don't open the app.
-@pragma('vm:entry-point')
-void _ignoreInBackground(NotificationResponse response) {
-  debugPrint('Reminder dismissed: ${response.actionId}');
+  Future<void> clearCountdown() async {
+    await _notifications.ready();
+    await _plugin.cancel(id: _countdownId);
+  }
 }
 
 /// For platforms without local notifications (the web preview).

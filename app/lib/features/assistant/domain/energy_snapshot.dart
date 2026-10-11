@@ -5,6 +5,7 @@ import '../../../core/services/clock.dart';
 import '../../../core/utils/formatters.dart';
 import '../../backup/domain/battery_estimate.dart';
 import '../../backup/domain/system_repository.dart';
+import '../../battery/domain/battery_health.dart';
 import '../../loads/domain/appliance_repository.dart';
 import '../../loads/domain/load_plan.dart';
 import '../../outages/domain/outage_outlook.dart';
@@ -84,6 +85,16 @@ final energySnapshotProvider = Provider<EnergySnapshot?>((ref) {
         'backupStopsAtCharge': Formatters.percent(current.minSoc),
       },
       'inverterLimit': Formatters.watts(system.inverter.ratedW),
+      'batteryHealth': switch (ref.watch(batteryHealthProvider)) {
+        null => 'not measured yet: needs 3 battery % readings after outages',
+        final h => {
+          'health': Formatters.percent(h.healthFactor),
+          'holds':
+              '${(h.capacityWh / 1000).toStringAsFixed(1)} of '
+              '${(h.nominalWh / 1000).toStringAsFixed(1)} kWh',
+          'warnings': [for (final w in h.warnings) w.name],
+        },
+      },
       'now': {
         'houseLoad': Formatters.watts(current.loadW),
         'backupTimeLeft': _duration(current.hours),

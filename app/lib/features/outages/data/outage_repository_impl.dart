@@ -55,9 +55,19 @@ class FirestoreOutageRepository implements OutageRepository {
 
   @override
   Future<void> end(String id, {required DateTime at, required double soc}) =>
-      _outages(_uid)
-          .doc(id)
-          .update({'endedAt': Timestamp.fromDate(at), 'endSoC': soc});
+      _outages(_uid).doc(id).update({
+        'endedAt': Timestamp.fromDate(at),
+        'endSoC': soc,
+        'endSoCSource': 'estimate',
+      });
+
+  @override
+  Future<void> recordEndSoc(String id, double soc) =>
+      _outages(_uid).doc(id).update({'endSoC': soc, 'endSoCSource': 'user'});
+
+  @override
+  Future<void> setAvgLoad(String id, double loadW) =>
+      _outages(_uid).doc(id).update({'avgLoadW': loadW});
 
   @override
   Future<void> moveStart(String id, DateTime at) =>
@@ -105,6 +115,7 @@ class FirestoreOutageRepository implements OutageRepository {
     endedAt: (d['endedAt'] as Timestamp?)?.toDate(),
     startSoc: (d['startSoC'] as num?)?.toDouble(),
     endSoc: (d['endSoC'] as num?)?.toDouble(),
+    endSocMeasured: d['endSoCSource'] == 'user',
     avgLoadW: (d['avgLoadW'] as num?)?.toDouble(),
   );
 

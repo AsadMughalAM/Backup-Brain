@@ -19,10 +19,29 @@ class ChargeRecorder {
   DateTime get _now => _ref.read(nowProvider).value ?? DateTime.now().toUtc();
 
   /// The user read [soc] (0–1) off the UPS display just now.
-  void confirm(double soc) => fireAndForget(
-    _ref.read(systemRepositoryProvider).setCharge(soc, at: _now, checked: true),
-    'battery reading',
-  );
+  void confirm(double soc) {
+    final now = _now;
+    _foldLoadInto(now);
+    fireAndForget(
+      _ref
+          .read(systemRepositoryProvider)
+          .setCharge(soc, at: now, checked: true),
+      'battery reading',
+    );
+  }
+
+  /// The user read [soc] off the UPS for the moment [at] (F6: "what did it
+  /// show when the power came back?"). It becomes the known charge unless a
+  /// newer one exists.
+  void recordReading(double soc, {required DateTime at}) {
+    final system = _ref.read(householdSystemProvider).value;
+    final knownAt = system?.socAt;
+    if (system == null || (knownAt != null && at.isBefore(knownAt))) return;
+    fireAndForget(
+      _ref.read(systemRepositoryProvider).setCharge(soc, at: at, checked: true),
+      'battery reading at $at',
+    );
+  }
 
   /// Saves the estimated charge at [at] (default now) as the new known
   /// point, before the power goes or comes back or the load changes during
@@ -35,10 +54,7 @@ class ChargeRecorder {
     if (saved == null || appliances == null || estimate == null) {
       return saved?.soc ?? 0;
     }
-    final ongoing = (_ref.read(recentOutagesProvider).value ?? const [])
-        .where((o) => o.isOngoing)
-        .firstOrNull;
-    final system = knownCharge(saved, ongoing);
+    final system = knownCharge(saved, _ongoing());
     final when = at ?? _now;
     final knownAt = system.socAt;
     if (knownAt != null && !when.isAfter(knownAt)) return system.soc;
@@ -48,6 +64,7 @@ class ChargeRecorder {
       loadW: LoadPlanner.loadW([for (final a in appliances) a.load]),
       at: when,
     );
+    _foldLoadInto(when);
     fireAndForget(
       _ref.read(systemRepositoryProvider).setCharge(soc, at: when),
       'battery estimate',
@@ -67,6 +84,40 @@ class ChargeRecorder {
     fireAndForget(
       _ref.read(systemRepositoryProvider).setCharge(system.soc, at: to),
       'battery estimate time',
+    );
+  }
+
+  OutageEvent? _ongoing() =>
+      (_ref.read(recentOutagesProvider).value ?? const [])
+          .where((o) => o.isOngoing)
+          .firstOrNull;
+
+  /// During a cut, a new known point ends a stretch at the current load:
+  /// fold it into the cut's average load, which F6 battery health divides
+  /// the energy used by. The stretch runs from the last known point (or the
+  /// cut's start) to [until].
+  void _foldLoadInto(DateTime until) {
+    final ongoing = _ongoing();
+    final average = ongoing?.avgLoadW;
+    final system = _ref.read(householdSystemProvider).value;
+    final appliances = _ref.read(appliancesProvider).value;
+    if (ongoing == null ||
+        average == null ||
+        system == null ||
+        appliances == null) {
+      return;
+    }
+    final start = ongoing.startedAt;
+    final knownAt = system.socAt;
+    final since = knownAt == null || knownAt.isBefore(start) ? start : knownAt;
+    final total = until.difference(start).inSeconds;
+    final stretch = until.difference(since).inSeconds;
+    if (total <= 0 || stretch <= 0) return;
+    final loadW = LoadPlanner.loadW([for (final a in appliances) a.load]);
+    final folded = (average * (total - stretch) + loadW * stretch) / total;
+    fireAndForget(
+      _ref.read(outageRepositoryProvider).setAvgLoad(ongoing.id, folded),
+      'outage average load',
     );
   }
 }
