@@ -123,6 +123,7 @@ Token names follow `TECH_STACK.md` §6; tokens marked **NEW** were added here.
 | `success` / `successContainer` | success600 / success100 | success300 / success900 | |
 | `warning` / `warningContainer` | warning600 / warning100 | warning300 / warning900 | |
 | `danger` / `dangerContainer` | danger600 / danger100 | danger300 / danger900 | |
+| `onDanger` **NEW** | canvas0 `#FFFFFF` | navy950 `#0E1526` | Text/icons on a `danger` fill (`BbButton.danger`). Same values as M3 `onError` (§2.6). |
 | `info` | navy600 `#3A5FB0` | navy300 `#9DB4E8` | Info = secondary family (no 4th hue). |
 | `skeleton` **NEW** | canvas100 `#EEF0F3` | canvas800 `#222733` | Skeleton blocks (§8). On `surfaceMuted` backgrounds use canvas200 / canvas850. |
 | `scrim` **NEW** | `#0E1526` @ 40% | `#000000` @ 60% | Behind sheets/dialogs. |
@@ -196,6 +197,7 @@ These pairs go into `contrast_test.dart`. All pass.
 | `onSecondary` | `secondary` | 11.1:1 | 8.8:1 | 4.5:1 |
 | `onSecondaryContainer` | `secondaryContainer` | 12.0:1 | 12.0:1 | 4.5:1 |
 | `onPrimaryContainer` | `primaryContainer` | 10.1:1 | 12.9:1 | 4.5:1 |
+| `onDanger` | `danger` | 5.7:1 | 7.2:1 | 4.5:1 |
 | `link` | `surface` | 8.5:1 | 8.7:1 | 4.5:1 |
 | `outline` | `surface` | 3.7:1 | 4.9:1 | 3.0:1 |
 | `outline` | `background` | 3.5:1 | 5.2:1 | 3.0:1 |
@@ -469,6 +471,8 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 | `themeLight` · `themeDark` · `themeSystem` | `sun` · `moon` · `circleHalf` | Theme toggle |
 | `settings` | `gearSix` | Settings |
 | `back` · `next` · `close` · `add` · `more` | `arrowLeft` · `caretRight` · `x` · `plus` · `dotsThree` | Navigation & actions |
+| `expand` · `check` | `caretDown` · `check` | `BbDropdown` caret, selected `BbChip` |
+| `homeActive` · `loadsActive` · `solarActive` · `batteryActive` · `assistantActive` | Fill of the tab glyph | Selected nav tab (§6.2) |
 
 > Glyph names follow Phosphor's catalog (phosphoricons.com). Confirm each exists in the installed package version during setup; if one is missing, choose the closest Phosphor glyph and update only this table + `icons.dart`.
 
@@ -597,7 +601,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 | `secondary` | `secondary` (navy) | `onSecondary` | — | Strong secondary actions |
 | `tonal` **NEW** | `surfaceMuted` | `textPrimary` | — | Neutral actions ("Edit", "Add appliance") |
 | `ghost` | transparent | `link` | — | Low-emphasis / inline ("See all", "Skip") |
-| `danger` | `danger` | light: `#FFFFFF` · dark: navy950 | — | Destructive only ("Delete appliance") |
+| `danger` | `danger` | `onDanger` | — | Destructive only ("Delete appliance") |
 
 - Sizes: `sm` 40 h (radius md), `md` 48 h (default), `lg` 56 h (sticky bottom CTA, full width). Label `labelLarge`; icon 20, leading only.
 - States: pressed = 12% `textPrimary` overlay + scale 0.98 (`fast`); disabled = 38% opacity, no overlay; focused = 2-px `focusRing` offset 2; loading = §8.3.
@@ -765,7 +769,7 @@ For the landing page / web dashboard, use exactly the same values. Fonts via the
   /* Status */
   --bb-success: #1E7A3D; --bb-success-container: #DDF3E4;
   --bb-warning: #A34706; --bb-warning-container: #FFE6D2;
-  --bb-danger:  #C42B22; --bb-danger-container:  #FDE1DF;
+  --bb-danger:  #C42B22; --bb-danger-container:  #FDE1DF; --bb-on-danger: #FFFFFF;
   /* Energy */
   --bb-solar: #FFC21A; --bb-solar-stroke: #B38300; --bb-solar-text: #8A6200;
   --bb-grid: #3A5FB0;  --bb-load: #3E4550;  --bb-offline: #7D8592;
@@ -795,7 +799,7 @@ For the landing page / web dashboard, use exactly the same values. Fonts via the
   --bb-link: #9DB4E8;  --bb-focus: #FFC93D;  --bb-skeleton: #222733;
   --bb-success: #5CCB82; --bb-success-container: #0E3A1E;
   --bb-warning: #FF9F5A; --bb-warning-container: #4A2004;
-  --bb-danger:  #FF7A70; --bb-danger-container:  #4F1210;
+  --bb-danger:  #FF7A70; --bb-danger-container:  #4F1210; --bb-on-danger: #0E1526;
   --bb-solar: #FFC93D; --bb-solar-stroke: #FFC93D; --bb-solar-text: #FFC93D;
   --bb-grid: #7E9EE0;  --bb-load: #C9CED6;  --bb-offline: #7D8592;
 }

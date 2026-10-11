@@ -1,0 +1,36 @@
+name: bb_ui
+description: Backup Brain design system — tokens, light/dark themes and Bb components. Flutter only; no Riverpod, Firebase or l10n.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+  flutter: '>=3.35.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  phosphor_icons: ^3.0.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+# Bundled, never downloaded at runtime: the app must work offline (DESIGN §3.2).
+flutter:
+  fonts:
+    - family: Geist
+      fonts:
+        - asset: assets/fonts/Geist-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Geist-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Geist-SemiBold.otf
+          weight: 600
+    - family: GeistMono
+      fonts:
+        - asset: assets/fonts/GeistMono-Regular.otf
+          weight: 400
+        - asset: assets/fonts/GeistMono-Medium.otf
+          weight: 500
