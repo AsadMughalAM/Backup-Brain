@@ -11,4 +11,8 @@ abstract final class FirestorePaths {
 
   static String appliances(String uid, [String systemId = mainSystemId]) =>
       '${system(uid, systemId)}/appliances';
+
+  /// One trimmed Open-Meteo forecast per day, keyed `yyyy-MM-dd`.
+  static String weatherCache(String uid, [String systemId = mainSystemId]) =>
+      '${system(uid, systemId)}/weatherCache';
 }

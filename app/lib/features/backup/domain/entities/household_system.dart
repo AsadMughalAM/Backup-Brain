@@ -7,7 +7,8 @@ class HouseholdSystem {
     required this.battery,
     required this.inverter,
     required this.soc,
-    this.hasSolar = false,
+    this.solar,
+    this.location,
   });
 
   final BatterySpec battery;
@@ -15,7 +16,12 @@ class HouseholdSystem {
 
   /// State of charge 0–1, entered by the user (ManualSource) for now.
   final double soc;
-  final bool hasSolar;
+
+  /// Null when the household has no panels.
+  final SolarSpec? solar;
+  final HomeLocation? location;
+
+  bool get hasSolar => solar != null;
 
   BackupInput get backupInput =>
       BackupInput(battery: battery, inverter: inverter, socNow: soc);
@@ -24,6 +30,15 @@ class HouseholdSystem {
     battery: battery,
     inverter: inverter,
     soc: soc ?? this.soc,
-    hasSolar: hasSolar,
+    solar: solar,
+    location: location,
   );
+}
+
+/// Where the panels are: the weather forecast is fetched for this point.
+class HomeLocation {
+  const HomeLocation({required this.city, required this.site});
+
+  final String city;
+  final SiteLocation site;
 }

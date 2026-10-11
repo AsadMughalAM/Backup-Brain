@@ -150,11 +150,148 @@ class AppLocalizationsEn extends AppLocalizations {
       'Connect to the internet once to get started. After that, Backup Brain works offline.';
 
   @override
-  String get comingSoonTitle => 'Coming soon';
+  String get solarToday => 'Today';
 
   @override
-  String get comingSolar =>
-      'Solar forecast: how much tomorrow\'s sun will charge your battery.';
+  String get solarTomorrow => 'Tomorrow';
+
+  @override
+  String solarFullBy(String time) {
+    return 'Battery full by $time';
+  }
+
+  @override
+  String get solarStaysFull => 'Battery stays full';
+
+  @override
+  String solarReaches(String percent) {
+    return 'Battery reaches $percent by sunset';
+  }
+
+  @override
+  String get solarSunOver => 'No more sun today';
+
+  @override
+  String solarStartNow(String percent) {
+    return 'Starting from $percent now';
+  }
+
+  @override
+  String solarStartSunrise(String percent) {
+    return 'If it starts the day at $percent';
+  }
+
+  @override
+  String solarAtSunset(String time) {
+    return 'at sunset, $time';
+  }
+
+  @override
+  String get solarBatteryNow => 'battery now';
+
+  @override
+  String solarNightUntil(String time, String load) {
+    return 'Lasts until about $time at $load';
+  }
+
+  @override
+  String solarNightAll(String load) {
+    return 'Lasts all night at $load';
+  }
+
+  @override
+  String get solarNightNoLoad => 'Nothing is drawing power';
+
+  @override
+  String get solarSunToday => 'Sun today';
+
+  @override
+  String get solarSunTomorrow => 'Sun tomorrow';
+
+  @override
+  String get unitKWh => 'kWh';
+
+  @override
+  String solarBelowClear(String percent) {
+    return '$percent less sun than a clear day';
+  }
+
+  @override
+  String get solarNearClear => 'About as sunny as a clear day';
+
+  @override
+  String solarChartSemantics(String range) {
+    return 'Hourly sun forecast, $range kWh in total';
+  }
+
+  @override
+  String get solarLegendForecast => 'Forecast';
+
+  @override
+  String get solarLegendClearDay => 'Clear day';
+
+  @override
+  String solarAdvicePeak(String start, String end) {
+    return 'Most sun from $start to $end. Run heavy loads like the iron or water motor then.';
+  }
+
+  @override
+  String solarAdviceWeak(String percent, String time) {
+    return 'Weak sun. Your battery may reach only $percent, so avoid heavy loads after $time.';
+  }
+
+  @override
+  String solarUpdated(String city, String age) {
+    return '$city · updated $age';
+  }
+
+  @override
+  String get ageJustNow => 'just now';
+
+  @override
+  String ageMinutes(int minutes) {
+    return '$minutes min ago';
+  }
+
+  @override
+  String ageHours(int hours) {
+    return '$hours h ago';
+  }
+
+  @override
+  String ageDays(int days) {
+    return '$days d ago';
+  }
+
+  @override
+  String get solarUpdateFailed =>
+      'Couldn\'t update. Showing the saved forecast.';
+
+  @override
+  String get tryAgain => 'Try again';
+
+  @override
+  String get refreshForecast => 'Refresh forecast';
+
+  @override
+  String get solarNoPanelsTitle => 'No solar panels added';
+
+  @override
+  String get solarNoPanelsBody =>
+      'Add your panels during setup to see how much the sun will charge your battery.';
+
+  @override
+  String get solarNeedsInternetTitle => 'Needs internet once';
+
+  @override
+  String get solarNeedsInternetBody =>
+      'Connect once to get the sun forecast. After that it works offline.';
+
+  @override
+  String get solarFetching => 'Getting forecast…';
+
+  @override
+  String get comingSoonTitle => 'Coming soon';
 
   @override
   String get comingBattery =>

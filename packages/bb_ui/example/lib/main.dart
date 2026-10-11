@@ -59,6 +59,9 @@ class _GalleryPage extends StatelessWidget {
         children: [
           const _Section('BbCountdownRing', child: _RingDemo()),
           const _Section('BbStatTile', child: _StatTilesDemo()),
+          const _Section('BbSolarForecastStrip', child: _SolarStripDemo()),
+          const _Section('BbChip', child: _ChipsDemo()),
+          const _Section('BbEmptyState', child: _EmptyStateDemo()),
           const _Section('BbButton / BbIconButton', child: _ButtonsDemo()),
           const _Section('BbBanner', child: _BannersDemo()),
           const _Section('BbCard', child: _CardsDemo()),
@@ -539,4 +542,99 @@ class _ElevationDemo extends StatelessWidget {
       ],
     );
   }
+}
+
+class _SolarStripDemo extends StatelessWidget {
+  const _SolarStripDemo();
+
+  // A hazy Lahore day: the forecast runs well under the clear-day bars.
+  static const _forecast = [
+    20,
+    100,
+    110,
+    290,
+    470,
+    460,
+    700,
+    690,
+    540,
+    370,
+    160,
+    15,
+  ];
+  static const _clearDay = [
+    60,
+    370,
+    650,
+    880,
+    1020,
+    1090,
+    1070,
+    970,
+    790,
+    540,
+    250,
+    0,
+  ];
+
+  @override
+  Widget build(BuildContext context) => BbCard(
+    child: BbSolarForecastStrip(
+      bars: [
+        for (var i = 0; i < _forecast.length; i++)
+          BbSolarBar(
+            value: _forecast[i].toDouble(),
+            potential: _clearDay[i].toDouble(),
+            label: i % 3 == 0 ? '${(6 + i - 1) % 12 + 1}' : null,
+          ),
+      ],
+      forecastLabel: 'Forecast',
+      potentialLabel: 'Clear day',
+      semanticLabel: 'About 3.9 kWh of sun today',
+    ),
+  );
+}
+
+class _ChipsDemo extends StatefulWidget {
+  const _ChipsDemo();
+
+  @override
+  State<_ChipsDemo> createState() => _ChipsDemoState();
+}
+
+class _ChipsDemoState extends State<_ChipsDemo> {
+  var _today = true;
+
+  @override
+  Widget build(BuildContext context) => Wrap(
+    spacing: AppSpacing.sm,
+    children: [
+      BbChip(
+        label: 'Today',
+        selected: _today,
+        onSelected: () => setState(() => _today = true),
+      ),
+      BbChip(
+        label: 'Tomorrow',
+        selected: !_today,
+        onSelected: () => setState(() => _today = false),
+      ),
+      const BbChip(label: 'Disabled', selected: false, onSelected: null),
+    ],
+  );
+}
+
+class _EmptyStateDemo extends StatelessWidget {
+  const _EmptyStateDemo();
+
+  @override
+  Widget build(BuildContext context) => BbCard(
+    child: BbEmptyState(
+      icon: BbIcons.offline,
+      title: 'Needs internet once',
+      message:
+          'Connect once to get the sun forecast. After that it works offline.',
+      action: BbButton.secondary(label: 'Try again', onPressed: () {}),
+    ),
+  );
 }

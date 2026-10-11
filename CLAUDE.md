@@ -1,6 +1,6 @@
 # CLAUDE.md — Backup Brain
 
-AI home energy manager for Pakistani households facing load-shedding. Flutter app (Android first) + Firebase. Hackathon build: **early build** (Flutter app scaffold + Firebase `backup-brain-dev` connected; `packages/energy_engine` started). The three spec docs below are the source of truth, so read the relevant section before writing code.
+AI home energy manager for Pakistani households facing load-shedding. Flutter app (Android first) + Firebase. Hackathon build: **early build** (Firebase `backup-brain-dev` connected; demo household; F1 countdown, F2 load planner and F3 solar forecast working; F5–F9 next). The three spec docs below are the source of truth, so read the relevant section before writing code.
 
 ## Doc map: which file owns what
 

@@ -8,11 +8,32 @@ import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
+import 'package:backup_brain/features/solar/data/models/weather_dto.dart';
+import 'package:backup_brain/features/solar/domain/entities/weather_forecast.dart';
+import 'package:backup_brain/features/solar/domain/weather_repository.dart';
+import 'package:energy_engine/energy_engine.dart';
 
 /// The real bundled demo file, so tests also prove the asset parses.
 Map<String, dynamic> demoJson() =>
     json.decode(File('assets/data/demo_household.json').readAsStringSync())
         as Map<String, dynamic>;
+
+/// A real Open-Meteo response for Lahore, saved 11 Oct 2026: a hazy,
+/// cloudy day, then a clearer one.
+Map<String, dynamic> openMeteoLahoreJson() =>
+    json.decode(File('test/fixtures/open_meteo_lahore.json').readAsStringSync())
+        as Map<String, dynamic>;
+
+/// 08:00 PKT on the fixture's first day.
+final lahoreMorning = DateTime.utc(2026, 10, 11, 3);
+
+WeatherForecast lahoreForecast({DateTime? fetchedAt}) =>
+    WeatherDto.fromOpenMeteo(
+      openMeteoLahoreJson(),
+      site: const SiteLocation(lat: 31.5204, lon: 74.3587),
+      fetchedAt:
+          fetchedAt ?? lahoreMorning.subtract(const Duration(minutes: 20)),
+    );
 
 HouseholdSystem demoSystem() =>
     SystemDto.fromMap(demoJson()['system'] as Map<String, dynamic>);
@@ -87,4 +108,29 @@ class FakeApplianceRepository implements ApplianceRepository {
 
   @override
   Future<void> loadDemo() async => _changes.add(_items = demoAppliances());
+}
+
+class FakeWeatherRepository implements WeatherRepository {
+  FakeWeatherRepository({this.saved, this.onRefresh});
+
+  WeatherForecast? saved;
+
+  /// What a fetch returns; null makes it fail like a dropped connection.
+  final WeatherForecast? Function()? onRefresh;
+  var refreshCalls = 0;
+  final _changes = StreamController<WeatherForecast?>.broadcast();
+
+  @override
+  Stream<WeatherForecast?> watchLatest() async* {
+    yield saved;
+    yield* _changes.stream;
+  }
+
+  @override
+  Future<void> refresh(SiteLocation site) async {
+    refreshCalls++;
+    final fresh = onRefresh?.call();
+    if (fresh == null) throw StateError('offline');
+    _changes.add(saved = fresh);
+  }
 }

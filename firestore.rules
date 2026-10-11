@@ -23,7 +23,22 @@ service cloud.firestore {
         && isNumberIn(d.battery.voltage, 1, 1000)
         && isNumberIn(d.battery.ah, 1, 100000)
         && d.battery.count is int && d.battery.count >= 1
-        && isNumberIn(d.soc, 0, 1);
+        && isNumberIn(d.soc, 0, 1)
+        && (!('solar' in d) || validSolar(d.solar))
+        && (!('location' in d) || validLocation(d.location));
+    }
+
+    function validSolar(s) {
+      return s is map
+        && isNumberIn(s.kWp, 0.05, 1000)
+        && s.shading in ['none', 'partial', 'heavy'];
+    }
+
+    function validLocation(l) {
+      return l is map
+        && l.city is string && l.city.size() > 0 && l.city.size() <= 60
+        && isNumberIn(l.lat, -90, 90)
+        && isNumberIn(l.lon, -180, 180);
     }
 
     function validAppliance(d) {

@@ -1,7 +1,9 @@
 {
   "_comment": "The demo household from ARCHITECTURE.md §12. The demo script quotes the numbers this produces; energy_engine tests lock them.",
   "system": {
-    "hasSolar": false,
+    "hasSolar": true,
+    "solar": { "kWp": 2.16, "panelW": 540, "panelCount": 4, "shading": "none" },
+    "location": { "city": "Lahore", "lat": 31.5204, "lon": 74.3587 },
     "inverter": { "type": "hybrid", "ratedW": 2000, "efficiency": 0.9 },
     "battery": { "chemistry": "lifepo4", "voltage": 24, "ah": 150, "count": 1 },
     "soc": 0.6

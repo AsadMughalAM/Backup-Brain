@@ -26,6 +26,22 @@ void main() {
       );
     });
 
+    test('demo household has 2.16 kWp panels in Lahore', () {
+      final s = demoSystem();
+      expect(s.hasSolar, isTrue);
+      expect(s.solar!.kWp, 2.16);
+      expect(s.solar!.shading, PanelShading.none);
+      expect(s.location!.city, 'Lahore');
+      expect(s.location!.site.lat, 31.5204);
+    });
+
+    test('hasSolar false drops the panel spec', () {
+      final map = SystemDto.toMap(demoSystem())..['hasSolar'] = false;
+      final s = SystemDto.fromMap(map);
+      expect(s.solar, isNull);
+      expect(SystemDto.toMap(s).containsKey('solar'), isFalse);
+    });
+
     test('unknown enum values fail loudly', () {
       final map = SystemDto.toMap(demoSystem());
       (map['battery'] as Map<String, dynamic>)['chemistry'] = 'nicad';

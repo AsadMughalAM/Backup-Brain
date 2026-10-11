@@ -39,4 +39,41 @@ void main() {
     expect(Formatters.percent(0.6), '60%');
     expect(Formatters.percent(0.15), '15%');
   });
+
+  group("clock (panels' local time, 5-minute steps)", () {
+    const pkt = Duration(hours: 5);
+    final sunset = DateTime.utc(2026, 10, 11, 12, 32, 22); // 5:32 PM PKT
+
+    test('rounds down by default: never promise a later end', () {
+      expect(Formatters.clock(sunset, pkt), '5:30 PM');
+    });
+
+    test('rounds up for "full by": never promise an earlier full', () {
+      expect(Formatters.clock(sunset, pkt, roundUp: true), '5:35 PM');
+    });
+
+    test('a time already on the step is unchanged either way', () {
+      final noon = DateTime.utc(2026, 10, 11, 7);
+      expect(Formatters.clock(noon, pkt), '12:00 PM');
+      expect(Formatters.clock(noon, pkt, roundUp: true), '12:00 PM');
+    });
+
+    test('chart hour labels', () {
+      expect(Formatters.hour(DateTime.utc(2026, 10, 11, 10), pkt), '3');
+    });
+  });
+
+  test('kWh range has one decimal and an en dash', () {
+    expect(Formatters.kWhRange(3.345, 4.52), '3.3–4.5');
+  });
+
+  test('age reads in the largest whole unit', () {
+    expect(Formatters.age(en, const Duration(seconds: 30)), 'just now');
+    expect(Formatters.age(en, const Duration(minutes: 20)), '20 min ago');
+    expect(
+      Formatters.age(en, const Duration(hours: 3, minutes: 50)),
+      '3 h ago',
+    );
+    expect(Formatters.age(en, const Duration(days: 2)), '2 d ago');
+  });
 }

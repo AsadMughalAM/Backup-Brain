@@ -9,6 +9,7 @@ import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/onboarding/presentation/screens/welcome_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
+import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
 
 abstract final class Routes {
@@ -55,14 +56,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         branches: [
           _branch(Routes.home, (_) => const DashboardScreen()),
           _branch(Routes.loads, (_) => const LoadPlannerScreen()),
-          _branch(
-            Routes.solar,
-            (l10n) => ComingSoonScreen(
-              title: l10n.tabSolar,
-              icon: BbIcons.solarPanel,
-              description: l10n.comingSolar,
-            ),
-          ),
+          _branch(Routes.solar, (_) => const SolarScreen()),
           _branch(
             Routes.battery,
             (l10n) => ComingSoonScreen(
