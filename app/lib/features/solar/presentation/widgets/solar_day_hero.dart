@@ -34,34 +34,38 @@ class SolarDayHero extends StatelessWidget {
 
     return BbCard(
       variant: BbCardVariant.hero,
-      child: Column(
-        children: [
-          Text(
-            headline,
-            textAlign: TextAlign.center,
-            style: context.textTheme.headlineSmall,
-          ),
-          if (!day.sunIsOver) ...[
-            const BbGap.xs(),
+      // The hero draws with the dark palette; styles must be read from a
+      // context inside the card, or they come out dark-on-dark.
+      child: Builder(
+        builder: (context) => Column(
+          children: [
             Text(
-              isToday
-                  ? l10n.solarStartNow(start)
-                  : l10n.solarStartSunrise(start),
+              headline,
               textAlign: TextAlign.center,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: context.colors.textMuted,
+              style: context.textTheme.headlineSmall,
+            ),
+            if (!day.sunIsOver) ...[
+              const BbGap.xs(),
+              Text(
+                isToday
+                    ? l10n.solarStartNow(start)
+                    : l10n.solarStartSunrise(start),
+                textAlign: TextAlign.center,
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: context.colors.textMuted,
+                ),
               ),
+            ],
+            const BbGap.xl(),
+            BbCountdownRing(
+              soc: day.socAtSunset,
+              timeLabel: Formatters.percent(day.socAtSunset),
+              caption: caption,
+              footnote: night,
+              semanticLabel: '$headline. $caption. $night.',
             ),
           ],
-          const BbGap.xl(),
-          BbCountdownRing(
-            soc: day.socAtSunset,
-            timeLabel: Formatters.percent(day.socAtSunset),
-            caption: caption,
-            footnote: night,
-            semanticLabel: '$headline. $caption. $night.',
-          ),
-        ],
+        ),
       ),
     );
   }

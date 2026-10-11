@@ -1,4 +1,5 @@
 import 'package:backup_brain/app/app.dart';
+import 'package:bb_ui/bb_ui.dart';
 import 'package:backup_brain/core/services/clock.dart';
 import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
@@ -76,6 +77,23 @@ void main() {
     expect(await _see(tester, 'Lahore · updated 20 min ago'), findsOneWidget);
     // A 20-minute-old forecast is fresh: no fetch.
     expect(weather.refreshCalls, 0);
+  });
+
+  testWidgets('hero text is readable on the midnight hero card', (
+    tester,
+  ) async {
+    await _openSolar(
+      tester,
+      weather: FakeWeatherRepository(saved: lahoreForecast()),
+    );
+    final hero = AppTheme.light().extension<AppColors>()!.hero;
+    for (final text in [
+      'Battery reaches 79% by sunset',
+      'Starting from 60% now',
+    ]) {
+      final color = tester.widget<Text>(find.text(text)).style!.color!;
+      expect(contrastRatio(color, hero), greaterThanOrEqualTo(4.5));
+    }
   });
 
   testWidgets('one tap for tomorrow (demo step 4)', (tester) async {
