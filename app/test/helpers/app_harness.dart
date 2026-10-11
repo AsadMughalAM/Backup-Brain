@@ -5,6 +5,7 @@ import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,7 @@ Future<void> pumpApp(
   required FakeAuthRepository auth,
   required FakeSystemRepository system,
   required FakeApplianceRepository appliances,
+  List<Override> extra = const [],
 }) async {
   tester.view.physicalSize = const Size(1080, 2340);
   tester.view.devicePixelRatio = 2.75;
@@ -28,6 +30,7 @@ Future<void> pumpApp(
         authRepositoryProvider.overrideWithValue(auth),
         systemRepositoryProvider.overrideWithValue(system),
         applianceRepositoryProvider.overrideWithValue(appliances),
+        ...extra,
       ],
       child: const App(),
     ),
