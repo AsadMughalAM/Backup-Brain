@@ -271,8 +271,6 @@
   "guidePanel1": "MONO PV MODULE",
   "guidePanel2": "Pmax 550W",
   "guidePanel3": "Voc 49.6V · Isc 14.0A",
-  "comingSoonTitle": "Coming soon",
-  "comingBattery": "Battery health, plus where to buy or repair a battery.",
   "settingsTheme": "Theme",
   "themeSystem": "System",
   "themeLight": "Light",
@@ -874,5 +872,109 @@
       }
     }
   },
-  "estimatorPricesUnverified": "These are sample prices, not yet checked with installers."
+  "estimatorPricesUnverified": "These are sample prices, not yet checked with installers.",
+  "healthLabel": "Battery health",
+  "healthGood": "Healthy",
+  "healthWearing": "Wearing out",
+  "healthWeak": "Weak: think about replacing it",
+  "healthHolds": "Holds about {now} kWh of its {label} kWh label.",
+  "@healthHolds": {
+    "placeholders": {
+      "now": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "healthBasis": "From your last {count} battery readings after outages.",
+  "@healthBasis": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "healthNoneTitle": "No health check yet",
+  "healthNoneBody": "After an outage, enter the battery % your inverter shows. With 3 readings the app works out how much your battery really holds.",
+  "healthProgress": "{done} of {needed} readings",
+  "@healthProgress": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      }
+    }
+  },
+  "healthLossTitle": "Battery holds less than before",
+  "healthLossBody": "It delivers about {loss} less than it should. Avoid draining it to the bottom, and check the inverter's charging is set for your battery type.",
+  "@healthLossBody": {
+    "placeholders": {
+      "loss": {
+        "type": "String"
+      }
+    }
+  },
+  "healthDeepTitle": "Often drained too far",
+  "healthDeepBody": "It often ends below {cutoff}, which shortens battery life. Switch heavy loads off earlier during outages.",
+  "@healthDeepBody": {
+    "placeholders": {
+      "cutoff": {
+        "type": "String"
+      }
+    }
+  },
+  "readingsTitle": "Enter the battery %",
+  "readingsBody": "What did the inverter show when the power came back?",
+  "readingsEnter": "Enter %",
+  "readingTitle": "Battery reading",
+  "readingQuestion": "Battery % when the power came back ({when})",
+  "@readingQuestion": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "readingHint": "Check your inverter's display. A close guess is fine; it starts at the app's estimate.",
+  "readingLess": "5% less",
+  "readingMore": "5% more",
+  "readingValue": "Battery {value}",
+  "@readingValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryDetails": "Your battery",
+  "batterySize": "{volts} · {ah} × {count} = {kwh} kWh",
+  "@batterySize": {
+    "placeholders": {
+      "volts": {
+        "type": "String"
+      },
+      "ah": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      },
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryCutoff": "The inverter stops at {cutoff} to protect it.",
+  "@batteryCutoff": {
+    "placeholders": {
+      "cutoff": {
+        "type": "String"
+      }
+    }
+  },
+  "batteryKharab": "My battery is kharab: find a shop"
 }

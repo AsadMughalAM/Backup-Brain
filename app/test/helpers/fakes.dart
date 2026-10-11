@@ -345,6 +345,22 @@ class FakeOutageRepository implements OutageRepository {
   }
 
   @override
+  Future<void> recordEndSoc(String id, double soc) async {
+    final i = outages.indexWhere((o) => o.id == id);
+    final o = outages[i];
+    outages[i] = OutageEvent(
+      id: o.id,
+      startedAt: o.startedAt,
+      endedAt: o.endedAt,
+      startSoc: o.startSoc,
+      endSoc: soc,
+      endSocMeasured: true,
+      avgLoadW: o.avgLoadW,
+    );
+    _outageChanges.add([...outages]);
+  }
+
+  @override
   Future<void> addSlot(ScheduleSlot slot) async {
     schedule.add(ScheduleEntry('s${_ids++}', slot));
     _scheduleChanges.add([...schedule]);

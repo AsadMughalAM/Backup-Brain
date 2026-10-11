@@ -115,6 +115,8 @@ describe('validation', () => {
     await assertFails(ref.set({ startedAt: 'today', source: 'manual' }));
     await assertFails(ref.set({ startedAt: new Date(), source: 'guess' }));
     await assertFails(ref.set({ startedAt: new Date(), source: 'manual', endSoC: 45 }));
+    await assertSucceeds(ref.update({ endSoC: 0.4, endSoCSource: 'user' }));
+    await assertFails(ref.update({ endSoCSource: 'guess' }));
     await assertFails(db('bob').doc('users/alice/systems/main/outages/o1').get());
   });
 

@@ -60,6 +60,7 @@ service cloud.firestore {
         && d.source in ['manual', 'auto']
         && optionalNumberIn(d, 'startSoC', 0, 1)
         && optionalNumberIn(d, 'endSoC', 0, 1)
+        && (!('endSoCSource' in d) || d.endSoCSource in ['estimate', 'user'])
         && optionalNumberIn(d, 'avgLoadW', 0, 100000);
     }
 

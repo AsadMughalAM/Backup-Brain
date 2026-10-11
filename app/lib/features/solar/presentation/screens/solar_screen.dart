@@ -18,11 +18,7 @@ import '../widgets/sun_forecast_card.dart';
 /// verdict, the sun behind it, and one thing to do (DESIGN.md §11 Solar).
 /// Tomorrow is one tap away and is picked automatically after sunset.
 class SolarScreen extends ConsumerStatefulWidget {
-  const SolarScreen({
-    super.key,
-    this.editHomeLocation,
-    this.estimatorLocation,
-  });
+  const SolarScreen({super.key, this.editHomeLocation, this.estimatorLocation});
 
   /// Where "Add my panels" goes; passed in so this feature doesn't import
   /// the app router. Null hides the button.

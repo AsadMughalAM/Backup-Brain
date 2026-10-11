@@ -254,6 +254,8 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - recharge time trending up > 25% → "charging problem or ageing"
 - lead-acid battery older than 18–24 months with health < 0.6 → suggest replacement → link to F7
 
+**As built (engine `battery_health.dart`):** a session counts only when the user entered the battery % shown on the inverter after the outage (`endSoCSource: 'user'`), because the app's own end estimate would just echo the model; drops under 10% are ignored as reading error. At least 3 readings before any verdict; health = median of the last 10. Capacity loss is measured against the label, or against the median of the first 3 readings once there are 6. Not built yet: the recharge-time trend (no recharge data) and the battery-age rule (setup does not record age). Health is shown on the Battery tab and sent to the assistant, but not yet fed into the F1 countdown (`BackupInput.healthFactor`).
+
 **Output example:** *"Your battery is delivering about 18% less backup than 3 months ago. Avoid discharging below 50% and check that UPS charging is set to the correct battery type (tubular vs. dry)."*
 
 ---
@@ -379,7 +381,7 @@ Appliance       { id, systemId, name, watts, quantity, dutyCycle,
                   priority: 'essential'|'comfort'|'avoid_on_backup', isOn }
 
 OutageEvent     { id, systemId, startedAt, endedAt?, source: 'manual'|'auto',
-                  startSoC?, endSoC?, avgLoadW? }
+                  startSoC?, endSoC?, endSoCSource?: 'estimate'|'user', avgLoadW? }
 
 SolarDailyLog   { id, systemId, date, actualKWh?, expectedKWh, performanceIndex? }
 

@@ -72,6 +72,23 @@ abstract final class EngineDefaults {
   /// peak load.
   static const inverterHeadroom = 1.25;
 
+  // F6 battery health (ARCHITECTURE.md §5 F6).
+
+  /// Readings needed before the app names a health figure.
+  static const healthMinSessions = 3;
+
+  /// Health is the median of this many latest readings.
+  static const healthWindow = 10;
+
+  /// Smaller drops in charge are dominated by reading error.
+  static const healthMinSocDrop = 0.10;
+
+  /// Warn when capacity is this much below the baseline.
+  static const capacityLossWarning = 0.15;
+
+  /// Warn when more than this share of outages ended below the cutoff.
+  static const deepDischargeShare = 0.30;
+
   // F8 outages and recharge (ARCHITECTURE.md §5 F8).
 
   /// Grid chargers in UPS / hybrid inverters typically charge at about C/10

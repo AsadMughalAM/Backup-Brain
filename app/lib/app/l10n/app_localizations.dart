@@ -711,18 +711,6 @@ abstract class AppLocalizations {
   /// **'Voc 49.6V · Isc 14.0A'**
   String get guidePanel3;
 
-  /// No description provided for @comingSoonTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get comingSoonTitle;
-
-  /// No description provided for @comingBattery.
-  ///
-  /// In en, this message translates to:
-  /// **'Battery health, plus where to buy or repair a battery.'**
-  String get comingBattery;
-
   /// No description provided for @settingsTheme.
   ///
   /// In en, this message translates to:
@@ -1862,6 +1850,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'These are sample prices, not yet checked with installers.'**
   String get estimatorPricesUnverified;
+
+  /// No description provided for @healthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery health'**
+  String get healthLabel;
+
+  /// No description provided for @healthGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy'**
+  String get healthGood;
+
+  /// No description provided for @healthWearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Wearing out'**
+  String get healthWearing;
+
+  /// No description provided for @healthWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak: think about replacing it'**
+  String get healthWeak;
+
+  /// No description provided for @healthHolds.
+  ///
+  /// In en, this message translates to:
+  /// **'Holds about {now} kWh of its {label} kWh label.'**
+  String healthHolds(String now, String label);
+
+  /// No description provided for @healthBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'From your last {count} battery readings after outages.'**
+  String healthBasis(String count);
+
+  /// No description provided for @healthNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No health check yet'**
+  String get healthNoneTitle;
+
+  /// No description provided for @healthNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'After an outage, enter the battery % your inverter shows. With 3 readings the app works out how much your battery really holds.'**
+  String get healthNoneBody;
+
+  /// No description provided for @healthProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {needed} readings'**
+  String healthProgress(String done, String needed);
+
+  /// No description provided for @healthLossTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery holds less than before'**
+  String get healthLossTitle;
+
+  /// No description provided for @healthLossBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It delivers about {loss} less than it should. Avoid draining it to the bottom, and check the inverter\'s charging is set for your battery type.'**
+  String healthLossBody(String loss);
+
+  /// No description provided for @healthDeepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Often drained too far'**
+  String get healthDeepTitle;
+
+  /// No description provided for @healthDeepBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It often ends below {cutoff}, which shortens battery life. Switch heavy loads off earlier during outages.'**
+  String healthDeepBody(String cutoff);
+
+  /// No description provided for @readingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the battery %'**
+  String get readingsTitle;
+
+  /// No description provided for @readingsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'What did the inverter show when the power came back?'**
+  String get readingsBody;
+
+  /// No description provided for @readingsEnter.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter %'**
+  String get readingsEnter;
+
+  /// No description provided for @readingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery reading'**
+  String get readingTitle;
+
+  /// No description provided for @readingQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery % when the power came back ({when})'**
+  String readingQuestion(String when);
+
+  /// No description provided for @readingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inverter\'s display. A close guess is fine; it starts at the app\'s estimate.'**
+  String get readingHint;
+
+  /// No description provided for @readingLess.
+  ///
+  /// In en, this message translates to:
+  /// **'5% less'**
+  String get readingLess;
+
+  /// No description provided for @readingMore.
+  ///
+  /// In en, this message translates to:
+  /// **'5% more'**
+  String get readingMore;
+
+  /// No description provided for @readingValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery {value}'**
+  String readingValue(String value);
+
+  /// No description provided for @batteryDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Your battery'**
+  String get batteryDetails;
+
+  /// No description provided for @batterySize.
+  ///
+  /// In en, this message translates to:
+  /// **'{volts} · {ah} × {count} = {kwh} kWh'**
+  String batterySize(String volts, String ah, String count, String kwh);
+
+  /// No description provided for @batteryCutoff.
+  ///
+  /// In en, this message translates to:
+  /// **'The inverter stops at {cutoff} to protect it.'**
+  String batteryCutoff(String cutoff);
+
+  /// No description provided for @batteryKharab.
+  ///
+  /// In en, this message translates to:
+  /// **'My battery is kharab: find a shop'**
+  String get batteryKharab;
 }
 
 class _AppLocalizationsDelegate

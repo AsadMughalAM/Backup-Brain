@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/widgets/coming_soon_screen.dart';
 import '../features/assistant/presentation/screens/assistant_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
+import '../features/battery/presentation/screens/battery_reading_screen.dart';
+import '../features/battery/presentation/screens/battery_screen.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
@@ -33,6 +34,7 @@ abstract final class Routes {
   static const settings = '/settings';
   static const outages = '/outages';
   static const estimator = '/estimator';
+  static String batteryReading(String outageId) => '/battery/reading/$outageId';
   static const outagesAddTime = '/outages/add-time';
   static const setup = '/setup';
   static const editHome = '/settings/home';
@@ -110,6 +112,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             const OutagesScreen(addTimeLocation: Routes.outagesAddTime),
       ),
       GoRoute(
+        path: '/battery/reading/:id',
+        builder: (context, state) =>
+            BatteryReadingScreen(outageId: state.pathParameters['id']!),
+      ),
+      GoRoute(
         path: Routes.estimator,
         builder: (context, state) => const EstimatorScreen(),
       ),
@@ -131,11 +138,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           _branch(
             Routes.battery,
-            (l10n) => ComingSoonScreen(
-              title: l10n.tabBattery,
-              icon: BbIcons.batteryWarning,
-              description: l10n.comingBattery,
-            ),
+            (_) => const BatteryScreen(readingLocation: Routes.batteryReading),
           ),
           _branch(Routes.assistant, (_) => const AssistantScreen()),
         ],

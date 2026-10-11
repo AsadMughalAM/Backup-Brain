@@ -363,13 +363,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guidePanel3 => 'Voc 49.6V · Isc 14.0A';
 
   @override
-  String get comingSoonTitle => 'Coming soon';
-
-  @override
-  String get comingBattery =>
-      'Battery health, plus where to buy or repair a battery.';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -1083,4 +1076,103 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get estimatorPricesUnverified =>
       'These are sample prices, not yet checked with installers.';
+
+  @override
+  String get healthLabel => 'Battery health';
+
+  @override
+  String get healthGood => 'Healthy';
+
+  @override
+  String get healthWearing => 'Wearing out';
+
+  @override
+  String get healthWeak => 'Weak: think about replacing it';
+
+  @override
+  String healthHolds(String now, String label) {
+    return 'Holds about $now kWh of its $label kWh label.';
+  }
+
+  @override
+  String healthBasis(String count) {
+    return 'From your last $count battery readings after outages.';
+  }
+
+  @override
+  String get healthNoneTitle => 'No health check yet';
+
+  @override
+  String get healthNoneBody =>
+      'After an outage, enter the battery % your inverter shows. With 3 readings the app works out how much your battery really holds.';
+
+  @override
+  String healthProgress(String done, String needed) {
+    return '$done of $needed readings';
+  }
+
+  @override
+  String get healthLossTitle => 'Battery holds less than before';
+
+  @override
+  String healthLossBody(String loss) {
+    return 'It delivers about $loss less than it should. Avoid draining it to the bottom, and check the inverter\'s charging is set for your battery type.';
+  }
+
+  @override
+  String get healthDeepTitle => 'Often drained too far';
+
+  @override
+  String healthDeepBody(String cutoff) {
+    return 'It often ends below $cutoff, which shortens battery life. Switch heavy loads off earlier during outages.';
+  }
+
+  @override
+  String get readingsTitle => 'Enter the battery %';
+
+  @override
+  String get readingsBody =>
+      'What did the inverter show when the power came back?';
+
+  @override
+  String get readingsEnter => 'Enter %';
+
+  @override
+  String get readingTitle => 'Battery reading';
+
+  @override
+  String readingQuestion(String when) {
+    return 'Battery % when the power came back ($when)';
+  }
+
+  @override
+  String get readingHint =>
+      'Check your inverter\'s display. A close guess is fine; it starts at the app\'s estimate.';
+
+  @override
+  String get readingLess => '5% less';
+
+  @override
+  String get readingMore => '5% more';
+
+  @override
+  String readingValue(String value) {
+    return 'Battery $value';
+  }
+
+  @override
+  String get batteryDetails => 'Your battery';
+
+  @override
+  String batterySize(String volts, String ah, String count, String kwh) {
+    return '$volts · $ah × $count = $kwh kWh';
+  }
+
+  @override
+  String batteryCutoff(String cutoff) {
+    return 'The inverter stops at $cutoff to protect it.';
+  }
+
+  @override
+  String get batteryKharab => 'My battery is kharab: find a shop';
 }

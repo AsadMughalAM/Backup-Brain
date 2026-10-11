@@ -364,13 +364,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get guidePanel3 => 'Voc 49.6V · Isc 14.0A';
 
   @override
-  String get comingSoonTitle => 'Jald aa raha hai';
-
-  @override
-  String get comingBattery =>
-      'Battery ki sehat, aur battery kahan se lein ya repair karwayein.';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override
@@ -1085,6 +1078,104 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get estimatorPricesUnverified =>
       'Yeh namoone ki qeematein hain, abhi installers se check nahi hui.';
+
+  @override
+  String get healthLabel => 'Battery ki sehat';
+
+  @override
+  String get healthGood => 'Sehatmand';
+
+  @override
+  String get healthWearing => 'Kamzor ho rahi hai';
+
+  @override
+  String get healthWeak => 'Kamzor: badalne ka sochein';
+
+  @override
+  String healthHolds(String now, String label) {
+    return 'Taqreeban $now kWh rakhti hai, label par $label kWh hai.';
+  }
+
+  @override
+  String healthBasis(String count) {
+    return 'Load-shedding ke baad aap ki aakhri $count readings se.';
+  }
+
+  @override
+  String get healthNoneTitle => 'Abhi sehat ka andaza nahi';
+
+  @override
+  String get healthNoneBody =>
+      'Load-shedding ke baad inverter par battery % dekh kar yahan likhein. 3 readings ke baad app batayegi ke battery asal mein kitna charge rakhti hai.';
+
+  @override
+  String healthProgress(String done, String needed) {
+    return '$needed mein se $done readings';
+  }
+
+  @override
+  String get healthLossTitle => 'Battery pehle se kam charge rakhti hai';
+
+  @override
+  String healthLossBody(String loss) {
+    return 'Yeh taqreeban $loss kam de rahi hai. Isay bilkul khaali na karein, aur check karein ke inverter ki charging aap ki battery ki qisam par set hai.';
+  }
+
+  @override
+  String get healthDeepTitle => 'Aksar zyada khaali hoti hai';
+
+  @override
+  String healthDeepBody(String cutoff) {
+    return 'Aksar $cutoff se neeche chali jati hai, is se battery ki umar kam hoti hai. Load-shedding mein bhaari cheezain pehle band karein.';
+  }
+
+  @override
+  String get readingsTitle => 'Battery % likhein';
+
+  @override
+  String get readingsBody => 'Light wapas aane par inverter par kitna % tha?';
+
+  @override
+  String get readingsEnter => '% likhein';
+
+  @override
+  String get readingTitle => 'Battery reading';
+
+  @override
+  String readingQuestion(String when) {
+    return 'Light aane par battery % ($when)';
+  }
+
+  @override
+  String get readingHint =>
+      'Inverter ki screen dekhein. Andaza bhi theek hai; app ke andaze se shuru hota hai.';
+
+  @override
+  String get readingLess => '5% kam';
+
+  @override
+  String get readingMore => '5% zyada';
+
+  @override
+  String readingValue(String value) {
+    return 'Battery $value';
+  }
+
+  @override
+  String get batteryDetails => 'Aap ki battery';
+
+  @override
+  String batterySize(String volts, String ah, String count, String kwh) {
+    return '$volts · $ah × $count = $kwh kWh';
+  }
+
+  @override
+  String batteryCutoff(String cutoff) {
+    return 'Hifazat ke liye inverter $cutoff par band ho jata hai.';
+  }
+
+  @override
+  String get batteryKharab => 'Meri battery kharab hai: dukaan dhoondein';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).
