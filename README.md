@@ -44,4 +44,6 @@ cd functions && pnpm install && pnpm run build
 firebase emulators:start
 ```
 
+**AI assistant (F9) on your machine:** Firebase AI Logic only answers requests with an App Check token. A debug build prints a debug token the first time it starts: in the browser console (`App Check debug token: …`) or in logcat for Android. Add it once in the Firebase console under **App Check → Apps → ⋮ → Manage debug tokens**. Each browser and each phone has its own token. Never commit these tokens.
+
 For the full command list and environments, see [TECH_STACK.md §7.8 and §8](TECH_STACK.md).
