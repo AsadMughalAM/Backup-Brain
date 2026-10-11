@@ -7,6 +7,7 @@ import '../../../../app/l10n/app_localizations.dart';
 import '../../../../core/services/external_links.dart';
 import '../../../../core/utils/fire_and_forget.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/price_search_card.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../domain/battery_catalog_repository.dart';
 import '../../domain/battery_health.dart';
@@ -105,6 +106,29 @@ class _BatteryHelpScreenState extends ConsumerState<BatteryHelpScreen> {
               style: context.textTheme.bodySmall?.copyWith(
                 color: context.colors.textMuted,
               ),
+            ),
+            const BbGap.md(),
+            PriceSearchCard(
+              city: city,
+              products: [
+                for (final o in catalog.options)
+                  switch (o.chemistry) {
+                    BatteryChemistry.leadAcid => (
+                      label: l10n.chemLeadAcid,
+                      query: l10n.priceQueryDry,
+                    ),
+                    BatteryChemistry.tubular => (
+                      label: l10n.chemTubular,
+                      query: l10n.priceQueryTubular,
+                    ),
+                    BatteryChemistry.lifepo4 => (
+                      label: l10n.chemLithium,
+                      query: l10n.priceQueryLithium(
+                        (system.battery.nominalWh / 1000).toStringAsFixed(1),
+                      ),
+                    ),
+                  },
+              ],
             ),
           ],
           const BbGap.xl(),

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/price_search_card.dart';
 import '../controllers/estimator_controller.dart';
 
 /// F5 — "Agar mein solar lagwana chahun to kitna kharcha aayega?" One live
@@ -178,6 +179,8 @@ class _EstimatorScreenState extends ConsumerState<EstimatorScreen> {
                   ],
                   const BbGap.md(),
                   const _InstallerChecklist(),
+                  const BbGap.md(),
+                  _priceSearch(l10n, packages, result.city.name),
                 ] else
                   BbEmptyState(
                     icon: BbIcons.estimator,
@@ -198,6 +201,39 @@ class _EstimatorScreenState extends ConsumerState<EstimatorScreen> {
             ),
     );
   }
+}
+
+/// Live listings for the recommended package's parts.
+Widget _priceSearch(
+  AppLocalizations l10n,
+  List<SolarPackage> packages,
+  String city,
+) {
+  final p = packages.firstWhere(
+    (p) => p.recommended,
+    orElse: () => packages.first,
+  );
+  final kw = Formatters.number(p.inverterKw);
+  return PriceSearchCard(
+    city: city,
+    products: [
+      (
+        label: l10n.priceProductPanels,
+        query: l10n.priceQueryPanel(Formatters.number(p.panelW)),
+      ),
+      (
+        label: l10n.priceProductInverter,
+        query: p.hasBattery
+            ? l10n.priceQueryHybrid(kw)
+            : l10n.priceQueryOngrid(kw),
+      ),
+      if (p.hasBattery)
+        (
+          label: l10n.priceProductBattery,
+          query: l10n.priceQueryLithium(p.batteryKWh.toStringAsFixed(1)),
+        ),
+    ],
+  );
 }
 
 class _Heading extends StatelessWidget {

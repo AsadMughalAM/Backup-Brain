@@ -1848,7 +1848,7 @@ abstract class AppLocalizations {
   /// No description provided for @estimatorPricesUnverified.
   ///
   /// In en, this message translates to:
-  /// **'These are sample prices, not yet checked with installers.'**
+  /// **'Prices come from online listings (October 2026), not installer quotes.'**
   String get estimatorPricesUnverified;
 
   /// No description provided for @healthLabel.
@@ -2330,6 +2330,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{weekday} {day}: {made} of {expected} kWh'**
   String checkLogRow(String weekday, String day, String made, String expected);
+
+  /// No description provided for @pricesOnlineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check today\'s prices online'**
+  String get pricesOnlineTitle;
+
+  /// No description provided for @pricesOnlineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens live listings. These are sellers\' asking prices; the estimates above use reviewed prices.'**
+  String get pricesOnlineBody;
+
+  /// No description provided for @pricesOnlineSearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Search: {query}'**
+  String pricesOnlineSearching(String query);
+
+  /// No description provided for @priceSiteGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get priceSiteGoogle;
+
+  /// No description provided for @priceSiteDaraz.
+  ///
+  /// In en, this message translates to:
+  /// **'Daraz'**
+  String get priceSiteDaraz;
+
+  /// No description provided for @priceSiteOlx.
+  ///
+  /// In en, this message translates to:
+  /// **'OLX'**
+  String get priceSiteOlx;
+
+  /// No description provided for @pakistan.
+  ///
+  /// In en, this message translates to:
+  /// **'Pakistan'**
+  String get pakistan;
+
+  /// No description provided for @priceQueryGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'{product} price in {place}'**
+  String priceQueryGoogle(String product, String place);
+
+  /// No description provided for @priceProductPanels.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels'**
+  String get priceProductPanels;
+
+  /// No description provided for @priceProductInverter.
+  ///
+  /// In en, this message translates to:
+  /// **'Inverter'**
+  String get priceProductInverter;
+
+  /// No description provided for @priceProductBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get priceProductBattery;
+
+  /// No description provided for @priceQueryPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'{watts}W solar panel'**
+  String priceQueryPanel(String watts);
+
+  /// No description provided for @priceQueryHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{kw}kW hybrid inverter'**
+  String priceQueryHybrid(String kw);
+
+  /// No description provided for @priceQueryOngrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{kw}kW on grid inverter'**
+  String priceQueryOngrid(String kw);
+
+  /// No description provided for @priceQueryLithium.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh lithium battery'**
+  String priceQueryLithium(String kwh);
+
+  /// No description provided for @priceQueryTubular.
+  ///
+  /// In en, this message translates to:
+  /// **'200Ah tubular battery'**
+  String get priceQueryTubular;
+
+  /// No description provided for @priceQueryDry.
+  ///
+  /// In en, this message translates to:
+  /// **'100Ah dry battery'**
+  String get priceQueryDry;
 }
 
 class _AppLocalizationsDelegate

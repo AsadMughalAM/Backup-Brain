@@ -1077,7 +1077,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get estimatorPricesUnverified =>
-      'Yeh namoone ki qeematein hain, abhi installers se check nahi hui.';
+      'Qeematein online listings (October 2026) se hain, installers ke quotes nahi.';
 
   @override
   String get healthLabel => 'Battery ki sehat';
@@ -1366,6 +1366,70 @@ class AppLocalizationsUr extends AppLocalizations {
   String checkLogRow(String weekday, String day, String made, String expected) {
     return '$weekday $day: $expected mein se $made kWh';
   }
+
+  @override
+  String get pricesOnlineTitle => 'Aaj ki qeematein online dekhein';
+
+  @override
+  String get pricesOnlineBody =>
+      'Live listings khulengi. Yeh bechne walon ki maangi hui qeematein hain; upar ke andaze jaanchi hui qeematon se hain.';
+
+  @override
+  String pricesOnlineSearching(String query) {
+    return 'Search: $query';
+  }
+
+  @override
+  String get priceSiteGoogle => 'Google';
+
+  @override
+  String get priceSiteDaraz => 'Daraz';
+
+  @override
+  String get priceSiteOlx => 'OLX';
+
+  @override
+  String get pakistan => 'Pakistan';
+
+  @override
+  String priceQueryGoogle(String product, String place) {
+    return '$product price in $place';
+  }
+
+  @override
+  String get priceProductPanels => 'Panels';
+
+  @override
+  String get priceProductInverter => 'Inverter';
+
+  @override
+  String get priceProductBattery => 'Battery';
+
+  @override
+  String priceQueryPanel(String watts) {
+    return '${watts}W solar panel';
+  }
+
+  @override
+  String priceQueryHybrid(String kw) {
+    return '${kw}kW hybrid inverter';
+  }
+
+  @override
+  String priceQueryOngrid(String kw) {
+    return '${kw}kW on grid inverter';
+  }
+
+  @override
+  String priceQueryLithium(String kwh) {
+    return '$kwh kWh lithium battery';
+  }
+
+  @override
+  String get priceQueryTubular => '200Ah tubular battery';
+
+  @override
+  String get priceQueryDry => '100Ah dry battery';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

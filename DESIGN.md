@@ -700,6 +700,8 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 
 **Panel check (F4, from a secondary button at the end of Solar):** status card (icon + colored icon + title + what to do: `success` healthy, `warning` a little low, `danger` well below) → day `BbChip`s (Today / Yesterday / n days ago, only days with recorded weather) → "should make about X kWh" line → kWh field + secondary Save → "Last two weeks" `BbSolarForecastStrip` (made vs should make, day-of-month labels) and a per-day list with the index in `metricSmall`.
 
+**Price search card (F5, F7):** `BbCard` "Check today's prices online" + muted line that these are sellers' asking prices → product `BbChip`s when there are several → "Search: …" line → small secondary buttons Google · Daraz · OLX with the `shop` icon.
+
 **Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority → target-hours `BbNumberField`.
 
 **Solar:** answer first, zero taps.

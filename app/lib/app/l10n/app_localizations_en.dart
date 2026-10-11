@@ -1075,7 +1075,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get estimatorPricesUnverified =>
-      'These are sample prices, not yet checked with installers.';
+      'Prices come from online listings (October 2026), not installer quotes.';
 
   @override
   String get healthLabel => 'Battery health';
@@ -1365,4 +1365,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String checkLogRow(String weekday, String day, String made, String expected) {
     return '$weekday $day: $made of $expected kWh';
   }
+
+  @override
+  String get pricesOnlineTitle => 'Check today\'s prices online';
+
+  @override
+  String get pricesOnlineBody =>
+      'Opens live listings. These are sellers\' asking prices; the estimates above use reviewed prices.';
+
+  @override
+  String pricesOnlineSearching(String query) {
+    return 'Search: $query';
+  }
+
+  @override
+  String get priceSiteGoogle => 'Google';
+
+  @override
+  String get priceSiteDaraz => 'Daraz';
+
+  @override
+  String get priceSiteOlx => 'OLX';
+
+  @override
+  String get pakistan => 'Pakistan';
+
+  @override
+  String priceQueryGoogle(String product, String place) {
+    return '$product price in $place';
+  }
+
+  @override
+  String get priceProductPanels => 'Panels';
+
+  @override
+  String get priceProductInverter => 'Inverter';
+
+  @override
+  String get priceProductBattery => 'Battery';
+
+  @override
+  String priceQueryPanel(String watts) {
+    return '${watts}W solar panel';
+  }
+
+  @override
+  String priceQueryHybrid(String kw) {
+    return '${kw}kW hybrid inverter';
+  }
+
+  @override
+  String priceQueryOngrid(String kw) {
+    return '${kw}kW on grid inverter';
+  }
+
+  @override
+  String priceQueryLithium(String kwh) {
+    return '$kwh kWh lithium battery';
+  }
+
+  @override
+  String get priceQueryTubular => '200Ah tubular battery';
+
+  @override
+  String get priceQueryDry => '100Ah dry battery';
 }

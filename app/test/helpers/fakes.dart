@@ -426,6 +426,14 @@ class FakeExternalLinks implements ExternalLinks {
     searches.add(query);
     return true;
   }
+
+  final priceSearches = <(PriceSite, String)>[];
+
+  @override
+  Future<bool> openPriceSearch(PriceSite site, String query) async {
+    priceSearches.add((site, query));
+    return true;
+  }
 }
 
 class FakeSolarLogRepository implements SolarLogRepository {

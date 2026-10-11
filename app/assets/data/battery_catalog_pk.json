@@ -1,5 +1,5 @@
 {
-  "_comment": "F7 battery types to compare, priced per kWh of label capacity in PKR. PLACEHOLDERS: check with local dealers and update lastUpdated before the demo. Generic types, no brands: no affiliate bias (ARCHITECTURE §5 F7).",
+  "_comment": "F7 battery types to compare, PKR per kWh of label capacity. From Pakistani online listings dated October 2026 (see sources), not dealer quotes. Generic types, no brands: no affiliate bias (ARCHITECTURE §5 F7). Cycle life is a conservative typical figure for local brands.",
   "lastUpdated": "2026-10-11",
   "verified": false,
   "options": [
@@ -7,8 +7,8 @@
       "id": "dry",
       "chemistry": "lead_acid",
       "pricePerKWh": {
-        "min": 20000,
-        "max": 28000
+        "min": 19000,
+        "max": 25000
       },
       "cycleLife": 400,
       "warrantyMonths": 12
@@ -18,7 +18,7 @@
       "chemistry": "tubular",
       "pricePerKWh": {
         "min": 18000,
-        "max": 24000
+        "max": 31000
       },
       "cycleLife": 1200,
       "warrantyMonths": 24
@@ -30,8 +30,13 @@
         "min": 45000,
         "max": 65000
       },
-      "cycleLife": 3500,
+      "cycleLife": 4000,
       "warrantyMonths": 60
     }
+  ],
+  "sources": [
+    "Dry 100Ah (1.2 kWh) Rs 22.5–30k: solar-price.pk/ags-battery-price-in-pakistan, daewoobattery.com tubular guide",
+    "Tubular 200Ah (2.4 kWh) Rs 44–75k: solarapp.pk/product-category/tubular-battery, solarhubofficial.com/200ah-tubular-battery-price-in-pakistan",
+    "Lithium Rs 45–65k/kWh: solarcitizen.com.pk/lithium-battery-price-pakistan, powerpack.com.pk"
   ]
 }

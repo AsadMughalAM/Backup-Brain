@@ -70,4 +70,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(links.searches, ['battery shop Lahore']);
   });
+
+  testWidgets('online prices: Daraz search for a tubular battery', (
+    tester,
+  ) async {
+    final links = await _openHelp(tester);
+    await _reveal(tester, find.text("Check today's prices online"));
+    await tester.tap(find.text('Tubular battery'));
+    await tester.pumpAndSettle();
+    await _reveal(tester, find.text('Daraz'));
+    await tester.tap(find.text('Daraz'));
+    await tester.pumpAndSettle();
+    expect(links.priceSearches, [(PriceSite.daraz, '200Ah tubular battery')]);
+  });
 }

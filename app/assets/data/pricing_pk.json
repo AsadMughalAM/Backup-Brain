@@ -1,13 +1,13 @@
 {
-  "_comment": "F5 estimator prices in PKR, as min–max ranges. PLACEHOLDERS: check with 2–3 installers and update lastUpdated before the demo. Firestore config/pricing_pk, when present, wins over this bundled copy (TECH_STACK §7.2).",
+  "_comment": "F5 estimator prices in PKR, min–max. From Pakistani online listings and price guides dated October 2026 (see sources); they disagree, so ranges are wide. Not installer quotes: replace with 2–3 local quotes and set verified=true. Firestore config/pricing_pk, when present, wins over this bundled copy (TECH_STACK §7.2).",
   "lastUpdated": "2026-10-11",
   "verified": false,
-  "tariffPerUnit": 55,
+  "tariffPerUnit": 50,
   "panel": {
     "watts": 580,
     "pricePerW": {
-      "min": 28,
-      "max": 36
+      "min": 37,
+      "max": 45
     }
   },
   "inverterSizesKw": [
@@ -20,54 +20,54 @@
   ],
   "ongridInverter": {
     "3": {
-      "min": 100000,
-      "max": 150000
+      "min": 70000,
+      "max": 110000
     },
     "4": {
-      "min": 120000,
-      "max": 170000
+      "min": 80000,
+      "max": 130000
     },
     "6": {
-      "min": 160000,
+      "min": 150000,
       "max": 230000
     },
     "8": {
-      "min": 210000,
-      "max": 290000
+      "min": 160000,
+      "max": 260000
     },
     "10": {
-      "min": 250000,
-      "max": 340000
+      "min": 170000,
+      "max": 300000
     },
     "12": {
-      "min": 290000,
-      "max": 390000
+      "min": 220000,
+      "max": 350000
     }
   },
   "hybridInverter": {
     "3": {
-      "min": 140000,
-      "max": 200000
+      "min": 70000,
+      "max": 120000
     },
     "4": {
-      "min": 170000,
-      "max": 240000
+      "min": 120000,
+      "max": 180000
     },
     "6": {
-      "min": 230000,
-      "max": 330000
+      "min": 150000,
+      "max": 295000
     },
     "8": {
-      "min": 330000,
-      "max": 450000
+      "min": 320000,
+      "max": 405000
     },
     "10": {
       "min": 400000,
-      "max": 550000
+      "max": 520000
     },
     "12": {
-      "min": 480000,
-      "max": 650000
+      "min": 520000,
+      "max": 745000
     }
   },
   "batteryPerKWh": {
@@ -77,7 +77,15 @@
     }
   },
   "installationPerKw": {
-    "min": 18000,
-    "max": 30000
-  }
+    "min": 16000,
+    "max": 29000
+  },
+  "sources": [
+    "Panels Rs 37–45/W: en.dailyqudrat.pk/106499 (Oct 10, 2026), jbmssolar.pk",
+    "Hybrid inverters: solarhubofficial.com/6kw-hybrid-solar-inverter-price-in-pakistan, maxpower.com.pk/news/hybrid-inverter-prices-in-pakistan-2026, w11stop.com/hybrid-inverter",
+    "On-grid inverters: w11stop.com/on-grid-tied-inverter, w11stop.com/growatt/growatt-6kw-on-grid-inverter, luminey.com/blog/10kw-inverter-price-in-pakistan, solarcitizen.com.pk/growatt-inverter-price-pakistan (3/4/8/12 kW interpolated)",
+    "Lithium Rs 45–65k/kWh: solarcitizen.com.pk/lithium-battery-price-pakistan, powerpack.com.pk",
+    "Installation: toolsfluent.com/blog/10kw-solar-system-pakistan-complete-guide (structure), solarpricepakistan.com.pk/solar-panel-installation-cost-in-pakistan (wiring, labour)",
+    "Tariff: toolsfluent.com/blog/electricity-bill-per-units-pakistan-2026, pakobserver.net (NEPRA slabs)"
+  ]
 }

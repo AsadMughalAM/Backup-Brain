@@ -1,3 +1,4 @@
+import 'package:backup_brain/core/services/external_links.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -31,9 +32,9 @@ void main() {
     // 400 / (30 × 5.1 × 0.78) = 3.35 kWp → 6 × 580 W.
     await _reveal(tester, find.text('Basic'));
     expect(find.text('6 × 580 W panels (3.5 kW)'), findsWidgets);
-    // 28 × 3480 + 1,20,000 + 18,000 × 3.48 = 2,80,080 → Rs 2,80,000.
-    expect(find.text('Rs 2,80,000–4,00,000'), findsOneWidget);
-    expect(find.text('Saves about Rs 22,000 a month'), findsWidgets);
+    // 37 × 3480 + 80,000 + 16,000 × 3.48 = 2,64,440 → Rs 2,64,000.
+    expect(find.text('Rs 2,64,000–3,88,000'), findsOneWidget);
+    expect(find.text('Saves about Rs 20,000 a month'), findsWidgets);
 
     await _reveal(tester, find.text('Recommended'));
     // 420 W (the home's load) × 4 h / (0.85 × 0.9) = 2.2 kWh → 2.5 kWh.
@@ -46,7 +47,7 @@ void main() {
       tester,
       find.textContaining('Prices last updated 2026-10-11'),
     );
-    expect(find.textContaining('sample prices'), findsOneWidget);
+    expect(find.textContaining('from online listings'), findsOneWidget);
   });
 
   testWidgets('a bill in rupees is turned into units at the tariff', (
@@ -55,10 +56,41 @@ void main() {
     await _openEstimator(tester);
     await tester.tap(find.text('Bill (Rs)'));
     await tester.pumpAndSettle();
-    expect(find.text('Converted at Rs 55 per unit.'), findsOneWidget);
-    // Rs 22,000 / 55 = 400 units: the same packages as above.
-    await tester.enterText(find.byType(EditableText).first, '22000');
+    expect(find.text('Converted at Rs 50 per unit.'), findsOneWidget);
+    // Rs 20,000 / 50 = 400 units: the same packages as above.
+    await tester.enterText(find.byType(EditableText).first, '20000');
     await tester.pumpAndSettle();
-    await _reveal(tester, find.text('Rs 2,80,000–4,00,000'));
+    await _reveal(tester, find.text('Rs 2,64,000–3,88,000'));
+  });
+
+  testWidgets('online prices: Google search for the recommended inverter', (
+    tester,
+  ) async {
+    final links = FakeExternalLinks();
+    await pumpApp(
+      tester,
+      auth: FakeAuthRepository(account: signedInAsAsad),
+      system: FakeSystemRepository(demoSystem()),
+      appliances: FakeApplianceRepository(demoAppliances()),
+      extra: [externalLinksProvider.overrideWithValue(links)],
+    );
+    await tester.tap(find.text('Solar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Solar cost estimator'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(EditableText).first, '400');
+    await tester.pumpAndSettle();
+    await _reveal(tester, find.text('Inverter'));
+    await tester.tap(find.text('Inverter'));
+    await tester.pumpAndSettle();
+    await _reveal(tester, find.text('Google'));
+    await tester.ensureVisible(find.text('Google'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Google'));
+    await tester.pumpAndSettle();
+    // Hybrid (recommended) for 3.48 kWp → a 4 kW hybrid inverter, in Lahore.
+    expect(links.priceSearches, [
+      (PriceSite.google, '4kW hybrid inverter price in Lahore'),
+    ]);
   });
 }

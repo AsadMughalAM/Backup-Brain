@@ -872,7 +872,7 @@
       }
     }
   },
-  "estimatorPricesUnverified": "These are sample prices, not yet checked with installers.",
+  "estimatorPricesUnverified": "Prices come from online listings (October 2026), not installer quotes.",
   "healthLabel": "Battery health",
   "healthGood": "Healthy",
   "healthWearing": "Wearing out",
@@ -1108,5 +1108,67 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pricesOnlineTitle": "Check today's prices online",
+  "pricesOnlineBody": "Opens live listings. These are sellers' asking prices; the estimates above use reviewed prices.",
+  "pricesOnlineSearching": "Search: {query}",
+  "@pricesOnlineSearching": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "priceSiteGoogle": "Google",
+  "priceSiteDaraz": "Daraz",
+  "priceSiteOlx": "OLX",
+  "pakistan": "Pakistan",
+  "priceQueryGoogle": "{product} price in {place}",
+  "@priceQueryGoogle": {
+    "placeholders": {
+      "product": {
+        "type": "String"
+      },
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "priceProductPanels": "Panels",
+  "priceProductInverter": "Inverter",
+  "priceProductBattery": "Battery",
+  "priceQueryPanel": "{watts}W solar panel",
+  "@priceQueryPanel": {
+    "placeholders": {
+      "watts": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryHybrid": "{kw}kW hybrid inverter",
+  "@priceQueryHybrid": {
+    "placeholders": {
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryOngrid": "{kw}kW on grid inverter",
+  "@priceQueryOngrid": {
+    "placeholders": {
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryLithium": "{kwh} kWh lithium battery",
+  "@priceQueryLithium": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "priceQueryTubular": "200Ah tubular battery",
+  "priceQueryDry": "100Ah dry battery"
 }
