@@ -2,7 +2,10 @@ import 'package:bb_ui/bb_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:go_router/go_router.dart';
+
 import '../../../../app/l10n/app_localizations.dart';
+import '../../../../app/router.dart';
 import '../controllers/onboarding_controller.dart';
 
 /// First launch. For now it offers the demo household; the full setup form
@@ -49,6 +52,14 @@ class WelcomeScreen extends ConsumerWidget {
               expand: true,
               onPressed: () =>
                   ref.read(onboardingControllerProvider.notifier).startDemo(),
+            ),
+            const BbGap.sm(),
+            BbButton.ghost(
+              label: l10n.alreadyHaveAccount,
+              expand: true,
+              onPressed: status == OnboardingStatus.working
+                  ? null
+                  : () => context.push('${Routes.signIn}?mode=signIn'),
             ),
             const BbGap.md(),
             Text(

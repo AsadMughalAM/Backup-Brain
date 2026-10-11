@@ -184,4 +184,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageRomanUrdu => 'Roman Urdu';
+
+  @override
+  String get accountSection => 'Account';
+
+  @override
+  String get saveDataTitle => 'Save your data';
+
+  @override
+  String get saveDataBody =>
+      'Sign in so your battery and appliance setup is safe if you change or lose your phone.';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get useEmail => 'Use email';
+
+  @override
+  String signedInAs(String who) {
+    return 'Signed in as $who';
+  }
+
+  @override
+  String get googleAccount => 'your Google account';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get alreadyHaveAccount => 'I already have an account';
+
+  @override
+  String get createAccountTitle => 'Create your account';
+
+  @override
+  String get signInTitle => 'Sign in';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get createAccount => 'Create account';
+
+  @override
+  String get creatingAccount => 'Creating account…';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get signingIn => 'Signing in…';
+
+  @override
+  String get orDivider => 'or';
+
+  @override
+  String get switchToSignIn => 'Already have an account? Sign in';
+
+  @override
+  String get switchToCreate => 'New here? Create an account';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String resetSent(String email) {
+    return 'We sent a password reset link to $email.';
+  }
+
+  @override
+  String get errorInvalidEmail => 'Enter a valid email address.';
+
+  @override
+  String get errorPasswordShort => 'Use at least 6 characters.';
+
+  @override
+  String get errorWrongCredentials => 'Email or password is incorrect.';
+
+  @override
+  String get errorEmailInUse =>
+      'This email already has an account. Sign in instead.';
+
+  @override
+  String get errorWeakPassword => 'Choose a stronger password.';
+
+  @override
+  String get errorNetwork =>
+      'No internet connection. Try again when you\'re online.';
+
+  @override
+  String get errorTooManyRequests =>
+      'Too many attempts. Wait a minute and try again.';
+
+  @override
+  String get errorUnknown => 'Something went wrong. Please try again.';
 }

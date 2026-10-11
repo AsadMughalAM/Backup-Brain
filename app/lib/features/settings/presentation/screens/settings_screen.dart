@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/locale/locale_controller.dart';
 import '../../../../app/theme_mode/theme_mode_controller.dart';
+import '../widgets/account_section.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -20,6 +21,8 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
         children: [
+          const AccountSection(),
+          const BbGap.xl(),
           Text(l10n.settingsTheme, style: context.textTheme.titleMedium),
           const BbGap.md(),
           _Choices(

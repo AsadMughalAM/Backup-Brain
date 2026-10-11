@@ -474,6 +474,8 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 | `success` · `warning` · `danger` · `info` | `checkCircle` · `warning` · `warningOctagon` · `info` | Status (Fill inside banners) |
 | `themeLight` · `themeDark` · `themeSystem` | `sun` · `moon` · `circleHalf` | Theme toggle |
 | `settings` | `gearSix` | Settings |
+| `account` · `email` · `google` · `signOut` | `userCircle` · `envelope` · `googleLogo` · `signOut` | Account & sign-in |
+| `showPassword` · `hidePassword` | `eye` · `eyeSlash` | Password visibility toggle in `BbTextField` |
 | `back` · `next` · `close` · `add` · `more` | `arrowLeft` · `caretRight` · `x` · `plus` · `dotsThree` | Navigation & actions |
 | `expand` · `check` | `caretDown` · `check` | `BbDropdown` caret, selected `BbChip` |
 | `homeActive` · `loadsActive` · `solarActive` · `batteryActive` · `assistantActive` | Fill of the tab glyph | Selected nav tab (§6.2) |
