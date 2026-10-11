@@ -976,5 +976,76 @@
       }
     }
   },
-  "batteryKharab": "My battery is kharab: find a shop"
+  "batteryKharab": "Battery problem? Get help",
+  "helpTitle": "Battery problem?",
+  "helpSymptoms": "What's happening?",
+  "symptomShortBackup": "Backup lasts only minutes",
+  "symptomWontCharge": "Won't charge fully",
+  "symptomLowWater": "Water level is low",
+  "symptomSwollen": "Swollen or bulging",
+  "symptomSmellOrHeat": "Smells or gets hot",
+  "verdictNoneTitle": "Pick what you notice",
+  "verdictNoneBody": "The app suggests whether to look after it, repair it or replace it.",
+  "verdictMaintenanceTitle": "Try looking after it first",
+  "verdictMaintenanceBody": "Top up tubular batteries with distilled water to the mark, charge fully on grid for a day, and check the inverter's charging is set to your battery type. If it is still short, see a repair shop.",
+  "verdictRepairTitle": "Worth a repair shop's check",
+  "verdictRepairBody": "Often it is the charger, a loose terminal or a blown fuse, not the battery. A UPS repair shop can test it before you buy a new one.",
+  "verdictReplaceTitle": "Time to replace it",
+  "verdictReplaceBody": "Your readings show it has lost most of its capacity. Compare the options below by what they cost over their life, not just today.",
+  "buyTitle": "Which battery to buy",
+  "buyIntro": "For a bank like yours ({kwh} kWh). Cheapest over its life first.",
+  "@buyIntro": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      }
+    }
+  },
+  "buyBestValue": "Cheapest over its life",
+  "buyLife": "Lasts about {years} years ({cycles} cycles) · {months}-month warranty",
+  "@buyLife": {
+    "placeholders": {
+      "years": {
+        "type": "String"
+      },
+      "cycles": {
+        "type": "String"
+      },
+      "months": {
+        "type": "String"
+      }
+    }
+  },
+  "buyPerKWhYear": "Rs {amount} per usable kWh per year",
+  "@buyPerKWhYear": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "buyDisclaimer": "Typical market prices, not quotes. Prices last updated {date}.",
+  "@buyDisclaimer": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyTitle": "Find help nearby",
+  "nearbyBody": "Opens a Google Maps search around {city}.",
+  "@nearbyBody": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyBodyNoCity": "Opens a Google Maps search near you.",
+  "nearbyBatteryShops": "Battery shops",
+  "nearbyUpsRepair": "UPS and inverter repair",
+  "nearbySolarInstallers": "Solar installers",
+  "queryBatteryShop": "battery shop",
+  "queryUpsRepair": "UPS inverter repair",
+  "querySolarInstaller": "solar installer"
 }

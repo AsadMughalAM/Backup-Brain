@@ -1175,7 +1175,111 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get batteryKharab => 'Meri battery kharab hai: dukaan dhoondein';
+  String get batteryKharab => 'Battery kharab? Madad lein';
+
+  @override
+  String get helpTitle => 'Battery kharab?';
+
+  @override
+  String get helpSymptoms => 'Kya ho raha hai?';
+
+  @override
+  String get symptomShortBackup => 'Backup sirf chand minute';
+
+  @override
+  String get symptomWontCharge => 'Poori charge nahi hoti';
+
+  @override
+  String get symptomLowWater => 'Paani kam hai';
+
+  @override
+  String get symptomSwollen => 'Phooli hui hai';
+
+  @override
+  String get symptomSmellOrHeat => 'Boo aati hai ya garam hoti hai';
+
+  @override
+  String get verdictNoneTitle => 'Jo nazar aaye woh chunein';
+
+  @override
+  String get verdictNoneBody =>
+      'App batayegi ke dekh bhaal karein, repair karwayein ya nayi lein.';
+
+  @override
+  String get verdictMaintenanceTitle => 'Pehle dekh bhaal karke dekhein';
+
+  @override
+  String get verdictMaintenanceBody =>
+      'Tubular battery mein nishaan tak distilled paani daalein, grid par ek din poori charge karein, aur check karein ke inverter ki charging aap ki battery ki qisam par set hai. Phir bhi masla ho to repair shop jayein.';
+
+  @override
+  String get verdictRepairTitle => 'Repair shop par check karwayein';
+
+  @override
+  String get verdictRepairBody =>
+      'Aksar masla charger, dheela terminal ya fuse hota hai, battery nahi. Nayi lene se pehle UPS repair shop test kar sakti hai.';
+
+  @override
+  String get verdictReplaceTitle => 'Ab badalne ka waqt hai';
+
+  @override
+  String get verdictReplaceBody =>
+      'Readings ke mutabiq battery apni zyada tar capacity kho chuki hai. Neeche options ko poori umar ke kharche se mila kar dekhein, sirf aaj ki qeemat se nahi.';
+
+  @override
+  String get buyTitle => 'Kaunsi battery lein';
+
+  @override
+  String buyIntro(String kwh) {
+    return 'Aap jaisi battery ($kwh kWh) ke liye. Poori umar mein sab se sasti pehle.';
+  }
+
+  @override
+  String get buyBestValue => 'Umar bhar mein sab se sasti';
+
+  @override
+  String buyLife(String years, String cycles, String months) {
+    return 'Taqreeban $years saal ($cycles cycles) · $months mahine warranty';
+  }
+
+  @override
+  String buyPerKWhYear(String amount) {
+    return 'Rs $amount fi qabil-e-istemal kWh fi saal';
+  }
+
+  @override
+  String buyDisclaimer(String date) {
+    return 'Aam bazaar ki qeematein hain, quote nahi. Qeematein aakhri dafa $date ko update hui.';
+  }
+
+  @override
+  String get nearbyTitle => 'Qareeb madad dhoondein';
+
+  @override
+  String nearbyBody(String city) {
+    return '$city mein Google Maps search khulegi.';
+  }
+
+  @override
+  String get nearbyBodyNoCity => 'Aap ke qareeb Google Maps search khulegi.';
+
+  @override
+  String get nearbyBatteryShops => 'Battery ki dukaanein';
+
+  @override
+  String get nearbyUpsRepair => 'UPS aur inverter repair';
+
+  @override
+  String get nearbySolarInstallers => 'Solar installers';
+
+  @override
+  String get queryBatteryShop => 'battery shop';
+
+  @override
+  String get queryUpsRepair => 'UPS inverter repair';
+
+  @override
+  String get querySolarInstaller => 'solar installer';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

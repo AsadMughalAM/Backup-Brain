@@ -15,6 +15,8 @@ import '../core/services/preferences.dart';
 import '../features/backup/data/system_repository_impl.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/loads/data/appliance_repository_impl.dart';
+import '../features/battery/data/battery_catalog_repository_impl.dart';
+import '../features/battery/domain/battery_catalog_repository.dart';
 import '../features/estimator/data/pricing_repository_impl.dart';
 import '../features/estimator/domain/pricing_repository.dart';
 import '../features/loads/domain/appliance_repository.dart';
@@ -71,6 +73,9 @@ List<Override> appOverrides(SharedPreferences prefs) => [
                 .alertChannelName,
           )
         : const NoAlertScheduler(),
+  ),
+  batteryCatalogRepositoryProvider.overrideWithValue(
+    const AssetBatteryCatalogRepository(),
   ),
   pricingRepositoryProvider.overrideWith(
     (ref) => ConfigPricingRepository(ref.watch(firestoreProvider)),

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/assistant/presentation/screens/assistant_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
+import '../features/battery/presentation/screens/battery_help_screen.dart';
 import '../features/battery/presentation/screens/battery_reading_screen.dart';
 import '../features/battery/presentation/screens/battery_screen.dart';
 import '../features/backup/domain/system_repository.dart';
@@ -34,6 +35,7 @@ abstract final class Routes {
   static const settings = '/settings';
   static const outages = '/outages';
   static const estimator = '/estimator';
+  static const batteryHelp = '/battery-help';
   static String batteryReading(String outageId) => '/battery/reading/$outageId';
   static const outagesAddTime = '/outages/add-time';
   static const setup = '/setup';
@@ -117,6 +119,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             BatteryReadingScreen(outageId: state.pathParameters['id']!),
       ),
       GoRoute(
+        path: Routes.batteryHelp,
+        builder: (context, state) => const BatteryHelpScreen(),
+      ),
+      GoRoute(
         path: Routes.estimator,
         builder: (context, state) => const EstimatorScreen(),
       ),
@@ -138,7 +144,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           _branch(
             Routes.battery,
-            (_) => const BatteryScreen(readingLocation: Routes.batteryReading),
+            (_) => const BatteryScreen(
+              readingLocation: Routes.batteryReading,
+              shopsLocation: Routes.batteryHelp,
+            ),
           ),
           _branch(Routes.assistant, (_) => const AssistantScreen()),
         ],

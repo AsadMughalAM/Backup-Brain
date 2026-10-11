@@ -2004,8 +2004,188 @@ abstract class AppLocalizations {
   /// No description provided for @batteryKharab.
   ///
   /// In en, this message translates to:
-  /// **'My battery is kharab: find a shop'**
+  /// **'Battery problem? Get help'**
   String get batteryKharab;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery problem?'**
+  String get helpTitle;
+
+  /// No description provided for @helpSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s happening?'**
+  String get helpSymptoms;
+
+  /// No description provided for @symptomShortBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup lasts only minutes'**
+  String get symptomShortBackup;
+
+  /// No description provided for @symptomWontCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Won\'t charge fully'**
+  String get symptomWontCharge;
+
+  /// No description provided for @symptomLowWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water level is low'**
+  String get symptomLowWater;
+
+  /// No description provided for @symptomSwollen.
+  ///
+  /// In en, this message translates to:
+  /// **'Swollen or bulging'**
+  String get symptomSwollen;
+
+  /// No description provided for @symptomSmellOrHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Smells or gets hot'**
+  String get symptomSmellOrHeat;
+
+  /// No description provided for @verdictNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what you notice'**
+  String get verdictNoneTitle;
+
+  /// No description provided for @verdictNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app suggests whether to look after it, repair it or replace it.'**
+  String get verdictNoneBody;
+
+  /// No description provided for @verdictMaintenanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try looking after it first'**
+  String get verdictMaintenanceTitle;
+
+  /// No description provided for @verdictMaintenanceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Top up tubular batteries with distilled water to the mark, charge fully on grid for a day, and check the inverter\'s charging is set to your battery type. If it is still short, see a repair shop.'**
+  String get verdictMaintenanceBody;
+
+  /// No description provided for @verdictRepairTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth a repair shop\'s check'**
+  String get verdictRepairTitle;
+
+  /// No description provided for @verdictRepairBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Often it is the charger, a loose terminal or a blown fuse, not the battery. A UPS repair shop can test it before you buy a new one.'**
+  String get verdictRepairBody;
+
+  /// No description provided for @verdictReplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to replace it'**
+  String get verdictReplaceTitle;
+
+  /// No description provided for @verdictReplaceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your readings show it has lost most of its capacity. Compare the options below by what they cost over their life, not just today.'**
+  String get verdictReplaceBody;
+
+  /// No description provided for @buyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which battery to buy'**
+  String get buyTitle;
+
+  /// No description provided for @buyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'For a bank like yours ({kwh} kWh). Cheapest over its life first.'**
+  String buyIntro(String kwh);
+
+  /// No description provided for @buyBestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheapest over its life'**
+  String get buyBestValue;
+
+  /// No description provided for @buyLife.
+  ///
+  /// In en, this message translates to:
+  /// **'Lasts about {years} years ({cycles} cycles) · {months}-month warranty'**
+  String buyLife(String years, String cycles, String months);
+
+  /// No description provided for @buyPerKWhYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Rs {amount} per usable kWh per year'**
+  String buyPerKWhYear(String amount);
+
+  /// No description provided for @buyDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical market prices, not quotes. Prices last updated {date}.'**
+  String buyDisclaimer(String date);
+
+  /// No description provided for @nearbyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find help nearby'**
+  String get nearbyTitle;
+
+  /// No description provided for @nearbyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens a Google Maps search around {city}.'**
+  String nearbyBody(String city);
+
+  /// No description provided for @nearbyBodyNoCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens a Google Maps search near you.'**
+  String get nearbyBodyNoCity;
+
+  /// No description provided for @nearbyBatteryShops.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery shops'**
+  String get nearbyBatteryShops;
+
+  /// No description provided for @nearbyUpsRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS and inverter repair'**
+  String get nearbyUpsRepair;
+
+  /// No description provided for @nearbySolarInstallers.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar installers'**
+  String get nearbySolarInstallers;
+
+  /// No description provided for @queryBatteryShop.
+  ///
+  /// In en, this message translates to:
+  /// **'battery shop'**
+  String get queryBatteryShop;
+
+  /// No description provided for @queryUpsRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'UPS inverter repair'**
+  String get queryUpsRepair;
+
+  /// No description provided for @querySolarInstaller.
+  ///
+  /// In en, this message translates to:
+  /// **'solar installer'**
+  String get querySolarInstaller;
 }
 
 class _AppLocalizationsDelegate

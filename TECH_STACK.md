@@ -60,6 +60,7 @@ Why:
 | Routing | `go_router` |
 | Network | `dio` (Open-Meteo) |
 | Functions client | `cloud_functions` (F9 `assistantChat`) |
+| External links | `url_launcher` (F7 Google Maps search) |
 | Connectivity | `connectivity_plus` |
 | Notifications | `flutter_local_notifications`, `timezone` |
 | Location | `geolocator` |
@@ -117,7 +118,7 @@ The calculation engine exists **only in Dart**. It is **never re-implemented in 
 | Function | Input | Output | Feature |
 |---|---|---|---|
 | `assistantChat` | `{messages[], snapshot, language}` | `{reply}` (later `toolRequests?`) | F9 |
-| `findNearbyShops` | `{lat, lon, radiusM, kind: 'battery'\|'ups_repair'\|'solar_installer'}` | `{shops[]}` (name, address, distance, rating, mapsUrl) | F7 |
+| `findNearbyShops` | `{lat, lon, radiusM, kind: 'battery'\|'ups_repair'\|'solar_installer'}` | `{shops[]}` (name, address, distance, rating, mapsUrl) | F7 (later; the MVP opens a Google Maps search URL instead) |
 | `generateAdviceCards` *(P1)* | `{snapshot, language}` | `{cards[]}` | Dashboard |
 | `seedCatalog` *(admin only)* | — | writes `batteryCatalog`, `config` | Setup |
 

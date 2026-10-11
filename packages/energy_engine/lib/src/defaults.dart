@@ -89,6 +89,14 @@ abstract final class EngineDefaults {
   /// Warn when more than this share of outages ended below the cutoff.
   static const deepDischargeShare = 0.30;
 
+  // F7 repair or replace (ARCHITECTURE.md §5 F7).
+
+  /// Below this measured health, short backup means replace, not repair.
+  static const replaceBelowHealth = 0.6;
+
+  /// Daily load-shedding: about one deep cycle a day.
+  static const cyclesPerYear = 365;
+
   // F8 outages and recharge (ARCHITECTURE.md §5 F8).
 
   /// Grid chargers in UPS / hybrid inverters typically charge at about C/10

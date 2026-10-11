@@ -3,6 +3,7 @@
 library;
 
 export 'src/backup_calculator.dart';
+export 'src/battery_diagnosis.dart';
 export 'src/battery_health.dart';
 export 'src/defaults.dart';
 export 'src/load_planner.dart';

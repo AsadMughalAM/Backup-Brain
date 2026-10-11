@@ -2,6 +2,7 @@ import 'package:backup_brain/app/app.dart';
 import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
+import 'package:backup_brain/features/battery/domain/battery_catalog_repository.dart';
 import 'package:backup_brain/features/estimator/domain/pricing_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
@@ -39,6 +40,9 @@ Future<void> pumpApp(
         systemRepositoryProvider.overrideWithValue(system),
         applianceRepositoryProvider.overrideWithValue(appliances),
         pricingRepositoryProvider.overrideWithValue(FakePricingRepository()),
+        batteryCatalogRepositoryProvider.overrideWithValue(
+          FakeBatteryCatalogRepository(),
+        ),
         outageRepositoryProvider.overrideWithValue(
           outages ?? FakeOutageRepository(),
         ),

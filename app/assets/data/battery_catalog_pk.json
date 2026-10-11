@@ -1,0 +1,37 @@
+{
+  "_comment": "F7 battery types to compare, priced per kWh of label capacity in PKR. PLACEHOLDERS: check with local dealers and update lastUpdated before the demo. Generic types, no brands: no affiliate bias (ARCHITECTURE §5 F7).",
+  "lastUpdated": "2026-10-11",
+  "verified": false,
+  "options": [
+    {
+      "id": "dry",
+      "chemistry": "lead_acid",
+      "pricePerKWh": {
+        "min": 20000,
+        "max": 28000
+      },
+      "cycleLife": 400,
+      "warrantyMonths": 12
+    },
+    {
+      "id": "tubular",
+      "chemistry": "tubular",
+      "pricePerKWh": {
+        "min": 18000,
+        "max": 24000
+      },
+      "cycleLife": 1200,
+      "warrantyMonths": 24
+    },
+    {
+      "id": "lithium",
+      "chemistry": "lifepo4",
+      "pricePerKWh": {
+        "min": 45000,
+        "max": 65000
+      },
+      "cycleLife": 3500,
+      "warrantyMonths": 60
+    }
+  ]
+}

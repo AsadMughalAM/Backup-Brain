@@ -1174,5 +1174,109 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get batteryKharab => 'My battery is kharab: find a shop';
+  String get batteryKharab => 'Battery problem? Get help';
+
+  @override
+  String get helpTitle => 'Battery problem?';
+
+  @override
+  String get helpSymptoms => 'What\'s happening?';
+
+  @override
+  String get symptomShortBackup => 'Backup lasts only minutes';
+
+  @override
+  String get symptomWontCharge => 'Won\'t charge fully';
+
+  @override
+  String get symptomLowWater => 'Water level is low';
+
+  @override
+  String get symptomSwollen => 'Swollen or bulging';
+
+  @override
+  String get symptomSmellOrHeat => 'Smells or gets hot';
+
+  @override
+  String get verdictNoneTitle => 'Pick what you notice';
+
+  @override
+  String get verdictNoneBody =>
+      'The app suggests whether to look after it, repair it or replace it.';
+
+  @override
+  String get verdictMaintenanceTitle => 'Try looking after it first';
+
+  @override
+  String get verdictMaintenanceBody =>
+      'Top up tubular batteries with distilled water to the mark, charge fully on grid for a day, and check the inverter\'s charging is set to your battery type. If it is still short, see a repair shop.';
+
+  @override
+  String get verdictRepairTitle => 'Worth a repair shop\'s check';
+
+  @override
+  String get verdictRepairBody =>
+      'Often it is the charger, a loose terminal or a blown fuse, not the battery. A UPS repair shop can test it before you buy a new one.';
+
+  @override
+  String get verdictReplaceTitle => 'Time to replace it';
+
+  @override
+  String get verdictReplaceBody =>
+      'Your readings show it has lost most of its capacity. Compare the options below by what they cost over their life, not just today.';
+
+  @override
+  String get buyTitle => 'Which battery to buy';
+
+  @override
+  String buyIntro(String kwh) {
+    return 'For a bank like yours ($kwh kWh). Cheapest over its life first.';
+  }
+
+  @override
+  String get buyBestValue => 'Cheapest over its life';
+
+  @override
+  String buyLife(String years, String cycles, String months) {
+    return 'Lasts about $years years ($cycles cycles) · $months-month warranty';
+  }
+
+  @override
+  String buyPerKWhYear(String amount) {
+    return 'Rs $amount per usable kWh per year';
+  }
+
+  @override
+  String buyDisclaimer(String date) {
+    return 'Typical market prices, not quotes. Prices last updated $date.';
+  }
+
+  @override
+  String get nearbyTitle => 'Find help nearby';
+
+  @override
+  String nearbyBody(String city) {
+    return 'Opens a Google Maps search around $city.';
+  }
+
+  @override
+  String get nearbyBodyNoCity => 'Opens a Google Maps search near you.';
+
+  @override
+  String get nearbyBatteryShops => 'Battery shops';
+
+  @override
+  String get nearbyUpsRepair => 'UPS and inverter repair';
+
+  @override
+  String get nearbySolarInstallers => 'Solar installers';
+
+  @override
+  String get queryBatteryShop => 'battery shop';
+
+  @override
+  String get queryUpsRepair => 'UPS inverter repair';
+
+  @override
+  String get querySolarInstaller => 'solar installer';
 }

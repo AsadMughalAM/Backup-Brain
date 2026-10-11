@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:backup_brain/core/services/alert_scheduler.dart';
+import 'package:backup_brain/core/services/external_links.dart';
+import 'package:backup_brain/features/battery/data/battery_catalog_repository_impl.dart';
+import 'package:backup_brain/features/battery/domain/battery_catalog_repository.dart';
 import 'package:backup_brain/features/assistant/domain/assistant_repository.dart';
 import 'package:backup_brain/features/assistant/domain/energy_snapshot.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
@@ -403,4 +406,23 @@ class FakePricingRepository implements PricingRepository {
     json.decode(File('assets/data/pricing_pk.json').readAsStringSync())
         as Map<String, dynamic>,
   );
+}
+
+/// The real bundled catalog, so tests also prove the asset parses.
+class FakeBatteryCatalogRepository implements BatteryCatalogRepository {
+  @override
+  Future<BatteryCatalog> load() async => BatteryCatalogDto.fromMap(
+    json.decode(File('assets/data/battery_catalog_pk.json').readAsStringSync())
+        as Map<String, dynamic>,
+  );
+}
+
+class FakeExternalLinks implements ExternalLinks {
+  final searches = <String>[];
+
+  @override
+  Future<bool> openMapsSearch(String query) async {
+    searches.add(query);
+    return true;
+  }
 }

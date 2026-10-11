@@ -696,6 +696,8 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 
 **Battery (F6):** verdict card (`BbStatTile` health % with battery icon and status tone: ≥ 80% success "Healthy", ≥ 60% warning "Wearing out", else danger "Weak"; capacity line; muted basis) or, before 3 readings, a how-to card with "n of 3 readings" → warning `BbBanner`s for capacity loss / deep discharge → "Enter the battery %" list of recent outages with a small secondary "Enter %" button → battery details card → the fixed danger safety banner → secondary "My battery is kharab" (F7). **Battery reading** is a full screen: question with the outage's time, 5% stepper (tonal `remove`/`add`, value in `metricLarge`, starting at the app's estimate), sticky Save.
 
+**Battery problem (F7):** symptom `BbChip`s (multi-select; "water low" only for tubular) → verdict card (icon + title + what to do) or, for swelling / smell / heat, only the fixed danger safety banner → "Which battery to buy" cards ranked by cost over life (best one = `highlight` + `check` "Cheapest over its life"; PKR range in `metricMedium`; life, cycles, warranty; Rs per usable kWh per year) with the prices' date → "Find help nearby": three expanded secondary buttons with the `location` icon that open Google Maps searches.
+
 **Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority → target-hours `BbNumberField`.
 
 **Solar:** answer first, zero taps.

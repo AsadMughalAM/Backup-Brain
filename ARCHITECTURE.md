@@ -274,6 +274,8 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - Optional: AI web-search refresh of prices (LLM with web search tool) — always show source + date.
 - Never present prices as guaranteed. No affiliate ranking bias in MVP.
 
+**As built (MVP):** *Diagnose* = rules in `battery_diagnosis.dart`: swollen or smell/heat → the fixed safety text only; measured health (F6) < 60% with short backup or no charge → replace; low water in a tubular → maintenance; won't charge → repair shop; short backup without a measurement → maintenance first. *Recommend* = generic types (dry lead-acid, tubular, LiFePO4) from the bundled `assets/data/battery_catalog_pk.json` (placeholder prices per kWh, no brands), priced for the user's bank size and ranked by `cost_per_usable_kWh_per_year` with one deep cycle a day. *Find shops* = a **Google Maps search link** (battery shop / UPS inverter repair / solar installer + the home city) opened with `url_launcher`: no Places API, no key, no Blaze. The brand catalog in Firestore and `findNearbyShops` stay for later.
+
 ---
 
 ### F8 — Outage Schedule & Recharge Readiness (P1)
