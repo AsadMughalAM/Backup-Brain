@@ -39,22 +39,32 @@ class FirestoreOutageRepository implements OutageRepository {
                   ),
       );
 
-  // The tap time, not a server timestamp: a pending server timestamp reads
-  // as null offline, which would make a finished outage look ongoing.
+  // The phone's time, not a server timestamp: a pending server timestamp
+  // reads as null offline, which would make a finished outage look ongoing.
   @override
-  Future<void> start({required double soc, required double loadW}) =>
-      _outages(_uid).doc().set({
-        'startedAt': Timestamp.now(),
-        'source': 'manual',
-        'startSoC': soc,
-        'avgLoadW': loadW,
-      });
+  Future<void> start({
+    required DateTime at,
+    required double soc,
+    required double loadW,
+  }) => _outages(_uid).doc().set({
+    'startedAt': Timestamp.fromDate(at),
+    'source': 'manual',
+    'startSoC': soc,
+    'avgLoadW': loadW,
+  });
 
   @override
-  Future<void> end(String id, {required double soc}) =>
+  Future<void> end(String id, {required DateTime at, required double soc}) =>
       _outages(_uid)
           .doc(id)
-          .update({'endedAt': Timestamp.now(), 'endSoC': soc});
+          .update({'endedAt': Timestamp.fromDate(at), 'endSoC': soc});
+
+  @override
+  Future<void> moveStart(String id, DateTime at) =>
+      _outages(_uid).doc(id).update({'startedAt': Timestamp.fromDate(at)});
+
+  @override
+  Future<void> remove(String id) => _outages(_uid).doc(id).delete();
 
   @override
   Stream<List<ScheduleEntry>> watchSchedule() =>

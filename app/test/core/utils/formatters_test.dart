@@ -21,6 +21,20 @@ void main() {
     expect(Formatters.duration(en, 0), '0m');
   });
 
+  test('an estimated countdown is coarsened down to 10 minutes', () {
+    expect(Formatters.duration(en, 1458 / 420, stepMinutes: 10), '3h 20m');
+    expect(Formatters.duration(en, 0.16, stepMinutes: 10), '0m');
+    expect(Formatters.duration(en, 2, stepMinutes: 10), '2h 0m');
+  });
+
+  test('a battery reading shows as given; an estimate rounds down to 5%', () {
+    expect(Formatters.charge(0.6, estimate: false), '60%');
+    expect(Formatters.charge(0.6, estimate: true), '60%');
+    expect(Formatters.charge(0.7733, estimate: true), '75%');
+    expect(Formatters.charge(0.749, estimate: true), '70%');
+    expect(Formatters.chargeNumber(0.95, estimate: true), '95');
+  });
+
   test('no load reads as words, not infinity', () {
     expect(Formatters.duration(en, double.infinity), 'No load');
   });

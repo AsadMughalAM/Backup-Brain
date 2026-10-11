@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/services/clock.dart';
 import '../../../core/utils/fire_and_forget.dart';
+import '../../backup/domain/battery_estimate.dart';
+import '../../backup/domain/charge_recorder.dart';
 import '../../backup/domain/system_repository.dart';
-import '../../loads/domain/appliance_repository.dart';
+import '../../loads/domain/load_plan.dart';
 import 'outage_repository.dart';
 
 /// The power is out right now.
@@ -21,8 +23,8 @@ class OngoingOutage {
   /// How long it has been out.
   final double hours;
 
-  /// Estimated charge now: the charge when it went, drained at the load
-  /// since then (engine, F1 in reverse).
+  /// Estimated charge now: the live estimate, drained at the load since
+  /// the power went or the load last changed (engine, F1 in reverse).
   final double socNow;
 
   /// Backup left from [socNow] at the current load.
@@ -48,37 +50,27 @@ class OutageOutlook {
   final Readiness? readiness;
 }
 
-/// Null until the system and appliances have loaded.
+/// Null until the system, appliances and charge have loaded.
 final outageOutlookProvider = Provider<OutageOutlook?>((ref) {
   final system = ref.watch(householdSystemProvider).value;
   final plan = ref.watch(loadPlanProvider);
+  final charge = ref.watch(batteryEstimateProvider);
   final outages = ref.watch(recentOutagesProvider).value ?? const [];
   final schedule = ref.watch(scheduleProvider).value ?? const [];
   final now = ref.watch(nowProvider).value ?? DateTime.now().toUtc();
-  if (system == null || plan == null) return null;
+  if (system == null || plan == null || charge == null) return null;
 
-  const planner = RechargePlanner();
+  final live = system.copyWith(soc: charge.soc);
   final loadW = plan.current.loadW;
   final ongoingEvent = outages.where((o) => o.isOngoing).firstOrNull;
-
-  OngoingOutage? ongoing;
-  if (ongoingEvent != null) {
-    final hours = now.difference(ongoingEvent.startedAt).inMinutes / 60;
-    final soc = planner.socAfterDischarge(
-      system.copyWith(soc: ongoingEvent.startSoc ?? system.soc).backupInput,
-      loadW: ongoingEvent.avgLoadW ?? loadW,
-      hours: hours < 0 ? 0 : hours,
-    );
-    ongoing = OngoingOutage(
-      event: ongoingEvent,
-      hours: hours,
-      socNow: soc,
-      backup: planner.calculator.estimate(
-        system.copyWith(soc: soc).backupInput,
-        loadW: loadW,
-      ),
-    );
-  }
+  final ongoing = ongoingEvent == null
+      ? null
+      : OngoingOutage(
+          event: ongoingEvent,
+          hours: _hoursSince(ongoingEvent.startedAt, now),
+          socNow: charge.soc,
+          backup: plan.current,
+        );
 
   final local = now.toLocal();
   final next = const OutagePattern().next(
@@ -93,8 +85,8 @@ final outageOutlookProvider = Provider<OutageOutlook?>((ref) {
     next: next,
     readiness: ongoing != null || next == null
         ? null
-        : planner.readiness(
-            system.backupInput,
+        : const RechargePlanner().readiness(
+            live.backupInput,
             loadW: loadW,
             hoursUntil: next.start.difference(local).inMinutes / 60,
             outageHours: next.hours,
@@ -102,36 +94,86 @@ final outageOutlookProvider = Provider<OutageOutlook?>((ref) {
   );
 });
 
-/// "Light gayi" / "Light aa gayi": logs the event. When the power comes back
-/// the battery's charge is set to the engine's estimate, so the countdown
-/// and the recharge forecast start from where the battery really is; the
-/// user can still correct it on the load planner.
+double _hoursSince(DateTime start, DateTime now) {
+  final hours = now.difference(start).inMinutes / 60;
+  return hours < 0 ? 0 : hours;
+}
+
+/// "Light gayi" / "Light aa gayi": logs the event, and saves the battery's
+/// estimated charge at that moment as the new known point, so the
+/// countdown drains from when the power went and the recharge starts from
+/// where the battery really is.
 class OutageLogger {
   OutageLogger(this._ref);
 
   final Ref _ref;
 
+  DateTime get _now => _ref.read(nowProvider).value ?? DateTime.now().toUtc();
+
   void toggle() {
     final outlook = _ref.read(outageOutlookProvider);
-    final system = _ref.read(householdSystemProvider).value;
-    if (outlook == null || system == null) return;
-    final repo = _ref.read(outageRepositoryProvider);
-    final ongoing = outlook.ongoing;
-    if (ongoing == null) {
-      fireAndForget(
-        repo.start(soc: system.soc, loadW: outlook.loadW),
-        'outage start',
-      );
-      return;
-    }
+    if (outlook == null) return;
+    outlook.ongoing == null ? powerWent() : powerBack();
+  }
+
+  /// The power went at [at] (default now; a late log or a reminder gives
+  /// an earlier time).
+  void powerWent({DateTime? at}) {
+    final outlook = _ref.read(outageOutlookProvider);
+    if (outlook == null || outlook.ongoing != null) return;
+    final start = _notAfterNow(at);
+    final soc = _ref.read(chargeRecorderProvider).rebase(at: start);
     fireAndForget(
-      repo.end(ongoing.event.id, soc: ongoing.socNow),
+      _ref
+          .read(outageRepositoryProvider)
+          .start(at: start, soc: soc, loadW: outlook.loadW),
+      'outage start',
+    );
+  }
+
+  /// The power came back at [at] (default now). A time before the cut
+  /// started means the reminder was about an earlier slot: now is used.
+  void powerBack({DateTime? at}) {
+    final ongoing = _ref.read(outageOutlookProvider)?.ongoing;
+    if (ongoing == null) return;
+    var end = _notAfterNow(at);
+    if (end.isBefore(ongoing.event.startedAt)) end = _now;
+    final soc = _ref.read(chargeRecorderProvider).rebase(at: end);
+    fireAndForget(
+      _ref
+          .read(outageRepositoryProvider)
+          .end(ongoing.event.id, at: end, soc: soc),
       'outage end',
     );
+  }
+
+  /// The user says the power went at [start], not when they tapped.
+  void moveStart(DateTime start) {
+    final ongoing = _ref.read(outageOutlookProvider)?.ongoing;
+    if (ongoing == null) return;
+    final at = _notAfterNow(start);
+    _ref
+        .read(chargeRecorderProvider)
+        .retime(from: ongoing.event.startedAt, to: at);
     fireAndForget(
-      _ref.read(systemRepositoryProvider).setSoc(ongoing.socNow),
-      'soc after outage',
+      _ref.read(outageRepositoryProvider).moveStart(ongoing.event.id, at),
+      'outage start time',
     );
+  }
+
+  /// Logged by mistake: the power didn't go.
+  void undo() {
+    final ongoing = _ref.read(outageOutlookProvider)?.ongoing;
+    if (ongoing == null) return;
+    fireAndForget(
+      _ref.read(outageRepositoryProvider).remove(ongoing.event.id),
+      'outage undo',
+    );
+  }
+
+  DateTime _notAfterNow(DateTime? at) {
+    final now = _now;
+    return at == null || at.isAfter(now) ? now : at.toUtc();
   }
 }
 

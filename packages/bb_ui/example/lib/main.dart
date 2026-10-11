@@ -68,6 +68,8 @@ class _GalleryPage extends StatelessWidget {
           const _Section('BbButton / BbIconButton', child: _ButtonsDemo()),
           const _Section('BbBanner', child: _BannersDemo()),
           const _Section('BbCard', child: _CardsDemo()),
+          const _Section('BbBottomSheet', child: _SheetDemo()),
+          const _Section('BbLoadToggleTile', child: _LoadTileDemo()),
           const _Section('Metrics', child: _MetricsDemo()),
           const _Section('Type scale (Geist)', child: _TypeScale()),
           _Section('AppColors', child: _Swatches(colors.tokens)),
@@ -342,6 +344,80 @@ class _CardsDemo extends StatelessWidget {
   );
 }
 
+/// Shown inline here; the app opens it through its OverlayHost.
+class _SheetDemo extends StatefulWidget {
+  const _SheetDemo();
+
+  @override
+  State<_SheetDemo> createState() => _SheetDemoState();
+}
+
+class _SheetDemoState extends State<_SheetDemo> {
+  var _picked = 0.75;
+
+  static final _choices = {
+    1.0: BbIcons.batteryFull,
+    0.75: BbIcons.batteryHigh,
+    0.5: BbIcons.batteryMedium,
+    0.25: BbIcons.batteryLow,
+  };
+
+  @override
+  Widget build(BuildContext context) => BbBottomSheet(
+    title: 'What does your UPS show?',
+    child: Wrap(
+      spacing: AppSpacing.sm,
+      children: [
+        for (final MapEntry(key: soc, value: icon) in _choices.entries)
+          BbChip(
+            label: '${(soc * 100).round()}%',
+            icon: icon,
+            selected: _picked == soc,
+            onSelected: () => setState(() => _picked = soc),
+          ),
+      ],
+    ),
+  );
+}
+
+class _LoadTileDemo extends StatefulWidget {
+  const _LoadTileDemo();
+
+  @override
+  State<_LoadTileDemo> createState() => _LoadTileDemoState();
+}
+
+class _LoadTileDemoState extends State<_LoadTileDemo> {
+  var _fanOn = true;
+  var _edits = 0;
+
+  @override
+  Widget build(BuildContext context) => BbCard.list(
+    children: [
+      BbLoadToggleTile(
+        icon: BbIcons.fan,
+        name: 'Ceiling fan × 2',
+        watts: '150 W',
+        priority: BbPriority.comfort,
+        priorityLabel: 'Use carefully',
+        value: _fanOn,
+        onChanged: (on) => setState(() => _fanOn = on),
+        onEditWatts: () => setState(() => _edits++),
+        editWattsLabel: 'Change watts: Ceiling fan, 150 W ($_edits)',
+      ),
+      const BbLoadToggleTile(
+        icon: BbIcons.iron,
+        name: 'Iron',
+        watts: '1000 W',
+        priority: BbPriority.avoidOnBackup,
+        priorityLabel: 'Avoid on backup',
+        value: false,
+        onChanged: null,
+      ),
+    ],
+  );
+}
+
 class _MetricsDemo extends StatelessWidget {
   const _MetricsDemo();
 
@@ -490,6 +566,7 @@ class _IconGrid extends StatelessWidget {
     'danger': BbIcons.danger,
     'info': BbIcons.info,
     'settings': BbIcons.settings,
+    'edit': BbIcons.edit,
   };
 
   @override

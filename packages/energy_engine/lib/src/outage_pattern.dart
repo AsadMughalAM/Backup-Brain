@@ -62,6 +62,21 @@ final class OutagePrediction {
   final int? daysObserved;
 }
 
+/// A stretch of time the power is expected to be off.
+final class OutageWindow {
+  const OutageWindow(this.start, this.end);
+
+  final DateTime start;
+  final DateTime end;
+
+  /// Hours of this window inside [from]–[to].
+  double hoursWithin(DateTime from, DateTime to) {
+    final s = start.isAfter(from) ? start : from;
+    final e = end.isBefore(to) ? end : to;
+    return e.isAfter(s) ? e.difference(s).inSeconds / 3600 : 0;
+  }
+}
+
 /// F8 — "When will the light go next?" (ARCHITECTURE.md §5 F8): the user's
 /// schedule, and the household's own logged outages as a time-of-day
 /// pattern. Whichever predicts the earlier outage wins, because published
@@ -159,6 +174,101 @@ final class OutagePattern {
     }
     return null;
   }
+
+  /// Every stretch the power is expected to be off in the [hours] after
+  /// [now], merged where they overlap: the cut in progress (until its slot
+  /// ends, else for the usual length, else
+  /// [EngineDefaults.assumedOutageHours]), each scheduled slot, and the
+  /// learned next outage. Used to drain the battery in the solar
+  /// simulation (F3) when the panels make less than the house uses.
+  List<OutageWindow> expectedWindows({
+    required DateTime now,
+    required double hours,
+    List<OutageRecord> history = const [],
+    List<ScheduleSlot> schedule = const [],
+  }) {
+    if (hours <= 0 || !hours.isFinite) {
+      throw ArgumentError.value(hours, 'hours');
+    }
+    final until = now.add(Duration(minutes: (hours * 60).round()));
+    final slots = _slotWindows(now, until, schedule);
+    final windows = <OutageWindow>[...slots];
+
+    final ongoing = history.where((o) => o.end == null).firstOrNull;
+    if (ongoing != null) {
+      final slot = slots
+          .where(
+            (w) =>
+                !ongoing.start.isBefore(w.start.subtract(_slotEarly)) &&
+                ongoing.start.isBefore(w.end),
+          )
+          .firstOrNull;
+      final usual = _typicalHours(history) ?? EngineDefaults.assumedOutageHours;
+      var end = slot?.end ?? ongoing.start.add(_hoursDuration(usual));
+      if (!end.isAfter(now)) {
+        end = now.add(_hoursDuration(EngineDefaults.assumedOutageHours));
+      }
+      windows.add(OutageWindow(ongoing.start, end));
+    }
+
+    final learned = nextLearned(now, history);
+    if (learned != null) {
+      final length = learned.hours ?? EngineDefaults.assumedOutageHours;
+      windows.add(
+        OutageWindow(learned.start, learned.start.add(_hoursDuration(length))),
+      );
+    }
+
+    final inRange = [
+      for (final w in windows)
+        if (w.end.isAfter(now) && w.start.isBefore(until)) w,
+    ]..sort((a, b) => a.start.compareTo(b.start));
+    final merged = <OutageWindow>[];
+    for (final w in inRange) {
+      final last = merged.lastOrNull;
+      if (last != null && !w.start.isAfter(last.end)) {
+        merged[merged.length - 1] = OutageWindow(
+          last.start,
+          w.end.isAfter(last.end) ? w.end : last.end,
+        );
+      } else {
+        merged.add(w);
+      }
+    }
+    return merged;
+  }
+
+  /// A cut logged a little before its slot still belongs to it.
+  static const _slotEarly = Duration(minutes: 30);
+
+  static List<OutageWindow> _slotWindows(
+    DateTime from,
+    DateTime until,
+    List<ScheduleSlot> schedule,
+  ) {
+    final windows = <OutageWindow>[];
+    // From yesterday, so a slot running past midnight is included.
+    for (
+      var day = DateTime(from.year, from.month, from.day - 1);
+      day.isBefore(until);
+      day = DateTime(day.year, day.month, day.day + 1)
+    ) {
+      for (final slot in schedule.where((s) => s.weekday == day.weekday)) {
+        final start = DateTime(
+          day.year,
+          day.month,
+          day.day,
+          0,
+          slot.startMinute,
+        );
+        windows.add(OutageWindow(start, start.add(_hoursDuration(slot.hours))));
+      }
+    }
+    return windows;
+  }
+
+  static Duration _hoursDuration(double hours) =>
+      Duration(minutes: (hours * 60).round());
 
   static double? _typicalHours(List<OutageRecord> outages) {
     final lengths = [

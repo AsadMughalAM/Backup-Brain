@@ -3,10 +3,12 @@ import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
+import 'package:backup_brain/features/outages/domain/outage_notifier.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:backup_brain/features/setup/data/setup_draft_local_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_draft_repository.dart';
 import 'package:backup_brain/features/setup/domain/setup_presets_repository.dart';
+import 'package:backup_brain/features/solar/domain/weather_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -21,6 +23,7 @@ Future<void> pumpApp(
   required FakeSystemRepository system,
   required FakeApplianceRepository appliances,
   FakeOutageRepository? outages,
+  FakeOutageNotifier? notifier,
   // What the phone already has saved, e.g. a half-finished setup.
   Map<String, Object> saved = const {},
   List<Override> extra = const [],
@@ -40,9 +43,14 @@ Future<void> pumpApp(
         outageRepositoryProvider.overrideWithValue(
           outages ?? FakeOutageRepository(),
         ),
+        outageNotifierProvider.overrideWithValue(
+          notifier ?? FakeOutageNotifier(),
+        ),
         setupDraftRepositoryProvider.overrideWithValue(
           LocalSetupDraftRepository(prefs),
         ),
+        // No saved forecast and no network, unless a test says otherwise.
+        weatherRepositoryProvider.overrideWithValue(FakeWeatherRepository()),
         setupPresetsRepositoryProvider.overrideWithValue(
           const FileSetupPresetsRepository(),
         ),

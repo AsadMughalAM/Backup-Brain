@@ -66,6 +66,28 @@ abstract final class EngineDefaults {
   /// (15 A into a 150 Ah bank), used when the charger power is unknown.
   static const chargeRateC = 0.10;
 
+  /// Above this charge the charger tapers: lead-acid takes about 70–80% at
+  /// the full rate and the rest slowly (Battery University BU-403), while
+  /// LiFePO4 charges at the full rate almost to the top.
+  static double chargeTaperSoc(BatteryChemistry chemistry) =>
+      chemistry.isLeadAcidFamily ? 0.80 : 0.95;
+
+  /// Share of the full charging rate in the taper zone.
+  static const chargeTaperRate = 0.5;
+
+  /// Grid time alone never proves the battery is full (short cycles leave
+  /// lead-acid partly charged), so a charge worked out from time stops
+  /// here; only the user's own reading says "full".
+  static const estimatedChargeCap = 0.95;
+
+  /// Hours after the user last read the UPS display before the app asks
+  /// again, once, at the start of a power cut.
+  static const chargeCheckAfterHours = 6.0;
+
+  /// Length assumed for a cut in progress when neither the schedule nor
+  /// the logs say how long cuts last.
+  static const assumedOutageHours = 2.0;
+
   /// How far back logged outages count towards the learned pattern.
   static const outageLookbackDays = 14;
 

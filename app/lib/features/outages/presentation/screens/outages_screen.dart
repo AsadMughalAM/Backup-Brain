@@ -9,6 +9,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../domain/outage_outlook.dart';
 import '../../domain/outage_repository.dart';
 import '../controllers/schedule_controller.dart';
+import '../widgets/grid_status.dart';
 import '../widgets/outlook_card.dart';
 
 /// F8 — "Will my battery be ready before the next outage?": the answer
@@ -31,7 +32,6 @@ class OutagesScreen extends ConsumerWidget {
     final now = ref.watch(nowProvider).value ?? DateTime.now().toUtc();
     final schedule = ref.watch(scheduleProvider).value ?? const [];
     final outages = ref.watch(recentOutagesProvider).value ?? const [];
-    final ongoing = outlook?.ongoing;
 
     return BbScaffold(
       title: l10n.outagesTitle,
@@ -40,17 +40,7 @@ class OutagesScreen extends ConsumerWidget {
           : ListView(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
               children: [
-                BbGridStatusPill(
-                  gridOn: ongoing == null,
-                  label: ongoing == null ? l10n.gridOn : l10n.gridOff,
-                  duration: ongoing == null
-                      ? null
-                      : Formatters.duration(l10n, ongoing.hours),
-                  actionLabel: ongoing == null
-                      ? l10n.logPowerCut
-                      : l10n.logPowerBack,
-                  onTap: ref.read(outageLoggerProvider).toggle,
-                ),
+                const GridStatus(),
                 const BbGap.lg(),
                 OutlookCard(outlook: outlook, now: now),
                 const BbGap.xl(),

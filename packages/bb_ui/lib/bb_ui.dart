@@ -28,6 +28,7 @@ export 'src/components/layout/bb_page_padding.dart';
 export 'src/components/navigation/bb_nav_bar.dart';
 export 'src/components/navigation/bb_scaffold.dart';
 export 'src/components/navigation/bb_step_indicator.dart';
+export 'src/components/surfaces/bb_bottom_sheet.dart';
 export 'src/components/surfaces/bb_card.dart';
 export 'src/foundations/icons.dart';
 export 'src/foundations/semantic/app_colors.dart';

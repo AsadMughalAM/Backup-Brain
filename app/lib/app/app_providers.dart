@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,9 @@ import '../features/backup/data/system_repository_impl.dart';
 import '../features/backup/domain/system_repository.dart';
 import '../features/loads/data/appliance_repository_impl.dart';
 import '../features/loads/domain/appliance_repository.dart';
+import '../features/outages/data/local_outage_notifier.dart';
 import '../features/outages/data/outage_repository_impl.dart';
+import '../features/outages/domain/outage_notifier.dart';
 import '../features/outages/domain/outage_repository.dart';
 import '../features/setup/data/setup_draft_local_repository.dart';
 import '../features/setup/data/setup_presets_asset_repository.dart';
@@ -63,6 +66,11 @@ List<Override> appOverrides(SharedPreferences prefs) => [
       ref.watch(firestoreProvider),
       ref.watch(firebaseAuthProvider),
     ),
+  ),
+  outageNotifierProvider.overrideWithValue(
+    !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+        ? LocalOutageNotifier()
+        : const NoOutageNotifier(),
   ),
   assistantRepositoryProvider.overrideWith(
     (ref) => CallableAssistantRepository(

@@ -3,6 +3,7 @@
 library;
 
 export 'src/backup_calculator.dart';
+export 'src/charge_tracker.dart';
 export 'src/defaults.dart';
 export 'src/load_planner.dart';
 export 'src/models/appliance_load.dart';

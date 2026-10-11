@@ -11,10 +11,15 @@ import '../../../../app/theme_mode/theme_mode_controller.dart';
 import '../../../../core/services/clock.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../auth/domain/auth_repository.dart';
+import '../../../backup/domain/battery_estimate.dart';
 import '../../../backup/domain/entities/household_system.dart';
 import '../../../backup/domain/system_repository.dart';
-import '../../../loads/domain/appliance_repository.dart';
+import '../../../loads/domain/load_plan.dart';
 import '../../../outages/domain/outage_outlook.dart';
+import '../../../outages/presentation/widgets/grid_status.dart';
+import '../../../solar/domain/solar_outlook.dart';
+import '../controllers/battery_check_controller.dart';
+import '../widgets/battery_check.dart';
 
 /// Home (DESIGN.md §11 Dashboard): countdown hero with the one yellow CTA,
 /// stat tiles, and at least one actionable recommendation (ARCHITECTURE.md
@@ -26,6 +31,7 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final plan = ref.watch(loadPlanProvider);
+    final charge = ref.watch(batteryEstimateProvider);
     final systemState = ref.watch(householdSystemProvider);
     final system = systemState.value;
     final brightness = Theme.of(context).brightness;
@@ -52,9 +58,9 @@ class DashboardScreen extends ConsumerWidget {
       ],
       body: noHousehold
           ? const _SettingUpHome()
-          : plan == null || system == null
+          : plan == null || system == null || charge == null
           ? const SizedBox.shrink()
-          : _DashboardBody(plan: plan, system: system),
+          : _DashboardBody(plan: plan, system: system, charge: charge),
     );
   }
 }
@@ -107,10 +113,19 @@ class _SettingUpHome extends ConsumerWidget {
 }
 
 class _DashboardBody extends ConsumerWidget {
-  const _DashboardBody({required this.plan, required this.system});
+  const _DashboardBody({
+    required this.plan,
+    required this.system,
+    required this.charge,
+  });
 
   final LoadPlan plan;
   final HouseholdSystem system;
+  final BatteryEstimate charge;
+
+  /// An estimated countdown is shown to 10 minutes, never more precise
+  /// than the app can know.
+  static const _estimateStepMinutes = 10;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -118,23 +133,27 @@ class _DashboardBody extends ConsumerWidget {
     final current = plan.current;
     final outlook = ref.watch(outageOutlookProvider);
     final ongoing = outlook?.ongoing;
-    final time = Formatters.duration(l10n, current.hours);
+    final dismissed = ref.watch(batteryCheckDismissalProvider);
+    final now = ref.watch(nowProvider).value ?? DateTime.now().toUtc();
+    final time = Formatters.duration(
+      l10n,
+      current.hours,
+      stepMinutes: charge.isEstimate ? _estimateStepMinutes : 1,
+    );
     final load = Formatters.watts(current.loadW);
-    final soc = Formatters.percent(system.soc);
+    final soc = Formatters.charge(charge.soc, estimate: charge.isEstimate);
+    final askCharge =
+        ongoing != null && charge.needsCheck && dismissed != ongoing.event.id;
 
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       children: [
-        BbGridStatusPill(
-          gridOn: ongoing == null,
-          label: ongoing == null ? l10n.gridOn : l10n.gridOff,
-          duration: ongoing == null
-              ? null
-              : Formatters.duration(l10n, ongoing.hours),
-          actionLabel: ongoing == null ? l10n.logPowerCut : l10n.logPowerBack,
-          onTap: outlook == null ? null : ref.read(outageLoggerProvider).toggle,
-        ),
+        const GridStatus(),
         const BbGap.lg(),
+        if (askCharge) ...[
+          BatteryCheckCard(outageId: ongoing.event.id, estimate: charge.soc),
+          const BbGap.lg(),
+        ],
         if (current.isOverloaded) ...[
           BbBanner(
             tone: BbBannerTone.danger,
@@ -151,7 +170,7 @@ class _DashboardBody extends ConsumerWidget {
           child: Column(
             children: [
               BbCountdownRing(
-                soc: system.soc,
+                soc: charge.soc,
                 timeLabel: time,
                 caption: l10n.backupLeftAt(load),
                 footnote: l10n.stopsProtectingAt(
@@ -176,11 +195,17 @@ class _DashboardBody extends ConsumerWidget {
           children: [
             Expanded(
               child: BbStatTile(
-                icon: _batteryIcon(system.soc),
-                tone: _batteryTone(system.soc),
+                icon: _batteryIcon(charge.soc),
+                tone: _batteryTone(charge.soc),
                 label: l10n.statBattery,
-                value: Formatters.number(system.soc * 100),
+                value: Formatters.chargeNumber(
+                  charge.soc,
+                  estimate: charge.isEstimate,
+                ),
                 unit: '%',
+                delta: _chargeSource(l10n, now),
+                onTap: () => showBatteryCheck(ref, l10n, charge.soc),
+                tapLabel: l10n.batteryCheckOpen,
               ),
             ),
             const BbGap.md(),
@@ -215,8 +240,24 @@ class _DashboardBody extends ConsumerWidget {
           const BbGap.lg(),
           _OutageSummary(outlook: outlook),
         ],
+        const _SunToday(),
       ],
     );
+  }
+
+  /// Where the % comes from, with its age: the user's reading, or the
+  /// app's estimate since then.
+  String _chargeSource(AppLocalizations l10n, DateTime now) {
+    final checkedAt = charge.checkedAt;
+    if (checkedAt == null) {
+      return charge.isEstimate
+          ? l10n.chargeEstimateNever
+          : l10n.batteryCheckOpen;
+    }
+    final age = Formatters.age(l10n, now.difference(checkedAt));
+    return charge.isEstimate
+        ? l10n.chargeEstimateAgo(age)
+        : l10n.chargeCheckedAgo(age);
   }
 
   String _advice(AppLocalizations l10n) {
@@ -242,6 +283,64 @@ class _DashboardBody extends ConsumerWidget {
       : soc >= 0.2
       ? BbTone.warning
       : BbTone.danger;
+}
+
+/// Today's sun at a glance, with the forecast's age; the details are on
+/// the Solar tab. Hidden for homes without panels or a forecast yet.
+class _SunToday extends ConsumerWidget {
+  const _SunToday();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final outlook = ref.watch(solarOutlookProvider);
+    final today = outlook?.today;
+    if (outlook == null || today == null) return const SizedBox.shrink();
+    final now = ref.watch(nowProvider).value ?? outlook.fetchedAt;
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.lg),
+      child: BbCard(
+        child: Row(
+          children: [
+            Icon(
+              BbIcons.solar,
+              size: AppSizes.iconMd,
+              color: context.energy.solarText,
+            ),
+            const BbGap.md(),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.sunTodayLine(
+                      Formatters.kWhRange(today.lowKWh, today.highKWh),
+                    ),
+                    style: context.textTheme.titleSmall,
+                  ),
+                  const BbGap.xs(),
+                  Text(
+                    l10n.solarUpdated(
+                      outlook.city,
+                      Formatters.age(l10n, now.difference(outlook.fetchedAt)),
+                    ),
+                    style: context.text.metricCaption.copyWith(
+                      color: context.colors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            BbIconButton(
+              icon: BbIcons.next,
+              tooltip: l10n.sunTodayOpen,
+              onPressed: () => context.go(Routes.solar),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 /// One glance at F8: the cut in progress, or the next outage and the battery

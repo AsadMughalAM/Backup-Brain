@@ -138,6 +138,14 @@ if chemistry in (lead_acid, tubular) and load_W > 0.2 × nominal_Wh:
 **Output example**
 > "Approximately **3 h 28 min** left at current usage (420 W). Turning off the TV and the fridge extends this to **5 h 49 min**." (numbers from the demo household in §12)
 
+**Live estimate (no inverter link).** The household stores the last *known* charge and when it was known (`soc`, `socAt`), plus when the user last read the UPS display themselves (`socCheckedAt`). The charge now is worked forward by the engine's `ChargeTracker`:
+- **Power cut logged:** drains at the current load (F1 in reverse, same efficiency and lead-acid derate), never below the cutoff.
+- **Power on:** the grid charger fills it at `charger_W × charge_eff` up to the taper point (80% lead-acid, 95% LiFePO4), then at half that rate. Grid time alone stops at 95%: only the user's reading says "full".
+- A new known point is saved at every change, so between two points the grid state and load are constant: power cut, power back, a load change or wattage change during a cut, and every reading the user gives (setup, the battery check, the planner slider). A charge saved without a time (older households, the demo) stays as given until the next logged cut.
+- **Honest display:** an estimate is shown rounded *down* to 5% and the countdown to 10 minutes, with its source and age ("Estimate · you checked 2 h ago"). Readings show as given.
+- **Asking the user:** once, at the start of a power cut, when the last reading is ≥ 6 h old or missing (`EngineDefaults.chargeCheckAfterHours`): "What does your UPS screen show?" with the setup choices 100 / 75 / 50 / 25% as one tap (bars glyph + %), the closest to the estimate pre-selected. "Not now" puts it off for that cut. The Battery tile asks the same on demand. Voltage is never asked: it is meaningless under load and flat for LiFePO4.
+- Expected error without a reading is ±15–25% (unknown real load, battery age, start point); a reading resets it.
+
 **UI:** big countdown ring, current load, "stops protecting battery at X%" note, link to F2.
 
 ---
@@ -161,7 +169,7 @@ if chemistry in (lead_acid, tubular) and load_W > 0.2 × nominal_Wh:
 
 **Overload warning:** if load exceeds the inverter's rated W, show a red warning immediately.
 
-**Seed data:** ship `app/assets/data/appliances_pk.json` with typical wattages (ceiling fan 70–80 W, inverter fan 30–40 W, LED bulb 10–15 W, fridge 150–250 W, router 10–15 W, LED TV 60–100 W, iron 1000 W, water motor 750 W, 1.5-ton inverter AC 1200–1500 W). Users can edit values.
+**Seed data:** ship `app/assets/data/appliances_pk.json` with typical wattages (ceiling fan 70–80 W, inverter fan 30–40 W, LED bulb 10–15 W, fridge 150–250 W, router 10–15 W, LED TV 60–100 W, iron 1000 W, water motor 750 W, 1.5-ton inverter AC 1200–1500 W). Each preset also lists its common kinds (`variants`, e.g. inverter fan 35 W / normal 75 W / old 100 W). Users change an appliance's watts on the Load Planner with one tap on its kind, or ±5 W to match the sticker; no typing.
 
 ---
 
@@ -192,7 +200,7 @@ Then simulate the battery hour by hour: solar energy first covers the daytime lo
 - Best time for heavy loads: the sunniest 3 hours still ahead ("Most sun from 12 PM to 3 PM")
 - Advice example: *"Today's solar may be 35% below normal due to clouds and smog. Your battery may reach only 70% by evening — avoid heavy loads after 6 PM."*
 
-**Assumptions:** today starts from the current SoC and the current time; tomorrow starts from the battery's cutoff SoC (the honest worst case after a night on backup). The house load is the planner's current load. Hours where the load exceeds solar are assumed covered by the grid. The clear-sky baseline is computed from sun position (Haurwitz model), so it needs no extra data. Forecast energy is shown as a ±15% range.
+**Assumptions:** today starts from the live charge estimate (F1) and the current time; tomorrow starts from the battery's cutoff SoC (the honest worst case after a night on backup). The house load is the planner's current load. Hours where the load exceeds solar are covered by the grid, **except during an expected power cut** (F8: the cut in progress, scheduled slots, the learned next outage; `OutagePattern.expectedWindows`), when the battery covers the shortfall down to its cutoff; the hero then says "Counts the power cut from 2:00 PM". Shading comes from one optional setup question (none / some / a lot); "Cleaned today" on the Solar tab sets the last-cleaned date for the soiling factor. Panel tilt and direction are not asked (most rooftops face south; F4 can learn the rest). The clear-sky baseline is computed from sun position (Haurwitz model), so it needs no extra data. Forecast energy is shown as a ±15% range.
 
 ---
 
@@ -280,8 +288,11 @@ health_factor         = rolling_median(estimated_capacity_Wh, last 10 sessions) 
 - Log every real outage → learn the household's actual pattern (time-of-day histogram, average duration) → show a "likely next outage" prediction with confidence.
   - **Pattern:** over the last 14 days of logs (at least 3 days observed), an hour is outage-prone when an outage started in it on ≥ 30% of the days (distinct days, so two cuts in one evening count once). The next such hour after now, at the median start minute, is the prediction; its share of days is the confidence; the median length of those outages is the expected duration.
   - **Schedule vs. pattern:** whichever predicts the earlier outage wins, because published schedules often don't match reality.
-- Recharge forecast: `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)` combined with F3 solar contribution. Unknown charger power defaults to C/10 of the bank (`EngineDefaults.chargeRateC`). *Implemented so far: grid charging only, so readiness is the no-sun case; solar is a later addition.*
-- When the power comes back, the battery's charge is set to the engine's estimate (F1 run in reverse over the outage at the logged load); the user can correct it on the Load Planner.
+- Recharge forecast: `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)`, the part above the taper point (80% lead-acid, 95% LiFePO4) at half rate, combined with F3 solar contribution. Unknown charger power defaults to C/10 of the bank (`EngineDefaults.chargeRateC`). *Implemented so far: grid charging only, so readiness is the no-sun case; solar is a later addition.*
+- When the power goes or comes back, the battery's estimated charge at that moment is saved as the new known point (F1 "Live estimate"); the user can correct it with the battery check or on the Load Planner.
+- **Logged late or by mistake:** during a cut, "Since 7:02 PM · Change" opens a sheet: Just now / 15 / 30 min / 1 h ago (the drain restarts from the corrected time) or "The power didn't go" (removes it).
+- **Reminders (local notifications, offline):** 10 minutes after each expected cut starts (schedule or pattern, next 7 days, at most 20), "Power gone?" with **Yes, it went** / **No**; "Yes" logs the cut from the expected start. During a cut, one "Power back?" 10 minutes after it should end, judged from when it started, asked once. Nothing for a cut already logged. Inexact alarms (may be up to ~1 h late in Doze); no exact-alarm permission. Permission is asked once, at the first logged cut.
+- **Countdown notice:** while a cut is logged, an ongoing notification "Power cut since 8:00 PM · Backup about 3h 10m at 420 W" counts down by itself (system chronometer, no app running), re-posted only when the end moves by 5+ minutes, removed when the power is back. It never switches anything (golden rule 8).
 - Alert: *"Next outage likely at 7 PM (based on your last 14 days). Battery will only be at 65% by then — avoid running the iron now."*
 - Community/crowdsourced outage reports by area = P2 stretch.
 
@@ -368,6 +379,7 @@ System          { id, userId, hasSolar: bool,
                   inverter: { type: 'ups'|'hybrid'|'ongrid', ratedW, efficiency, chargerW },
                   battery:  { chemistry: 'lead_acid'|'tubular'|'lifepo4', voltage, ah, count,
                               ageMonths, minSoC },
+                  soc, socAt?, socCheckedAt?,   // last known charge 0–1, when, last user reading
                   location?: { city, lat, lon },   // where the panels are; the forecast is fetched here
                   solar?:   { kWp, panelW, panelCount, tiltDeg, azimuthDeg,
                               shading: 'none'|'partial'|'heavy', lastCleanedAt } }
@@ -400,13 +412,13 @@ There is **no REST API**. Calculations (backup, switch-offs, solar forecast, siz
 
 0. **First open → setup → account.** The app opens straight on setup (below), not on intro slides: the first thing people do is the useful thing. Every answer and the current step are saved on the phone as they are given, so leaving and coming back resumes where they were. Finishing leads to Sign up (Google or email), which repeats the payoff ("Your home is ready. Backup about 2h 45m"); a finished setup with no account reopens on Sign up. At sign-in the phone's setup becomes the account's household and the local copy is deleted. If the account already has a household (server-checked), that one is kept and the phone's answers are dropped, never merged. Returning users tap "Login" at the top of setup.
 1. **Onboarding (≤ 2 min), the app's first screen (also shown to a signed-in account with no household):** three steps, tap-only (chips, cards, − n +), with the common Pakistani size pre-picked for everything except the three facts only the user knows.
-   - **Home:** city (chips; "not listed → nearest city") + "Do you have solar?" → if yes, panel count × watts per panel (shows the kWp total).
+   - **Home:** city (chips; "not listed → nearest city") + "Do you have solar?" → if yes, panel count × watts per panel (shows the kWp total) and one optional "Any shade on the panels in the day?" (None pre-picked / Some / A lot).
    - **Battery:** type described by what it looks like (dry / tubular "you top up with water" / lithium) → count, size (Ah; pack voltage for lithium), UPS or inverter size (hybrid if solar, UPS if not), how full it is now. Hints say where each number is printed, and "Where is this written?" opens an inline drawing of the sticker (battery, UPS, panel) with the line to read highlighted ("12V 200Ah", "1000VA / 800W", "Pmax 550W"). A real photo guide can replace the drawing later.
    - **Appliances:** the usual ones pre-counted (2 fans, 4 LED bulbs, fridge, TV, router); heavy ones (iron, motor, AC…) listed apart at 0 and saved switched off.
    - From step 2 a sticky line shows the live backup time ("Your backup: about 2h 45m · at 370 W"), so the payoff is visible before finishing. Finishing lands on Home with the user's own numbers. "Try the demo home" stays available on step 1.
    - **Edit my home** (Settings → My home) reopens the same three steps filled in from the saved household. Appliances of one type merge into one preset entry ("Fan (bedroom)" + "Fan (lounge)" = Ceiling fan × 2); types setup doesn't offer are kept untouched; each type keeps its on/off from the Load planner. Saving lands on Home with the new numbers. The household also stores panel count and watts so panels edit as "6 × 550 W".
    - Presets live in `assets/data/` (`cities_psh.json`, `appliances_pk.json`, `equipment_pk.json`).
-2. **Dashboard:** big backup countdown ring; grid status toggle (Light gayi / aa gayi); today's solar forecast strip; top AI advice card; battery health badge.
+2. **Dashboard:** grid status toggle (Light gayi / aa gayi, "Since … · Change" during a cut); the one-tap battery check at the start of a cut when needed; big backup countdown ring from the live estimate; Battery tile with its source and age (tap = battery check); top AI advice card; outage card; "Sun today" line with the forecast's age; battery health badge.
 3. **Load Planner:** appliance toggles with live-updating backup time; "What should I turn off?" ranked list; target-hours input.
 4. **Solar:** forecast chart (hourly), expected SoC at sunset, performance check & trend.
 5. **Solar Estimator:** form → 3 package cards → payback → installer checklist. Works for users with **no account setup** (great hackathon hook).
@@ -487,7 +499,7 @@ Product-level phases. The step-by-step technical order is `TECH_STACK.md` §9; e
 | Outage schedules | Manual entry + user logging | Any usable DISCO data source? |
 | Prices (panels, inverters, batteries) | Placeholders in config | Team fills current market prices before demo |
 | Tariff & net-metering/net-billing rates | Configurable values | Verify current policy |
-| Battery SoC accuracy | User-entered % or voltage-based estimate | Add voltage→SoC lookup table per chemistry |
+| Battery SoC accuracy | Live estimate from the last reading (F1), one-tap reading at the start of a cut | Voltage tables rejected: unreliable under load, flat for LiFePO4. F10 removes the guess |
 | Repair shop data | Maps API search | Curated verified list later? |
 | Monetization | Not in MVP | Installer leads, battery dealer partnerships, premium monitoring |
 

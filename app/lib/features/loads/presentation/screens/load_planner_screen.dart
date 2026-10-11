@@ -5,12 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../backup/domain/battery_estimate.dart';
 import '../../../backup/domain/system_repository.dart';
+import '../../../setup/domain/setup_presets_repository.dart';
 import '../../domain/appliance_repository.dart';
+import '../../domain/load_plan.dart';
 import '../../domain/entities/appliance.dart';
 import '../controllers/loads_controller.dart';
 import '../../../../core/widgets/appliance_icon.dart';
 import '../widgets/appliance_visuals.dart';
+import '../widgets/wattage_sheet.dart';
 
 /// F2 — live backup time at the top, "turn off first" ranking, then every
 /// appliance as a toggle (DESIGN.md §11 Load Planner).
@@ -23,9 +27,11 @@ class LoadPlannerScreen extends ConsumerWidget {
     final plan = ref.watch(loadPlanProvider);
     final system = ref.watch(householdSystemProvider).value;
     final appliances = ref.watch(appliancesProvider).value ?? const [];
+    final charge = ref.watch(batteryEstimateProvider);
+    final presets = ref.watch(setupPresetsProvider).value;
     final controller = ref.read(loadsControllerProvider);
 
-    if (plan == null || system == null) {
+    if (plan == null || system == null || charge == null) {
       return BbScaffold(title: l10n.loadsTitle, body: const SizedBox.shrink());
     }
 
@@ -48,7 +54,7 @@ class LoadPlannerScreen extends ConsumerWidget {
             child: _LiveBackup(plan: plan),
           ),
           const BbGap.sm(),
-          _SocSlider(soc: system.soc, onChangeEnd: controller.setSoc),
+          _SocSlider(soc: charge.soc, onChangeEnd: controller.setSoc),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.only(bottom: AppSpacing.xl),
@@ -111,6 +117,17 @@ class LoadPlannerScreen extends ConsumerWidget {
                         priorityLabel: priorityLabel(l10n, a.priority),
                         value: a.isOn,
                         onChanged: (on) => controller.setOn(a.id, isOn: on),
+                        onEditWatts: () => showWattageSheet(
+                          ref,
+                          l10n,
+                          a,
+                          presets?.presetForIcon(a.iconKey)?.variants ??
+                              const [],
+                        ),
+                        editWattsLabel: l10n.wattsEdit(
+                          a.name,
+                          Formatters.watts(a.load.effectiveW),
+                        ),
                       ),
                   ],
                 ),

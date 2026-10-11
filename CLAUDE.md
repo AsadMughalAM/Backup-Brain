@@ -1,6 +1,6 @@
 # CLAUDE.md — Backup Brain
 
-AI home energy manager for Pakistani households facing load-shedding. Flutter app (Android first) + Firebase. Hackathon build: **early build** (Firebase `backup-brain-dev` connected; demo household; first-run setup, F1 countdown, F2 load planner, F3 solar forecast, F8 outage logging + readiness and F9 assistant working; F8 alerts, F5–F7 next). The three spec docs below are the source of truth, so read the relevant section before writing code.
+AI home energy manager for Pakistani households facing load-shedding. Flutter app (Android first) + Firebase. Hackathon build: **early build** (Firebase `backup-brain-dev` connected; demo household; first-run setup, F1 live countdown (charge estimated over time, one-tap battery check), F2 load planner with editable watts, F3 solar forecast with power cuts and shading, F8 outage logging, readiness and local reminders, and F9 assistant working; F5–F7 next). The three spec docs below are the source of truth, so read the relevant section before writing code.
 
 ## Doc map: which file owns what
 

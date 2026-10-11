@@ -38,9 +38,25 @@ class FirestoreSystemRepository implements SystemRepository {
   });
 
   @override
-  Future<void> setSoc(double soc) =>
-      _doc(_uid)
-          .update({'soc': soc, 'updatedAt': FieldValue.serverTimestamp()});
+  Future<void> setCharge(
+    double soc, {
+    required DateTime at,
+    bool checked = false,
+  }) {
+    final time = Timestamp.fromDate(at);
+    return _doc(_uid).update({
+      'soc': soc,
+      'socAt': time,
+      if (checked) 'socCheckedAt': time,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  @override
+  Future<void> setPanelsCleaned(DateTime at) => _doc(_uid).update({
+    'solar.lastCleanedAt': Timestamp.fromDate(at),
+    'updatedAt': FieldValue.serverTimestamp(),
+  });
 
   @override
   Future<bool> existsOnServer() async =>

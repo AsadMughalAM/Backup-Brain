@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/locale/locale_controller.dart';
 import '../../../../app/session/household_setup.dart';
+import '../../../../core/services/clock.dart';
 import '../../../../core/utils/fire_and_forget.dart';
+import '../../../backup/domain/entities/household_system.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../../loads/domain/appliance_repository.dart';
 import '../../domain/entities/setup_draft.dart';
@@ -77,6 +79,7 @@ class SetupController extends AsyncNotifier<SetupDraft> {
 
   void setPanelCount(int n) => _update((d) => d.copyWith(panelCount: n));
   void setPanelWatts(double w) => _update((d) => d.copyWith(panelWatts: w));
+  void setShading(PanelShading s) => _update((d) => d.copyWith(shading: s));
 
   /// Lead-acid and lithium come in different sizes; switching between the
   /// families goes back to the new family's usual size.
@@ -120,10 +123,15 @@ class SetupController extends AsyncNotifier<SetupDraft> {
       wasOn[m.presetId] = (wasOn[m.presetId] ?? false) || m.appliance.isOn;
     }
     final language = ref.read(localeProvider).locale.languageCode;
+    final saved = await ref.read(householdSystemProvider.future);
     ref
         .read(householdSetupProvider.notifier)
         .saveHome(
-          draft.toSystem(presets),
+          _keepTracking(
+            draft.toSystem(presets),
+            saved,
+            ref.read(nowProvider).value ?? DateTime.now().toUtc(),
+          ),
           [
             for (final a in draft.toAppliances(presets, language))
               a.copyWith(isOn: wasOn[a.id] ?? a.isOn),
@@ -131,6 +139,33 @@ class SetupController extends AsyncNotifier<SetupDraft> {
           replacing: {for (final m in matched) m.appliance.id},
         );
   }
+}
+
+/// An edit replaces the whole household, but what setup doesn't ask must
+/// survive it: the battery's last known charge and its time (unless the
+/// user picked a new %), and when the panels were cleaned.
+HouseholdSystem _keepTracking(
+  HouseholdSystem edited,
+  HouseholdSystem? saved,
+  DateTime now,
+) {
+  if (saved == null) return edited;
+  final cleanedAt = saved.solar?.lastCleanedAt;
+  final solar = edited.solar;
+  final kept = solar == null || cleanedAt == null
+      ? edited
+      : edited.copyWith(
+          solar: SolarSpec(
+            kWp: solar.kWp,
+            shading: solar.shading,
+            lastCleanedAt: cleanedAt,
+            performanceRatio: solar.performanceRatio,
+          ),
+        );
+  if (edited.soc != saved.soc) {
+    return kept.copyWith(socAt: now, socCheckedAt: now);
+  }
+  return kept.copyWith(socAt: saved.socAt, socCheckedAt: saved.socCheckedAt);
 }
 
 final setupControllerProvider = AsyncNotifierProvider.autoDispose

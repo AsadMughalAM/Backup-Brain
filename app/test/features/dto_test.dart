@@ -1,4 +1,5 @@
 import 'package:backup_brain/features/backup/data/models/system_dto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,40 @@ void main() {
       );
     });
 
+    test('the known charge, its times and the panel cleaning survive a '
+        'save', () {
+      final demo = demoSystem();
+      final at = DateTime.utc(2026, 10, 11, 14, 5);
+      final s = demo.copyWith(
+        soc: 0.45,
+        socAt: at,
+        socCheckedAt: at.subtract(const Duration(hours: 2)),
+        solar: SolarSpec(
+          kWp: demo.solar!.kWp,
+          shading: PanelShading.partial,
+          lastCleanedAt: at,
+        ),
+      );
+      final again = SystemDto.fromMap(SystemDto.toMap(s));
+      expect(again.soc, 0.45);
+      expect(again.socAt, at);
+      expect(again.socCheckedAt, at.subtract(const Duration(hours: 2)));
+      expect(again.solar!.shading, PanelShading.partial);
+      expect(again.solar!.lastCleanedAt, at);
+      // Firestore hands back Timestamps.
+      final fromFirestore = SystemDto.fromMap({
+        ...SystemDto.toMap(s),
+        'socAt': Timestamp.fromDate(at),
+      });
+      expect(fromFirestore.socAt, at);
+    });
+
+    test('older households have no charge time: nothing invented', () {
+      final s = demoSystem();
+      expect(s.socAt, isNull);
+      expect(SystemDto.toMap(s).containsKey('socAt'), isFalse);
+    });
+
     test('hasSolar false drops the panel spec', () {
       final map = SystemDto.toMap(demoSystem())..['hasSolar'] = false;
       final s = SystemDto.fromMap(map);
@@ -55,6 +90,21 @@ void main() {
       expect(() => SystemDto.fromMap(map), throwsFormatException);
     });
   });
+
+  test(
+    'every appliance preset offers its kinds, including its usual watts',
+    () {
+      for (final preset in setupPresets().appliances) {
+        expect(preset.variants, isNotEmpty, reason: preset.id);
+        expect(
+          preset.variants.map((v) => v.watts),
+          contains(preset.watts),
+          reason: preset.id,
+        );
+        expect(preset.variants.first.name('ur'), isNotEmpty);
+      }
+    },
+  );
 
   group('ApplianceDto', () {
     test('demo appliances add up to the 420 W in ARCHITECTURE §12', () {

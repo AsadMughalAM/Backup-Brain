@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/services/clock.dart';
 import '../../../core/utils/formatters.dart';
+import '../../backup/domain/battery_estimate.dart';
 import '../../backup/domain/system_repository.dart';
 import '../../loads/domain/appliance_repository.dart';
+import '../../loads/domain/load_plan.dart';
 import '../../outages/domain/outage_outlook.dart';
 import '../../solar/domain/solar_outlook.dart';
 
@@ -38,8 +40,11 @@ final energySnapshotProvider = Provider<EnergySnapshot?>((ref) {
   final system = ref.watch(householdSystemProvider).value;
   final plan = ref.watch(loadPlanProvider);
   final appliances = ref.watch(appliancesProvider).value;
+  final charge = ref.watch(batteryEstimateProvider);
   final now = ref.watch(nowProvider).value ?? DateTime.now().toUtc();
-  if (system == null || plan == null || appliances == null) return null;
+  if (system == null || plan == null || appliances == null || charge == null) {
+    return null;
+  }
 
   // Solar is a bonus: a missing or broken forecast must not silence the
   // assistant about the battery.
@@ -71,7 +76,11 @@ final energySnapshotProvider = Provider<EnergySnapshot?>((ref) {
     facts: {
       'timeNow': clock(now),
       'battery': {
-        'chargeNow': Formatters.percent(system.soc),
+        'chargeNow': Formatters.charge(charge.soc, estimate: charge.isEstimate),
+        'chargeIsAppEstimate': charge.isEstimate,
+        'userLastReadChargeAt': charge.checkedAt == null
+            ? null
+            : clock(charge.checkedAt!),
         'backupStopsAtCharge': Formatters.percent(current.minSoc),
       },
       'inverterLimit': Formatters.watts(system.inverter.ratedW),

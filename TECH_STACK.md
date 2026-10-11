@@ -131,7 +131,8 @@ Everything else (profile, appliances, outages, logs, catalog reads, config reads
 users/{uid}
   ├─ profile fields: name, language ('en' | 'ur_Latn'), city, lat, lon, createdAt, demoMode
   ├─ systems/{systemId}                 // MVP: one system with id "main"
-  │    ├─ fields: inverter{}, battery{}, solar{}?, hasSolar, updatedAt
+  │    ├─ fields: inverter{}, battery{}, solar{}? (incl. shading, lastCleanedAt), hasSolar,
+  │    │          soc, socAt?, socCheckedAt? (last known charge, when, last user reading), updatedAt
   │    ├─ appliances/{applianceId}
   │    ├─ outages/{outageId}            // "Light gayi / aa gayi" events + SoC
   │    ├─ schedule/{slotId}             // user-entered area schedule {weekday, startMinute, endMinute}
@@ -447,7 +448,7 @@ bb_ui and energy_engine never import each other or anything from app/.
 4. Don't `await` writes in the UI when offline; write and continue (the local cache updates immediately).
 5. Weather: fetch Open-Meteo when online, save a trimmed copy to `weatherCache`, and use the latest cache when offline. Show the forecast's age ("updated 3 h ago").
 6. Pricing: use `config/pricing_pk` from Firestore when available, otherwise the bundled `assets/data/pricing_pk.json`.
-7. Outage alerts from the user's schedule and learned pattern are **local notifications scheduled on the device**, so they fire without internet. FCM is only for server-originated messages.
+7. Outage alerts from the user's schedule and learned pattern are **local notifications scheduled on the device**, so they fire without internet. FCM is only for server-originated messages. They use `flutter_local_notifications` with `AndroidScheduleMode.inexactAllowWhileIdle` (no exact-alarm permission, which Play reserves for alarm/calendar apps), times in UTC (`timezone`'s `tz.UTC`), and survive reboots (`RECEIVE_BOOT_COMPLETED` + the plugin's receivers). The backup countdown is a chronometer notification the system ticks down itself: no foreground service, no background work. Permission (Android 13+) is asked once, at the first logged cut. The web preview binds a no-op notifier.
 8. Features that truly need the network (F9 assistant, F7 shops) show a clear "needs internet" state, never a crash.
 
 ### 7.3 Data & Firestore rules

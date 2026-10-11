@@ -11,7 +11,16 @@ abstract interface class SystemRepository {
   /// sync later (TECH_STACK.md §7.2).
   Future<void> save(HouseholdSystem system);
 
-  Future<void> setSoc(double soc);
+  /// Saves a known charge (0–1) and when it was known. [checked] = the
+  /// user read it off the UPS themselves.
+  Future<void> setCharge(
+    double soc, {
+    required DateTime at,
+    bool checked = false,
+  });
+
+  /// The user washed the panels at [at] (F3 soiling factor).
+  Future<void> setPanelsCleaned(DateTime at);
 
   /// Writes the bundled demo household's system (Demo Mode).
   Future<void> loadDemo();

@@ -15,6 +15,7 @@ class SetupDraft {
     required this.batteryCount,
     required this.panelCount,
     required this.panelWatts,
+    this.shading = PanelShading.none,
     this.cityId,
     this.hasSolar,
     this.chemistry,
@@ -66,6 +67,7 @@ class SetupDraft {
                   p.panelCount.max,
                 )),
       panelWatts: watts,
+      shading: system.solar?.shading ?? PanelShading.none,
       chemistry: system.battery.chemistry,
       batteryCount: system.battery.count,
       voltage: system.battery.voltage,
@@ -80,6 +82,9 @@ class SetupDraft {
   final bool? hasSolar;
   final int panelCount;
   final double panelWatts;
+
+  /// Shade on the panels during the day (F3 shading factor).
+  final PanelShading shading;
   final BatteryChemistry? chemistry;
   final int batteryCount;
 
@@ -119,8 +124,9 @@ class SetupDraft {
   double get solarKWp => panelCount * panelWatts / 1000;
 
   /// The household as the engine and Firestore see it. Call only when
-  /// [homeDone] and [batteryDone].
-  HouseholdSystem toSystem(SetupPresets p) {
+  /// [homeDone] and [batteryDone]. [answeredAt] is when the user said how
+  /// full the battery is, so the live estimate starts from that moment.
+  HouseholdSystem toSystem(SetupPresets p, {DateTime? answeredAt}) {
     final city = p.city(cityId!);
     return HouseholdSystem(
       battery: BatterySpec(
@@ -136,7 +142,9 @@ class SetupDraft {
         ratedW: inverterWFor(p),
       ),
       soc: soc,
-      solar: hasSolar! ? SolarSpec(kWp: solarKWp) : null,
+      socAt: answeredAt,
+      socCheckedAt: answeredAt,
+      solar: hasSolar! ? SolarSpec(kWp: solarKWp, shading: shading) : null,
       panels: hasSolar!
           ? PanelArray(count: panelCount, watts: panelWatts)
           : null,
@@ -167,6 +175,7 @@ class SetupDraft {
     bool? hasSolar,
     int? panelCount,
     double? panelWatts,
+    PanelShading? shading,
     BatteryChemistry? chemistry,
     int? batteryCount,
     double? soc,
@@ -184,6 +193,7 @@ class SetupDraft {
     hasSolar: hasSolar ?? this.hasSolar,
     panelCount: panelCount ?? this.panelCount,
     panelWatts: panelWatts ?? this.panelWatts,
+    shading: shading ?? this.shading,
     chemistry: chemistry ?? this.chemistry,
     batteryCount: batteryCount ?? this.batteryCount,
     soc: soc ?? this.soc,

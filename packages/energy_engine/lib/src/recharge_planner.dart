@@ -50,19 +50,36 @@ final class RechargePlanner {
       input.inverter.chargerW ??
       input.battery.nominalWh * EngineDefaults.chargeRateC;
 
-  /// `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)`.
+  /// `hours_to_full = (target_Wh − current_Wh) / (charger_W × charge_eff)`,
+  /// with the part above the taper point at the slower taper rate.
   double hoursToFull(BackupInput input, {double targetSoc = 1}) {
-    final missingWh =
-        math.max(0.0, targetSoc - input.socNow) * _capacityWh(input);
-    return missingWh / (chargerW(input) * _chargeEfficiency(input));
+    final rate = _fullRate(input);
+    final taper = EngineDefaults.chargeTaperSoc(input.battery.chemistry);
+    final fast = math.max(0.0, math.min(targetSoc, taper) - input.socNow);
+    final slow = math.max(0.0, targetSoc - math.max(input.socNow, taper));
+    return fast / rate + slow / (rate * EngineDefaults.chargeTaperRate);
   }
 
-  /// Charge after [hours] on the grid charger, capped at full.
+  /// Charge after [hours] on the grid charger: the full rate up to the
+  /// taper point, the taper rate above it, capped at full.
   double socAfterCharging(BackupInput input, double hours) {
     _checkHours(hours);
-    final addedWh = chargerW(input) * _chargeEfficiency(input) * hours;
-    return math.min(1.0, input.socNow + addedWh / _capacityWh(input));
+    final rate = _fullRate(input);
+    final taper = EngineDefaults.chargeTaperSoc(input.battery.chemistry);
+    var soc = input.socNow;
+    var left = hours;
+    if (soc < taper) {
+      final toTaper = (taper - soc) / rate;
+      if (left <= toTaper) return soc + left * rate;
+      soc = taper;
+      left -= toTaper;
+    }
+    return math.min(1.0, soc + left * rate * EngineDefaults.chargeTaperRate);
   }
+
+  /// Share of the battery the charger adds per hour below the taper point.
+  double _fullRate(BackupInput input) =>
+      chargerW(input) * _chargeEfficiency(input) / _capacityWh(input);
 
   /// Charge after running [loadW] for [hours] on battery: the inverse of F1,
   /// with the same efficiency and lead-acid derate. Never below the cutoff

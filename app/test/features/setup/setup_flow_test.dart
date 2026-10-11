@@ -1,4 +1,5 @@
 import 'package:backup_brain/features/setup/data/models/setup_draft_dto.dart';
+import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -12,6 +13,9 @@ Future<void> _tap(WidgetTester tester, String text) async {
     200,
     scrollable: find.byType(Scrollable).last,
   );
+  // Built isn't on screen: it may sit under the sticky bottom bar.
+  await tester.ensureVisible(target);
+  await tester.pumpAndSettle();
   await tester.tap(target);
   await tester.pumpAndSettle();
 }
@@ -176,6 +180,9 @@ void main() {
     await tester.tap(find.byTooltip('More').first); // a 7th panel
     await tester.pumpAndSettle();
     expect(find.text('3.9 kW of panels in total'), findsOneWidget);
+    // Shade: one optional tap, none pre-picked as the usual answer.
+    expect(find.text('Any shade on the panels in the day?'), findsOneWidget);
+    await _tap(tester, 'Some');
     await _next(tester);
     await _tap(tester, 'Lithium battery');
     // Solar homes are asked about the inverter, not a UPS.
@@ -187,7 +194,11 @@ void main() {
 
     final saved = await system.watch().first;
     expect(saved!.solar!.kWp, closeTo(3.85, 1e-9));
+    expect(saved.solar!.shading, PanelShading.partial);
     expect(saved.location!.city, 'Lahore');
+    // "How full is it now?" was answered: the live estimate starts there.
+    expect(saved.socAt, isNotNull);
+    expect(saved.socCheckedAt, saved.socAt);
   });
 
   test('the saved draft round-trips through JSON', () {

@@ -7,6 +7,8 @@ class HouseholdSystem {
     required this.battery,
     required this.inverter,
     required this.soc,
+    this.socAt,
+    this.socCheckedAt,
     this.solar,
     this.panels,
     this.location,
@@ -15,8 +17,20 @@ class HouseholdSystem {
   final BatterySpec battery;
   final InverterSpec inverter;
 
-  /// State of charge 0–1, entered by the user (ManualSource) for now.
+  /// The last known charge, 0–1: the user's own reading, or the app's
+  /// estimate saved when the power went or came back or the load changed
+  /// during a cut. The charge now is worked forward from it
+  /// (`batteryEstimateProvider`).
   final double soc;
+
+  /// When [soc] was known. Null for households saved before this was
+  /// recorded (and the demo): their charge stays as saved until the next
+  /// power cut is logged.
+  final DateTime? socAt;
+
+  /// When the user last read the battery % themselves (setup, the battery
+  /// check, the planner slider). Null = never.
+  final DateTime? socCheckedAt;
 
   /// Null when the household has no panels.
   final SolarSpec? solar;
@@ -31,11 +45,18 @@ class HouseholdSystem {
   BackupInput get backupInput =>
       BackupInput(battery: battery, inverter: inverter, socNow: soc);
 
-  HouseholdSystem copyWith({double? soc}) => HouseholdSystem(
+  HouseholdSystem copyWith({
+    double? soc,
+    DateTime? socAt,
+    DateTime? socCheckedAt,
+    SolarSpec? solar,
+  }) => HouseholdSystem(
     battery: battery,
     inverter: inverter,
     soc: soc ?? this.soc,
-    solar: solar,
+    socAt: socAt ?? this.socAt,
+    socCheckedAt: socCheckedAt ?? this.socCheckedAt,
+    solar: solar ?? this.solar,
     panels: panels,
     location: location,
   );

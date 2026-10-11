@@ -23,31 +23,62 @@ void main() {
     expect(planner.chargerW(demo), closeTo(360, 1e-9));
   });
 
-  test(
-    'hours to full: (target_Wh − current_Wh) / (charger_W × charge_eff)',
-    () {
-      // 0.4 × 3600 Wh / (360 W × 0.90) = 4.44 h
-      expect(planner.hoursToFull(demo), closeTo(1440 / 324, 1e-9));
-      expect(
-        planner.hoursToFull(
-          const BackupInput(
-            battery: BatterySpec(
-              chemistry: BatteryChemistry.lifepo4,
-              voltage: 24,
-              ampHours: 150,
-            ),
-            inverter: InverterSpec(
-              type: InverterType.hybrid,
-              ratedW: 2000,
-              chargerW: 720,
-            ),
-            socNow: 0.6,
+  test('hours to full: (target_Wh − current_Wh) / (charger_W × charge_eff), '
+      'the last 5% of LiFePO4 at half rate', () {
+    // 60→95%: 1260 Wh / 324 W = 3.89 h; 95→100%: 180 Wh / 162 W = 1.11 h.
+    expect(planner.hoursToFull(demo), closeTo(1260 / 324 + 180 / 162, 1e-9));
+    expect(
+      planner.hoursToFull(
+        const BackupInput(
+          battery: BatterySpec(
+            chemistry: BatteryChemistry.lifepo4,
+            voltage: 24,
+            ampHours: 150,
           ),
+          inverter: InverterSpec(
+            type: InverterType.hybrid,
+            ratedW: 2000,
+            chargerW: 720,
+          ),
+          socNow: 0.6,
         ),
-        closeTo(1440 / 648, 1e-9),
-      );
-    },
-  );
+      ),
+      closeTo(1260 / 648 + 180 / 324, 1e-9),
+    );
+  });
+
+  test('lead-acid tapers from 80%: the last fifth takes as long as the '
+      'first two fifths', () {
+    const tubular = BackupInput(
+      battery: BatterySpec(
+        chemistry: BatteryChemistry.tubular,
+        voltage: 12,
+        ampHours: 200,
+        count: 2,
+      ),
+      inverter: InverterSpec(type: InverterType.ups, ratedW: 1200),
+      socNow: 0.4,
+    );
+    // C/10 = 480 W × 0.80 = 384 W into 4800 Wh: 8% an hour, 4% above 80%.
+    expect(planner.hoursToFull(tubular), closeTo(5 + 5, 1e-9));
+    expect(planner.socAfterCharging(tubular, 5), closeTo(0.8, 1e-9));
+    expect(planner.socAfterCharging(tubular, 7.5), closeTo(0.9, 1e-9));
+    expect(planner.socAfterCharging(tubular, 20), 1.0);
+  });
+
+  test('already full: no charging time, no change', () {
+    final full = BackupInput(
+      battery: demo.battery,
+      inverter: demo.inverter,
+      socNow: 1,
+    );
+    expect(planner.hoursToFull(full), 0);
+    expect(planner.socAfterCharging(full, 3), 1.0);
+  });
+
+  test('negative charging time is rejected', () {
+    expect(() => planner.socAfterCharging(demo, -1), throwsArgumentError);
+  });
 
   test('charging never goes past full', () {
     expect(planner.socAfterCharging(demo, 2), closeTo(0.6 + 648 / 3600, 1e-9));

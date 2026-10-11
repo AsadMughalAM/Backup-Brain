@@ -13,6 +13,10 @@ service cloud.firestore {
       return (v is int || v is float) && v >= lo && v <= hi;
     }
 
+    function optionalTimestamp(d, key) {
+      return !(key in d) || d[key] is timestamp;
+    }
+
     function validSystem(d) {
       return d.hasSolar is bool
         && d.inverter is map
@@ -24,6 +28,8 @@ service cloud.firestore {
         && isNumberIn(d.battery.ah, 1, 100000)
         && d.battery.count is int && d.battery.count >= 1
         && isNumberIn(d.soc, 0, 1)
+        && optionalTimestamp(d, 'socAt')
+        && optionalTimestamp(d, 'socCheckedAt')
         && (!('solar' in d) || validSolar(d.solar))
         && (!('location' in d) || validLocation(d.location));
     }
@@ -31,7 +37,8 @@ service cloud.firestore {
     function validSolar(s) {
       return s is map
         && isNumberIn(s.kWp, 0.05, 1000)
-        && s.shading in ['none', 'partial', 'heavy'];
+        && s.shading in ['none', 'partial', 'heavy']
+        && optionalTimestamp(s, 'lastCleanedAt');
     }
 
     function validLocation(l) {

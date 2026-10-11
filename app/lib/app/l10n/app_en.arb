@@ -693,5 +693,164 @@
         "type": "String"
       }
     }
-  }
+  },
+  "batteryCheckTitle": "What does your UPS screen show?",
+  "batteryCheckHint": "One tap keeps the countdown right.",
+  "batteryCheckOpen": "Check battery %",
+  "notNow": "Not now",
+  "chargeCheckedAgo": "Checked by you {age}",
+  "@chargeCheckedAgo": {
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "chargeEstimateAgo": "Estimate · you checked {age}",
+  "@chargeEstimateAgo": {
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "chargeEstimateNever": "Estimate · tap to check",
+  "statBatteryAbout": "about {percent}",
+  "@statBatteryAbout": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "outageSince": "Since {time}",
+  "@outageSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "outageChangeStart": "Change",
+  "outageChangeStartLabel": "Change when the power went",
+  "outageStartTitle": "When did the power go?",
+  "outageStartJustNow": "Just now",
+  "outageStartMinutesAgo": "{minutes} min ago",
+  "@outageStartMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "outageStartHourAgo": "1 h ago",
+  "outageUndo": "The power didn't go",
+  "sunTodayLine": "Sun today · {range} kWh",
+  "@sunTodayLine": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "sunTodayOpen": "Open the solar forecast",
+  "solarCountsCut": "Counts the power cut from {time}",
+  "@solarCountsCut": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "panelsCleanedUnknown": "Panels: last cleaning unknown",
+  "panelsCleanedAgo": "Panels cleaned {age}",
+  "@panelsCleanedAgo": {
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "panelsCleanedToday": "Cleaned today",
+  "shadingQuestion": "Any shade on the panels in the day?",
+  "shadingHint": "From a tree, a water tank or a taller building.",
+  "shadingNone": "None",
+  "shadingPartial": "Some",
+  "shadingHeavy": "A lot",
+  "wattsTitle": "Which {name}?",
+  "@wattsTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "wattsHint": "Pick the closest. The exact watts are on the sticker at the back.",
+  "wattsExact": "Exact watts, each",
+  "wattsEdit": "Change watts: {name}, {watts}",
+  "@wattsEdit": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "watts": {
+        "type": "String"
+      }
+    }
+  },
+  "wattsFewer": "5 W less",
+  "wattsMore": "5 W more",
+  "done": "Done",
+  "notifCutTitle": "Power gone?",
+  "notifCutScheduled": "Your schedule says {time}. Tap if the power went.",
+  "@notifCutScheduled": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifCutLikely": "It usually goes around {time}. Tap if the power went.",
+  "@notifCutLikely": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifCutYes": "Yes, it went",
+  "notifNo": "No",
+  "notifBackTitle": "Power back?",
+  "notifBackBody": "It usually comes back by {time}.",
+  "@notifBackBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBackYes": "Yes, it's back",
+  "notifCountdownTitle": "Power cut since {time}",
+  "@notifCountdownTitle": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifCountdownBody": "Backup about {backup} at {load}. Turn off heavy loads to stretch it.",
+  "@notifCountdownBody": {
+    "placeholders": {
+      "backup": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "notifChannelCheck": "Power cut check",
+  "notifChannelCheckBody": "Asks if the power went at your usual outage times.",
+  "notifChannelCountdown": "Backup countdown",
+  "notifChannelCountdownBody": "Backup time left during a power cut."
 }

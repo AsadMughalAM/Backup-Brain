@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:energy_engine/energy_engine.dart';
 
 import '../../domain/entities/household_system.dart';
@@ -35,6 +36,7 @@ abstract final class SystemDto {
           ? SolarSpec(
               kWp: (solar['kWp'] as num).toDouble(),
               shading: _decode(_shading, solar['shading'] ?? 'none'),
+              lastCleanedAt: _time(solar['lastCleanedAt']),
             )
           : null,
       panels: solar?['panelCount'] == null || solar?['panelW'] == null
@@ -53,6 +55,8 @@ abstract final class SystemDto {
               ),
             ),
       soc: (map['soc'] as num).toDouble(),
+      socAt: _time(map['socAt']),
+      socCheckedAt: _time(map['socCheckedAt']),
       battery: BatterySpec(
         chemistry: _decode(_chemistry, battery['chemistry']),
         voltage: (battery['voltage'] as num).toDouble(),
@@ -75,6 +79,7 @@ abstract final class SystemDto {
       'solar': {
         'kWp': solar.kWp,
         'shading': _shading[solar.shading],
+        'lastCleanedAt': ?solar.lastCleanedAt,
         if (s.panels case final panels?) ...{
           'panelCount': panels.count,
           'panelW': panels.watts,
@@ -87,6 +92,8 @@ abstract final class SystemDto {
         'lon': location.site.lon,
       },
     'soc': s.soc,
+    'socAt': ?s.socAt,
+    'socCheckedAt': ?s.socCheckedAt,
     'battery': {
       'chemistry': _chemistry[s.battery.chemistry],
       'voltage': s.battery.voltage,
@@ -100,6 +107,13 @@ abstract final class SystemDto {
       if (s.inverter.efficiency != null) 'efficiency': s.inverter.efficiency,
       if (s.inverter.chargerW != null) 'chargerW': s.inverter.chargerW,
     },
+  };
+
+  /// Firestore gives timestamps; maps built in the app hold DateTimes.
+  static DateTime? _time(Object? value) => switch (value) {
+    Timestamp t => t.toDate().toUtc(),
+    DateTime d => d.toUtc(),
+    _ => null,
   };
 
   static T _decode<T>(Map<T, String> table, Object? value) => table.entries

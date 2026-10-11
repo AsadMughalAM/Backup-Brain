@@ -4,7 +4,10 @@ import 'package:backup_brain/core/services/clock.dart';
 import 'package:backup_brain/core/services/preferences.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
+import 'package:backup_brain/features/outages/domain/outage_notifier.dart';
+import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:backup_brain/features/solar/domain/weather_repository.dart';
+import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +20,8 @@ Future<void> _openSolar(
   WidgetTester tester, {
   required FakeWeatherRepository weather,
   DateTime? now,
+  FakeOutageRepository? outages,
+  FakeSystemRepository? system,
 }) async {
   tester.view.physicalSize = const Size(1080, 2340);
   tester.view.devicePixelRatio = 2.75;
@@ -28,12 +33,16 @@ Future<void> _openSolar(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
         systemRepositoryProvider.overrideWithValue(
-          FakeSystemRepository(demoSystem()),
+          system ?? FakeSystemRepository(demoSystem()),
         ),
         applianceRepositoryProvider.overrideWithValue(
           FakeApplianceRepository(demoAppliances()),
         ),
         weatherRepositoryProvider.overrideWithValue(weather),
+        outageRepositoryProvider.overrideWithValue(
+          outages ?? FakeOutageRepository(),
+        ),
+        outageNotifierProvider.overrideWithValue(FakeOutageNotifier()),
         nowProvider.overrideWith((ref) => Stream.value(now ?? lahoreMorning)),
       ],
       child: const App(),
@@ -166,5 +175,62 @@ void main() {
     await _openSolar(tester, weather: weather);
     expect(find.text('Needs internet once'), findsOneWidget);
     expect(weather.refreshCalls, 1);
+  });
+
+  testWidgets('a scheduled cut in a weak-sun hour: the battery covers it, '
+      'and the hero says so', (tester) async {
+    // 7–10 AM in Lahore, written in this machine's local time.
+    final start = DateTime.utc(2026, 10, 11, 2).toLocal();
+    final slot = ScheduleSlot(
+      weekday: start.weekday,
+      startMinute: start.hour * 60 + start.minute,
+      endMinute: (start.hour + 3) * 60 + start.minute,
+    );
+    await _openSolar(
+      tester,
+      weather: FakeWeatherRepository(saved: lahoreForecast()),
+      outages: FakeOutageRepository(schedule: [ScheduleEntry('s1', slot)]),
+    );
+    expect(find.textContaining('Counts the power cut from'), findsOneWidget);
+    // Without the cut the battery reaches 79%; the morning cut costs some.
+    expect(find.text('Battery reaches 79% by sunset'), findsNothing);
+    expect(find.textContaining('Battery reaches'), findsOneWidget);
+  });
+
+  testWidgets('"Cleaned today" tells the forecast the panels are clean', (
+    tester,
+  ) async {
+    final system = FakeSystemRepository(demoSystem());
+    await _openSolar(
+      tester,
+      weather: FakeWeatherRepository(saved: lahoreForecast()),
+      system: system,
+    );
+    expect(await _see(tester, 'Panels: last cleaning unknown'), findsOneWidget);
+    await tester.tap(find.text('Cleaned today'));
+    await tester.pumpAndSettle();
+    expect(system.current!.solar!.lastCleanedAt, lahoreMorning);
+    expect(await _see(tester, 'Panels cleaned just now'), findsOneWidget);
+    expect(find.text('Cleaned today'), findsNothing);
+  });
+
+  testWidgets('coming back to the app refreshes a stale forecast', (
+    tester,
+  ) async {
+    final weather = FakeWeatherRepository(
+      saved: lahoreForecast(
+        fetchedAt: lahoreMorning.subtract(const Duration(hours: 3)),
+      ),
+    );
+    await _openSolar(tester, weather: weather);
+    expect(weather.refreshCalls, 1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pumpAndSettle();
+    expect(weather.refreshCalls, 2);
   });
 }

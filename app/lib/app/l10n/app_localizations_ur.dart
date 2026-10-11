@@ -878,6 +878,183 @@ class AppLocalizationsUr extends AppLocalizations {
   String scheduleLater(String label) {
     return '$label: 30 minute baad';
   }
+
+  @override
+  String get batteryCheckTitle => 'UPS screen par kitna dikh raha hai?';
+
+  @override
+  String get batteryCheckHint => 'Ek tap se countdown theek rahega.';
+
+  @override
+  String get batteryCheckOpen => 'Battery % check karein';
+
+  @override
+  String get notNow => 'Abhi nahi';
+
+  @override
+  String chargeCheckedAgo(String age) {
+    return 'Aap ne $age check ki';
+  }
+
+  @override
+  String chargeEstimateAgo(String age) {
+    return 'Andaza · aap ne $age check ki';
+  }
+
+  @override
+  String get chargeEstimateNever => 'Andaza · check karne ke liye tap karein';
+
+  @override
+  String statBatteryAbout(String percent) {
+    return 'taqreeban $percent';
+  }
+
+  @override
+  String outageSince(String time) {
+    return '$time se';
+  }
+
+  @override
+  String get outageChangeStart => 'Badlein';
+
+  @override
+  String get outageChangeStartLabel => 'Light jaane ka waqt badlein';
+
+  @override
+  String get outageStartTitle => 'Light kab gayi?';
+
+  @override
+  String get outageStartJustNow => 'Abhi';
+
+  @override
+  String outageStartMinutesAgo(int minutes) {
+    return '$minutes minute pehle';
+  }
+
+  @override
+  String get outageStartHourAgo => '1 ghanta pehle';
+
+  @override
+  String get outageUndo => 'Light nahi gayi thi';
+
+  @override
+  String sunTodayLine(String range) {
+    return 'Aaj ki dhoop · $range kWh';
+  }
+
+  @override
+  String get sunTodayOpen => 'Solar forecast kholein';
+
+  @override
+  String solarCountsCut(String time) {
+    return '$time se light jaane ka hisaab shamil hai';
+  }
+
+  @override
+  String get panelsCleanedUnknown => 'Panels: aakhri safai maloom nahi';
+
+  @override
+  String panelsCleanedAgo(String age) {
+    return 'Panels $age saaf kiye';
+  }
+
+  @override
+  String get panelsCleanedToday => 'Aaj saaf kiye';
+
+  @override
+  String get shadingQuestion => 'Din mein panels par saaya parta hai?';
+
+  @override
+  String get shadingHint => 'Darakht, pani ki tanki ya oonchi imarat se.';
+
+  @override
+  String get shadingNone => 'Nahi';
+
+  @override
+  String get shadingPartial => 'Thora';
+
+  @override
+  String get shadingHeavy => 'Bohat';
+
+  @override
+  String wattsTitle(String name) {
+    return 'Kaun sa $name?';
+  }
+
+  @override
+  String get wattsHint =>
+      'Sab se qareeb chunein. Asal watts peeche sticker par likhe hote hain.';
+
+  @override
+  String get wattsExact => 'Asal watts, har ek';
+
+  @override
+  String wattsEdit(String name, String watts) {
+    return 'Watts badlein: $name, $watts';
+  }
+
+  @override
+  String get wattsFewer => '5 W kam';
+
+  @override
+  String get wattsMore => '5 W zyada';
+
+  @override
+  String get done => 'Theek hai';
+
+  @override
+  String get notifCutTitle => 'Light gayi?';
+
+  @override
+  String notifCutScheduled(String time) {
+    return 'Schedule ke mutabiq $time. Light gayi ho to tap karein.';
+  }
+
+  @override
+  String notifCutLikely(String time) {
+    return 'Aksar $time ke qareeb jaati hai. Light gayi ho to tap karein.';
+  }
+
+  @override
+  String get notifCutYes => 'Haan, gayi';
+
+  @override
+  String get notifNo => 'Nahi';
+
+  @override
+  String get notifBackTitle => 'Light aa gayi?';
+
+  @override
+  String notifBackBody(String time) {
+    return 'Aksar $time tak aa jaati hai.';
+  }
+
+  @override
+  String get notifBackYes => 'Haan, aa gayi';
+
+  @override
+  String notifCountdownTitle(String time) {
+    return '$time se light gayi hui hai';
+  }
+
+  @override
+  String notifCountdownBody(String backup, String load) {
+    return '$load par taqreeban $backup backup. Bhari cheezein band kar ke barhayein.';
+  }
+
+  @override
+  String get notifChannelCheck => 'Light ka pata';
+
+  @override
+  String get notifChannelCheckBody =>
+      'Aam waqt par poochta hai ke light gayi ya nahi.';
+
+  @override
+  String get notifChannelCountdown => 'Backup countdown';
+
+  @override
+  String get notifChannelCountdownBody =>
+      'Light jaane par baqi backup ka waqt.';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

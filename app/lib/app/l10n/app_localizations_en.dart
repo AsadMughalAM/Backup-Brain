@@ -876,4 +876,181 @@ class AppLocalizationsEn extends AppLocalizations {
   String scheduleLater(String label) {
     return '$label: 30 minutes later';
   }
+
+  @override
+  String get batteryCheckTitle => 'What does your UPS screen show?';
+
+  @override
+  String get batteryCheckHint => 'One tap keeps the countdown right.';
+
+  @override
+  String get batteryCheckOpen => 'Check battery %';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String chargeCheckedAgo(String age) {
+    return 'Checked by you $age';
+  }
+
+  @override
+  String chargeEstimateAgo(String age) {
+    return 'Estimate · you checked $age';
+  }
+
+  @override
+  String get chargeEstimateNever => 'Estimate · tap to check';
+
+  @override
+  String statBatteryAbout(String percent) {
+    return 'about $percent';
+  }
+
+  @override
+  String outageSince(String time) {
+    return 'Since $time';
+  }
+
+  @override
+  String get outageChangeStart => 'Change';
+
+  @override
+  String get outageChangeStartLabel => 'Change when the power went';
+
+  @override
+  String get outageStartTitle => 'When did the power go?';
+
+  @override
+  String get outageStartJustNow => 'Just now';
+
+  @override
+  String outageStartMinutesAgo(int minutes) {
+    return '$minutes min ago';
+  }
+
+  @override
+  String get outageStartHourAgo => '1 h ago';
+
+  @override
+  String get outageUndo => 'The power didn\'t go';
+
+  @override
+  String sunTodayLine(String range) {
+    return 'Sun today · $range kWh';
+  }
+
+  @override
+  String get sunTodayOpen => 'Open the solar forecast';
+
+  @override
+  String solarCountsCut(String time) {
+    return 'Counts the power cut from $time';
+  }
+
+  @override
+  String get panelsCleanedUnknown => 'Panels: last cleaning unknown';
+
+  @override
+  String panelsCleanedAgo(String age) {
+    return 'Panels cleaned $age';
+  }
+
+  @override
+  String get panelsCleanedToday => 'Cleaned today';
+
+  @override
+  String get shadingQuestion => 'Any shade on the panels in the day?';
+
+  @override
+  String get shadingHint => 'From a tree, a water tank or a taller building.';
+
+  @override
+  String get shadingNone => 'None';
+
+  @override
+  String get shadingPartial => 'Some';
+
+  @override
+  String get shadingHeavy => 'A lot';
+
+  @override
+  String wattsTitle(String name) {
+    return 'Which $name?';
+  }
+
+  @override
+  String get wattsHint =>
+      'Pick the closest. The exact watts are on the sticker at the back.';
+
+  @override
+  String get wattsExact => 'Exact watts, each';
+
+  @override
+  String wattsEdit(String name, String watts) {
+    return 'Change watts: $name, $watts';
+  }
+
+  @override
+  String get wattsFewer => '5 W less';
+
+  @override
+  String get wattsMore => '5 W more';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get notifCutTitle => 'Power gone?';
+
+  @override
+  String notifCutScheduled(String time) {
+    return 'Your schedule says $time. Tap if the power went.';
+  }
+
+  @override
+  String notifCutLikely(String time) {
+    return 'It usually goes around $time. Tap if the power went.';
+  }
+
+  @override
+  String get notifCutYes => 'Yes, it went';
+
+  @override
+  String get notifNo => 'No';
+
+  @override
+  String get notifBackTitle => 'Power back?';
+
+  @override
+  String notifBackBody(String time) {
+    return 'It usually comes back by $time.';
+  }
+
+  @override
+  String get notifBackYes => 'Yes, it\'s back';
+
+  @override
+  String notifCountdownTitle(String time) {
+    return 'Power cut since $time';
+  }
+
+  @override
+  String notifCountdownBody(String backup, String load) {
+    return 'Backup about $backup at $load. Turn off heavy loads to stretch it.';
+  }
+
+  @override
+  String get notifChannelCheck => 'Power cut check';
+
+  @override
+  String get notifChannelCheckBody =>
+      'Asks if the power went at your usual outage times.';
+
+  @override
+  String get notifChannelCountdown => 'Backup countdown';
+
+  @override
+  String get notifChannelCountdownBody =>
+      'Backup time left during a power cut.';
 }

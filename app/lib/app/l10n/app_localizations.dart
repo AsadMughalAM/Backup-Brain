@@ -1526,6 +1526,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{label}: 30 minutes later'**
   String scheduleLater(String label);
+
+  /// No description provided for @batteryCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What does your UPS screen show?'**
+  String get batteryCheckTitle;
+
+  /// No description provided for @batteryCheckHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One tap keeps the countdown right.'**
+  String get batteryCheckHint;
+
+  /// No description provided for @batteryCheckOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Check battery %'**
+  String get batteryCheckOpen;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// No description provided for @chargeCheckedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked by you {age}'**
+  String chargeCheckedAgo(String age);
+
+  /// No description provided for @chargeEstimateAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate · you checked {age}'**
+  String chargeEstimateAgo(String age);
+
+  /// No description provided for @chargeEstimateNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate · tap to check'**
+  String get chargeEstimateNever;
+
+  /// No description provided for @statBatteryAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'about {percent}'**
+  String statBatteryAbout(String percent);
+
+  /// No description provided for @outageSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since {time}'**
+  String outageSince(String time);
+
+  /// No description provided for @outageChangeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get outageChangeStart;
+
+  /// No description provided for @outageChangeStartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change when the power went'**
+  String get outageChangeStartLabel;
+
+  /// No description provided for @outageStartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When did the power go?'**
+  String get outageStartTitle;
+
+  /// No description provided for @outageStartJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get outageStartJustNow;
+
+  /// No description provided for @outageStartMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min ago'**
+  String outageStartMinutesAgo(int minutes);
+
+  /// No description provided for @outageStartHourAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'1 h ago'**
+  String get outageStartHourAgo;
+
+  /// No description provided for @outageUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'The power didn\'t go'**
+  String get outageUndo;
+
+  /// No description provided for @sunTodayLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun today · {range} kWh'**
+  String sunTodayLine(String range);
+
+  /// No description provided for @sunTodayOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the solar forecast'**
+  String get sunTodayOpen;
+
+  /// No description provided for @solarCountsCut.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts the power cut from {time}'**
+  String solarCountsCut(String time);
+
+  /// No description provided for @panelsCleanedUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels: last cleaning unknown'**
+  String get panelsCleanedUnknown;
+
+  /// No description provided for @panelsCleanedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Panels cleaned {age}'**
+  String panelsCleanedAgo(String age);
+
+  /// No description provided for @panelsCleanedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaned today'**
+  String get panelsCleanedToday;
+
+  /// No description provided for @shadingQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Any shade on the panels in the day?'**
+  String get shadingQuestion;
+
+  /// No description provided for @shadingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From a tree, a water tank or a taller building.'**
+  String get shadingHint;
+
+  /// No description provided for @shadingNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get shadingNone;
+
+  /// No description provided for @shadingPartial.
+  ///
+  /// In en, this message translates to:
+  /// **'Some'**
+  String get shadingPartial;
+
+  /// No description provided for @shadingHeavy.
+  ///
+  /// In en, this message translates to:
+  /// **'A lot'**
+  String get shadingHeavy;
+
+  /// No description provided for @wattsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which {name}?'**
+  String wattsTitle(String name);
+
+  /// No description provided for @wattsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the closest. The exact watts are on the sticker at the back.'**
+  String get wattsHint;
+
+  /// No description provided for @wattsExact.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact watts, each'**
+  String get wattsExact;
+
+  /// No description provided for @wattsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Change watts: {name}, {watts}'**
+  String wattsEdit(String name, String watts);
+
+  /// No description provided for @wattsFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'5 W less'**
+  String get wattsFewer;
+
+  /// No description provided for @wattsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'5 W more'**
+  String get wattsMore;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @notifCutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Power gone?'**
+  String get notifCutTitle;
+
+  /// No description provided for @notifCutScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your schedule says {time}. Tap if the power went.'**
+  String notifCutScheduled(String time);
+
+  /// No description provided for @notifCutLikely.
+  ///
+  /// In en, this message translates to:
+  /// **'It usually goes around {time}. Tap if the power went.'**
+  String notifCutLikely(String time);
+
+  /// No description provided for @notifCutYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, it went'**
+  String get notifCutYes;
+
+  /// No description provided for @notifNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get notifNo;
+
+  /// No description provided for @notifBackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Power back?'**
+  String get notifBackTitle;
+
+  /// No description provided for @notifBackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It usually comes back by {time}.'**
+  String notifBackBody(String time);
+
+  /// No description provided for @notifBackYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, it\'s back'**
+  String get notifBackYes;
+
+  /// No description provided for @notifCountdownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Power cut since {time}'**
+  String notifCountdownTitle(String time);
+
+  /// No description provided for @notifCountdownBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup about {backup} at {load}. Turn off heavy loads to stretch it.'**
+  String notifCountdownBody(String backup, String load);
+
+  /// No description provided for @notifChannelCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Power cut check'**
+  String get notifChannelCheck;
+
+  /// No description provided for @notifChannelCheckBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Asks if the power went at your usual outage times.'**
+  String get notifChannelCheckBody;
+
+  /// No description provided for @notifChannelCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup countdown'**
+  String get notifChannelCountdown;
+
+  /// No description provided for @notifChannelCountdownBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup time left during a power cut.'**
+  String get notifChannelCountdownBody;
 }
 
 class _AppLocalizationsDelegate

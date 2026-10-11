@@ -26,7 +26,7 @@ Future<({FakeOutageRepository outages, FakeSystemRepository system})> _pump(
   DateTime? now,
 }) async {
   final at = now ?? _now;
-  final outages = FakeOutageRepository(outages: history, clock: () => at);
+  final outages = FakeOutageRepository(outages: history);
   final system = FakeSystemRepository(demoSystem());
   await pumpApp(
     tester,
@@ -49,9 +49,9 @@ void main() {
   ) async {
     await _pump(tester, history: _eveningCuts());
     await _reveal(tester, find.text('Next outage likely 7:00 PM'));
-    // 4 h of grid at 360 W × 0.9 from 60% = 96%; (0.96 − 0.15) × 3600 Wh
-    // × 0.9 / 420 W = 6h 14m.
-    expect(find.text('Battery 96% by then · lasts 6h 14m'), findsOneWidget);
+    // 4 h of grid at 360 W × 0.9 from 60%: 9%/h to 95% (3.9 h), then half
+    // rate = 95.5%; (0.955 − 0.15) × 3600 Wh × 0.9 / 420 W = 6h 12m.
+    expect(find.text('Battery 96% by then · lasts 6h 12m'), findsOneWidget);
   });
 
   testWidgets('no logs or schedule yet: says how to get a prediction', (

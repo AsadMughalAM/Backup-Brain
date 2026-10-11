@@ -40,6 +40,14 @@ abstract final class SetupPresetsDto {
                 _priority[a['priority']] ??
                 (throw FormatException('Unknown priority: ${a['priority']}')),
             defaultQuantity: (a['defaultQuantity'] as num).toInt(),
+            variants: [
+              for (final v in _list(a['variants'] ?? const <Object>[]))
+                ApplianceVariant(
+                  names: (v['name'] as Map<String, dynamic>)
+                      .cast<String, String>(),
+                  watts: _d(v['watts']),
+                ),
+            ],
           ),
       ],
       leadAcid: _battery(battery['leadAcid'] as Map<String, dynamic>),

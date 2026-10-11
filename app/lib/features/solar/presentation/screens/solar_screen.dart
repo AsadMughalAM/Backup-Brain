@@ -9,6 +9,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../domain/weather_repository.dart';
 import '../controllers/forecast_refresh_controller.dart';
+import '../controllers/panel_care_controller.dart';
 import '../../domain/solar_outlook.dart';
 import '../widgets/solar_day_hero.dart';
 import '../widgets/sun_forecast_card.dart';
@@ -26,14 +27,6 @@ class SolarScreen extends ConsumerStatefulWidget {
 class _SolarScreenState extends ConsumerState<SolarScreen> {
   /// Null until the user picks a day; until then the screen picks for them.
   bool? _pickedToday;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => ref.read(forecastRefreshProvider.notifier).refresh(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +126,12 @@ class _OutlookBody extends ConsumerWidget {
     final day = (showToday ? outlook.today : outlook.tomorrow)!;
     final advice = _advice(l10n, day);
     final now = ref.watch(nowProvider).value ?? outlook.fetchedAt;
+    final cut = outlook.cutDuring(day, now);
+    final cleanedAt = ref
+        .watch(householdSystemProvider)
+        .value
+        ?.solar
+        ?.lastCleanedAt;
 
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
@@ -160,6 +159,17 @@ class _OutlookBody extends ConsumerWidget {
           isToday: showToday,
           utcOffset: outlook.utcOffset,
           loadW: outlook.loadW,
+          cutNote: cut == null
+              ? null
+              : l10n.solarCountsCut(
+                  Formatters.dayTime(
+                    l10n,
+                    cut.start.isBefore(now)
+                        ? now.toLocal()
+                        : cut.start.toLocal(),
+                    now.toLocal(),
+                  ),
+                ),
         ),
         if (advice != null) ...[
           const BbGap.lg(),
@@ -194,6 +204,8 @@ class _OutlookBody extends ConsumerWidget {
           refresh: refresh,
           onRetry: onRetry,
         ),
+        const BbGap.lg(),
+        _PanelCare(cleanedAt: cleanedAt, now: now),
       ],
     );
   }
@@ -261,4 +273,46 @@ class _Freshness extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Dust costs up to 10% (F3 soiling factor); one tap after washing the
+/// panels tells the forecast they're clean.
+class _PanelCare extends ConsumerWidget {
+  const _PanelCare({required this.cleanedAt, required this.now});
+
+  final DateTime? cleanedAt;
+  final DateTime now;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final cleaned = cleanedAt;
+    final muted = context.colors.textMuted;
+    final cleanedToday =
+        cleaned != null && _sameDay(cleaned.toLocal(), now.toLocal());
+    return Row(
+      children: [
+        Icon(BbIcons.solarPanel, size: AppSizes.iconXs, color: muted),
+        const BbGap.xs(),
+        Expanded(
+          child: Text(
+            cleaned == null
+                ? l10n.panelsCleanedUnknown
+                : l10n.panelsCleanedAgo(
+                    Formatters.age(l10n, now.difference(cleaned)),
+                  ),
+            style: context.text.metricCaption.copyWith(color: muted),
+          ),
+        ),
+        if (!cleanedToday)
+          BbButton.ghost(
+            label: l10n.panelsCleanedToday,
+            onPressed: () => ref.read(panelCareProvider).cleanedToday(),
+          ),
+      ],
+    );
+  }
+
+  static bool _sameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
 }

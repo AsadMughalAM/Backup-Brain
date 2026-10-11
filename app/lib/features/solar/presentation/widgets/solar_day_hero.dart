@@ -15,12 +15,17 @@ class SolarDayHero extends StatelessWidget {
     required this.isToday,
     required this.utcOffset,
     required this.loadW,
+    this.cutNote,
   });
 
   final SolarDayForecast day;
   final bool isToday;
   final Duration utcOffset;
   final double loadW;
+
+  /// What the forecast assumes about a power cut today, e.g. "Counts the
+  /// power cut from 2:00 PM".
+  final String? cutNote;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +59,29 @@ class SolarDayHero extends StatelessWidget {
                 style: context.textTheme.bodySmall?.copyWith(
                   color: context.colors.textMuted,
                 ),
+              ),
+            ],
+            if (cutNote case final note?) ...[
+              const BbGap.xs(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    BbIcons.gridOff,
+                    size: AppSizes.iconXs,
+                    color: context.colors.textMuted,
+                  ),
+                  const BbGap.xs(),
+                  Flexible(
+                    child: Text(
+                      note,
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: context.colors.textMuted,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
             const BbGap.xl(),

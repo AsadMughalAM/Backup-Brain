@@ -125,4 +125,97 @@ void main() {
       expect(next.start, DateTime(2026, 10, 11, 16));
     });
   });
+
+  group('expected windows', () {
+    const evening = ScheduleSlot(
+      weekday: DateTime.sunday,
+      startMinute: 19 * 60,
+      endMinute: 21 * 60,
+    );
+
+    test('scheduled slots ahead, and nothing already over', () {
+      final windows = pattern.expectedWindows(
+        now: now,
+        hours: 24,
+        schedule: const [
+          evening,
+          ScheduleSlot(
+            weekday: DateTime.sunday,
+            startMinute: 600,
+            endMinute: 660,
+          ),
+        ],
+      );
+      expect(windows, hasLength(1));
+      expect(windows.single.start, DateTime(2026, 10, 11, 19));
+      expect(windows.single.end, DateTime(2026, 10, 11, 21));
+    });
+
+    test('a cut in progress lasts until its slot ends', () {
+      final windows = pattern.expectedWindows(
+        now: DateTime(2026, 10, 11, 19, 30),
+        hours: 12,
+        history: [OutageRecord(start: DateTime(2026, 10, 11, 18, 50))],
+        schedule: const [evening],
+      );
+      expect(windows.single.start, DateTime(2026, 10, 11, 18, 50));
+      expect(windows.single.end, DateTime(2026, 10, 11, 21));
+    });
+
+    test('a cut in progress with no slot lasts the usual length', () {
+      final windows = pattern.expectedWindows(
+        now: now,
+        hours: 2,
+        history: [
+          OutageRecord(start: DateTime(2026, 10, 11, 14)),
+          cut(1, 9, 0, 1.5),
+        ],
+      );
+      expect(windows.single.end, DateTime(2026, 10, 11, 15, 30));
+    });
+
+    test('a cut running past its usual length is assumed to go on', () {
+      final windows = pattern.expectedWindows(
+        now: now,
+        hours: 6,
+        history: [OutageRecord(start: DateTime(2026, 10, 11, 10))],
+      );
+      expect(windows.single.end, now.add(const Duration(hours: 2)));
+    });
+
+    test('the learned outage joins, and overlaps merge into one', () {
+      final history = [for (var d = 1; d <= 5; d++) cut(d, 18, 30, 1.5)];
+      final windows = pattern.expectedWindows(
+        now: now,
+        hours: 12,
+        history: history,
+        schedule: const [evening],
+      );
+      expect(windows, hasLength(1));
+      expect(windows.single.start, DateTime(2026, 10, 11, 18, 30));
+      expect(windows.single.end, DateTime(2026, 10, 11, 21));
+    });
+
+    test('hours within a window clip to the asked range', () {
+      final w = OutageWindow(
+        DateTime(2026, 10, 11, 19),
+        DateTime(2026, 10, 11, 21),
+      );
+      expect(
+        w.hoursWithin(DateTime(2026, 10, 11, 20), DateTime(2026, 10, 11, 23)),
+        1,
+      );
+      expect(
+        w.hoursWithin(DateTime(2026, 10, 11, 8), DateTime(2026, 10, 11, 9)),
+        0,
+      );
+    });
+
+    test('zero or negative look-ahead is rejected', () {
+      expect(
+        () => pattern.expectedWindows(now: now, hours: 0),
+        throwsArgumentError,
+      );
+    });
+  });
 }

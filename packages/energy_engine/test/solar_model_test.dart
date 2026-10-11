@@ -213,4 +213,59 @@ void main() {
       },
     );
   });
+
+  group('power cuts during the day', () {
+    /// 2–4 PM PKT on the cloudy fixture day.
+    final afternoonCut = OutageWindow(
+      DateTime.utc(2026, 10, 11, 9),
+      DateTime.utc(2026, 10, 11, 11),
+    );
+
+    test('a cut in a weak-sun hour drains the battery instead of the grid', () {
+      final gridOn = _today(loadW: 900);
+      final withCut = _model.forecastDay(
+        solar: _panels,
+        site: lahore,
+        hours: lahoreToday,
+        battery: _battery(0.6),
+        loadW: 900,
+        from: lahoreMorning,
+        offGrid: [afternoonCut],
+      );
+      expect(withCut.socAtSunset, lessThan(gridOn.socAtSunset));
+      expect(withCut.socAtSunset, greaterThanOrEqualTo(0.15));
+    });
+
+    test('zero load: a cut changes nothing', () {
+      final plain = _today(loadW: 0);
+      final withCut = _model.forecastDay(
+        solar: _panels,
+        site: lahore,
+        hours: lahoreToday,
+        battery: _battery(0.6),
+        loadW: 0,
+        from: lahoreMorning,
+        offGrid: [afternoonCut],
+      );
+      expect(withCut.socAtSunset, plain.socAtSunset);
+    });
+
+    test('at the cutoff, a cut can not drain it further', () {
+      final f = _model.forecastDay(
+        solar: _panels,
+        site: lahore,
+        hours: lahoreToday,
+        battery: _battery(0.15),
+        loadW: 2000,
+        from: lahoreMorning,
+        offGrid: [
+          OutageWindow(
+            DateTime.utc(2026, 10, 11, 3),
+            DateTime.utc(2026, 10, 11, 13),
+          ),
+        ],
+      );
+      expect(f.socAtSunset, 0.15);
+    });
+  });
 }

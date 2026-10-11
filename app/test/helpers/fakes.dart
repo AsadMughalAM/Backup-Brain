@@ -11,6 +11,7 @@ import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
+import 'package:backup_brain/features/outages/domain/outage_notifier.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
 import 'package:backup_brain/features/setup/data/models/setup_presets_dto.dart';
 import 'package:backup_brain/features/setup/domain/entities/setup_presets.dart';
@@ -74,7 +75,32 @@ class FakeSystemRepository implements SystemRepository {
   Future<void> save(HouseholdSystem system) async => _emit(system);
 
   @override
-  Future<void> setSoc(double soc) async => _emit(_system!.copyWith(soc: soc));
+  Future<void> setCharge(
+    double soc, {
+    required DateTime at,
+    bool checked = false,
+  }) async => _emit(
+    _system!.copyWith(
+      soc: soc,
+      socAt: at.toUtc(),
+      socCheckedAt: checked ? at.toUtc() : null,
+    ),
+  );
+
+  @override
+  Future<void> setPanelsCleaned(DateTime at) async {
+    final s = _system!;
+    final solar = s.solar!;
+    _emit(
+      s.copyWith(
+        solar: SolarSpec(
+          kWp: solar.kWp,
+          shading: solar.shading,
+          lastCleanedAt: at.toUtc(),
+        ),
+      ),
+    );
+  }
 
   /// How many times the demo household was written.
   int demoLoads = 0;
@@ -125,6 +151,14 @@ class FakeApplianceRepository implements ApplianceRepository {
                 order: a.order,
               )
             : a,
+    ];
+    _changes.add(_items);
+  }
+
+  @override
+  Future<void> setWatts(String id, double watts) async {
+    _items = [
+      for (final a in _items) a.id == id ? a.copyWith(watts: watts) : a,
     ];
     _changes.add(_items);
   }
@@ -226,12 +260,21 @@ class FakeWeatherRepository implements WeatherRepository {
   /// What a fetch returns; null makes it fail like a dropped connection.
   final WeatherForecast? Function()? onRefresh;
   var refreshCalls = 0;
-  final _changes = StreamController<WeatherForecast?>.broadcast();
+  final _listeners = <StreamController<WeatherForecast?>>{};
 
+  // Listeners register the moment they listen, so an update can't slip
+  // between the first value and the next, like Firestore snapshots.
   @override
-  Stream<WeatherForecast?> watchLatest() async* {
-    yield saved;
-    yield* _changes.stream;
+  Stream<WeatherForecast?> watchLatest() {
+    late final StreamController<WeatherForecast?> listener;
+    listener = StreamController(
+      onListen: () {
+        listener.add(saved);
+        _listeners.add(listener);
+      },
+      onCancel: () => _listeners.remove(listener),
+    );
+    return listener.stream;
   }
 
   @override
@@ -239,7 +282,10 @@ class FakeWeatherRepository implements WeatherRepository {
     refreshCalls++;
     final fresh = onRefresh?.call();
     if (fresh == null) throw StateError('offline');
-    _changes.add(saved = fresh);
+    saved = fresh;
+    for (final l in _listeners) {
+      l.add(fresh);
+    }
   }
 }
 
@@ -287,15 +333,12 @@ class FakeOutageRepository implements OutageRepository {
   FakeOutageRepository({
     List<OutageEvent> outages = const [],
     List<ScheduleEntry> schedule = const [],
-    DateTime Function()? clock,
   }) : outages = [...outages],
-       schedule = [...schedule],
-       _clock = clock ?? DateTime.now;
+       schedule = [...schedule];
 
   /// Newest first, like the Firestore query.
   final List<OutageEvent> outages;
   final List<ScheduleEntry> schedule;
-  final DateTime Function() _clock;
   final _outageChanges = StreamController<List<OutageEvent>>.broadcast();
   final _scheduleChanges = StreamController<List<ScheduleEntry>>.broadcast();
   var _ids = 0;
@@ -313,12 +356,16 @@ class FakeOutageRepository implements OutageRepository {
   }
 
   @override
-  Future<void> start({required double soc, required double loadW}) async {
+  Future<void> start({
+    required DateTime at,
+    required double soc,
+    required double loadW,
+  }) async {
     outages.insert(
       0,
       OutageEvent(
         id: 'o${_ids++}',
-        startedAt: _clock(),
+        startedAt: at,
         startSoc: soc,
         avgLoadW: loadW,
       ),
@@ -327,17 +374,40 @@ class FakeOutageRepository implements OutageRepository {
   }
 
   @override
-  Future<void> end(String id, {required double soc}) async {
+  Future<void> end(
+    String id, {
+    required DateTime at,
+    required double soc,
+  }) async {
     final i = outages.indexWhere((o) => o.id == id);
     final o = outages[i];
     outages[i] = OutageEvent(
       id: o.id,
       startedAt: o.startedAt,
-      endedAt: _clock(),
+      endedAt: at,
       startSoc: o.startSoc,
       endSoc: soc,
       avgLoadW: o.avgLoadW,
     );
+    _outageChanges.add([...outages]);
+  }
+
+  @override
+  Future<void> moveStart(String id, DateTime at) async {
+    final i = outages.indexWhere((o) => o.id == id);
+    final o = outages[i];
+    outages[i] = OutageEvent(
+      id: o.id,
+      startedAt: at,
+      startSoc: o.startSoc,
+      avgLoadW: o.avgLoadW,
+    );
+    _outageChanges.add([...outages]);
+  }
+
+  @override
+  Future<void> remove(String id) async {
+    outages.removeWhere((o) => o.id == id);
     _outageChanges.add([...outages]);
   }
 
@@ -352,4 +422,58 @@ class FakeOutageRepository implements OutageRepository {
     schedule.removeWhere((e) => e.id == id);
     _scheduleChanges.add([...schedule]);
   }
+}
+
+/// Records what would be posted, instead of the Android plugin.
+class FakeOutageNotifier implements OutageNotifier {
+  void Function(ReminderAnswer answer)? onAnswer;
+  var permissionRequests = 0;
+  List<ReminderNotice> reminders = const [];
+  ({DateTime endsAt, String title, String body})? countdown;
+
+  /// Simulates the user tapping "Yes" on a reminder.
+  void answer(ReminderAnswer answer) => onAnswer!(answer);
+
+  @override
+  Future<void> init(void Function(ReminderAnswer answer) onAnswer) async =>
+      this.onAnswer = onAnswer;
+
+  @override
+  Future<bool> requestPermission() async {
+    permissionRequests++;
+    return true;
+  }
+
+  @override
+  Future<void> setReminders(
+    List<ReminderNotice> notices, {
+    required ChannelText channel,
+  }) async => reminders = notices;
+
+  @override
+  Future<void> showCountdown({
+    required DateTime endsAt,
+    required String title,
+    required String body,
+    required ChannelText channel,
+  }) async => countdown = (endsAt: endsAt, title: title, body: body);
+
+  @override
+  Future<void> clearCountdown() async => countdown = null;
+}
+
+/// A clock the test moves by hand, for `nowProvider`.
+class TestClock {
+  TestClock(DateTime start) : _now = start.toUtc();
+
+  DateTime _now;
+  DateTime get now => _now;
+  final _changes = StreamController<DateTime>.broadcast();
+
+  Stream<DateTime> stream() async* {
+    yield _now;
+    yield* _changes.stream;
+  }
+
+  void advance(Duration by) => _changes.add(_now = _now.add(by));
 }

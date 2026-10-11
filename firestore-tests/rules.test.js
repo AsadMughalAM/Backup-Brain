@@ -87,6 +87,32 @@ describe('validation', () => {
     await assertFails(ref.set({ ...system, location: { ...location, city: '' } }));
   });
 
+  test("the battery's known charge and its time, and a panel cleaning", async () => {
+    const ref = db('alice').doc('users/alice/systems/main');
+    await assertSucceeds(ref.set({ ...system, hasSolar: true, solar, location }));
+    await assertSucceeds(ref.update({ soc: 0.45, socAt: new Date() }));
+    await assertSucceeds(ref.update({ soc: 0.75, socAt: new Date(), socCheckedAt: new Date() }));
+    await assertSucceeds(ref.update({ 'solar.lastCleanedAt': new Date() }));
+    await assertFails(ref.update({ socAt: 'now' }));
+    await assertFails(ref.update({ socCheckedAt: 1728600000 }));
+    await assertFails(ref.update({ 'solar.lastCleanedAt': 'yesterday' }));
+  });
+
+  test('appliance watts can be changed, never to nonsense', async () => {
+    const ref = db('alice').doc('users/alice/systems/main/appliances/fan');
+    await assertSucceeds(ref.set(appliance));
+    await assertSucceeds(ref.update({ watts: 35 }));
+    await assertFails(ref.update({ watts: -35 }));
+  });
+
+  test('a logged outage can be moved or deleted by its owner only', async () => {
+    const ref = db('alice').doc('users/alice/systems/main/outages/o2');
+    await assertSucceeds(ref.set({ startedAt: new Date(), source: 'manual' }));
+    await assertSucceeds(ref.update({ startedAt: new Date(Date.now() - 30 * 60000) }));
+    await assertFails(db('bob').doc('users/alice/systems/main/outages/o2').delete());
+    await assertSucceeds(ref.delete());
+  });
+
   test('the weather cache is owner-only', async () => {
     const ref = db('alice').doc('users/alice/systems/main/weatherCache/2026-10-11');
     await assertSucceeds(ref.set({ lat: 31.52, lon: 74.36 }));

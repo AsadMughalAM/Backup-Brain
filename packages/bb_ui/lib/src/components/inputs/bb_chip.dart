@@ -16,16 +16,21 @@ import '../_internal/tappable.dart';
 /// ```dart
 /// BbChip(label: l10n.today, selected: day == Day.today, onSelected: () => pick(Day.today))
 /// ```
+///
+/// An optional [icon] (e.g. a battery-bars glyph next to "75%") leads the
+/// label; when selected the check takes its place.
 class BbChip extends StatelessWidget {
   const BbChip({
     super.key,
     required this.label,
     required this.selected,
     required this.onSelected,
+    this.icon,
   });
 
   final String label;
   final bool selected;
+  final IconData? icon;
 
   /// Null disables the chip.
   final VoidCallback? onSelected;
@@ -67,8 +72,12 @@ class BbChip extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (selected) ...[
-                  Icon(BbIcons.check, size: AppSizes.iconXs, color: fg),
+                if (selected || icon != null) ...[
+                  Icon(
+                    selected ? BbIcons.check : icon,
+                    size: AppSizes.iconXs,
+                    color: fg,
+                  ),
                   const SizedBox(width: AppSpacing.xs),
                 ],
                 // Long labels (suggested questions, big text scale) wrap

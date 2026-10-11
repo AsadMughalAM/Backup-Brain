@@ -45,10 +45,21 @@ abstract interface class OutageRepository {
   Stream<List<OutageEvent>> watchRecent();
 
   /// Writes complete offline at once (TECH_STACK.md §7.2); don't await them
-  /// in the UI.
-  Future<void> start({required double soc, required double loadW});
+  /// in the UI. [at] is when the power went: now, or earlier when the user
+  /// logs it late or confirms a reminder.
+  Future<void> start({
+    required DateTime at,
+    required double soc,
+    required double loadW,
+  });
 
-  Future<void> end(String id, {required double soc});
+  Future<void> end(String id, {required DateTime at, required double soc});
+
+  /// The user corrected when the power went.
+  Future<void> moveStart(String id, DateTime at);
+
+  /// Logged by mistake ("the power didn't go").
+  Future<void> remove(String id);
 
   Stream<List<ScheduleEntry>> watchSchedule();
 

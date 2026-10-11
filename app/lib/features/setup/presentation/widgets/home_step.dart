@@ -1,4 +1,5 @@
 import 'package:bb_ui/bb_ui.dart';
+import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -113,6 +114,27 @@ class HomeStep extends ConsumerWidget {
                   l10n.panelsTotal(Formatters.kiloWatts(draft.solarKWp)),
                   style: context.textTheme.titleSmall?.copyWith(
                     color: context.energy.solarText,
+                  ),
+                ),
+                const BbGap.lg(),
+                SetupQuestion(
+                  title: l10n.shadingQuestion,
+                  hint: l10n.shadingHint,
+                  child: Wrap(
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.sm,
+                    children: [
+                      for (final (shade, label) in [
+                        (PanelShading.none, l10n.shadingNone),
+                        (PanelShading.partial, l10n.shadingPartial),
+                        (PanelShading.heavy, l10n.shadingHeavy),
+                      ])
+                        BbChip(
+                          label: label,
+                          selected: draft.shading == shade,
+                          onSelected: () => setup.setShading(shade),
+                        ),
+                    ],
                   ),
                 ),
               ],

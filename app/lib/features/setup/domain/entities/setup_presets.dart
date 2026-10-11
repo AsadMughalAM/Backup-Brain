@@ -74,6 +74,7 @@ class AppliancePreset {
     required this.dutyCycle,
     required this.priority,
     required this.defaultQuantity,
+    this.variants = const [],
   });
 
   final String id;
@@ -87,6 +88,20 @@ class AppliancePreset {
 
   /// What a usual home runs on backup; 0 = offered, not picked.
   final int defaultQuantity;
+
+  /// The common kinds of this appliance ("Inverter fan · 35 W"), offered
+  /// when the user changes its watts.
+  final List<ApplianceVariant> variants;
+
+  String name(String languageCode) => names[languageCode] ?? names['en']!;
+}
+
+class ApplianceVariant {
+  const ApplianceVariant({required this.names, required this.watts});
+
+  /// By language code; English is always there.
+  final Map<String, String> names;
+  final double watts;
 
   String name(String languageCode) => names[languageCode] ?? names['en']!;
 }

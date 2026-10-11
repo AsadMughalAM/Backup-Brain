@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/overlays/overlay_host.dart';
 import '../core/widgets/coming_soon_screen.dart';
 import '../features/assistant/presentation/screens/assistant_screen.dart';
 import '../features/auth/domain/auth_repository.dart';
@@ -57,6 +58,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   ref.onDispose(refresh.dispose);
 
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: Routes.home,
     refreshListenable: refresh,
     redirect: (context, state) {

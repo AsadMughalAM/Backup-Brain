@@ -9,6 +9,7 @@ abstract final class SetupDraftDto {
     'hasSolar': d.hasSolar,
     'panelCount': d.panelCount,
     'panelWatts': d.panelWatts,
+    'shading': d.shading.name,
     'chemistry': d.chemistry?.name,
     'batteryCount': d.batteryCount,
     'voltage': d.voltage,
@@ -25,6 +26,8 @@ abstract final class SetupDraftDto {
     hasSolar: m['hasSolar'] as bool?,
     panelCount: (m['panelCount'] as num).toInt(),
     panelWatts: (m['panelWatts'] as num).toDouble(),
+    // Drafts saved before shading was asked have none.
+    shading: PanelShading.values.asNameMap()[m['shading']] ?? PanelShading.none,
     chemistry: switch (m['chemistry']) {
       null => null,
       final String name =>

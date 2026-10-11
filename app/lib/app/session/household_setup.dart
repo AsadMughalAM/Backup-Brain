@@ -75,7 +75,10 @@ class HouseholdSetup extends Notifier<HouseholdStatus> {
     }
     final presets = await ref.read(setupPresetsProvider.future);
     final language = ref.read(localeProvider).locale.languageCode;
-    saveHome(draft.toSystem(presets), draft.toAppliances(presets, language));
+    saveHome(
+      draft.toSystem(presets, answeredAt: DateTime.now().toUtc()),
+      draft.toAppliances(presets, language),
+    );
     await drafts.clear();
     return true;
   }

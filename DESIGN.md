@@ -639,15 +639,15 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
   - `hero`: `hero` midnight fill, radius `xl`, padding 24, no shadow. Its content is wrapped in the **dark theme** (`Theme` + default text and icon color), so every component inside uses the dark tokens automatically: off-white text, 300-tone status colors, yellow focus ring. One hero per screen.
   - `highlight`: `primaryContainer` fill, no shadow, no stripe. The top AI advice card, with a `BbIcons.ai` icon in `onPrimaryContainer`.
 - **`BbSection`:** `titleLarge` header + optional `ghost` action on the right ("See all"), `md` gap to content.
-- **`BbBottomSheet`:** `surfaceRaised`, top radius `xl`, drag handle 32 × 4 `outline` pill, level3, scrim.
+- **`BbBottomSheet`:** `surfaceRaised`, top radius `xl`, drag handle 32 × 4 `outline` pill, level3, scrim. Title `titleLarge` (a header, and the sheet's route name for screen readers); tall content scrolls inside. Opened only through `OverlayHost.showSheet` (modal route: focus trap, Escape / back / scrim tap close it).
 - **`BbDialog`:** radius `lg`, max width 400, padding 24, title `headlineSmall`, actions right-aligned (ghost + primary/danger).
 
 ### 10.4 Data display
 
-- **`BbStatTile`:** `BbCard` with: 40-px icon disc (`BbTone.containerColor`, e.g. `successContainer`) holding a 20-px icon in the tone color → `md` gap → `labelMedium` label in `textMuted` → `metricLarge` value + unit → optional `bodySmall` delta ("−18% vs Mar"). Min height 112.
+- **`BbStatTile`:** `BbCard` with: 40-px icon disc (`BbTone.containerColor`, e.g. `successContainer`) holding a 20-px icon in the tone color → `md` gap → `labelMedium` label in `textMuted` → `metricLarge` value + unit → optional `bodySmall` delta ("−18% vs Mar"). Min height 112. Optional tap (`onTap` + `tapLabel` read as the hint): pressed/hover tint the card, focus ring at radius `lg`.
 - **`BbMetric`:** standalone value+unit pair (§3.5), sizes hero/large/medium/small.
 - **`BbBadge`:** pill, height 24, `labelMedium`, container color + on-container text, optional 16-px Fill icon.
-- **`BbChip`:** pill height 32, unselected = `surfaceMuted` fill + `textPrimary`; selected = `secondary` fill + `onSecondary` + leading `check` icon.
+- **`BbChip`:** pill height 32, unselected = `surfaceMuted` fill + `textPrimary`; selected = `secondary` fill + `onSecondary` + leading `check` icon. Optional leading 16-px icon (e.g. battery bars beside "75%") that the check replaces when selected.
 - **`BbListTile`:** 56/72 min height, leading 20-px icon in a 40-px `surfaceMuted` circle (or energy-tinted container), title `bodyLarge`, subtitle `bodyMedium` muted, trailing value in `metricSmall` right-aligned or `caretRight` 16.
 - **`BbProgressBar`:** §8.4.
 
@@ -666,7 +666,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 | **`BbGridStatusPill`** | Pill 40 h (48 dp hit area). Grid on: `secondaryContainer` + Fill `lightning` in `energy.grid` + "Light hai". Grid off: `surfaceMuted` + Fill `lightningSlash` in `energy.offline` + "Light gayi · 1h 12m" (duration in `metricSmall`). Trailing action label in `secondary`, underlined ("Light gayi?" / "Light aa gayi?") says what a tap logs. Tapping logs the event (with haptic). |
 | **`BbBatteryGauge`** | Horizontal battery glyph 64 × 28, 2-px `outline` body, fill in status token, % in `metricSmall` beside it. Always icon + number. |
 | **`BbPowerFlow`** | Three nodes (Solar · Grid · Battery) flowing to Home, 48-px circles with Regular icons; connecting lines 2 px in each source's energy color, **dashed** when inactive; small moving dots (`slow`, disabled with reduced motion) show direction. |
-| **`BbLoadToggleTile`** | `BbListTile` + appliance icon + name + `metricSmall` watts + `BbSwitch`. Shows `BbPriorityBadge`. When toggled, the countdown updates live. |
+| **`BbLoadToggleTile`** | `BbListTile` + appliance icon + name + `metricSmall` watts + `BbSwitch`. Shows `BbPriorityBadge`. When toggled, the countdown updates live. With `onEditWatts`, the watts become their own target: a `surfaceMuted` pill with the value and a 16-px `edit` (pencil) icon, labelled "Change watts: Ceiling fan, 150 W"; name and switch still toggle. |
 | **`BbPriorityBadge`** | `essential` = `secondaryContainer` "Keep"; `comfort` = `surfaceMuted` "Use carefully"; `avoid_on_backup` = `warningContainer` + `warning` icon "Avoid on backup". |
 | **`BbSolarForecastStrip`** | Horizontal row of hourly bars (sunrise → sunset), bar = `energy.solar` fill with `solarStroke` top edge, hour labels every 3 h in `metricCaption`. Behind each bar a faint "clear day" bar (`textPrimary` @ 8%) shows what clouds take away; a legend names both. Bars grow in with `slow`. The header ("Sun today · 3.3–4.5 kWh · 49% less sun than a clear day") is composed by the screen above the strip. |
 | **`BbHealthIndicator`** | Small semicircle gauge (health factor) in status token + `metricMedium` "82%" + `bodySmall` explanation. |
@@ -681,20 +681,24 @@ All screens: `BbScaffold` → `BbAppBar` → optional `BbOfflineBanner` → cont
 ```
 [App bar]  "Assalam-o-alaikum"  ·  theme toggle · settings
 [Grid status pill]                         ← tap = Light gayi / aa gayi
+  "Since 7:02 PM · Change"                  ← during a cut; Change = sheet: Just now / 15 / 30 min / 1 h ago, "The power didn't go"
+[Battery check card]                       ← only at the start of a cut, when the last reading is ≥ 6 h old:
+  "What does your UPS screen show?" · chips 100 / 75 / 50 / 25% with bars icons · ghost "Not now"
 [Hero card: midnight `hero`, radius xl, dark-palette content]
      ( Countdown ring, yellow arc  3h 20m )
      "left at 420 W"  ·  [What should I turn off?]  ← primary (yellow) CTA
-[Stat tiles 2×2, icon discs]  Battery 62% · Load 420 W · Solar today 3.8 kWh · Next outage 7:00 PM
+[Stat tiles 2×2, icon discs]  Battery 60% "Estimate · you checked 2 h ago" (tap = same question as a sheet) · Load 420 W · Solar today 3.8 kWh · Next outage 7:00 PM
 [AI advice card: highlight variant (soft yellow), sparkle icon]
 [Outage card: schedule / warning / lightning-slash icon · "Next outage likely 7:00 PM" · "Battery 96% by then · lasts 6h 14m" · › to Outages]
-[Solar forecast strip]
+[Sun today line] solar icon · "Sun today · 3.3–4.5 kWh" · "Lahore · updated 20 min ago" · › to Solar
 [Nav bar]
 ```
+An estimated countdown shows to 10 minutes and the estimated % rounds down to 5%, with the source and age under the Battery tile; a fresh reading shows as given.
 Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and solar marks are data. The nav indicator is navy.
 
 **Outages (F8, from the Dashboard outage card):** grid status pill → answer card (cut in progress with battery estimate / next outage + battery by then + "enough for the usual 1h 30m" or a `warning`-icon line to avoid heavy loads / how to get a prediction) with muted basis lines → "Your area's schedule" list rows with a `delete` icon button + secondary "Add time" → "Recent outages" list (`gridOn`/`gridOff` icon, times, duration in `metricSmall`). **Add time** is a full screen (no overlay yet): weekday `BbChip`s, From/To half-hour steppers (`remove`/`add` tonal icon buttons, time in `metricMedium`), sticky yellow Save.
 
-**Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority → target-hours `BbNumberField`.
+**Load Planner:** live `BbMetric` hero at top (sticky, updates on toggle) → "Battery now" slider (a reading) → "Turn off first" ranked list (`BbListTile` with `+2h 10m` in `success` `metricSmall`) → appliance toggles grouped by priority, watts editable → target-hours `BbNumberField`. **Watts sheet** ("Which Ceiling fan?"): muted hint (the sticker on the back) → the kinds as `BbChip`s ("Inverter / DC fan · 35 W", current one selected; one tap saves and closes) → "Exact watts, each" ±5 W tonal steppers with the value in `metricMedium` → primary "Done".
 
 **Solar:** answer first, zero taps.
 ```
@@ -702,13 +706,15 @@ Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and sol
 [BbChip Today | Tomorrow]                 ← auto-picks Tomorrow after sunset
 [Hero card] "Battery full by 1:15 PM" / "Battery reaches 79% by sunset"
             "Starting from 60% now"  (assumption, muted)
+            gridOff icon + "Counts the power cut from 2:00 PM"  (only when a cut overlaps the sun left)
             ( ring = SoC at sunset, "at sunset, 5:30 PM" )
             "Lasts until about 10:25 PM at 420 W"
 [Advice card: highlight]  "Most sun 12–3 PM. Run the iron or water motor then." / "Weak sun… avoid heavy loads after 5:30 PM"
 [Card] "Sun today" · 3.3–4.5 kWh (solarText) · cloud icon + "49% less sun than a clear day" · BbSolarForecastStrip
 [Footer] timer icon · "Lahore · updated 20 min ago" · xs spinner while refreshing · retry on failure
+[Panels] solarPanel icon · "Panels cleaned 3 d ago" / "Panels: last cleaning unknown" · ghost "Cleaned today"
 ```
-No forecast yet → `BbEmptyState` "Needs internet once" with a loading `BbButton.secondary`. No panels → `BbEmptyState`. Performance check (F4) goes under the sun card later.
+The forecast refreshes from the app root (start, return to the app, location first known), not the tab. No forecast yet → `BbEmptyState` "Needs internet once" with a loading `BbButton.secondary`. No panels → `BbEmptyState`. Performance check (F4) goes under the sun card later.
 
 **Setup (first run):** `BbStepIndicator` (Home · Battery · Appliances) → one question block per topic (`titleMedium` question + muted hint saying where to find the answer) → answers as `BbChip`s, `BbChoiceCard`s and `BbQuantityStepper`s; follow-up questions appear only once they apply → sticky bottom bar: live backup time (from step 2) above a tonal Back icon button and the full-width primary Next / "Show my backup time". Next stays disabled until the step's required answers are in. Questions about numbers printed on a sticker carry a ghost "Where is this written?" (info icon) that expands, in place, a `surfaceMuted` drawing of the sticker: lines in `metricCaption` `textMuted`, the line to read on a `primaryContainer` marker in `metricSmall` with an arrow beside it (shape + color). The same screen, titled "Edit my home" with "Save changes", edits a saved home from Settings → My home (summary line + tonal "Edit my home" button).
 

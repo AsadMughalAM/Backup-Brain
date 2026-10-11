@@ -1,5 +1,5 @@
 {
-  "_comment": "Appliance presets for setup: typical Pakistani wattages. defaultQuantity is what a usual home runs on backup; 0 = offered but not picked. Heavy (avoid_on_backup) items are saved switched off.",
+  "_comment": "Appliance presets for setup: typical Pakistani wattages. defaultQuantity is what a usual home runs on backup; 0 = offered but not picked. Heavy (avoid_on_backup) items are saved switched off. variants are the common kinds of each appliance, offered when the user changes its watts.",
   "appliances": [
     {
       "id": "fan",
@@ -11,7 +11,30 @@
       "watts": 75,
       "dutyCycle": 1,
       "priority": "comfort",
-      "defaultQuantity": 2
+      "defaultQuantity": 2,
+      "variants": [
+        {
+          "name": {
+            "en": "Inverter / DC fan",
+            "ur": "Inverter / DC pankha"
+          },
+          "watts": 35
+        },
+        {
+          "name": {
+            "en": "Normal fan",
+            "ur": "Aam pankha"
+          },
+          "watts": 75
+        },
+        {
+          "name": {
+            "en": "Old fan",
+            "ur": "Purana pankha"
+          },
+          "watts": 100
+        }
+      ]
     },
     {
       "id": "light",
@@ -23,7 +46,30 @@
       "watts": 10,
       "dutyCycle": 1,
       "priority": "essential",
-      "defaultQuantity": 4
+      "defaultQuantity": 4,
+      "variants": [
+        {
+          "name": {
+            "en": "LED bulb",
+            "ur": "LED bulb"
+          },
+          "watts": 10
+        },
+        {
+          "name": {
+            "en": "Energy saver",
+            "ur": "Energy saver"
+          },
+          "watts": 25
+        },
+        {
+          "name": {
+            "en": "Tube light",
+            "ur": "Tube light"
+          },
+          "watts": 40
+        }
+      ]
     },
     {
       "id": "fridge",
@@ -35,7 +81,30 @@
       "watts": 200,
       "dutyCycle": 0.4,
       "priority": "comfort",
-      "defaultQuantity": 1
+      "defaultQuantity": 1,
+      "variants": [
+        {
+          "name": {
+            "en": "Inverter fridge",
+            "ur": "Inverter fridge"
+          },
+          "watts": 120
+        },
+        {
+          "name": {
+            "en": "Normal fridge",
+            "ur": "Aam fridge"
+          },
+          "watts": 200
+        },
+        {
+          "name": {
+            "en": "Big or old fridge",
+            "ur": "Bara ya purana fridge"
+          },
+          "watts": 300
+        }
+      ]
     },
     {
       "id": "tv",
@@ -47,7 +116,30 @@
       "watts": 90,
       "dutyCycle": 1,
       "priority": "comfort",
-      "defaultQuantity": 1
+      "defaultQuantity": 1,
+      "variants": [
+        {
+          "name": {
+            "en": "Small LED TV (32\")",
+            "ur": "Chhota LED TV (32\")"
+          },
+          "watts": 50
+        },
+        {
+          "name": {
+            "en": "LED TV (43\")",
+            "ur": "LED TV (43\")"
+          },
+          "watts": 90
+        },
+        {
+          "name": {
+            "en": "Big LED TV (55\"+)",
+            "ur": "Bara LED TV (55\"+)"
+          },
+          "watts": 150
+        }
+      ]
     },
     {
       "id": "router",
@@ -59,7 +151,23 @@
       "watts": 10,
       "dutyCycle": 1,
       "priority": "essential",
-      "defaultQuantity": 1
+      "defaultQuantity": 1,
+      "variants": [
+        {
+          "name": {
+            "en": "Router",
+            "ur": "Router"
+          },
+          "watts": 10
+        },
+        {
+          "name": {
+            "en": "Router + fibre box",
+            "ur": "Router + fibre box"
+          },
+          "watts": 20
+        }
+      ]
     },
     {
       "id": "charger",
@@ -71,7 +179,23 @@
       "watts": 10,
       "dutyCycle": 1,
       "priority": "essential",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Phone charger",
+            "ur": "Phone charger"
+          },
+          "watts": 10
+        },
+        {
+          "name": {
+            "en": "Fast charger",
+            "ur": "Fast charger"
+          },
+          "watts": 25
+        }
+      ]
     },
     {
       "id": "laptop",
@@ -83,7 +207,23 @@
       "watts": 40,
       "dutyCycle": 1,
       "priority": "comfort",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Laptop",
+            "ur": "Laptop"
+          },
+          "watts": 40
+        },
+        {
+          "name": {
+            "en": "Gaming laptop",
+            "ur": "Gaming laptop"
+          },
+          "watts": 120
+        }
+      ]
     },
     {
       "id": "desktop",
@@ -95,7 +235,23 @@
       "watts": 150,
       "dutyCycle": 1,
       "priority": "comfort",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Office computer",
+            "ur": "Office computer"
+          },
+          "watts": 150
+        },
+        {
+          "name": {
+            "en": "Gaming computer",
+            "ur": "Gaming computer"
+          },
+          "watts": 350
+        }
+      ]
     },
     {
       "id": "cooler",
@@ -107,7 +263,23 @@
       "watts": 150,
       "dutyCycle": 1,
       "priority": "comfort",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Room cooler",
+            "ur": "Room cooler"
+          },
+          "watts": 150
+        },
+        {
+          "name": {
+            "en": "Big air cooler",
+            "ur": "Bara air cooler"
+          },
+          "watts": 250
+        }
+      ]
     },
     {
       "id": "iron",
@@ -119,7 +291,23 @@
       "watts": 1000,
       "dutyCycle": 1,
       "priority": "avoid_on_backup",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Dry iron",
+            "ur": "Sada istri"
+          },
+          "watts": 1000
+        },
+        {
+          "name": {
+            "en": "Steam iron",
+            "ur": "Steam istri"
+          },
+          "watts": 1800
+        }
+      ]
     },
     {
       "id": "motor",
@@ -131,7 +319,30 @@
       "watts": 750,
       "dutyCycle": 1,
       "priority": "avoid_on_backup",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Half-horsepower motor",
+            "ur": "Aadhe horse power ki motor"
+          },
+          "watts": 400
+        },
+        {
+          "name": {
+            "en": "1 horsepower motor",
+            "ur": "1 horse power ki motor"
+          },
+          "watts": 750
+        },
+        {
+          "name": {
+            "en": "1.5 horsepower motor",
+            "ur": "1.5 horse power ki motor"
+          },
+          "watts": 1100
+        }
+      ]
     },
     {
       "id": "washer",
@@ -143,7 +354,23 @@
       "watts": 500,
       "dutyCycle": 1,
       "priority": "avoid_on_backup",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Twin-tub washer",
+            "ur": "Twin-tub machine"
+          },
+          "watts": 400
+        },
+        {
+          "name": {
+            "en": "Automatic washer",
+            "ur": "Automatic machine"
+          },
+          "watts": 500
+        }
+      ]
     },
     {
       "id": "ac",
@@ -155,7 +382,30 @@
       "watts": 1500,
       "dutyCycle": 1,
       "priority": "avoid_on_backup",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "1-ton inverter AC",
+            "ur": "1 ton inverter AC"
+          },
+          "watts": 900
+        },
+        {
+          "name": {
+            "en": "1.5-ton inverter AC",
+            "ur": "1.5 ton inverter AC"
+          },
+          "watts": 1500
+        },
+        {
+          "name": {
+            "en": "1.5-ton non-inverter AC",
+            "ur": "1.5 ton non-inverter AC"
+          },
+          "watts": 1900
+        }
+      ]
     },
     {
       "id": "microwave",
@@ -167,7 +417,23 @@
       "watts": 1200,
       "dutyCycle": 1,
       "priority": "avoid_on_backup",
-      "defaultQuantity": 0
+      "defaultQuantity": 0,
+      "variants": [
+        {
+          "name": {
+            "en": "Small microwave",
+            "ur": "Chhota microwave"
+          },
+          "watts": 800
+        },
+        {
+          "name": {
+            "en": "Microwave",
+            "ur": "Microwave"
+          },
+          "watts": 1200
+        }
+      ]
     }
   ]
 }

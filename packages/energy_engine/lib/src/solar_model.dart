@@ -4,6 +4,7 @@ import 'backup_calculator.dart';
 import 'defaults.dart';
 import 'models/hourly_weather.dart';
 import 'models/solar_spec.dart';
+import 'outage_pattern.dart';
 import 'solar_geometry.dart';
 
 /// One daylight hour of expected generation.
@@ -82,8 +83,9 @@ final class SolarDayForecast {
 /// F3 — "Will solar charge my battery today/tomorrow?" (ARCHITECTURE.md §5
 /// F3). Hourly generation from the weather forecast, then an hour-by-hour
 /// battery simulation: solar covers the house load first and only the
-/// surplus charges the battery. Hours where the load exceeds solar are
-/// assumed covered by the grid, as the spec defines.
+/// surplus charges the battery. Where the load exceeds solar, the grid
+/// covers the rest, except during an expected power cut, when the battery
+/// does.
 final class SolarModel {
   const SolarModel({this.calculator = const BackupCalculator()});
 
@@ -92,6 +94,8 @@ final class SolarModel {
   /// [hours] are one local day's forecast. [battery].socNow is the starting
   /// SoC at [from] (or at the first hour when [from] is null). [loadW] is
   /// the house load, used for daytime consumption and the night backup.
+  /// [offGrid] are the expected power cuts (F8): in them the battery covers
+  /// what the panels can't.
   SolarDayForecast forecastDay({
     required SolarSpec solar,
     required SiteLocation site,
@@ -99,6 +103,7 @@ final class SolarModel {
     required BackupInput battery,
     required double loadW,
     DateTime? from,
+    List<OutageWindow> offGrid = const [],
   }) {
     _validate(solar, site, hours, loadW);
     final midday = hours[hours.length ~/ 2].endsAt;
@@ -116,7 +121,7 @@ final class SolarModel {
         if (from == null || h.endsAt.isAfter(from))
           (hour: h, start: _later(h.endsAt.subtract(_hour1), from)),
     ];
-    final charge = _simulate(ahead, battery, loadW);
+    final charge = _simulate(ahead, battery, loadW, offGrid);
     final sunIsOver = from != null && !from.isBefore(daylight.sunset);
 
     final night = calculator.estimate(
@@ -192,25 +197,42 @@ final class SolarModel {
     List<({SolarHour hour, DateTime start})> ahead,
     BackupInput battery,
     double loadW,
+    List<OutageWindow> offGrid,
   ) {
     final capacityWh = battery.battery.nominalWh * battery.healthFactor;
     final efficiency = EngineDefaults.chargeEfficiency(
       battery.battery.chemistry,
     );
+    final inverterEfficiency =
+        battery.inverter.efficiency ??
+        EngineDefaults.inverterEfficiency(battery.inverter.type);
+    final cutoff = battery.battery.cutoffSoc;
     var soc = battery.socNow;
     DateTime? fullAt;
     for (final (:hour, :start) in ahead) {
-      if (soc >= 1) break;
       final span = hour.endsAt.difference(start);
       final share = span.inMicroseconds / _hour1.inMicroseconds;
       final surplusWh = (hour.expectedWh - loadW) * share;
-      if (surplusWh <= 0) continue;
+      if (surplusWh < 0) {
+        // Short of sun during a cut: the battery makes up the difference,
+        // down to the cutoff where the inverter stops.
+        final offHours = offGrid.fold(
+          0.0,
+          (sum, w) => sum + w.hoursWithin(start, hour.endsAt),
+        );
+        if (offHours == 0) continue;
+        final drawnWh =
+            (loadW - hour.expectedWh) * offHours / inverterEfficiency;
+        soc = math.max(math.min(soc, cutoff), soc - drawnWh / capacityWh);
+        continue;
+      }
+      if (soc >= 1 || surplusWh == 0) continue;
       final gain = surplusWh * efficiency / capacityWh;
       if (soc + gain < 1) {
         soc += gain;
         continue;
       }
-      fullAt = start.add(span * ((1 - soc) / gain));
+      fullAt ??= start.add(span * ((1 - soc) / gain));
       soc = 1;
     }
     return (soc: soc, fullAt: fullAt);

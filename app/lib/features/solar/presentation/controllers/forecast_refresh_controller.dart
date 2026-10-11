@@ -20,6 +20,8 @@ class ForecastRefreshController extends Notifier<ForecastRefresh> {
     state = ForecastRefresh.fetching;
     try {
       final system = await ref.read(householdSystemProvider.future);
+      // It runs from app start too: the session may be gone by now.
+      if (!ref.mounted) return;
       final site = system?.location?.site;
       if (site == null) {
         state = ForecastRefresh.idle;
@@ -28,16 +30,18 @@ class ForecastRefreshController extends Notifier<ForecastRefresh> {
       // Wait for the offline cache's first answer, so opening the tab with
       // a fresh saved forecast doesn't trigger a fetch.
       final saved = await ref.read(latestForecastProvider.future);
+      if (!ref.mounted) return;
       final now = await ref.read(nowProvider.future);
+      if (!ref.mounted) return;
       if (!force && saved != null && saved.isFreshFor(site, now)) {
         state = ForecastRefresh.idle;
         return;
       }
       await ref.read(weatherRepositoryProvider).refresh(site);
-      state = ForecastRefresh.idle;
+      if (ref.mounted) state = ForecastRefresh.idle;
     } catch (e) {
       debugPrint('Forecast refresh failed: $e');
-      state = ForecastRefresh.failed;
+      if (ref.mounted) state = ForecastRefresh.failed;
     }
   }
 }

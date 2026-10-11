@@ -25,6 +25,8 @@ dependencies:
   dio: ^5.11.1
   google_sign_in: ^7.2.0
   cloud_functions: ^6.5.0
+  flutter_local_notifications: ^22.3.1
+  timezone: ^0.11.1
 dev_dependencies:
   fake_cloud_firestore: ^4.3.0
   flutter_lints: ^6.0.0

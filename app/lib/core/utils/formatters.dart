@@ -11,9 +11,14 @@ abstract final class Formatters {
 
   /// Backup time. Minutes round *down*: a countdown must never promise more
   /// time than the battery has.
-  static String duration(AppLocalizations l10n, double hours) {
+  /// [stepMinutes] coarsens an estimate (10 → "3h 20m", never "3h 27m").
+  static String duration(
+    AppLocalizations l10n,
+    double hours, {
+    int stepMinutes = 1,
+  }) {
     if (hours.isInfinite) return l10n.durationUnlimited;
-    final totalMinutes = (hours * 60).floor();
+    final totalMinutes = (hours * 60 / stepMinutes).floor() * stepMinutes;
     final h = totalMinutes ~/ 60, m = totalMinutes % 60;
     return h == 0 ? l10n.durationMinutes(m) : l10n.durationHoursMinutes(h, m);
   }
@@ -35,6 +40,21 @@ abstract final class Formatters {
 
   /// [fraction] is 0–1.
   static String percent(double fraction) => '${(fraction * 100).round()}%';
+
+  static const _estimateStepPercent = 5;
+
+  /// Battery charge. An estimate rounds *down* to 5%: it is never shown
+  /// more precise, or fuller, than the app can know.
+  static String charge(double fraction, {required bool estimate}) =>
+      '${chargeNumber(fraction, estimate: estimate)}%';
+
+  /// [charge] without the % sign, for a value shown with a separate unit.
+  static String chargeNumber(double fraction, {required bool estimate}) {
+    if (!estimate) return '${(fraction * 100).round()}';
+    // The nudge keeps 0.6 (59.999…) from flooring to 55.
+    final steps = ((fraction * 100 + 1e-6) / _estimateStepPercent).floor();
+    return '${steps * _estimateStepPercent}';
+  }
 
   static final _oneDecimal = NumberFormat('0.0', 'en');
   static const _clockStepMinutes = 5;

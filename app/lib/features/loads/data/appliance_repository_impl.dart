@@ -45,6 +45,12 @@ class FirestoreApplianceRepository implements ApplianceRepository {
           .update({'isOn': isOn, 'updatedAt': FieldValue.serverTimestamp()});
 
   @override
+  Future<void> setWatts(String id, double watts) =>
+      _col(_uid)
+          .doc(id)
+          .update({'watts': watts, 'updatedAt': FieldValue.serverTimestamp()});
+
+  @override
   Future<void> addAll(
     List<Appliance> appliances, {
     Set<String> removing = const {},
