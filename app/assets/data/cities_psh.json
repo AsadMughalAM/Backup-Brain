@@ -1,101 +1,117 @@
 {
-  "_comment": "Cities offered in setup, most populous first. Coordinates pick the weather forecast; PSH values for the F5 estimator get added here later.",
+  "_comment": "Cities offered in setup and the F5 estimator, most populous first. Coordinates pick the weather forecast. psh = yearly average peak sun hours (kWh/m²/day on a flat surface), approximate values from public solar atlases: verify before relying on them.",
   "cities": [
     {
       "id": "karachi",
       "name": "Karachi",
       "lat": 24.8607,
-      "lon": 67.0011
+      "lon": 67.0011,
+      "psh": 5.6
     },
     {
       "id": "lahore",
       "name": "Lahore",
       "lat": 31.5204,
-      "lon": 74.3587
+      "lon": 74.3587,
+      "psh": 5.1
     },
     {
       "id": "faisalabad",
       "name": "Faisalabad",
       "lat": 31.4504,
-      "lon": 73.135
+      "lon": 73.135,
+      "psh": 5.3
     },
     {
       "id": "rawalpindi",
       "name": "Rawalpindi",
       "lat": 33.5651,
-      "lon": 73.0169
+      "lon": 73.0169,
+      "psh": 5.0
     },
     {
       "id": "islamabad",
       "name": "Islamabad",
       "lat": 33.6844,
-      "lon": 73.0479
+      "lon": 73.0479,
+      "psh": 5.0
     },
     {
       "id": "gujranwala",
       "name": "Gujranwala",
       "lat": 32.1877,
-      "lon": 74.1945
+      "lon": 74.1945,
+      "psh": 5.0
     },
     {
       "id": "peshawar",
       "name": "Peshawar",
       "lat": 34.0151,
-      "lon": 71.5249
+      "lon": 71.5249,
+      "psh": 5.2
     },
     {
       "id": "multan",
       "name": "Multan",
       "lat": 30.1575,
-      "lon": 71.5249
+      "lon": 71.5249,
+      "psh": 5.5
     },
     {
       "id": "hyderabad",
       "name": "Hyderabad",
       "lat": 25.396,
-      "lon": 68.3578
+      "lon": 68.3578,
+      "psh": 5.7
     },
     {
       "id": "quetta",
       "name": "Quetta",
       "lat": 30.1798,
-      "lon": 66.975
+      "lon": 66.975,
+      "psh": 6.0
     },
     {
       "id": "sialkot",
       "name": "Sialkot",
       "lat": 32.4945,
-      "lon": 74.5229
+      "lon": 74.5229,
+      "psh": 4.9
     },
     {
       "id": "bahawalpur",
       "name": "Bahawalpur",
       "lat": 29.3956,
-      "lon": 71.6836
+      "lon": 71.6836,
+      "psh": 5.6
     },
     {
       "id": "sargodha",
       "name": "Sargodha",
       "lat": 32.074,
-      "lon": 72.6861
+      "lon": 72.6861,
+      "psh": 5.3
     },
     {
       "id": "sukkur",
       "name": "Sukkur",
       "lat": 27.7052,
-      "lon": 68.8574
+      "lon": 68.8574,
+      "psh": 5.7
     },
     {
       "id": "abbottabad",
       "name": "Abbottabad",
       "lat": 34.1688,
-      "lon": 73.2215
+      "lon": 73.2215,
+      "psh": 4.8
     },
     {
       "id": "mardan",
       "name": "Mardan",
       "lat": 34.1986,
-      "lon": 72.0404
+      "lon": 72.0404,
+      "psh": 5.1
     }
   ]
 }

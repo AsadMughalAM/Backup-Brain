@@ -60,6 +60,18 @@ abstract final class EngineDefaults {
   /// Length of the "most sun" window suggested for heavy loads.
   static const peakWindowHours = 3;
 
+  // F5 sizing (ARCHITECTURE.md §5 F5).
+
+  /// The "Full backup" package's battery covers at least a whole night.
+  static const fullBackupHours = 10.0;
+
+  /// Battery banks are quoted in half-kWh steps.
+  static const batteryStepKWh = 0.5;
+
+  /// An inverter should run at most 80% of its rating: size it 1.25 × the
+  /// peak load.
+  static const inverterHeadroom = 1.25;
+
   // F8 outages and recharge (ARCHITECTURE.md §5 F8).
 
   /// Grid chargers in UPS / hybrid inverters typically charge at about C/10

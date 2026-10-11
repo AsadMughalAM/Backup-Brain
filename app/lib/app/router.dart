@@ -10,6 +10,7 @@ import '../features/backup/domain/system_repository.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../features/estimator/presentation/screens/estimator_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
 import '../features/outages/presentation/screens/add_schedule_time_screen.dart';
 import '../features/outages/presentation/screens/outages_screen.dart';
@@ -31,6 +32,7 @@ abstract final class Routes {
   static const assistant = '/assistant';
   static const settings = '/settings';
   static const outages = '/outages';
+  static const estimator = '/estimator';
   static const outagesAddTime = '/outages/add-time';
   static const setup = '/setup';
   static const editHome = '/settings/home';
@@ -108,6 +110,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             const OutagesScreen(addTimeLocation: Routes.outagesAddTime),
       ),
       GoRoute(
+        path: Routes.estimator,
+        builder: (context, state) => const EstimatorScreen(),
+      ),
+      GoRoute(
         path: Routes.outagesAddTime,
         builder: (context, state) => const AddScheduleTimeScreen(),
       ),
@@ -118,7 +124,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           _branch(Routes.loads, (_) => const LoadPlannerScreen()),
           _branch(
             Routes.solar,
-            (_) => const SolarScreen(editHomeLocation: Routes.editHome),
+            (_) => const SolarScreen(
+              editHomeLocation: Routes.editHome,
+              estimatorLocation: Routes.estimator,
+            ),
           ),
           _branch(
             Routes.battery,

@@ -9,6 +9,8 @@ import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/data/models/system_dto.dart';
 import 'package:backup_brain/features/backup/domain/entities/household_system.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
+import 'package:backup_brain/features/estimator/data/pricing_repository_impl.dart';
+import 'package:backup_brain/features/estimator/domain/pricing_repository.dart';
 import 'package:backup_brain/features/loads/data/models/appliance_dto.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
@@ -376,4 +378,13 @@ class FakeAlertScheduler implements AlertScheduler {
 
   @override
   Stream<void> get taps => tapController.stream;
+}
+
+/// The real bundled prices, so tests also prove the asset parses.
+class FakePricingRepository implements PricingRepository {
+  @override
+  Future<PriceSheet> load() async => PricingDto.fromMap(
+    json.decode(File('assets/data/pricing_pk.json').readAsStringSync())
+        as Map<String, dynamic>,
+  );
 }

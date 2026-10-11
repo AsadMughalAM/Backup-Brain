@@ -1580,6 +1580,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The assistant is busy. Try again in a minute. Meanwhile, your numbers:'**
   String get assistantBusy;
+
+  /// No description provided for @estimatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar cost estimator'**
+  String get estimatorTitle;
+
+  /// No description provided for @estimatorIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'What would solar cost for your home? Rough sizes, prices and savings in a few taps.'**
+  String get estimatorIntro;
+
+  /// No description provided for @estimatorUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly electricity use'**
+  String get estimatorUsage;
+
+  /// No description provided for @estimatorUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Units (kWh)'**
+  String get estimatorUnits;
+
+  /// No description provided for @estimatorBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill (Rs)'**
+  String get estimatorBill;
+
+  /// No description provided for @estimatorUnitsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Units per month'**
+  String get estimatorUnitsLabel;
+
+  /// No description provided for @estimatorBillLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly bill in rupees'**
+  String get estimatorBillLabel;
+
+  /// No description provided for @estimatorTariffNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Converted at Rs {tariff} per unit.'**
+  String estimatorTariffNote(String tariff);
+
+  /// No description provided for @estimatorCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get estimatorCity;
+
+  /// No description provided for @estimatorGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'What matters most?'**
+  String get estimatorGoal;
+
+  /// No description provided for @goalBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower bill'**
+  String get goalBill;
+
+  /// No description provided for @goalBillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No battery, the cheapest'**
+  String get goalBillHint;
+
+  /// No description provided for @goalBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill and backup'**
+  String get goalBoth;
+
+  /// No description provided for @goalBothHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A battery for load-shedding'**
+  String get goalBothHint;
+
+  /// No description provided for @goalBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Full backup'**
+  String get goalBackup;
+
+  /// No description provided for @goalBackupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A battery for the whole night'**
+  String get goalBackupHint;
+
+  /// No description provided for @estimatorBackupHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup hours needed'**
+  String get estimatorBackupHours;
+
+  /// No description provided for @estimatorHoursLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer hours'**
+  String get estimatorHoursLess;
+
+  /// No description provided for @estimatorHoursMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More hours'**
+  String get estimatorHoursMore;
+
+  /// No description provided for @estimatorNightLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Load at night (W)'**
+  String get estimatorNightLoad;
+
+  /// No description provided for @estimatorNightLoadHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fans, lights and fridge together. Taken from your home if you leave it empty.'**
+  String get estimatorNightLoadHint;
+
+  /// No description provided for @estimatorEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Packages appear here'**
+  String get estimatorEmptyTitle;
+
+  /// No description provided for @estimatorEnterUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your monthly units or bill to see three packages with cost and payback.'**
+  String get estimatorEnterUsage;
+
+  /// No description provided for @packageBasic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get packageBasic;
+
+  /// No description provided for @packageBasicSub.
+  ///
+  /// In en, this message translates to:
+  /// **'On-grid: cuts the bill, no backup'**
+  String get packageBasicSub;
+
+  /// No description provided for @packageHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Hybrid'**
+  String get packageHybrid;
+
+  /// No description provided for @packageHybridSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuts the bill and covers load-shedding'**
+  String get packageHybridSub;
+
+  /// No description provided for @packageFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full backup'**
+  String get packageFull;
+
+  /// No description provided for @packageFullSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The whole night on battery'**
+  String get packageFullSub;
+
+  /// No description provided for @packageRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get packageRecommended;
+
+  /// No description provided for @packageCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Rs {min}–{max}'**
+  String packageCost(String min, String max);
+
+  /// No description provided for @packagePanels.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} × {watts} W panels ({kw})'**
+  String packagePanels(String count, String watts, String kw);
+
+  /// No description provided for @packageInverterOngrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} on-grid inverter'**
+  String packageInverterOngrid(String size);
+
+  /// No description provided for @packageInverterHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} hybrid inverter'**
+  String packageInverterHybrid(String size);
+
+  /// No description provided for @packageBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'{kwh} kWh lithium battery: about {hours} at {load}'**
+  String packageBattery(String kwh, String hours, String load);
+
+  /// No description provided for @packageNoBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'No battery: no backup during load-shedding'**
+  String get packageNoBattery;
+
+  /// No description provided for @packageProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Makes about {units} units a month'**
+  String packageProduction(String units);
+
+  /// No description provided for @packageSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Saves about Rs {amount} a month'**
+  String packageSavings(String amount);
+
+  /// No description provided for @packagePayback.
+  ///
+  /// In en, this message translates to:
+  /// **'Pays for itself in {min}–{max} years'**
+  String packagePayback(String min, String max);
+
+  /// No description provided for @installerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions to ask your installer'**
+  String get installerTitle;
+
+  /// No description provided for @installerQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'Are the panels tier-1, and what output warranty do they carry?'**
+  String get installerQ1;
+
+  /// No description provided for @installerQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'Is the inverter hybrid, and which batteries does it support?'**
+  String get installerQ2;
+
+  /// No description provided for @installerQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'Which lithium (LiFePO4) battery brand, how many cycles, what warranty?'**
+  String get installerQ3;
+
+  /// No description provided for @installerQ4.
+  ///
+  /// In en, this message translates to:
+  /// **'Does the price include structure, wiring, breakers and earthing?'**
+  String get installerQ4;
+
+  /// No description provided for @installerQ5.
+  ///
+  /// In en, this message translates to:
+  /// **'Who handles net metering with the DISCO, and how long does it take?'**
+  String get installerQ5;
+
+  /// No description provided for @estimatorDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimates only: get quotes from 2–3 installers. Prices last updated {date}.'**
+  String estimatorDisclaimer(String date);
+
+  /// No description provided for @estimatorPricesUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'These are sample prices, not yet checked with installers.'**
+  String get estimatorPricesUnverified;
 }
 
 class _AppLocalizationsDelegate

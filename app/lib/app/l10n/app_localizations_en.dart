@@ -913,4 +913,174 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get assistantBusy =>
       'The assistant is busy. Try again in a minute. Meanwhile, your numbers:';
+
+  @override
+  String get estimatorTitle => 'Solar cost estimator';
+
+  @override
+  String get estimatorIntro =>
+      'What would solar cost for your home? Rough sizes, prices and savings in a few taps.';
+
+  @override
+  String get estimatorUsage => 'Monthly electricity use';
+
+  @override
+  String get estimatorUnits => 'Units (kWh)';
+
+  @override
+  String get estimatorBill => 'Bill (Rs)';
+
+  @override
+  String get estimatorUnitsLabel => 'Units per month';
+
+  @override
+  String get estimatorBillLabel => 'Monthly bill in rupees';
+
+  @override
+  String estimatorTariffNote(String tariff) {
+    return 'Converted at Rs $tariff per unit.';
+  }
+
+  @override
+  String get estimatorCity => 'City';
+
+  @override
+  String get estimatorGoal => 'What matters most?';
+
+  @override
+  String get goalBill => 'Lower bill';
+
+  @override
+  String get goalBillHint => 'No battery, the cheapest';
+
+  @override
+  String get goalBoth => 'Bill and backup';
+
+  @override
+  String get goalBothHint => 'A battery for load-shedding';
+
+  @override
+  String get goalBackup => 'Full backup';
+
+  @override
+  String get goalBackupHint => 'A battery for the whole night';
+
+  @override
+  String get estimatorBackupHours => 'Backup hours needed';
+
+  @override
+  String get estimatorHoursLess => 'Fewer hours';
+
+  @override
+  String get estimatorHoursMore => 'More hours';
+
+  @override
+  String get estimatorNightLoad => 'Load at night (W)';
+
+  @override
+  String get estimatorNightLoadHint =>
+      'Fans, lights and fridge together. Taken from your home if you leave it empty.';
+
+  @override
+  String get estimatorEmptyTitle => 'Packages appear here';
+
+  @override
+  String get estimatorEnterUsage =>
+      'Enter your monthly units or bill to see three packages with cost and payback.';
+
+  @override
+  String get packageBasic => 'Basic';
+
+  @override
+  String get packageBasicSub => 'On-grid: cuts the bill, no backup';
+
+  @override
+  String get packageHybrid => 'Hybrid';
+
+  @override
+  String get packageHybridSub => 'Cuts the bill and covers load-shedding';
+
+  @override
+  String get packageFull => 'Full backup';
+
+  @override
+  String get packageFullSub => 'The whole night on battery';
+
+  @override
+  String get packageRecommended => 'Recommended';
+
+  @override
+  String packageCost(String min, String max) {
+    return 'Rs $min–$max';
+  }
+
+  @override
+  String packagePanels(String count, String watts, String kw) {
+    return '$count × $watts W panels ($kw)';
+  }
+
+  @override
+  String packageInverterOngrid(String size) {
+    return '$size on-grid inverter';
+  }
+
+  @override
+  String packageInverterHybrid(String size) {
+    return '$size hybrid inverter';
+  }
+
+  @override
+  String packageBattery(String kwh, String hours, String load) {
+    return '$kwh kWh lithium battery: about $hours at $load';
+  }
+
+  @override
+  String get packageNoBattery => 'No battery: no backup during load-shedding';
+
+  @override
+  String packageProduction(String units) {
+    return 'Makes about $units units a month';
+  }
+
+  @override
+  String packageSavings(String amount) {
+    return 'Saves about Rs $amount a month';
+  }
+
+  @override
+  String packagePayback(String min, String max) {
+    return 'Pays for itself in $min–$max years';
+  }
+
+  @override
+  String get installerTitle => 'Questions to ask your installer';
+
+  @override
+  String get installerQ1 =>
+      'Are the panels tier-1, and what output warranty do they carry?';
+
+  @override
+  String get installerQ2 =>
+      'Is the inverter hybrid, and which batteries does it support?';
+
+  @override
+  String get installerQ3 =>
+      'Which lithium (LiFePO4) battery brand, how many cycles, what warranty?';
+
+  @override
+  String get installerQ4 =>
+      'Does the price include structure, wiring, breakers and earthing?';
+
+  @override
+  String get installerQ5 =>
+      'Who handles net metering with the DISCO, and how long does it take?';
+
+  @override
+  String estimatorDisclaimer(String date) {
+    return 'Estimates only: get quotes from 2–3 installers. Prices last updated $date.';
+  }
+
+  @override
+  String get estimatorPricesUnverified =>
+      'These are sample prices, not yet checked with installers.';
 }

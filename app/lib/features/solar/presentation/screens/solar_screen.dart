@@ -18,11 +18,18 @@ import '../widgets/sun_forecast_card.dart';
 /// verdict, the sun behind it, and one thing to do (DESIGN.md §11 Solar).
 /// Tomorrow is one tap away and is picked automatically after sunset.
 class SolarScreen extends ConsumerStatefulWidget {
-  const SolarScreen({super.key, this.editHomeLocation});
+  const SolarScreen({
+    super.key,
+    this.editHomeLocation,
+    this.estimatorLocation,
+  });
 
   /// Where "Add my panels" goes; passed in so this feature doesn't import
   /// the app router. Null hides the button.
   final String? editHomeLocation;
+
+  /// The F5 cost estimator, from the app bar. Null hides the button.
+  final String? estimatorLocation;
 
   @override
   ConsumerState<SolarScreen> createState() => _SolarScreenState();
@@ -101,6 +108,12 @@ class _SolarScreenState extends ConsumerState<SolarScreen> {
     return BbScaffold(
       title: l10n.tabSolar,
       actions: [
+        if (widget.estimatorLocation case final estimator?)
+          BbIconButton(
+            icon: BbIcons.estimator,
+            tooltip: l10n.estimatorTitle,
+            onPressed: () => context.push(estimator),
+          ),
         if (system?.location != null)
           BbIconButton(
             icon: BbIcons.refresh,

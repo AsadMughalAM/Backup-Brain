@@ -232,6 +232,8 @@ battery_Wh            = night_load_W × backup_hours / (usable_DoD × inverter_e
 - Payback: `annual_savings = units_offset × tariff_per_unit × 12`; `payback_years = total_cost / annual_savings`. Tariff per unit and any net-metering/net-billing rate are **configurable** (government policy changes; do not assume).
 - AI summary in plain language + "questions to ask your installer" checklist.
 
+**As built (engine `solar_sizing.dart`):** all packages quote LiFePO4 (usable DoD = 1 − 0.15) and a hybrid inverter's 0.90 efficiency; batteries round up to 0.5 kWh. *Basic* = bill-sized panels + on-grid inverter sized to the panels. *Hybrid* = same panels + a battery for the user's backup hours + hybrid inverter ≥ 1.25 × peak load. *Full backup* = a battery for max(backup hours, 10 h) and extra panels to refill it from one day's sun (`battery_kWh / (PSH × PR × charge_eff)`). Savings count only units the household actually buys: `min(solar_kWh, monthly_kWh) × tariff`. Above the largest standard inverter, several are quoted. PSH per city lives in `cities_psh.json`; prices in `pricing_pk.json` (placeholders until verified, shown on screen). The AI summary is not built yet.
+
 ---
 
 ### F6 — Battery Health Monitor (P1)

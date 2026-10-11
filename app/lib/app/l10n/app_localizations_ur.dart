@@ -915,6 +915,176 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get assistantBusy =>
       'Assistant abhi masroof hai. Ek minute baad dobara koshish karein. Tab tak aap ke numbers:';
+
+  @override
+  String get estimatorTitle => 'Solar ka kharcha';
+
+  @override
+  String get estimatorIntro =>
+      'Aap ke ghar ke liye solar ka kitna kharcha aayega? Chand taps mein size, qeemat aur bachat ka andaza.';
+
+  @override
+  String get estimatorUsage => 'Mahana bijli ka istemal';
+
+  @override
+  String get estimatorUnits => 'Units (kWh)';
+
+  @override
+  String get estimatorBill => 'Bill (Rs)';
+
+  @override
+  String get estimatorUnitsLabel => 'Mahana units';
+
+  @override
+  String get estimatorBillLabel => 'Mahana bill (rupay)';
+
+  @override
+  String estimatorTariffNote(String tariff) {
+    return 'Rs $tariff fi unit ke hisaab se.';
+  }
+
+  @override
+  String get estimatorCity => 'Shehr';
+
+  @override
+  String get estimatorGoal => 'Sab se zaroori kya hai?';
+
+  @override
+  String get goalBill => 'Bill kam karna';
+
+  @override
+  String get goalBillHint => 'Battery nahi, sab se sasta';
+
+  @override
+  String get goalBoth => 'Bill aur backup';
+
+  @override
+  String get goalBothHint => 'Load-shedding ke liye battery';
+
+  @override
+  String get goalBackup => 'Poora backup';
+
+  @override
+  String get goalBackupHint => 'Poori raat ki battery';
+
+  @override
+  String get estimatorBackupHours => 'Kitne ghante backup chahiye';
+
+  @override
+  String get estimatorHoursLess => 'Kam ghante';
+
+  @override
+  String get estimatorHoursMore => 'Zyada ghante';
+
+  @override
+  String get estimatorNightLoad => 'Raat ka load (W)';
+
+  @override
+  String get estimatorNightLoadHint =>
+      'Pankhe, bulb aur fridge mila kar. Khaali chhorein to aap ke ghar se liya jayega.';
+
+  @override
+  String get estimatorEmptyTitle => 'Packages yahan nazar aayenge';
+
+  @override
+  String get estimatorEnterUsage =>
+      'Mahana units ya bill likhein, phir teen packages qeemat aur wapsi ke saath dekhein.';
+
+  @override
+  String get packageBasic => 'Basic';
+
+  @override
+  String get packageBasicSub => 'On-grid: bill kam, backup nahi';
+
+  @override
+  String get packageHybrid => 'Hybrid';
+
+  @override
+  String get packageHybridSub => 'Bill bhi kam, load-shedding mein backup bhi';
+
+  @override
+  String get packageFull => 'Poora backup';
+
+  @override
+  String get packageFullSub => 'Poori raat battery par';
+
+  @override
+  String get packageRecommended => 'Behtar intikhab';
+
+  @override
+  String packageCost(String min, String max) {
+    return 'Rs $min–$max';
+  }
+
+  @override
+  String packagePanels(String count, String watts, String kw) {
+    return '$count × $watts W panels ($kw)';
+  }
+
+  @override
+  String packageInverterOngrid(String size) {
+    return '$size on-grid inverter';
+  }
+
+  @override
+  String packageInverterHybrid(String size) {
+    return '$size hybrid inverter';
+  }
+
+  @override
+  String packageBattery(String kwh, String hours, String load) {
+    return '$kwh kWh lithium battery: $load par taqreeban $hours';
+  }
+
+  @override
+  String get packageNoBattery => 'Battery nahi: load-shedding mein backup nahi';
+
+  @override
+  String packageProduction(String units) {
+    return 'Mahana taqreeban $units units banayega';
+  }
+
+  @override
+  String packageSavings(String amount) {
+    return 'Mahana taqreeban Rs $amount ki bachat';
+  }
+
+  @override
+  String packagePayback(String min, String max) {
+    return '$min–$max saal mein qeemat wapas';
+  }
+
+  @override
+  String get installerTitle => 'Installer se yeh zaroor poochein';
+
+  @override
+  String get installerQ1 =>
+      'Kya panels tier-1 hain, aur output ki warranty kitni hai?';
+
+  @override
+  String get installerQ2 =>
+      'Kya inverter hybrid hai, aur kaun si batteries chalata hai?';
+
+  @override
+  String get installerQ3 =>
+      'Lithium (LiFePO4) battery kaun si brand, kitne cycles, kitni warranty?';
+
+  @override
+  String get installerQ4 =>
+      'Kya qeemat mein structure, wiring, breakers aur earthing shamil hain?';
+
+  @override
+  String get installerQ5 =>
+      'DISCO se net metering kaun karwayega, aur kitna waqt lagega?';
+
+  @override
+  String estimatorDisclaimer(String date) {
+    return 'Sirf andaza hai: 2–3 installers se qeemat lein. Qeematein aakhri dafa $date ko update hui.';
+  }
+
+  @override
+  String get estimatorPricesUnverified =>
+      'Yeh namoone ki qeematein hain, abhi installers se check nahi hui.';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

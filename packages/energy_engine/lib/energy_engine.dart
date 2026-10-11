@@ -14,3 +14,4 @@ export 'src/outage_pattern.dart';
 export 'src/recharge_planner.dart';
 export 'src/solar_geometry.dart';
 export 'src/solar_model.dart';
+export 'src/solar_sizing.dart';

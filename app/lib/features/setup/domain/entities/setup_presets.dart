@@ -58,11 +58,19 @@ class SetupPresets {
 }
 
 class CityPreset {
-  const CityPreset({required this.id, required this.name, required this.site});
+  const CityPreset({
+    required this.id,
+    required this.name,
+    required this.site,
+    this.psh,
+  });
 
   final String id;
   final String name;
   final SiteLocation site;
+
+  /// Yearly average peak sun hours, for the F5 estimator.
+  final double? psh;
 }
 
 class AppliancePreset {

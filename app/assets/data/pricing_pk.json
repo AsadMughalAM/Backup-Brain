@@ -1,0 +1,83 @@
+{
+  "_comment": "F5 estimator prices in PKR, as min–max ranges. PLACEHOLDERS: check with 2–3 installers and update lastUpdated before the demo. Firestore config/pricing_pk, when present, wins over this bundled copy (TECH_STACK §7.2).",
+  "lastUpdated": "2026-10-11",
+  "verified": false,
+  "tariffPerUnit": 55,
+  "panel": {
+    "watts": 580,
+    "pricePerW": {
+      "min": 28,
+      "max": 36
+    }
+  },
+  "inverterSizesKw": [
+    3,
+    4,
+    6,
+    8,
+    10,
+    12
+  ],
+  "ongridInverter": {
+    "3": {
+      "min": 100000,
+      "max": 150000
+    },
+    "4": {
+      "min": 120000,
+      "max": 170000
+    },
+    "6": {
+      "min": 160000,
+      "max": 230000
+    },
+    "8": {
+      "min": 210000,
+      "max": 290000
+    },
+    "10": {
+      "min": 250000,
+      "max": 340000
+    },
+    "12": {
+      "min": 290000,
+      "max": 390000
+    }
+  },
+  "hybridInverter": {
+    "3": {
+      "min": 140000,
+      "max": 200000
+    },
+    "4": {
+      "min": 170000,
+      "max": 240000
+    },
+    "6": {
+      "min": 230000,
+      "max": 330000
+    },
+    "8": {
+      "min": 330000,
+      "max": 450000
+    },
+    "10": {
+      "min": 400000,
+      "max": 550000
+    },
+    "12": {
+      "min": 480000,
+      "max": 650000
+    }
+  },
+  "batteryPerKWh": {
+    "lifepo4": {
+      "min": 45000,
+      "max": 65000
+    }
+  },
+  "installationPerKw": {
+    "min": 18000,
+    "max": 30000
+  }
+}

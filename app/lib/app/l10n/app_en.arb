@@ -739,5 +739,140 @@
   "settingsOutageAlerts": "Outage alerts",
   "settingsOutageAlertsBody": "A notification 30 minutes before the next likely or scheduled outage. Works offline.",
   "solarAddPanels": "Add my panels",
-  "assistantBusy": "The assistant is busy. Try again in a minute. Meanwhile, your numbers:"
+  "assistantBusy": "The assistant is busy. Try again in a minute. Meanwhile, your numbers:",
+  "estimatorTitle": "Solar cost estimator",
+  "estimatorIntro": "What would solar cost for your home? Rough sizes, prices and savings in a few taps.",
+  "estimatorUsage": "Monthly electricity use",
+  "estimatorUnits": "Units (kWh)",
+  "estimatorBill": "Bill (Rs)",
+  "estimatorUnitsLabel": "Units per month",
+  "estimatorBillLabel": "Monthly bill in rupees",
+  "estimatorTariffNote": "Converted at Rs {tariff} per unit.",
+  "@estimatorTariffNote": {
+    "placeholders": {
+      "tariff": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatorCity": "City",
+  "estimatorGoal": "What matters most?",
+  "goalBill": "Lower bill",
+  "goalBillHint": "No battery, the cheapest",
+  "goalBoth": "Bill and backup",
+  "goalBothHint": "A battery for load-shedding",
+  "goalBackup": "Full backup",
+  "goalBackupHint": "A battery for the whole night",
+  "estimatorBackupHours": "Backup hours needed",
+  "estimatorHoursLess": "Fewer hours",
+  "estimatorHoursMore": "More hours",
+  "estimatorNightLoad": "Load at night (W)",
+  "estimatorNightLoadHint": "Fans, lights and fridge together. Taken from your home if you leave it empty.",
+  "estimatorEmptyTitle": "Packages appear here",
+  "estimatorEnterUsage": "Enter your monthly units or bill to see three packages with cost and payback.",
+  "packageBasic": "Basic",
+  "packageBasicSub": "On-grid: cuts the bill, no backup",
+  "packageHybrid": "Hybrid",
+  "packageHybridSub": "Cuts the bill and covers load-shedding",
+  "packageFull": "Full backup",
+  "packageFullSub": "The whole night on battery",
+  "packageRecommended": "Recommended",
+  "packageCost": "Rs {min}–{max}",
+  "@packageCost": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "packagePanels": "{count} × {watts} W panels ({kw})",
+  "@packagePanels": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "watts": {
+        "type": "String"
+      },
+      "kw": {
+        "type": "String"
+      }
+    }
+  },
+  "packageInverterOngrid": "{size} on-grid inverter",
+  "@packageInverterOngrid": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "packageInverterHybrid": "{size} hybrid inverter",
+  "@packageInverterHybrid": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "packageBattery": "{kwh} kWh lithium battery: about {hours} at {load}",
+  "@packageBattery": {
+    "placeholders": {
+      "kwh": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      },
+      "load": {
+        "type": "String"
+      }
+    }
+  },
+  "packageNoBattery": "No battery: no backup during load-shedding",
+  "packageProduction": "Makes about {units} units a month",
+  "@packageProduction": {
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "packageSavings": "Saves about Rs {amount} a month",
+  "@packageSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "packagePayback": "Pays for itself in {min}–{max} years",
+  "@packagePayback": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "installerTitle": "Questions to ask your installer",
+  "installerQ1": "Are the panels tier-1, and what output warranty do they carry?",
+  "installerQ2": "Is the inverter hybrid, and which batteries does it support?",
+  "installerQ3": "Which lithium (LiFePO4) battery brand, how many cycles, what warranty?",
+  "installerQ4": "Does the price include structure, wiring, breakers and earthing?",
+  "installerQ5": "Who handles net metering with the DISCO, and how long does it take?",
+  "estimatorDisclaimer": "Estimates only: get quotes from 2–3 installers. Prices last updated {date}.",
+  "@estimatorDisclaimer": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatorPricesUnverified": "These are sample prices, not yet checked with installers."
 }
