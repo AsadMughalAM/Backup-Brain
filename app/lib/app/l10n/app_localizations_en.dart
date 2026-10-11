@@ -481,10 +481,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'No internet, so the assistant can\'t answer right now. Your numbers still work offline:';
 
   @override
-  String get assistantBusy =>
-      'The assistant is busy right now. Meanwhile, your numbers:';
-
-  @override
   String get assistantUnavailable =>
       'The assistant isn\'t available right now. Meanwhile, your numbers:';
 
@@ -503,4 +499,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get assistantSafetyBody =>
       'A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don\'t use it until it has been checked.';
+
+  @override
+  String get assistantDailyLimit =>
+      'You\'ve used today\'s assistant messages. They reset at midnight. Meanwhile, your numbers:';
 }

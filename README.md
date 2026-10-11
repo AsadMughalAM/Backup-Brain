@@ -2,9 +2,9 @@
 
 An AI home energy manager for Pakistani households living with load-shedding. It tells you how long your backup will last, what to switch off first, whether solar will recharge the battery, what solar would cost you, and where to buy or repair a battery when it fails.
 
-**Stack:** Flutter (Android first) · Firebase (Auth, Firestore, AI Logic, Cloud Functions) · Open-Meteo · Gemini
+**Stack:** Flutter (Android first) · Firebase (Auth, Firestore, Cloud Functions) · Open-Meteo · Gemini API
 
-**Status:** Hackathon build. Working: sign-in (email + Google), the calculation engine, the `bb_ui` design system, and Dashboard (F1), Load Planner (F2), Solar forecast (F3) and the AI assistant (F9, Gemini via Firebase AI Logic) on the demo household (ARCHITECTURE §12), backed by Firebase `backup-brain-dev` (Firestore in `asia-south1`, rules deployed). Next: the estimator (F5) and full onboarding.
+**Status:** Hackathon build. Working: sign-in (email + Google), the calculation engine, the `bb_ui` design system, and Dashboard (F1), Load Planner (F2), Solar forecast (F3) and the AI assistant (F9, Gemini through the `assistantChat` Cloud Function) on the demo household (ARCHITECTURE §12), backed by Firebase `backup-brain-dev` (Firestore in `asia-south1`, rules deployed). Next: the estimator (F5) and full onboarding.
 
 ## Docs
 
@@ -44,6 +44,6 @@ cd functions && pnpm install && pnpm run build
 firebase emulators:start
 ```
 
-**AI assistant (F9) on your machine:** Firebase AI Logic only answers requests with an App Check token. A debug build prints a debug token the first time it starts: in the browser console (`App Check debug token: …`) or in logcat for Android. Add it once in the Firebase console under **App Check → Apps → ⋮ → Manage debug tokens**. Each browser and each phone has its own token. Never commit these tokens.
+**AI assistant (F9):** works against the deployed `assistantChat` function; no per-machine setup. The Gemini key is set once per Firebase project with `firebase functions:secrets:set GEMINI_API_KEY` and lives only in Secret Manager. Deploy with `firebase deploy --only functions` (needs the Blaze plan).
 
 For the full command list and environments, see [TECH_STACK.md §7.8 and §8](TECH_STACK.md).

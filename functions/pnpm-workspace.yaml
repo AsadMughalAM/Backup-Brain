@@ -1,0 +1,5 @@
+# Install scripts these dependencies ship but the functions don't need.
+allowBuilds:
+  '@firebase/util': false
+  '@google/genai': false
+  protobufjs: false

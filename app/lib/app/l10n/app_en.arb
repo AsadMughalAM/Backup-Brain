@@ -362,7 +362,6 @@
   "assistantSend": "Send",
   "assistantTyping": "Assistant is typing",
   "assistantOffline": "No internet, so the assistant can't answer right now. Your numbers still work offline:",
-  "assistantBusy": "The assistant is busy right now. Meanwhile, your numbers:",
   "assistantUnavailable": "The assistant isn't available right now. Meanwhile, your numbers:",
   "assistantFallbackBackup": "Backup lasts {time} at {load}.",
   "@assistantFallbackBackup": {
@@ -377,5 +376,6 @@
   },
   "assistantNoData": "Your home isn't set up yet, so there are no numbers to explain. Load the demo household on Home first.",
   "assistantSafetyTitle": "Disconnect the battery now",
-  "assistantSafetyBody": "A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don't use it until it has been checked."
+  "assistantSafetyBody": "A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don't use it until it has been checked.",
+  "assistantDailyLimit": "You've used today's assistant messages. They reset at midnight. Meanwhile, your numbers:"
 }

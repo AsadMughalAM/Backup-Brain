@@ -127,6 +127,11 @@ describe('reference data', () => {
     await assertFails(db(null).doc('config/pricing_pk').get());
   });
 
+  test('users cannot read or reset their own AI usage counter', async () => {
+    await assertFails(db('alice').doc('aiUsage/alice').get());
+    await assertFails(db('alice').doc('aiUsage/alice').set({ day: '2026-10-11', count: 0 }));
+  });
+
   test('unknown top-level collections are denied', async () => {
     await assertFails(db('alice').doc('secrets/x').get());
   });

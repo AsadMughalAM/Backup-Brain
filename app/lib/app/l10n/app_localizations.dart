@@ -897,12 +897,6 @@ abstract class AppLocalizations {
   /// **'No internet, so the assistant can\'t answer right now. Your numbers still work offline:'**
   String get assistantOffline;
 
-  /// No description provided for @assistantBusy.
-  ///
-  /// In en, this message translates to:
-  /// **'The assistant is busy right now. Meanwhile, your numbers:'**
-  String get assistantBusy;
-
   /// No description provided for @assistantUnavailable.
   ///
   /// In en, this message translates to:
@@ -932,6 +926,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A swollen, hot or smelly battery can catch fire. Switch off the inverter, disconnect the battery and call a technician. Don\'t use it until it has been checked.'**
   String get assistantSafetyBody;
+
+  /// No description provided for @assistantDailyLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used today\'s assistant messages. They reset at midnight. Meanwhile, your numbers:'**
+  String get assistantDailyLimit;
 }
 
 class _AppLocalizationsDelegate

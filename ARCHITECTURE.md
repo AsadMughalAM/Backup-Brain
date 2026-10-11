@@ -317,8 +317,8 @@ Smart plug control (auto-shed "avoid_on_backup" loads) comes last and must requi
        │               │                  │               │
 ┌──────▼──────┐ ┌──────▼───────┐ ┌────────▼───────┐ ┌─────▼──────────┐
 │ CALCULATION │ │ FORECAST     │ │ AI LAYER       │ │ DATA SOURCES   │
-│ ENGINE      │ │ Open-Meteo   │ │ Firebase AI    │ │ (adapters)     │
-│ pure Dart,  │ │ fetch+cache, │ │ Logic → Gemini;│ │ Manual /       │
+│ ENGINE      │ │ Open-Meteo   │ │ Cloud Function │ │ (adapters)     │
+│ pure Dart,  │ │ fetch+cache, │ │ → Gemini API;  │ │ Manual /       │
 │ on device:  │ │ solar model, │ │ explains engine│ │ Simulated /    │
 │ backup,     │ │ outage       │ │ numbers in EN +│ │ Inverter /     │
 │ loads,      │ │ pattern      │ │ Roman Urdu     │ │ Sensors        │
@@ -334,7 +334,7 @@ Smart plug control (auto-shed "avoid_on_backup" loads) comes last and must requi
                               │ outages,logs│   │ pricing_pk.json     │
                               └─────────────┘   │ cities_psh.json     │
                                                 └─────────────────────┘
-External: Open-Meteo (weather/irradiance) · Gemini via Firebase AI Logic · Google Places API (F7)
+External: Open-Meteo (weather/irradiance) · Gemini API · Google Places API (F7)
 ```
 
 Concrete wiring (repositories, callables, Firestore paths) lives in `TECH_STACK.md` §3–§4.
@@ -350,7 +350,7 @@ Concrete wiring (repositories, callables, Firestore paths) lives in `TECH_STACK.
 
 ## 7. Tech Stack
 
-**Final: Flutter + Firebase.** Flutter (Dart 3, Riverpod, go_router) for the app, a pure Dart `energy_engine` package for every calculation, Cloud Firestore (offline cache) for data, Gemini through Firebase AI Logic for the assistant, Cloud Functions (TypeScript) for the Google Places proxy, Open-Meteo for weather. Full details, packages and rules: **`TECH_STACK.md`**.
+**Final: Flutter + Firebase.** Flutter (Dart 3, Riverpod, go_router) for the app, a pure Dart `energy_engine` package for every calculation, Cloud Firestore (offline cache) for data, Cloud Functions (TypeScript) for the Gemini and Google Places proxies, Open-Meteo for weather. Full details, packages and rules: **`TECH_STACK.md`**.
 
 ---
 
@@ -389,7 +389,7 @@ BatteryProduct  { id, brand, model, chemistry, voltage, ah, warrantyMonths, cycl
 
 ## 9. Server Interface
 
-There is **no REST API**. Calculations (backup, switch-offs, solar forecast, sizing, health, diagnosis, outage prediction) run in the Dart engine on the phone. Profile, appliances, outages and logs are **direct Firestore reads/writes** guarded by security rules. Only F7 needs our own server code: the callable Cloud Function `findNearbyShops`. The F9 assistant calls Gemini through Firebase AI Logic, which keeps the key on Google's side. Full list: `TECH_STACK.md` §3.2.
+There is **no REST API**. Calculations (backup, switch-offs, solar forecast, sizing, health, diagnosis, outage prediction) run in the Dart engine on the phone. Profile, appliances, outages and logs are **direct Firestore reads/writes** guarded by security rules. Only two things need a server, both as callable Cloud Functions: `assistantChat` (F9, Gemini) and `findNearbyShops` (F7). Full list: `TECH_STACK.md` §3.2.
 
 ---
 
@@ -422,7 +422,7 @@ Product-level phases. The step-by-step technical order is `TECH_STACK.md` §9; e
 3. Onboarding + Dashboard + Load Planner screens
 4. Open-Meteo source (cached) + `solar_model.dart` (F3) + Solar screen
 5. `solar_sizing.dart` (F5) + Estimator screen
-6. Gemini assistant (Firebase AI Logic) with an engine snapshot (F9)
+6. `assistantChat` Cloud Function (Gemini) with an engine snapshot (F9)
 
 **Phase 2 — P1 features**
 7. Outage logging + `battery_health.dart` (F6)

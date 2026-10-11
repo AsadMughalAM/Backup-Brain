@@ -44,7 +44,7 @@ If two docs disagree, the "Wins on" column decides. If a doc change affects anot
 6. **Design:** containers are separated by surface color + shadow, never borders, and elevated surfaces are never nested. Never use color alone (always add an icon and text). Focus is always visible. Touch targets are at least 48 dp.
 7. **Overlays** go through the single `OverlayHost` at the app root. Modals trap focus, close on Escape, back or scrim tap, and have an accessible title.
 8. **Safety:** never switch appliances automatically without confirmation. Battery swelling, smell or heat → fixed "disconnect and call a technician" text.
-9. **No secrets in the app.** API keys live in Secret Manager and are read only from Cloud Functions; the Gemini key is held by Firebase AI Logic.
+9. **No secrets in the app.** API keys live in Secret Manager and are read only from Cloud Functions.
 
 ## Tooling
 

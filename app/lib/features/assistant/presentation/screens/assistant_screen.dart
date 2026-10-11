@@ -179,7 +179,8 @@ class _Entry extends ConsumerWidget {
             text: _fallback(l10n, ref.watch(energySnapshotProvider)),
             fromUser: false,
           ),
-          if (isLast) ...[
+          // Retrying can't beat the daily limit.
+          if (isLast && entry.failure != AssistantFailureCode.dailyLimit) ...[
             const BbGap.xs(),
             BbButton.secondary(
               label: l10n.tryAgain,
@@ -197,8 +198,8 @@ class _Entry extends ConsumerWidget {
   String _fallback(AppLocalizations l10n, EnergySnapshot? s) {
     final why = switch (entry.failure) {
       AssistantFailureCode.offline || null => l10n.assistantOffline,
-      AssistantFailureCode.busy => l10n.assistantBusy,
       AssistantFailureCode.unavailable => l10n.assistantUnavailable,
+      AssistantFailureCode.dailyLimit => l10n.assistantDailyLimit,
     };
     if (s == null) return why;
     final best = s.bestSwitchOff, gain = s.bestGainHours;

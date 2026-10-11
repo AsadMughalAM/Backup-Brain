@@ -481,10 +481,6 @@ class AppLocalizationsUr extends AppLocalizations {
       'Internet nahi hai, is liye assistant abhi jawab nahi de sakta. Aap ke numbers offline bhi chalte hain:';
 
   @override
-  String get assistantBusy =>
-      'Assistant abhi masroof hai. Tab tak aap ke numbers:';
-
-  @override
   String get assistantUnavailable =>
       'Assistant abhi dastyab nahi. Tab tak aap ke numbers:';
 
@@ -503,6 +499,10 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get assistantSafetyBody =>
       'Phooli hui, garam ya boo wali battery ko aag lag sakti hai. Inverter band karein, battery disconnect karein aur technician ko bulayein. Check hone tak istemal na karein.';
+
+  @override
+  String get assistantDailyLimit =>
+      'Aaj ke assistant messages khatam ho gaye. Raat 12 baje dobara milenge. Tab tak aap ke numbers:';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

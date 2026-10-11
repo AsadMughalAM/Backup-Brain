@@ -1,6 +1,4 @@
-import 'package:backup_brain/features/assistant/data/assistant_prompt.dart';
 import 'package:backup_brain/features/assistant/domain/assistant_repository.dart';
-import 'package:backup_brain/features/assistant/domain/energy_snapshot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -77,19 +75,5 @@ void main() {
 
     expect(find.text('Disconnect the battery now'), findsOneWidget);
     expect(assistant.calls, isEmpty);
-  });
-
-  test('the prompt forbids new numbers and carries the snapshot', () {
-    const snapshot = EnergySnapshot(
-      facts: {
-        'now': {'backupTimeLeft': '3h 28m'},
-      },
-      backupHours: 3.47,
-      loadW: 420,
-    );
-    final prompt = buildSystemPrompt(snapshot, ReplyLanguage.romanUrdu);
-    expect(prompt, contains('Never calculate'));
-    expect(prompt, contains('"backupTimeLeft": "3h 28m"'));
-    expect(prompt, contains('Roman Urdu'));
   });
 }

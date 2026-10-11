@@ -13,7 +13,13 @@ class ChatTurn {
 
 enum ReplyLanguage { english, romanUrdu }
 
-enum AssistantFailureCode { offline, busy, unavailable }
+enum AssistantFailureCode {
+  offline,
+  unavailable,
+
+  /// This user's assistant messages for today are used up.
+  dailyLimit,
+}
 
 class AssistantFailure implements Exception {
   const AssistantFailure(this.code);
@@ -34,7 +40,7 @@ abstract interface class AssistantRepository {
   });
 }
 
-/// Bound to the Gemini (Firebase AI Logic) implementation in
+/// Bound to the `assistantChat` Cloud Function in
 /// `app/app_providers.dart`.
 final assistantRepositoryProvider = Provider<AssistantRepository>(
   (ref) => throw UnimplementedError('Overridden in app_providers.dart'),

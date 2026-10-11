@@ -133,10 +133,10 @@
   "assistantSend": "Bhejein",
   "assistantTyping": "Assistant likh raha hai",
   "assistantOffline": "Internet nahi hai, is liye assistant abhi jawab nahi de sakta. Aap ke numbers offline bhi chalte hain:",
-  "assistantBusy": "Assistant abhi masroof hai. Tab tak aap ke numbers:",
   "assistantUnavailable": "Assistant abhi dastyab nahi. Tab tak aap ke numbers:",
   "assistantFallbackBackup": "{load} par backup {time} chalega.",
   "assistantNoData": "Aap ka ghar abhi set up nahi hua, is liye samjhane ko koi numbers nahi. Pehle Home par demo household load karein.",
   "assistantSafetyTitle": "Battery abhi disconnect karein",
-  "assistantSafetyBody": "Phooli hui, garam ya boo wali battery ko aag lag sakti hai. Inverter band karein, battery disconnect karein aur technician ko bulayein. Check hone tak istemal na karein."
+  "assistantSafetyBody": "Phooli hui, garam ya boo wali battery ko aag lag sakti hai. Inverter band karein, battery disconnect karein aur technician ko bulayein. Check hone tak istemal na karein.",
+  "assistantDailyLimit": "Aaj ke assistant messages khatam ho gaye. Raat 12 baje dobara milenge. Tab tak aap ke numbers:"
 }
