@@ -6,7 +6,8 @@ import '../../foundations/tokens/motion.dart';
 import '../../theme/context_extensions.dart';
 
 /// Home's hero gauge (DESIGN.md §10.6): a half ring whose fill is the
-/// battery's charge, in its status color (green / amber / red), with the
+/// battery's charge, in indigo ink (the number and the Battery tile carry
+/// the status), with the
 /// backup time inside. The fill sweeps up from empty when it appears and
 /// glides when the charge changes. The screen gives the words; [child]
 /// sits in the bowl of the arc.
@@ -39,7 +40,6 @@ class BbBackupGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final e = context.energy;
     // Visible on a card and on the page alike.
     final track = context.colors.outlineVariant;
     final target = soc.clamp(0.0, 1.0);
@@ -56,7 +56,7 @@ class BbBackupGauge extends StatelessWidget {
           builder: (context, value, child) => CustomPaint(
             painter: _ArcPainter(
               value: value,
-              fill: e.battery(target),
+              fill: context.colors.secondary,
               track: track,
               stroke: _stroke,
             ),

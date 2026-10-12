@@ -2,8 +2,8 @@ import 'package:bb_ui/bb_ui.dart';
 import 'package:flutter/material.dart';
 
 /// Home's hero card: the battery as a half ring that fills on arrival, the
-/// backup time as the one big number inside it, and the screen's single
-/// coral action. Strings come formatted from the screen.
+/// backup time as the one big number inside it, and the screen's main
+/// action in indigo. Strings come formatted from the screen.
 class BackupHero extends StatelessWidget {
   const BackupHero({
     super.key,
@@ -71,7 +71,7 @@ class BackupHero extends StatelessWidget {
             style: context.textTheme.labelMedium?.copyWith(color: muted),
           ),
           const BbGap.lg(),
-          BbButton(
+          BbButton.secondary(
             label: actionLabel,
             icon: BbIcons.loads,
             size: BbButtonSize.lg,

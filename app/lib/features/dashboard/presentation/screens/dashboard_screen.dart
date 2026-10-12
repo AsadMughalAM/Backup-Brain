@@ -24,7 +24,7 @@ import '../widgets/backup_hero.dart';
 import '../widgets/battery_check.dart';
 
 /// Home (DESIGN.md §11 Dashboard): the backup time over the house with the
-/// one coral CTA, two stat tiles, and at least one actionable
+/// one indigo CTA, two stat tiles, and at least one actionable
 /// recommendation (ARCHITECTURE.md §15) built from engine numbers — no AI
 /// needed.
 class DashboardScreen extends ConsumerWidget {

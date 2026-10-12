@@ -161,7 +161,7 @@ Energy meanings use indigo, mist, amber (solar) and the status colors — no ext
 | `energy.batteryLow` (< 20%) | danger600 | danger300 | |
 | `energy.offline` / grid down | mist500 `#7C84A3` | mist500 `#7C84A3` | With `lightningSlash` icon. |
 
-`EnergyColors.battery(soc)` picks the status color: > 50% high, ≥ 20% mid, else low. `BbBackupGauge` and `BbCountdownRing` both draw their arc with it.
+`EnergyColors.battery(soc)` picks the status color: > 50% high, ≥ 20% mid, else low. `BbCountdownRing` draws its arc with it. (`BbBackupGauge` on Home is indigo: there the big number and the Battery tile carry the status.)
 
 **Chart series order** (`EnergyColors.chartSeries`): solar → grid → load (dashed) → battery (status color for current level) → "other" mist400. Chart gridlines = `outlineVariant`, axis labels = `textMuted` in `metricCaption`.
 
@@ -697,7 +697,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 | Component | Visual spec |
 |---|---|
-| **`BbBackupGauge`** **NEW** | Home's hero gauge. Half ring 280 × 160, 18-px stroke, round caps. Track = `outlineVariant` (visible on a card and on the page); fill = the battery's charge in its status color (`EnergyColors.battery`: green > 50%, amber ≥ 20%, red below). The fill sweeps up from empty on arrival (800 ms, `easeOutCubic`) and glides when the charge changes. The caller's content (time + caption) sits in the bowl of the arc. One semantics label carries the whole answer; the arc itself is excluded. |
+| **`BbBackupGauge`** **NEW** | Home's hero gauge. Half ring 280 × 160, 18-px stroke, round caps. Track = `outlineVariant` (visible on a card and on the page); fill = the battery's charge in indigo `secondary` (light indigo900, dark indigo300); the status is carried by the number and the Battery tile, not the arc. The fill sweeps up from empty on arrival (800 ms, `easeOutCubic`) and glides when the charge changes. The caller's content (time + caption) sits in the bowl of the arc. One semantics label carries the whole answer; the arc itself is excluded. |
 | **`BbCountdownRing`** | Sits on a hero card (Solar). 240-px ring (200 on small phones), 14-px stroke, round caps. Track = `textPrimary` @ 12%; arc = **always the battery status color** (`batteryHigh` > 50%, `batteryMid` ≥ 20%, `batteryLow` below — coral is for actions), animated `slow`. The battery stat tile always shows icon + % beside it, so color is never the only signal. Center: `metricHero` "3h 20m" + `bodySmall` muted "left at 420 W". Below ring: `labelMedium` "Stops protecting battery at 50%". Overload → ring pulses once (`normal`) and a `danger` banner appears. |
 | **`BbGridStatusPill`** | Pill 40 h (48 dp hit area). Grid on: `secondaryContainer` + Fill `lightning` in `energy.grid` + "Light hai". Grid off: `surfaceMuted` + Fill `lightningSlash` in `energy.offline` + "Light gayi · 1h 12m" (duration in `metricSmall`). Trailing action label in `secondary`, underlined ("Light gayi?" / "Light aa gayi?") says what a tap logs. Tapping logs the event (with haptic). |
 | **`BbBatteryGauge`** | Horizontal battery glyph 64 × 28, 2-px `outline` body, fill in status token, % in `metricSmall` beside it. Always icon + number. |
@@ -729,11 +729,11 @@ The native screen and the Flutter splash draw the mark at the same size and posi
   "What does your UPS screen show?" · chips 100 / 75 / 50 / 25% with bars icons · ghost "Not now"
 [Overload banner]                          ← `danger`, only when the load is over the inverter's rating
 [Backup hero: white `BbCard` (standard)]
-     ( BbBackupGauge half ring, battery status color, sweeps up on arrival )
+     ( BbBackupGauge half ring, indigo, sweeps up on arrival )
           3h 20m                           ← `BbMetric` hero in the bowl of the arc, `danger` tone when overloaded
           "left at 420 W"                  ← bodyMedium muted
      "Stops protecting battery at 50%"     ← labelMedium muted
-     [What should I turn off?]             ← primary (coral) CTA, `lg`, full width, `loads` icon
+     [What should I turn off?]             ← indigo `BbButton.secondary`, `lg`, full width, `loads` icon
 [Stat tiles 1×2, equal height, icon discs]  Battery 60% "Estimate · you checked 2 h ago" (status tone; tap = same question as a sheet) · Load now 420 W (neutral)
 [Tip card: `highlight` variant (coral tint), sparkle icon in `onPrimaryContainer`]
 [Today card: `BbCard.list`, rows = 40-px `surfaceMuted` icon disc + title + muted line + › ]
@@ -742,7 +742,7 @@ The native screen and the Flutter splash draw the mark at the same size and posi
 [Nav bar]                                  ← floating rounded bar, sliding indigo pill (§10.5)
 ```
 An estimated countdown shows to 10 minutes and the estimated % rounds down to 5%, with the source and age under the Battery tile; a fresh reading shows as given.
-Sections arrive top to bottom with `BbAppear` (grid pill → hero → stat tiles → tip card → today card, 45 ms apart, §7); the battery check card and overload banner appear without a stagger. Calm by design: no indigo hero card on Home, icons are ink on `surfaceMuted` unless they carry a status (battery tone, `warning` when the battery won't cover the next cut). Coral budget: the CTA + the tip card tint.
+Sections arrive top to bottom with `BbAppear` (grid pill → hero → stat tiles → tip card → today card, 45 ms apart, §7); the battery check card and overload banner appear without a stagger. Calm by design: no indigo hero card on Home, icons are ink on `surfaceMuted` unless they carry a status (battery tone, `warning` when the battery won't cover the next cut). Home's main action is indigo (a deliberate choice: calm, matches the gauge); coral appears only as the tip card tint.
 
 **Outages (F8, from the Dashboard outage card):** grid status pill → answer card (cut in progress with battery estimate / next outage + battery by then + "enough for the usual 1h 30m" or a `warning`-icon line to avoid heavy loads / how to get a prediction) with muted basis lines → "Your area's schedule" list rows with a `delete` icon button + secondary "Add time" → "Recent outages" list (`gridOn`/`gridOff` icon, times, duration in `metricSmall`). **Add time** is a full screen (no overlay yet): weekday `BbChip`s, From/To half-hour steppers (`remove`/`add` tonal icon buttons, time in `metricMedium`), sticky coral Save. **Settings** has an "Outage alerts" row (title + muted one-line explanation + `BbSwitch`, one merged semantics node), Android only.
 
