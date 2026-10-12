@@ -138,7 +138,7 @@
   "setupTryDemo": "Just looking? Try the demo home",
   "setupUnderTwoMinutes": "Takes under 2 minutes. You can change anything later.",
   "cityQuestion": "Where is your home?",
-  "cityHint": "For your local sun forecast. Not listed? Pick the nearest city.",
+  "cityHint": "Not listed? Pick the nearest city.",
   "solarQuestion": "Do you have solar panels?",
   "solarYes": "Yes, I have solar",
   "solarYesHint": "Panels on the roof",
@@ -738,6 +738,9 @@
   "settingsOutageAlertsBody": "A notification 30 minutes before the next likely or scheduled outage. Works offline.",
   "solarAddPanels": "Add my panels",
   "assistantBusy": "The assistant is busy. Try again in a minute. Meanwhile, your numbers:",
+  "assistantNotConfigured": "The assistant isn't set up in this version of the app. Meanwhile, your numbers:",
+  "assistantBadKey": "The assistant's access key was refused. Meanwhile, your numbers:",
+  "assistantBadModel": "The assistant's AI model wasn't found. Meanwhile, your numbers:",
   "estimatorTitle": "Solar cost estimator",
   "estimatorIntro": "What would solar cost for your home? Rough sizes, prices and savings in a few taps.",
   "estimatorUsage": "Monthly electricity use",
@@ -1033,10 +1036,10 @@
     }
   },
   "nearbyTitle": "Find help nearby",
-  "nearbyBody": "Opens a Google Maps search around {city}.",
+  "nearbyBody": "Opens a Google Maps search around {place}.",
   "@nearbyBody": {
     "placeholders": {
-      "city": {
+      "place": {
         "type": "String"
       }
     }
@@ -1048,6 +1051,20 @@
   "queryBatteryShop": "battery shop",
   "queryUpsRepair": "UPS inverter repair",
   "querySolarInstaller": "solar installer",
+  "nearbyLiveBody": "Real shops on the map near {place}, nearest first. Tap Directions to go there.",
+  "@nearbyLiveBody": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyFinding": "Finding shops…",
+  "nearbyDirections": "Directions",
+  "nearbyNoneFound": "No shops of this kind are on the map nearby. Try Google Maps below.",
+  "nearbyFailedTitle": "Couldn't load shops",
+  "nearbyMoreOnMaps": "More on Google Maps",
+  "mapsOpenFailed": "Couldn't open Google Maps. Install Google Maps or a web browser and try again.",
   "checkOpen": "Are my panels working well?",
   "checkTitle": "Panel check",
   "checkNoneTitle": "No check yet",
@@ -1329,5 +1346,160 @@
   "notifChannelCheck": "Power cut check",
   "notifChannelCheckBody": "Asks if the power went at your usual outage times.",
   "notifChannelCountdown": "Backup countdown",
-  "notifChannelCountdownBody": "Backup time left during a power cut."
+  "notifChannelCountdownBody": "Backup time left during a power cut.",
+  "sizeOther": "Other",
+  "numberRange": "From {min} to {max} {unit}.",
+  "@numberRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberOutOfRange": "Enter a number from {min} to {max} {unit}.",
+  "@numberOutOfRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "searchLabel": "Search",
+  "searchNoMatch": "Nothing matches. Try another spelling, or pick the nearest.",
+  "locationWhy": "Only used to find your city and area, for your local sun forecast.",
+  "useMyLocation": "Use my location",
+  "locating": "Finding your location…",
+  "locationFound": "Found: {place}. Check it below.",
+  "@locationFound": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "locationNearest": "{town} isn't on our list, so we picked {city}, the nearest. Change it below if you like.",
+  "@locationNearest": {
+    "placeholders": {
+      "town": {
+        "type": "String"
+      },
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "locationDenied": "Location wasn't allowed. Pick your city below instead.",
+  "locationBlocked": "Location is blocked for this app. Allow it in Settings, or pick your city below.",
+  "locationOff": "Your phone's location is off. Turn it on, or pick your city below.",
+  "locationUnavailable": "Couldn't find your location. Pick your city below.",
+  "openSettings": "Open settings",
+  "cityLabel": "City",
+  "cityPick": "Pick your city",
+  "cityPickTitle": "Your city",
+  "areaLabel": "Area (optional)",
+  "areaHint": "e.g. Gulberg III",
+  "addApplianceOpen": "Add an appliance",
+  "addApplianceOpenHint": "Not on the list, or another kind (like tube lights next to LED bulbs)? Add it.",
+  "addApplianceTitle": "Add an appliance",
+  "addApplianceType": "What is it?",
+  "addApplianceOtherType": "Something else",
+  "addApplianceKind": "Which kind?",
+  "addApplianceName": "Name",
+  "addApplianceNameHint": "e.g. Tube light",
+  "addApplianceNameMissing": "Give it a name.",
+  "addApplianceWatts": "Watts, each",
+  "addApplianceWattsHint": "Written on the sticker at the back. Picking a kind above fills it in.",
+  "addApplianceHowMany": "How many",
+  "addApplianceHeavy": "Uses a lot of power",
+  "addApplianceHeavyHint": "Like an iron or a water motor. It starts switched off on backup.",
+  "addApplianceSave": "Add",
+  "addApplianceRemove": "Remove {name}",
+  "@addApplianceRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleAddHint": "Every day is picked, since most areas cut at the same times daily. More than one cut a day, or other times on some days? Add another time.",
+  "scheduleTimeN": "Time {n}",
+  "@scheduleTimeN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleRemoveTime": "Remove {title}",
+  "@scheduleRemoveTime": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleEveryDay": "Every day",
+  "scheduleClearDays": "Clear days",
+  "scheduleSameTimes": "Start and end can't be the same time.",
+  "scheduleLength": "{time} without power",
+  "@scheduleLength": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "scheduleAddAnother": "Add another time",
+  "scheduleSaveAll": "Save {count} times",
+  "@scheduleSaveAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleTypeTime": "{label}: type an exact time",
+  "@scheduleTypeTime": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsTitle": "Notifications",
+  "notificationsUnread": "Notifications, {count} new",
+  "@notificationsUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsEmptyTitle": "No notifications yet",
+  "notificationsEmptyBody": "Heads-ups before load-shedding and \"Power gone?\" checks show here. Add your area's load-shedding times, or log a few power cuts, to get them.",
+  "notificationsAddSchedule": "Add load-shedding times",
+  "notificationsUpcoming": "Coming up",
+  "notificationsEarlier": "Earlier",
+  "notificationsNoneYet": "Nothing has been shown yet.",
+  "notificationsAt": "At {time}",
+  "@notificationsAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsNew": "New"
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/locale/locale_controller.dart';
 import '../../../../core/services/clock.dart';
+import '../../../../core/services/notification_inbox.dart';
 import '../../../../core/services/preferences.dart';
 import '../../../../core/utils/fire_and_forget.dart';
 import '../../../../core/utils/formatters.dart';
@@ -85,9 +86,26 @@ final outageNotificationsProvider = Provider<void>((ref) {
     ].join(',');
     if (key == remindersKey) return;
     remindersKey = key;
+    final notices = [for (final r in reminders) _notice(t, r)];
+    planInbox(
+      ref,
+      const {InboxKind.cutCheck, InboxKind.backCheck},
+      [
+        for (final (i, n) in notices.indexed)
+          InboxEntry(
+            kind: reminders[i].kind == ReminderKind.cut
+                ? InboxKind.cutCheck
+                : InboxKind.backCheck,
+            at: n.at.toUtc(),
+            title: n.title,
+            body: n.body,
+          ),
+      ],
+      now,
+    );
     fireAndForget(
       notifier.setReminders(
-        [for (final r in reminders) _notice(t, r)],
+        notices,
         channel: (
           name: t.notifChannelCheck,
           description: t.notifChannelCheckBody,

@@ -6,6 +6,7 @@ class SetupPresets {
   const SetupPresets({
     required this.cities,
     required this.appliances,
+    required this.applianceWatts,
     required this.leadAcid,
     required this.lithium,
     required this.batteryCount,
@@ -19,6 +20,9 @@ class SetupPresets {
 
   final List<CityPreset> cities;
   final List<AppliancePreset> appliances;
+
+  /// What may be typed as the watts of an appliance the user adds.
+  final ValueRange applianceWatts;
   final BatteryPreset leadAcid;
   final BatteryPreset lithium;
   final CountRange batteryCount;
@@ -43,6 +47,16 @@ class SetupPresets {
     (best, c) =>
         _distance(c.site, site) < _distance(best.site, site) ? c : best,
   );
+
+  /// The listed city called [name], else the one closest to [site] (a
+  /// town that isn't listed).
+  CityPreset cityFor(String name, SiteLocation site) {
+    final key = name.trim().toLowerCase();
+    for (final c in cities) {
+      if (c.name.toLowerCase() == key || c.id == key) return c;
+    }
+    return nearestCity(site);
+  }
 
   /// The preset a saved appliance counts as, matched by its icon key (the
   /// appliance type). Null for anything setup doesn't offer.
@@ -122,12 +136,25 @@ class BatteryPreset {
   final SizeChoices ampHours;
 }
 
-/// Sizes offered as chips, plus the one pre-selected.
+/// Sizes offered as chips, plus the one pre-selected, and what may be
+/// typed under "Other" for a size that isn't listed.
 class SizeChoices {
-  const SizeChoices({required this.options, required this.fallback});
+  const SizeChoices({
+    required this.options,
+    required this.fallback,
+    required this.custom,
+  });
 
   final List<double> options;
   final double fallback;
+  final ValueRange custom;
+}
+
+class ValueRange {
+  const ValueRange({required this.min, required this.max});
+
+  final double min;
+  final double max;
 }
 
 class CountRange {

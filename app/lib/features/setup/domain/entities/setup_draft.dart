@@ -2,12 +2,14 @@ import 'package:energy_engine/energy_engine.dart';
 
 import '../../../backup/domain/entities/household_system.dart';
 import '../../../loads/domain/entities/appliance.dart';
+import 'custom_appliance.dart';
 import 'setup_presets.dart';
 
 /// The answers so far, and where the user is in setup. Saved on the phone
 /// after every tap, so setup resumes where it was left. Only city, "do you
 /// have solar?" and battery type must be picked; every size starts on the
-/// most common choice, so most people only confirm.
+/// most common choice, so most people only confirm; "Other" takes any
+/// size, and appliances the list lacks can be added.
 class SetupDraft {
   const SetupDraft({
     required this.quantities,
@@ -17,6 +19,9 @@ class SetupDraft {
     required this.panelWatts,
     this.shading = PanelShading.none,
     this.cityId,
+    this.area,
+    this.site,
+    this.customAppliances = const [],
     this.hasSolar,
     this.chemistry,
     this.voltage,
@@ -35,14 +40,29 @@ class SetupDraft {
   );
 
   /// A saved household as setup answers, for "Edit my home". Appliances of
-  /// the same type add up ("Fan (bedroom)" + "Fan (lounge)" = 2 fans).
+  /// the same type add up ("Fan (bedroom)" + "Fan (lounge)" = 2 fans);
+  /// ones added in setup come back as added ones.
   factory SetupDraft.fromHousehold(
     SetupPresets p,
     HouseholdSystem system,
     List<Appliance> appliances,
   ) {
     final quantities = {for (final a in p.appliances) a.id: 0};
+    final custom = <CustomAppliance>[];
     for (final a in appliances) {
+      if (CustomAppliance.isCustomId(a.id)) {
+        custom.add(
+          CustomAppliance(
+            id: a.id,
+            name: a.name,
+            iconKey: a.iconKey,
+            watts: a.watts,
+            quantity: a.quantity,
+            heavy: a.priority == AppliancePriority.avoidOnBackup,
+          ),
+        );
+        continue;
+      }
       final preset = p.presetForIcon(a.iconKey);
       if (preset == null) continue;
       quantities[preset.id] = quantities[preset.id]! + a.quantity;
@@ -50,11 +70,12 @@ class SetupDraft {
     final panels = system.panels;
     final kWp = system.solar?.kWp;
     final watts = panels?.watts ?? p.panelWatts.fallback;
+    final home = system.location;
     return SetupDraft(
-      cityId: switch (system.location) {
-        null => null,
-        final home => p.nearestCity(home.site).id,
-      },
+      cityId: home == null ? null : p.cityFor(home.city, home.site).id,
+      area: home?.area,
+      site: home?.site,
+      customAppliances: custom,
       hasSolar: system.hasSolar,
       // Households saved before panel details were kept: rebuild a count
       // from the kWp at the usual panel size.
@@ -79,6 +100,16 @@ class SetupDraft {
   }
 
   final String? cityId;
+
+  /// Neighbourhood, typed or found from the phone's location.
+  final String? area;
+
+  /// The phone's location when the user shared it: a closer forecast than
+  /// the city centre. Null = the city's own point.
+  final SiteLocation? site;
+
+  /// Added by the user, after the presets.
+  final List<CustomAppliance> customAppliances;
   final bool? hasSolar;
   final int panelCount;
   final double panelWatts;
@@ -148,12 +179,16 @@ class SetupDraft {
       panels: hasSolar!
           ? PanelArray(count: panelCount, watts: panelWatts)
           : null,
-      location: HomeLocation(city: city.name, site: city.site),
+      location: HomeLocation(
+        city: city.name,
+        area: area,
+        site: site ?? city.site,
+      ),
     );
   }
 
-  /// Picked appliances in preset order. Heavy ones start switched off:
-  /// they are "avoid on backup" by definition.
+  /// Picked appliances in preset order, then the added ones. Heavy ones
+  /// start switched off: they are "avoid on backup" by definition.
   List<Appliance> toAppliances(SetupPresets p, String languageCode) => [
     for (final (i, a) in p.appliances.indexed)
       if ((quantities[a.id] ?? 0) > 0)
@@ -168,10 +203,40 @@ class SetupDraft {
           isOn: a.priority != AppliancePriority.avoidOnBackup,
           order: i,
         ),
+    for (final (i, a) in customAppliances.indexed)
+      if (a.quantity > 0) _added(p, a, order: p.appliances.length + i),
   ];
+
+  /// An added appliance runs like the preset of its type (a fridge cycles,
+  /// a bulb is essential), but the user says whether it is heavy.
+  static Appliance _added(
+    SetupPresets p,
+    CustomAppliance a, {
+    required int order,
+  }) {
+    final type = p.presetForIcon(a.iconKey);
+    return Appliance(
+      id: a.id,
+      name: a.name,
+      iconKey: a.iconKey,
+      watts: a.watts,
+      priority: a.heavy
+          ? AppliancePriority.avoidOnBackup
+          : type?.priority == AppliancePriority.essential
+          ? AppliancePriority.essential
+          : AppliancePriority.comfort,
+      quantity: a.quantity,
+      dutyCycle: type?.dutyCycle ?? 1,
+      isOn: !a.heavy,
+      order: order,
+    );
+  }
 
   SetupDraft copyWith({
     String? cityId,
+    String? area,
+    SiteLocation? site,
+    List<CustomAppliance>? customAppliances,
     bool? hasSolar,
     int? panelCount,
     double? panelWatts,
@@ -186,10 +251,19 @@ class SetupDraft {
     int? step,
     bool? finished,
     bool clearCity = false,
+    bool clearSite = false,
     bool resetBatterySizes = false,
     bool resetInverter = false,
   }) => SetupDraft(
     cityId: clearCity ? null : cityId ?? this.cityId,
+    // Blank text clears the area.
+    area: switch (area?.trim()) {
+      null => this.area,
+      '' => null,
+      final typed => typed,
+    },
+    site: clearCity || clearSite ? null : site ?? this.site,
+    customAppliances: customAppliances ?? this.customAppliances,
     hasSolar: hasSolar ?? this.hasSolar,
     panelCount: panelCount ?? this.panelCount,
     panelWatts: panelWatts ?? this.panelWatts,

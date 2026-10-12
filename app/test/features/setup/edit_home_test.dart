@@ -1,5 +1,4 @@
 import 'package:energy_engine/energy_engine.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/app_harness.dart';
@@ -9,11 +8,7 @@ import '../../helpers/fakes.dart';
 /// can cover a half-visible one).
 Future<void> _tap(WidgetTester tester, String text) async {
   final target = find.text(text).first;
-  await tester.scrollUntilVisible(
-    target,
-    200,
-    scrollable: find.byType(Scrollable).last,
-  );
+  await tester.scrollUntilVisible(target, 200, scrollable: pageScroll);
   await tester.ensureVisible(target);
   await tester.pumpAndSettle();
   await tester.tap(target);
@@ -92,7 +87,7 @@ void main() {
       system: FakeSystemRepository(),
       appliances: FakeApplianceRepository(),
     );
-    await _tap(tester, 'Karachi');
+    await pickCity(tester, 'Karachi');
     await _tap(tester, 'No, just UPS and battery');
     await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();

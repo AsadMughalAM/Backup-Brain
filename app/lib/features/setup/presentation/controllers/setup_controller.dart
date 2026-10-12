@@ -8,8 +8,10 @@ import '../../../../core/utils/fire_and_forget.dart';
 import '../../../backup/domain/entities/household_system.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../../loads/domain/appliance_repository.dart';
+import '../../domain/entities/custom_appliance.dart';
 import '../../domain/entities/setup_draft.dart';
 import '../../domain/entities/setup_presets.dart';
+import '../../domain/home_locator.dart';
 import '../../domain/setup_draft_repository.dart';
 import '../../domain/setup_presets_repository.dart';
 
@@ -69,7 +71,25 @@ class SetupController extends AsyncNotifier<SetupDraft> {
 
   void setStep(int step) => _update((d) => d.copyWith(step: step));
 
-  void pickCity(String id) => _update((d) => d.copyWith(cityId: id));
+  /// A different city than the phone's location: the city's own point.
+  void pickCity(String id) =>
+      _update((d) => d.copyWith(cityId: id, clearSite: d.cityId != id));
+
+  void setArea(String area) => _update((d) => d.copyWith(area: area));
+
+  /// "Use my location": fills city and area, and keeps the point for the
+  /// forecast. A town that isn't listed gets the nearest listed city; a
+  /// failed name lookup keeps any area already typed. Throws
+  /// [LocateException].
+  Future<FoundPlace> useMyLocation() async {
+    final place = await ref.read(homeLocatorProvider).locate();
+    final presets = await ref.read(setupPresetsProvider.future);
+    final city = presets.cityFor(place.city ?? '', place.site);
+    _update(
+      (d) => d.copyWith(cityId: city.id, area: place.area, site: place.site),
+    );
+    return place;
+  }
 
   /// Inverter sizes differ for UPS and hybrid, so a size picked for one
   /// goes back to the other's usual size.
@@ -99,6 +119,27 @@ class SetupController extends AsyncNotifier<SetupDraft> {
   void setQuantity(String applianceId, int n) =>
       _update((d) => d.copyWith(quantities: {...d.quantities, applianceId: n}));
 
+  void addAppliance(CustomAppliance a) =>
+      _update((d) => d.copyWith(customAppliances: [...d.customAppliances, a]));
+
+  void setAddedQuantity(String id, int n) => _update(
+    (d) => d.copyWith(
+      customAppliances: [
+        for (final a in d.customAppliances)
+          a.id == id ? a.copyWith(quantity: n) : a,
+      ],
+    ),
+  );
+
+  void removeAppliance(String id) => _update(
+    (d) => d.copyWith(
+      customAppliances: [
+        for (final a in d.customAppliances)
+          if (a.id != id) a,
+      ],
+    ),
+  );
+
   /// First run: marks every step answered; `HouseholdSetup.adoptLocalHome`
   /// writes it to the account, now if signed in or right after sign-in.
   /// Edit: saves over the account's household straight away.
@@ -111,11 +152,14 @@ class SetupController extends AsyncNotifier<SetupDraft> {
     final presets = ref.read(setupPresetsProvider).value;
     if (draft == null || presets == null) return;
     final current = await ref.read(appliancesProvider.future);
-    // Setup's list replaces the appliances it knows; anything it doesn't
-    // offer stays. What the user switched on or off in the planner stays.
+    // Setup's list replaces the appliances it knows, including the ones
+    // added in setup; anything it doesn't offer stays. What the user
+    // switched on or off in the planner stays.
     final matched = [
       for (final a in current)
-        if (presets.presetForIcon(a.iconKey) case final preset?)
+        if (CustomAppliance.isCustomId(a.id))
+          (appliance: a, presetId: a.id)
+        else if (presets.presetForIcon(a.iconKey) case final preset?)
           (appliance: a, presetId: preset.id),
     ];
     final wasOn = <String, bool>{};

@@ -62,11 +62,15 @@ class HouseholdSystem {
   );
 }
 
-/// Where the panels are: the weather forecast is fetched for this point.
+/// Where the panels are: the weather forecast is fetched for this point,
+/// the phone's own location when the user shared it, else the city's.
 class HomeLocation {
-  const HomeLocation({required this.city, required this.site});
+  const HomeLocation({required this.city, required this.site, this.area});
 
   final String city;
+
+  /// Neighbourhood ("Gulberg III"), for the user; null when not given.
+  final String? area;
   final SiteLocation site;
 }
 

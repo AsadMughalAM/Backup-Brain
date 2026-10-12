@@ -40,12 +40,35 @@ class OverlayHost {
         clipBehavior: Clip.antiAlias,
         elevation: 0,
         barrierColor: context.colors.scrim,
-        builder: (context) =>
-            BbBottomSheet(title: title, child: builder(context)),
+        // Lifts the sheet above the keyboard when a field in it is typed in.
+        builder: (context) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: BbBottomSheet(title: title, child: builder(context)),
+        ),
       );
     } finally {
       _openSheets--;
     }
+  }
+
+  /// Opens the system time picker titled [title], on typed hours and
+  /// minutes (any minute, not only the steppers' half hours); its toggle
+  /// switches to the clock face. Null when dismissed.
+  Future<TimeOfDay?> pickTime({
+    required String title,
+    required TimeOfDay initial,
+  }) async {
+    final context = _navigator.currentContext;
+    if (context == null) return null;
+    return showTimePicker(
+      context: context,
+      useRootNavigator: true,
+      initialTime: initial,
+      helpText: title,
+      initialEntryMode: TimePickerEntryMode.input,
+    );
   }
 
   /// Closes the top sheet with [result]; does nothing when none is open,

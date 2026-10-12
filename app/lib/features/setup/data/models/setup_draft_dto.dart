@@ -1,11 +1,25 @@
 import 'package:energy_engine/energy_engine.dart';
 
+import '../../domain/entities/custom_appliance.dart';
 import '../../domain/entities/setup_draft.dart';
 
 /// JSON for the on-device copy of the setup answers.
 abstract final class SetupDraftDto {
   static Map<String, dynamic> toJson(SetupDraft d) => {
     'cityId': d.cityId,
+    'area': d.area,
+    if (d.site case final site?) 'site': {'lat': site.lat, 'lon': site.lon},
+    'customAppliances': [
+      for (final a in d.customAppliances)
+        {
+          'id': a.id,
+          'name': a.name,
+          'icon': a.iconKey,
+          'watts': a.watts,
+          'quantity': a.quantity,
+          'heavy': a.heavy,
+        },
+    ],
     'hasSolar': d.hasSolar,
     'panelCount': d.panelCount,
     'panelWatts': d.panelWatts,
@@ -23,6 +37,28 @@ abstract final class SetupDraftDto {
 
   static SetupDraft fromJson(Map<String, dynamic> m) => SetupDraft(
     cityId: m['cityId'] as String?,
+    area: m['area'] as String?,
+    site: switch (m['site']) {
+      {'lat': final num lat, 'lon': final num lon} => SiteLocation(
+        lat: lat.toDouble(),
+        lon: lon.toDouble(),
+      ),
+      _ => null,
+    },
+    // Drafts saved before appliances could be added have none.
+    customAppliances: [
+      for (final a
+          in (m['customAppliances'] as List? ?? const [])
+              .cast<Map<String, dynamic>>())
+        CustomAppliance(
+          id: a['id'] as String,
+          name: a['name'] as String,
+          iconKey: a['icon'] as String,
+          watts: (a['watts'] as num).toDouble(),
+          quantity: (a['quantity'] as num).toInt(),
+          heavy: a['heavy'] as bool,
+        ),
+    ],
     hasSolar: m['hasSolar'] as bool?,
     panelCount: (m['panelCount'] as num).toInt(),
     panelWatts: (m['panelWatts'] as num).toDouble(),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/locale/locale_controller.dart';
@@ -23,7 +25,7 @@ class ChatEntry {
 
   final ChatEntryKind kind;
   final String text;
-  final AssistantFailureCode? failure;
+  final AssistantFailure? failure;
 }
 
 class ChatState {
@@ -100,7 +102,24 @@ class ChatController extends Notifier<ChatState> {
           );
       answer = ChatEntry(ChatEntryKind.assistant, text: reply);
     } on AssistantFailure catch (e) {
-      answer = ChatEntry(ChatEntryKind.fallback, failure: e.code);
+      log('$e', name: 'assistant');
+      answer = ChatEntry(ChatEntryKind.fallback, failure: e);
+    } catch (e, stack) {
+      // A bug (say, an unexpected response shape) must not leave the chat
+      // stuck on "typing": show the numbers and log the cause.
+      log(
+        'Unexpected assistant error',
+        name: 'assistant',
+        error: e,
+        stackTrace: stack,
+      );
+      answer = ChatEntry(
+        ChatEntryKind.fallback,
+        failure: AssistantFailure(
+          AssistantFailureCode.unavailable,
+          detail: '$e',
+        ),
+      );
     }
     if (!ref.mounted) return;
     state = ChatState(entries: [...state.entries, answer]);

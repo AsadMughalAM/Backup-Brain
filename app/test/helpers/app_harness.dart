@@ -76,6 +76,37 @@ Future<void> pumpApp(
   await tester.pumpAndSettle();
 }
 
+/// The page's own list. A text field has a Scrollable too (sideways), so
+/// "the last Scrollable" can be a field.
+Finder get pageScroll => find
+    .byWidgetPredicate(
+      (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
+    )
+    .last;
+
+/// Setup's city: open the picker, search, pick.
+Future<void> pickCity(WidgetTester tester, String city) async {
+  await tester.ensureVisible(find.text('Pick your city'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Pick your city'));
+  await tester.pumpAndSettle();
+  await tester.enterText(
+    find.descendant(
+      of: find.byType(BottomSheet),
+      matching: find.byType(EditableText),
+    ),
+    city,
+  );
+  await tester.pumpAndSettle();
+  await tester.tap(
+    find.descendant(
+      of: find.byType(BottomSheet),
+      matching: find.byWidgetPredicate((w) => w is Text && w.data == city),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
 Finder field(String label) => find.descendant(
   of: find.ancestor(of: find.text(label), matching: find.byType(TextField)),
   matching: find.byType(EditableText),

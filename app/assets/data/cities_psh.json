@@ -1,5 +1,5 @@
 {
-  "_comment": "Cities offered in setup and the F5 estimator, most populous first. Coordinates pick the weather forecast. psh = yearly average peak sun hours (kWh/m²/day on a flat surface), approximate values from public solar atlases: verify before relying on them.",
+  "_comment": "Cities offered in setup and the F5 estimator, the 16 biggest first, then more towns (setup searches them by name). Coordinates pick the weather forecast. psh = yearly average peak sun hours (kWh/m²/day on a flat surface), approximate values from public solar atlases: verify before relying on them.",
   "cities": [
     {
       "id": "karachi",
@@ -112,6 +112,181 @@
       "lat": 34.1986,
       "lon": 72.0404,
       "psh": 5.1
+    },
+    {
+      "id": "larkana",
+      "name": "Larkana",
+      "lat": 27.557,
+      "lon": 68.2028,
+      "psh": 5.6
+    },
+    {
+      "id": "nawabshah",
+      "name": "Nawabshah",
+      "lat": 26.2442,
+      "lon": 68.41,
+      "psh": 5.7
+    },
+    {
+      "id": "mirpur-khas",
+      "name": "Mirpur Khas",
+      "lat": 25.5276,
+      "lon": 69.0111,
+      "psh": 5.7
+    },
+    {
+      "id": "jacobabad",
+      "name": "Jacobabad",
+      "lat": 28.2769,
+      "lon": 68.4514,
+      "psh": 5.7
+    },
+    {
+      "id": "rahim-yar-khan",
+      "name": "Rahim Yar Khan",
+      "lat": 28.4202,
+      "lon": 70.2952,
+      "psh": 5.5
+    },
+    {
+      "id": "dera-ghazi-khan",
+      "name": "Dera Ghazi Khan",
+      "lat": 30.0459,
+      "lon": 70.6403,
+      "psh": 5.5
+    },
+    {
+      "id": "sahiwal",
+      "name": "Sahiwal",
+      "lat": 30.6682,
+      "lon": 73.1114,
+      "psh": 5.3
+    },
+    {
+      "id": "okara",
+      "name": "Okara",
+      "lat": 30.8138,
+      "lon": 73.4534,
+      "psh": 5.3
+    },
+    {
+      "id": "sheikhupura",
+      "name": "Sheikhupura",
+      "lat": 31.7167,
+      "lon": 73.985,
+      "psh": 5.2
+    },
+    {
+      "id": "kasur",
+      "name": "Kasur",
+      "lat": 31.1187,
+      "lon": 74.4467,
+      "psh": 5.2
+    },
+    {
+      "id": "jhang",
+      "name": "Jhang",
+      "lat": 31.2681,
+      "lon": 72.3181,
+      "psh": 5.3
+    },
+    {
+      "id": "chiniot",
+      "name": "Chiniot",
+      "lat": 31.72,
+      "lon": 72.9789,
+      "psh": 5.3
+    },
+    {
+      "id": "gujrat",
+      "name": "Gujrat",
+      "lat": 32.5731,
+      "lon": 74.0789,
+      "psh": 5.1
+    },
+    {
+      "id": "jhelum",
+      "name": "Jhelum",
+      "lat": 32.9425,
+      "lon": 73.7257,
+      "psh": 5.1
+    },
+    {
+      "id": "attock",
+      "name": "Attock",
+      "lat": 33.766,
+      "lon": 72.3609,
+      "psh": 5.0
+    },
+    {
+      "id": "dera-ismail-khan",
+      "name": "Dera Ismail Khan",
+      "lat": 31.8314,
+      "lon": 70.9019,
+      "psh": 5.4
+    },
+    {
+      "id": "bannu",
+      "name": "Bannu",
+      "lat": 32.9889,
+      "lon": 70.6056,
+      "psh": 5.3
+    },
+    {
+      "id": "kohat",
+      "name": "Kohat",
+      "lat": 33.5869,
+      "lon": 71.4429,
+      "psh": 5.1
+    },
+    {
+      "id": "mingora",
+      "name": "Mingora (Swat)",
+      "lat": 34.7717,
+      "lon": 72.36,
+      "psh": 4.8
+    },
+    {
+      "id": "mirpur-ajk",
+      "name": "Mirpur (AJK)",
+      "lat": 33.1484,
+      "lon": 73.7518,
+      "psh": 5.0
+    },
+    {
+      "id": "muzaffarabad",
+      "name": "Muzaffarabad",
+      "lat": 34.37,
+      "lon": 73.4711,
+      "psh": 4.7
+    },
+    {
+      "id": "gilgit",
+      "name": "Gilgit",
+      "lat": 35.9208,
+      "lon": 74.308,
+      "psh": 4.9
+    },
+    {
+      "id": "khuzdar",
+      "name": "Khuzdar",
+      "lat": 27.8,
+      "lon": 66.6167,
+      "psh": 5.9
+    },
+    {
+      "id": "turbat",
+      "name": "Turbat",
+      "lat": 26.0031,
+      "lon": 63.0544,
+      "psh": 5.9
+    },
+    {
+      "id": "gwadar",
+      "name": "Gwadar",
+      "lat": 25.1264,
+      "lon": 62.3225,
+      "psh": 5.9
     }
   ]
 }

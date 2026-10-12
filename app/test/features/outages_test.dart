@@ -1,6 +1,6 @@
 import 'package:backup_brain/core/services/clock.dart';
 import 'package:backup_brain/features/outages/domain/outage_repository.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/app_harness.dart';
@@ -107,6 +107,43 @@ void main() {
     expect(find.textContaining('Battery about 47% now'), findsOneWidget);
   });
 
+  testWidgets('schedule: two cuts a day, every day, saved together; an exact '
+      'time can be typed', (tester) async {
+    final logged = await _pump(tester);
+    await _reveal(tester, find.byTooltip('Outages and schedule'));
+    await tester.tap(find.byTooltip('Outages and schedule'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Add time'));
+    await tester.pumpAndSettle();
+
+    // Time 1: 7–9 PM. Time 2 starts 4 h after it ends: 1–3 AM.
+    await tester.tap(find.text('Add another time'));
+    await tester.pumpAndSettle();
+    expect(find.text('Time 2'), findsOneWidget);
+    expect(find.text('1:00 AM'), findsOneWidget);
+
+    // Type 7:15 PM for time 1's start instead of stepping half hours.
+    await tester.tap(find.text('7:00 PM'));
+    await tester.pumpAndSettle();
+    final hour = find.byType(TextField).at(0);
+    final minute = find.byType(TextField).at(1);
+    await tester.enterText(hour, '7');
+    await tester.enterText(minute, '15');
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(find.text('7:15 PM'), findsOneWidget);
+    expect(find.text('1h 45m without power'), findsOneWidget);
+
+    await tester.tap(find.text('Save 2 times'));
+    await tester.pumpAndSettle();
+    final slots = logged.outages.schedule;
+    expect(slots, hasLength(14)); // 2 times × 7 days
+    expect(slots.map((e) => (e.slot.startMinute, e.slot.endMinute)).toSet(), {
+      (19 * 60 + 15, 21 * 60),
+      (60, 3 * 60),
+    });
+  });
+
   testWidgets('schedule: add a Sunday evening slot, then remove it', (
     tester,
   ) async {
@@ -117,7 +154,10 @@ void main() {
     await tester.tap(find.text('Add time'));
     await tester.pumpAndSettle();
 
-    // Saving without a day explains why instead of failing silently.
+    // Every day starts picked; clearing them and saving explains why
+    // nothing was saved instead of failing silently.
+    await tester.tap(find.text('Clear days'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
     expect(find.text('Pick at least one day.'), findsOneWidget);

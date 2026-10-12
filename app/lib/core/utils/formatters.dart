@@ -30,13 +30,19 @@ abstract final class Formatters {
   /// Rounded, grouped: 1,85,000. For a value shown with a separate unit.
   static String number(double v) => _number.format(v.round());
 
-  static String watts(double w) => '${number(w)} W';
+  /// As typed, without grouping or a trailing ".0": 550, 51.2.
+  static String plainNumber(double v) =>
+      v == v.roundToDouble() ? '${v.round()}' : '$v';
+
+  static const wattUnit = 'W', ampHourUnit = 'Ah', voltUnit = 'V';
+
+  static String watts(double w) => '${number(w)} $wattUnit';
 
   static String kiloWatts(double kw) => '${_oneDecimal.format(kw)} kW';
 
-  static String ampHours(double ah) => '${number(ah)} Ah';
+  static String ampHours(double ah) => '${number(ah)} $ampHourUnit';
 
-  static String volts(double v) => '${number(v)} V';
+  static String volts(double v) => '${number(v)} $voltUnit';
 
   /// [fraction] is 0–1.
   static String percent(double fraction) => '${(fraction * 100).round()}%';
@@ -58,6 +64,11 @@ abstract final class Formatters {
 
   static final _oneDecimal = NumberFormat('0.0', 'en');
   static const _clockStepMinutes = 5;
+
+  /// Distance to a shop: "850 m" up close, "2.4 km" further away.
+  static String distance(double meters) => meters < 1000
+      ? '${(meters / 50).round() * 50} m'
+      : '${_oneDecimal.format(meters / 1000)} km';
 
   /// Energy range with one decimal and an en dash: "3.3–4.5".
   static String kWhRange(double low, double high) =>

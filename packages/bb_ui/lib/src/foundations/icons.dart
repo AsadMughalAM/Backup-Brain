@@ -48,6 +48,10 @@ abstract final class BbIcons {
   static const IconData shop = PhosphorIconsRegular.storefront;
   static const IconData repair = PhosphorIconsRegular.wrench;
   static const IconData location = PhosphorIconsRegular.mapPin;
+  static const IconData myLocation = PhosphorIconsRegular.crosshair;
+  static const IconData notifications = PhosphorIconsRegular.bell;
+  static const IconData search = PhosphorIconsRegular.magnifyingGlass;
+  static const IconData clock = PhosphorIconsRegular.clock;
 
   // Appliance presets. Anything without a preset uses [plug].
   static const IconData fan = PhosphorIconsRegular.fan;

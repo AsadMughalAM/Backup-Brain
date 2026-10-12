@@ -1,6 +1,6 @@
 # CLAUDE.md — Backup Brain
 
-AI home energy manager for Pakistani households facing load-shedding. Flutter app (Android first) + Firebase. Hackathon build: **early build** (Firebase `backup-brain-dev` connected; demo household; first-run setup, F1 live countdown (charge estimated over time, one-tap battery check), F2 load planner with editable watts, F3 solar forecast with power cuts and shading, F4 panel check, F5 solar estimator, F6 battery health, F7 repair/replace + shop search, F8 outages (logging, schedule, readiness, alerts, "Power gone?" reminders) and F9 assistant working; F1–F9 built, F10 hardware is post-hackathon). The three spec docs below are the source of truth, so read the relevant section before writing code.
+AI home energy manager for Pakistani households facing load-shedding. Flutter app (Android first) + Firebase. Hackathon build: **early build** (Firebase `backup-brain-dev` connected; demo household; first-run setup, F1 live countdown (charge estimated over time, one-tap battery check), F2 load planner with editable watts, F3 solar forecast with power cuts and shading, F4 panel check, F5 solar estimator, F6 battery health, F7 repair/replace + shop search, F8 outages (logging, schedule, readiness, alerts, "Power gone?" reminders, in-app notification list) and F9 assistant working; F1–F9 built, F10 hardware is post-hackathon). The three spec docs below are the source of truth, so read the relevant section before writing code.
 
 ## Doc map: which file owns what
 
@@ -44,7 +44,7 @@ If two docs disagree, the "Wins on" column decides. If a doc change affects anot
 6. **Design:** containers are separated by surface color + shadow, never borders, and elevated surfaces are never nested. Never use color alone (always add an icon and text). Focus is always visible. Touch targets are at least 48 dp.
 7. **Overlays** go through the single `OverlayHost` at the app root. Modals trap focus, close on Escape, back or scrim tap, and have an accessible title.
 8. **Safety:** never switch appliances automatically without confirmation. Battery swelling, smell or heat → fixed "disconnect and call a technician" text.
-9. **No secrets in the app.** API keys live in Secret Manager and are read only from Cloud Functions. *MVP exception:* the F9 Gemini key is passed at build time (`--dart-define-from-file=env.json`, git-ignored) until Blaze; see [docs/decisions/0002](docs/decisions/0002-gemini-key-in-app-mvp.md).
+9. **No secrets in the app.** API keys live in Secret Manager and are read only from Cloud Functions. *MVP exception:* the F9 Gemini key is passed at build time (`--dart-define-from-file=env.json`, git-ignored) until Blaze; see [docs/decisions/0002](docs/decisions/0002-gemini-key-in-app-mvp.md). Same for the F7 Geoapify key (`GEOAPIFY_API_KEY`, [0003](docs/decisions/0003-geoapify-shops-mvp.md)).
 
 ## Tooling
 

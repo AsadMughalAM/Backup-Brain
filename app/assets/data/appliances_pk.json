@@ -1,5 +1,9 @@
 {
-  "_comment": "Appliance presets for setup: typical Pakistani wattages. defaultQuantity is what a usual home runs on backup; 0 = offered but not picked. Heavy (avoid_on_backup) items are saved switched off. variants are the common kinds of each appliance, offered when the user changes its watts.",
+  "_comment": "Appliance presets for setup: typical Pakistani wattages. defaultQuantity is what a usual home runs on backup; 0 = offered but not picked. Heavy (avoid_on_backup) items are saved switched off. variants are the common kinds of each appliance, offered when the user changes its watts. wattsRange bounds the watts typed for an appliance the user adds.",
+  "wattsRange": [
+    1,
+    5000
+  ],
   "appliances": [
     {
       "id": "fan",

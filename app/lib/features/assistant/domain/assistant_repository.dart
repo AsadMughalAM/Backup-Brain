@@ -22,15 +22,29 @@ enum AssistantFailureCode {
 
   /// This user's assistant messages for today are used up.
   dailyLimit,
+
+  /// No Gemini key in this build and no deployed `assistantChat` function.
+  notConfigured,
+
+  /// Gemini rejected the API key (wrong, revoked or restricted).
+  badKey,
+
+  /// Gemini doesn't know the model name in `GEMINI_MODEL`.
+  badModel,
 }
 
 class AssistantFailure implements Exception {
-  const AssistantFailure(this.code);
+  const AssistantFailure(this.code, {this.detail});
 
   final AssistantFailureCode code;
 
+  /// The raw cause (HTTP status, server message), for logs and debug builds
+  /// only; users see the localized text for [code].
+  final String? detail;
+
   @override
-  String toString() => 'AssistantFailure($code)';
+  String toString() =>
+      'AssistantFailure($code${detail == null ? '' : ': $detail'})';
 }
 
 abstract interface class AssistantRepository {

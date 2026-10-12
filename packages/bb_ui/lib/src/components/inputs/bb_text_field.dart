@@ -35,11 +35,14 @@ class BbTextField extends StatefulWidget {
     this.textInputAction,
     this.autofillHints,
     this.onSubmitted,
+    this.onChanged,
     this.enabled = true,
+    this.autofocus = false,
     this.obscure = false,
     this.showPasswordLabel,
     this.hidePasswordLabel,
     this.prefixIcon,
+    this.suffixText,
     this.pill = false,
   }) : assert(
          !obscure || (showPasswordLabel != null && hidePasswordLabel != null),
@@ -57,7 +60,9 @@ class BbTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final Iterable<String>? autofillHints;
   final ValueChanged<String>? onSubmitted;
+  final ValueChanged<String>? onChanged;
   final bool enabled;
+  final bool autofocus;
 
   /// Hides the text and adds a show/hide toggle (passwords).
   final bool obscure;
@@ -66,6 +71,9 @@ class BbTextField extends StatefulWidget {
 
   /// Leading glyph inside the field, e.g. `BbIcons.email`.
   final IconData? prefixIcon;
+
+  /// A unit after the value, e.g. "W" in a watts field.
+  final String? suffixText;
 
   /// Sign-in style: pill shape, no label above. The [label] becomes the
   /// placeholder (unless [hint] is set) and is still read by screen readers.
@@ -113,6 +121,8 @@ class _BbTextFieldState extends State<BbTextField> {
           textInputAction: widget.textInputAction,
           autofillHints: widget.autofillHints,
           onSubmitted: widget.onSubmitted,
+          onChanged: widget.onChanged,
+          autofocus: widget.autofocus,
           style: t.bodyLarge?.copyWith(color: c.textPrimary),
           decoration: InputDecoration(
             hintText: widget.hint,
@@ -123,6 +133,8 @@ class _BbTextFieldState extends State<BbTextField> {
                 ? FloatingLabelBehavior.never
                 : null,
             labelStyle: t.bodyLarge?.copyWith(color: c.textMuted),
+            suffixText: widget.suffixText,
+            suffixStyle: t.bodyLarge?.copyWith(color: c.textMuted),
             prefixIcon: prefix == null
                 ? null
                 : Icon(prefix, size: AppSizes.iconSm, color: c.textMuted),

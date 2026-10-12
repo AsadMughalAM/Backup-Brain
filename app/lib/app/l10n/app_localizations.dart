@@ -366,7 +366,7 @@ abstract class AppLocalizations {
   /// No description provided for @cityHint.
   ///
   /// In en, this message translates to:
-  /// **'For your local sun forecast. Not listed? Pick the nearest city.'**
+  /// **'Not listed? Pick the nearest city.'**
   String get cityHint;
 
   /// No description provided for @solarQuestion.
@@ -1569,6 +1569,24 @@ abstract class AppLocalizations {
   /// **'The assistant is busy. Try again in a minute. Meanwhile, your numbers:'**
   String get assistantBusy;
 
+  /// No description provided for @assistantNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant isn\'t set up in this version of the app. Meanwhile, your numbers:'**
+  String get assistantNotConfigured;
+
+  /// No description provided for @assistantBadKey.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant\'s access key was refused. Meanwhile, your numbers:'**
+  String get assistantBadKey;
+
+  /// No description provided for @assistantBadModel.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant\'s AI model wasn\'t found. Meanwhile, your numbers:'**
+  String get assistantBadModel;
+
   /// No description provided for @estimatorTitle.
   ///
   /// In en, this message translates to:
@@ -2142,8 +2160,8 @@ abstract class AppLocalizations {
   /// No description provided for @nearbyBody.
   ///
   /// In en, this message translates to:
-  /// **'Opens a Google Maps search around {city}.'**
-  String nearbyBody(String city);
+  /// **'Opens a Google Maps search around {place}.'**
+  String nearbyBody(String place);
 
   /// No description provided for @nearbyBodyNoCity.
   ///
@@ -2186,6 +2204,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'solar installer'**
   String get querySolarInstaller;
+
+  /// No description provided for @nearbyLiveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Real shops on the map near {place}, nearest first. Tap Directions to go there.'**
+  String nearbyLiveBody(String place);
+
+  /// No description provided for @nearbyFinding.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding shops…'**
+  String get nearbyFinding;
+
+  /// No description provided for @nearbyDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Directions'**
+  String get nearbyDirections;
+
+  /// No description provided for @nearbyNoneFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No shops of this kind are on the map nearby. Try Google Maps below.'**
+  String get nearbyNoneFound;
+
+  /// No description provided for @nearbyFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load shops'**
+  String get nearbyFailedTitle;
+
+  /// No description provided for @nearbyMoreOnMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'More on Google Maps'**
+  String get nearbyMoreOnMaps;
+
+  /// No description provided for @mapsOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open Google Maps. Install Google Maps or a web browser and try again.'**
+  String get mapsOpenFailed;
 
   /// No description provided for @checkOpen.
   ///
@@ -2720,6 +2780,342 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Backup time left during a power cut.'**
   String get notifChannelCountdownBody;
+
+  /// No description provided for @sizeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get sizeOther;
+
+  /// No description provided for @numberRange.
+  ///
+  /// In en, this message translates to:
+  /// **'From {min} to {max} {unit}.'**
+  String numberRange(String min, String max, String unit);
+
+  /// No description provided for @numberOutOfRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a number from {min} to {max} {unit}.'**
+  String numberOutOfRange(String min, String max, String unit);
+
+  /// No description provided for @searchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchLabel;
+
+  /// No description provided for @searchNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches. Try another spelling, or pick the nearest.'**
+  String get searchNoMatch;
+
+  /// No description provided for @locationWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Only used to find your city and area, for your local sun forecast.'**
+  String get locationWhy;
+
+  /// No description provided for @useMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my location'**
+  String get useMyLocation;
+
+  /// No description provided for @locating.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your location…'**
+  String get locating;
+
+  /// No description provided for @locationFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Found: {place}. Check it below.'**
+  String locationFound(String place);
+
+  /// No description provided for @locationNearest.
+  ///
+  /// In en, this message translates to:
+  /// **'{town} isn\'t on our list, so we picked {city}, the nearest. Change it below if you like.'**
+  String locationNearest(String town, String city);
+
+  /// No description provided for @locationDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location wasn\'t allowed. Pick your city below instead.'**
+  String get locationDenied;
+
+  /// No description provided for @locationBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is blocked for this app. Allow it in Settings, or pick your city below.'**
+  String get locationBlocked;
+
+  /// No description provided for @locationOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone\'s location is off. Turn it on, or pick your city below.'**
+  String get locationOff;
+
+  /// No description provided for @locationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t find your location. Pick your city below.'**
+  String get locationUnavailable;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get openSettings;
+
+  /// No description provided for @cityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// No description provided for @cityPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your city'**
+  String get cityPick;
+
+  /// No description provided for @cityPickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your city'**
+  String get cityPickTitle;
+
+  /// No description provided for @areaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area (optional)'**
+  String get areaLabel;
+
+  /// No description provided for @areaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Gulberg III'**
+  String get areaHint;
+
+  /// No description provided for @addApplianceOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an appliance'**
+  String get addApplianceOpen;
+
+  /// No description provided for @addApplianceOpenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the list, or another kind (like tube lights next to LED bulbs)? Add it.'**
+  String get addApplianceOpenHint;
+
+  /// No description provided for @addApplianceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an appliance'**
+  String get addApplianceTitle;
+
+  /// No description provided for @addApplianceType.
+  ///
+  /// In en, this message translates to:
+  /// **'What is it?'**
+  String get addApplianceType;
+
+  /// No description provided for @addApplianceOtherType.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get addApplianceOtherType;
+
+  /// No description provided for @addApplianceKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Which kind?'**
+  String get addApplianceKind;
+
+  /// No description provided for @addApplianceName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get addApplianceName;
+
+  /// No description provided for @addApplianceNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Tube light'**
+  String get addApplianceNameHint;
+
+  /// No description provided for @addApplianceNameMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it a name.'**
+  String get addApplianceNameMissing;
+
+  /// No description provided for @addApplianceWatts.
+  ///
+  /// In en, this message translates to:
+  /// **'Watts, each'**
+  String get addApplianceWatts;
+
+  /// No description provided for @addApplianceWattsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Written on the sticker at the back. Picking a kind above fills it in.'**
+  String get addApplianceWattsHint;
+
+  /// No description provided for @addApplianceHowMany.
+  ///
+  /// In en, this message translates to:
+  /// **'How many'**
+  String get addApplianceHowMany;
+
+  /// No description provided for @addApplianceHeavy.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses a lot of power'**
+  String get addApplianceHeavy;
+
+  /// No description provided for @addApplianceHeavyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Like an iron or a water motor. It starts switched off on backup.'**
+  String get addApplianceHeavyHint;
+
+  /// No description provided for @addApplianceSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addApplianceSave;
+
+  /// No description provided for @addApplianceRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}'**
+  String addApplianceRemove(String name);
+
+  /// No description provided for @scheduleAddHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day is picked, since most areas cut at the same times daily. More than one cut a day, or other times on some days? Add another time.'**
+  String get scheduleAddHint;
+
+  /// No description provided for @scheduleTimeN.
+  ///
+  /// In en, this message translates to:
+  /// **'Time {n}'**
+  String scheduleTimeN(int n);
+
+  /// No description provided for @scheduleRemoveTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {title}'**
+  String scheduleRemoveTime(String title);
+
+  /// No description provided for @scheduleEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get scheduleEveryDay;
+
+  /// No description provided for @scheduleClearDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear days'**
+  String get scheduleClearDays;
+
+  /// No description provided for @scheduleSameTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Start and end can\'t be the same time.'**
+  String get scheduleSameTimes;
+
+  /// No description provided for @scheduleLength.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} without power'**
+  String scheduleLength(String time);
+
+  /// No description provided for @scheduleAddAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another time'**
+  String get scheduleAddAnother;
+
+  /// No description provided for @scheduleSaveAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {count} times'**
+  String scheduleSaveAll(int count);
+
+  /// No description provided for @scheduleTypeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: type an exact time'**
+  String scheduleTypeTime(String label);
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications, {count} new'**
+  String notificationsUnread(int count);
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Heads-ups before load-shedding and \"Power gone?\" checks show here. Add your area\'s load-shedding times, or log a few power cuts, to get them.'**
+  String get notificationsEmptyBody;
+
+  /// No description provided for @notificationsAddSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Add load-shedding times'**
+  String get notificationsAddSchedule;
+
+  /// No description provided for @notificationsUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming up'**
+  String get notificationsUpcoming;
+
+  /// No description provided for @notificationsEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get notificationsEarlier;
+
+  /// No description provided for @notificationsNoneYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing has been shown yet.'**
+  String get notificationsNoneYet;
+
+  /// No description provided for @notificationsAt.
+  ///
+  /// In en, this message translates to:
+  /// **'At {time}'**
+  String notificationsAt(String time);
+
+  /// No description provided for @notificationsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get notificationsNew;
 }
 
 class _AppLocalizationsDelegate

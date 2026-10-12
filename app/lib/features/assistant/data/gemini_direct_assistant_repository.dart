@@ -69,16 +69,46 @@ class GeminiDirectAssistantRepository implements AssistantRepository {
       );
       final reply = _text(response.data)?.replaceAll('**', '').trim();
       if (reply == null || reply.isEmpty) {
-        throw const AssistantFailure(AssistantFailureCode.unavailable);
+        throw AssistantFailure(
+          AssistantFailureCode.unavailable,
+          detail: 'Gemini $model sent no text (${_whyEmpty(response.data)})',
+        );
       }
       return reply;
     } on DioException catch (e) {
-      throw AssistantFailure(switch (e.response?.statusCode) {
+      final status = e.response?.statusCode;
+      final message = _errorMessage(e.response?.data);
+      final detail = status == null
+          ? 'Gemini $model unreachable: ${e.type.name} ${e.message ?? ''}'
+          : 'Gemini $model HTTP $status: $message';
+      throw AssistantFailure(switch (status) {
         null => AssistantFailureCode.offline,
         429 => AssistantFailureCode.busy,
+        401 || 403 => AssistantFailureCode.badKey,
+        // Google answers an invalid key with 400, not 401.
+        400 when message.contains('API key') => AssistantFailureCode.badKey,
+        404 => AssistantFailureCode.badModel,
         _ => AssistantFailureCode.unavailable,
-      });
+      }, detail: detail);
     }
+  }
+
+  /// Google's `{error: {status, message}}` body, or whatever came back.
+  static String _errorMessage(Object? body) {
+    if (body case {'error': {'message': final String message}}) {
+      final status = (body['error'] as Map)['status'];
+      return status == null ? message : '$status $message';
+    }
+    return '$body';
+  }
+
+  /// A blocked prompt or a cut-off answer explains an empty reply.
+  static String _whyEmpty(Map<String, dynamic>? data) {
+    final blocked = (data?['promptFeedback'] as Map?)?['blockReason'];
+    if (blocked != null) return 'prompt blocked: $blocked';
+    final candidates = data?['candidates'] as List?;
+    final finish = (candidates?.firstOrNull as Map?)?['finishReason'];
+    return 'finishReason: ${finish ?? 'none'}';
   }
 
   static String? _text(Map<String, dynamic>? data) {

@@ -9,6 +9,7 @@ import '../../domain/entities/setup_draft.dart';
 import '../../domain/entities/setup_presets.dart';
 import '../controllers/setup_controller.dart';
 import 'label_guide.dart';
+import 'location_question.dart';
 import 'setup_question.dart';
 
 /// Step 1: where the home is and whether it has panels. The panel
@@ -34,21 +35,7 @@ class HomeStep extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SetupQuestion(
-          title: l10n.cityQuestion,
-          hint: l10n.cityHint,
-          child: Wrap(
-            spacing: AppSpacing.sm,
-            children: [
-              for (final city in presets.cities)
-                BbChip(
-                  label: city.name,
-                  selected: draft.cityId == city.id,
-                  onSelected: () => setup.pickCity(city.id),
-                ),
-            ],
-          ),
-        ),
+        LocationQuestion(draft: draft, presets: presets, mode: mode),
         const BbGap.xl(),
         SetupQuestion(
           title: l10n.solarQuestion,
@@ -107,6 +94,11 @@ class HomeStep extends ConsumerWidget {
                     selected: draft.panelWatts,
                     label: Formatters.watts,
                     onSelected: setup.setPanelWatts,
+                    other: (
+                      title: l10n.panelWattsLabel,
+                      unit: Formatters.wattUnit,
+                      range: presets.panelWatts.custom,
+                    ),
                   ),
                 ),
                 const BbGap.md(),

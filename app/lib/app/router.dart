@@ -15,6 +15,7 @@ import '../features/auth/presentation/screens/sign_up_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/estimator/presentation/screens/estimator_screen.dart';
 import '../features/loads/presentation/screens/load_planner_screen.dart';
+import '../features/notifications/presentation/screens/notifications_screen.dart';
 import '../features/outages/presentation/screens/add_schedule_time_screen.dart';
 import '../features/outages/presentation/screens/outages_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
@@ -36,6 +37,7 @@ abstract final class Routes {
   static const assistant = '/assistant';
   static const settings = '/settings';
   static const outages = '/outages';
+  static const notifications = '/notifications';
   static const estimator = '/estimator';
   static const solarCheck = '/solar-check';
   static const batteryHelp = '/battery-help';
@@ -116,6 +118,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.outages,
         builder: (context, state) =>
             const OutagesScreen(addTimeLocation: Routes.outagesAddTime),
+      ),
+      GoRoute(
+        path: Routes.notifications,
+        builder: (context, state) =>
+            const NotificationsScreen(outagesLocation: Routes.outages),
       ),
       GoRoute(
         path: '/battery/reading/:id',

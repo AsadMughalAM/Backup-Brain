@@ -165,8 +165,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cityQuestion => 'Where is your home?';
 
   @override
-  String get cityHint =>
-      'For your local sun forecast. Not listed? Pick the nearest city.';
+  String get cityHint => 'Not listed? Pick the nearest city.';
 
   @override
   String get solarQuestion => 'Do you have solar panels?';
@@ -908,6 +907,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'The assistant is busy. Try again in a minute. Meanwhile, your numbers:';
 
   @override
+  String get assistantNotConfigured =>
+      'The assistant isn\'t set up in this version of the app. Meanwhile, your numbers:';
+
+  @override
+  String get assistantBadKey =>
+      'The assistant\'s access key was refused. Meanwhile, your numbers:';
+
+  @override
+  String get assistantBadModel =>
+      'The assistant\'s AI model wasn\'t found. Meanwhile, your numbers:';
+
+  @override
   String get estimatorTitle => 'Solar cost estimator';
 
   @override
@@ -1255,8 +1266,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearbyTitle => 'Find help nearby';
 
   @override
-  String nearbyBody(String city) {
-    return 'Opens a Google Maps search around $city.';
+  String nearbyBody(String place) {
+    return 'Opens a Google Maps search around $place.';
   }
 
   @override
@@ -1279,6 +1290,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get querySolarInstaller => 'solar installer';
+
+  @override
+  String nearbyLiveBody(String place) {
+    return 'Real shops on the map near $place, nearest first. Tap Directions to go there.';
+  }
+
+  @override
+  String get nearbyFinding => 'Finding shops…';
+
+  @override
+  String get nearbyDirections => 'Directions';
+
+  @override
+  String get nearbyNoneFound =>
+      'No shops of this kind are on the map nearby. Try Google Maps below.';
+
+  @override
+  String get nearbyFailedTitle => 'Couldn\'t load shops';
+
+  @override
+  String get nearbyMoreOnMaps => 'More on Google Maps';
+
+  @override
+  String get mapsOpenFailed =>
+      'Couldn\'t open Google Maps. Install Google Maps or a web browser and try again.';
 
   @override
   String get checkOpen => 'Are my panels working well?';
@@ -1606,4 +1642,207 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notifChannelCountdownBody =>
       'Backup time left during a power cut.';
+
+  @override
+  String get sizeOther => 'Other';
+
+  @override
+  String numberRange(String min, String max, String unit) {
+    return 'From $min to $max $unit.';
+  }
+
+  @override
+  String numberOutOfRange(String min, String max, String unit) {
+    return 'Enter a number from $min to $max $unit.';
+  }
+
+  @override
+  String get searchLabel => 'Search';
+
+  @override
+  String get searchNoMatch =>
+      'Nothing matches. Try another spelling, or pick the nearest.';
+
+  @override
+  String get locationWhy =>
+      'Only used to find your city and area, for your local sun forecast.';
+
+  @override
+  String get useMyLocation => 'Use my location';
+
+  @override
+  String get locating => 'Finding your location…';
+
+  @override
+  String locationFound(String place) {
+    return 'Found: $place. Check it below.';
+  }
+
+  @override
+  String locationNearest(String town, String city) {
+    return '$town isn\'t on our list, so we picked $city, the nearest. Change it below if you like.';
+  }
+
+  @override
+  String get locationDenied =>
+      'Location wasn\'t allowed. Pick your city below instead.';
+
+  @override
+  String get locationBlocked =>
+      'Location is blocked for this app. Allow it in Settings, or pick your city below.';
+
+  @override
+  String get locationOff =>
+      'Your phone\'s location is off. Turn it on, or pick your city below.';
+
+  @override
+  String get locationUnavailable =>
+      'Couldn\'t find your location. Pick your city below.';
+
+  @override
+  String get openSettings => 'Open settings';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get cityPick => 'Pick your city';
+
+  @override
+  String get cityPickTitle => 'Your city';
+
+  @override
+  String get areaLabel => 'Area (optional)';
+
+  @override
+  String get areaHint => 'e.g. Gulberg III';
+
+  @override
+  String get addApplianceOpen => 'Add an appliance';
+
+  @override
+  String get addApplianceOpenHint =>
+      'Not on the list, or another kind (like tube lights next to LED bulbs)? Add it.';
+
+  @override
+  String get addApplianceTitle => 'Add an appliance';
+
+  @override
+  String get addApplianceType => 'What is it?';
+
+  @override
+  String get addApplianceOtherType => 'Something else';
+
+  @override
+  String get addApplianceKind => 'Which kind?';
+
+  @override
+  String get addApplianceName => 'Name';
+
+  @override
+  String get addApplianceNameHint => 'e.g. Tube light';
+
+  @override
+  String get addApplianceNameMissing => 'Give it a name.';
+
+  @override
+  String get addApplianceWatts => 'Watts, each';
+
+  @override
+  String get addApplianceWattsHint =>
+      'Written on the sticker at the back. Picking a kind above fills it in.';
+
+  @override
+  String get addApplianceHowMany => 'How many';
+
+  @override
+  String get addApplianceHeavy => 'Uses a lot of power';
+
+  @override
+  String get addApplianceHeavyHint =>
+      'Like an iron or a water motor. It starts switched off on backup.';
+
+  @override
+  String get addApplianceSave => 'Add';
+
+  @override
+  String addApplianceRemove(String name) {
+    return 'Remove $name';
+  }
+
+  @override
+  String get scheduleAddHint =>
+      'Every day is picked, since most areas cut at the same times daily. More than one cut a day, or other times on some days? Add another time.';
+
+  @override
+  String scheduleTimeN(int n) {
+    return 'Time $n';
+  }
+
+  @override
+  String scheduleRemoveTime(String title) {
+    return 'Remove $title';
+  }
+
+  @override
+  String get scheduleEveryDay => 'Every day';
+
+  @override
+  String get scheduleClearDays => 'Clear days';
+
+  @override
+  String get scheduleSameTimes => 'Start and end can\'t be the same time.';
+
+  @override
+  String scheduleLength(String time) {
+    return '$time without power';
+  }
+
+  @override
+  String get scheduleAddAnother => 'Add another time';
+
+  @override
+  String scheduleSaveAll(int count) {
+    return 'Save $count times';
+  }
+
+  @override
+  String scheduleTypeTime(String label) {
+    return '$label: type an exact time';
+  }
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String notificationsUnread(int count) {
+    return 'Notifications, $count new';
+  }
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications yet';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Heads-ups before load-shedding and \"Power gone?\" checks show here. Add your area\'s load-shedding times, or log a few power cuts, to get them.';
+
+  @override
+  String get notificationsAddSchedule => 'Add load-shedding times';
+
+  @override
+  String get notificationsUpcoming => 'Coming up';
+
+  @override
+  String get notificationsEarlier => 'Earlier';
+
+  @override
+  String get notificationsNoneYet => 'Nothing has been shown yet.';
+
+  @override
+  String notificationsAt(String time) {
+    return 'At $time';
+  }
+
+  @override
+  String get notificationsNew => 'New';
 }

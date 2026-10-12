@@ -81,6 +81,8 @@ void main() {
     await tester.enterText(find.byType(EditableText).first, '400');
     await tester.pumpAndSettle();
     await _reveal(tester, find.text('Inverter'));
+    await tester.ensureVisible(find.text('Inverter'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Inverter'));
     await tester.pumpAndSettle();
     await _reveal(tester, find.text('Google'));

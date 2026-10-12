@@ -10,6 +10,7 @@ import '../../../../app/session/household_setup.dart';
 import '../../../../app/theme_mode/theme_mode_controller.dart';
 import '../../../../core/services/clock.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/notification_bell.dart';
 import '../../../auth/domain/auth_repository.dart';
 import '../../../backup/domain/battery_estimate.dart';
 import '../../../backup/domain/entities/household_system.dart';
@@ -42,6 +43,7 @@ class DashboardScreen extends ConsumerWidget {
     return BbScaffold(
       title: firstName == null ? l10n.greeting : l10n.greetingName(firstName),
       actions: [
+        NotificationBell(onPressed: () => context.push(Routes.notifications)),
         BbIconButton(
           icon: brightness == Brightness.dark
               ? BbIcons.themeLight

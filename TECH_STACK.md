@@ -63,7 +63,7 @@ Why:
 | External links | `url_launcher` (F7 Google Maps search) |
 | Connectivity | `connectivity_plus` |
 | Notifications | `flutter_local_notifications`, `timezone` |
-| Location | `geolocator` |
+| Location | `geolocator` (setup's "Use my location": coarse permission, low accuracy) |
 | Charts | `fl_chart` (colors always from `EnergyColors` / chart tokens) |
 | Icons | `phosphor_icons` — used only through `BbIcons` (see `DESIGN.md` §6) |
 | Theme preference | `shared_preferences` (stores light/dark/system locally for instant start-up) |
@@ -118,7 +118,7 @@ The calculation engine exists **only in Dart**. It is **never re-implemented in 
 | Function | Input | Output | Feature |
 |---|---|---|---|
 | `assistantChat` | `{messages[], snapshot, language}` | `{reply}` (later `toolRequests?`) | F9 |
-| `findNearbyShops` | `{lat, lon, radiusM, kind: 'battery'\|'ups_repair'\|'solar_installer'}` | `{shops[]}` (name, address, distance, rating, mapsUrl) | F7 (later; the MVP opens a Google Maps search URL instead) |
+| `findNearbyShops` | `{lat, lon, radiusM, kind: 'battery'\|'ups_repair'\|'solar_installer'}` | `{shops[]}` (name, address, distance, rating, mapsUrl) | F7 (later; the MVP calls Geoapify Places from the app, docs/decisions/0003) |
 | `generateAdviceCards` *(P1)* | `{snapshot, language}` | `{cards[]}` | Dashboard |
 | `seedCatalog` *(admin only)* | — | writes `batteryCatalog`, `config` | Setup |
 
@@ -210,6 +210,7 @@ backup-brain/
 │   │       ├── estimator/       # F5 solar cost & sizing
 │   │       ├── battery/         # F6 health, F7 diagnose/recommend/shops
 │   │       ├── outages/         # F8 logging, schedule, readiness, local alerts
+│   │       ├── notifications/   # the bell's list of shown and coming notifications
 │   │       ├── assistant/       # F9 chat
 │   │       └── settings/        # language, demo mode, account
 │   └── test/                    # mirrors lib/ structure
@@ -449,7 +450,7 @@ bb_ui and energy_engine never import each other or anything from app/.
 4. Don't `await` writes in the UI when offline; write and continue (the local cache updates immediately).
 5. Weather: fetch Open-Meteo when online, save a trimmed copy to `weatherCache`, and use the latest cache when offline. Show the forecast's age ("updated 3 h ago").
 6. Pricing: use `config/pricing_pk` from Firestore when available, otherwise the bundled `assets/data/pricing_pk.json`.
-7. Outage alerts and reminders from the user's schedule and learned pattern are **local notifications scheduled on the device**, so they fire without internet. FCM is only for server-originated messages. One plugin owner, `core/services/local_notifications.dart`, initialises `flutter_local_notifications` once and hands each tap to its feature by payload. On top of it: the 30-minute heads-up (`core/services/alert_scheduler.dart`, kept in step by `app/session/outage_alerts.dart`, switchable in Settings), and the "Power gone?" / "Power back?" reminders plus the self-ticking backup countdown (`features/outages/data/local_outage_notifier.dart`, kept in step by `reminder_controller.dart`). All use `AndroidScheduleMode.inexactAllowWhileIdle` (no exact-alarm permission, which Play reserves for alarm/calendar apps) and UTC times (`tz.UTC`); they survive reboots (`RECEIVE_BOOT_COMPLETED` + the plugin's receivers; Android needs core-library desugaring). The countdown is a chronometer notification the system ticks down itself: no foreground service, no background work. The web preview and tests bind no-op schedulers.
+7. Outage alerts and reminders from the user's schedule and learned pattern are **local notifications scheduled on the device**, so they fire without internet. FCM is only for server-originated messages. One plugin owner, `core/services/local_notifications.dart`, initialises `flutter_local_notifications` once and hands each tap to its feature by payload. On top of it: the 30-minute heads-up (`core/services/alert_scheduler.dart`, kept in step by `app/session/outage_alerts.dart`, switchable in Settings), and the "Power gone?" / "Power back?" reminders plus the self-ticking backup countdown (`features/outages/data/local_outage_notifier.dart`, kept in step by `reminder_controller.dart`). All use `AndroidScheduleMode.inexactAllowWhileIdle` (no exact-alarm permission, which Play reserves for alarm/calendar apps) and UTC times (`tz.UTC`); they survive reboots (`RECEIVE_BOOT_COMPLETED` + the plugin's receivers; Android needs core-library desugaring). The countdown is a chronometer notification the system ticks down itself: no foreground service, no background work. The web preview and tests bind no-op schedulers. Whatever is scheduled is also planned into the in-app list behind the bell (`core/services/notification_inbox.dart`, SharedPreferences, 14 days), replacing only entries still to come; an entry counts as shown once its time passes.
 8. Features that truly need the network (F9 assistant, F7 shops) show a clear "needs internet" state, never a crash.
 
 ### 7.3 Data & Firestore rules
@@ -465,7 +466,7 @@ bb_ui and energy_engine never import each other or anything from app/.
 ### 7.4 Security & secrets
 
 1. The app contains **no secret keys**. Only the public Firebase config generated by FlutterFire.
-2. Gemini and Places API keys live in Secret Manager and are read with `defineSecret` in Functions (`firebase functions:secrets:set GEMINI_API_KEY`). **MVP exception (docs/decisions/0002):** until the project is on Blaze, the app calls Gemini directly with `GEMINI_API_KEY` from a git-ignored `env.json` (`--dart-define-from-file`), a key from a billing-free project restricted to the Generative Language API, and a 50-messages-per-phone daily limit.
+2. Gemini and Places API keys live in Secret Manager and are read with `defineSecret` in Functions (`firebase functions:secrets:set GEMINI_API_KEY`). **MVP exception (docs/decisions/0002):** until the project is on Blaze, the app calls Gemini directly with `GEMINI_API_KEY` from a git-ignored `env.json` (`--dart-define-from-file`), a key from a billing-free project restricted to the Generative Language API, and a 50-messages-per-phone daily limit. F7 nearby shops likewise call Geoapify Places with `GEOAPIFY_API_KEY` from the same `env.json` (no billing; docs/decisions/0003).
 3. Every callable function checks `request.auth` and validates input with `zod`. Reject unauthenticated calls.
 4. `assistantChat` allows 50 messages per user per Pakistan day, counted in `aiUsage/{uid}` (written only by the function; rules deny clients) to protect the AI budget.
 5. Firestore rules are deny-by-default and tested in the emulator before deploy.

@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
-import '../../../../core/services/external_links.dart';
-import '../../../../core/utils/fire_and_forget.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/price_search_card.dart';
 import '../../../backup/domain/system_repository.dart';
 import '../../domain/battery_catalog_repository.dart';
 import '../../domain/battery_health.dart';
+import '../../domain/nearby_shops_repository.dart';
+import '../widgets/nearby_shops_section.dart';
 
 /// F7 — "Meri battery kharab ho gayi: kaunsi nayi lun, ya repair ho sakti
-/// hai?" Diagnose first, then compare what to buy, then find a shop.
+/// hai?" Diagnose first, then nearby shops (what most users came for), then
+/// compare what to buy.
 class BatteryHelpScreen extends ConsumerStatefulWidget {
   const BatteryHelpScreen({super.key});
 
@@ -39,12 +40,6 @@ class _BatteryHelpScreenState extends ConsumerState<BatteryHelpScreen> {
       healthFactor: ref.watch(batteryHealthProvider)?.healthFactor,
     );
     final city = system.location?.city;
-    void search(String what) => fireAndForget(
-      ref
-          .read(externalLinksProvider)
-          .openMapsSearch(city == null ? what : '$what $city'),
-      'maps search',
-    );
 
     return BbScaffold(
       title: l10n.helpTitle,
@@ -78,6 +73,15 @@ class _BatteryHelpScreenState extends ConsumerState<BatteryHelpScreen> {
           ),
           const BbGap.lg(),
           _VerdictCard(verdict),
+          const BbGap.xl(),
+          NearbyShopsSection(
+            city: city,
+            area: system.location?.area,
+            site: system.location?.site,
+            suggested: verdict == BatteryVerdict.repairPossible
+                ? ShopKind.upsRepair
+                : ShopKind.battery,
+          ),
           if (catalog != null) ...[
             const BbGap.xl(),
             Text(l10n.buyTitle, style: context.textTheme.titleMedium),
@@ -130,29 +134,6 @@ class _BatteryHelpScreenState extends ConsumerState<BatteryHelpScreen> {
                   },
               ],
             ),
-          ],
-          const BbGap.xl(),
-          Text(l10n.nearbyTitle, style: context.textTheme.titleMedium),
-          const BbGap.xs(),
-          Text(
-            city == null ? l10n.nearbyBodyNoCity : l10n.nearbyBody(city),
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colors.textMuted,
-            ),
-          ),
-          const BbGap.md(),
-          for (final (label, query) in [
-            (l10n.nearbyBatteryShops, l10n.queryBatteryShop),
-            (l10n.nearbyUpsRepair, l10n.queryUpsRepair),
-            (l10n.nearbySolarInstallers, l10n.querySolarInstaller),
-          ]) ...[
-            BbButton.secondary(
-              label: label,
-              icon: BbIcons.location,
-              expand: true,
-              onPressed: () => search(query),
-            ),
-            const BbGap.sm(),
           ],
         ],
       ),

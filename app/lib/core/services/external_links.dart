@@ -11,6 +11,9 @@ abstract interface class ExternalLinks {
   /// Maps URL scheme is public (F7, instead of the Places API).
   Future<bool> openMapsSearch(String query);
 
+  /// Google Maps directions from where the phone is to [lat], [lon].
+  Future<bool> openDirections(double lat, double lon);
+
   /// Today's listings for [query] on [site]. Sellers' asking prices, shown
   /// by the site itself; the app never reads or computes with them.
   Future<bool> openPriceSearch(PriceSite site, String query);
@@ -22,6 +25,14 @@ class UrlLauncherLinks implements ExternalLinks {
   @override
   Future<bool> openMapsSearch(String query) => _open(
     Uri.https('www.google.com', '/maps/search/', {'api': '1', 'query': query}),
+  );
+
+  @override
+  Future<bool> openDirections(double lat, double lon) => _open(
+    Uri.https('www.google.com', '/maps/dir/', {
+      'api': '1',
+      'destination': '$lat,$lon',
+    }),
   );
 
   @override

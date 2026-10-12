@@ -628,7 +628,8 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - **`BbSegmentedControl`:** track `surfaceMuted`, radius `md`, 4 px inset; selected segment = `surface` + level1 (light) / `surfaceRaised` (dark), label `textPrimary` 600; unselected `textMuted`.
 - **`BbSlider`:** track 4 px `surfaceMuted`, active `secondary`, thumb 20 px `secondary` with value label in `metricSmall` while dragging.
 - **`BbTextField(pill: true)`** **NEW**: sign-in style — pill radius, leading icon, label shown inside as the placeholder (still the accessible name), 1 px `outlineVariant`.
-- **`BbDropdown`:** looks like `BbTextField` + `caretDown` icon; menu = level2 surface.
+- **`BbDropdown`:** looks like `BbTextField` (label above, 52 px, radius `md`, 1 px `outlineVariant`) with an optional leading 20-px icon and a `caretDown`; the value in `bodyLarge` `textPrimary`, or a `textMuted` placeholder. Tapping opens the caller's picker through `OverlayHost`; for long lists (cities) that is a sheet with a pill search field on top and rows that show the pick with a `check` icon and `titleSmall`, not color alone. Pressed/hover tint the fill; focus ring at radius `md`.
+- **`BbTextField` unit suffix:** `suffixText` ("W", "Ah") in `bodyLarge` `textMuted` after the value, for typed sizes ("Other…" on a size-chip row, an added appliance's watts).
 - **`BbChoiceCard`** **NEW**: one answer to a single-choice question. Full width, radius `lg`, padding 16: 40-px icon disc, `titleSmall` title, optional `bodySmall` muted hint (a recognition cue, e.g. "Tall battery you top up with water"), radio mark on the right. Unselected = `surface` + level1; selected = `secondaryContainer`, no shadow, Fill `checkCircle` in `secondary`. No borders.
 - **`BbQuantityStepper`** **NEW**: tonal − / + icon buttons (48 dp) around the value in `metricSmall` (`textMuted` at 0). One adjustable node for screen readers (swipe to change).
 
@@ -647,6 +648,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 - **`BbStatTile`:** `BbCard` with: 40-px icon disc (`BbTone.containerColor`, e.g. `successContainer`) holding a 20-px icon in the tone color → `md` gap → `labelMedium` label in `textMuted` → `metricLarge` value + unit → optional `bodySmall` delta ("−18% vs Mar"). Min height 112. Optional tap (`onTap` + `tapLabel` read as the hint): pressed/hover tint the card, focus ring at radius `lg`.
 - **`BbMetric`:** standalone value+unit pair (§3.5), sizes hero/large/medium/small.
 - **`BbBadge`:** pill, height 24, `labelMedium`, container color + on-container text, optional 16-px Fill icon.
+- **`BbCountBadge`:** a count on the corner of an icon button (the notification bell): pill, min 18 × 18, `primary` fill, `labelSmall` in `textOnPrimary`, "9+" above 9, hidden at 0. A number rather than a dot, so it never rests on color alone; the button's label repeats it ("Notifications, 3 new").
 - **`BbChip`:** pill height 32, unselected = `surfaceMuted` fill + `textPrimary`; selected = `secondary` fill + `onSecondary` + leading `check` icon. Optional leading 16-px icon (e.g. battery bars beside "75%") that the check replaces when selected.
 - **`BbListTile`:** 56/72 min height, leading 20-px icon in a 40-px `surfaceMuted` circle (or energy-tinted container), title `bodyLarge`, subtitle `bodyMedium` muted, trailing value in `metricSmall` right-aligned or `caretRight` 16.
 - **`BbProgressBar`:** §8.4.
@@ -728,7 +730,7 @@ The forecast refreshes from the app root (start, return to the app, location fir
 
 **Estimator:** one live form instead of steps (usage as Units / Bill chips + number field, city chips prefilled from the home, goal as `BbChoiceCard`s, backup hours `BbQuantityStepper`, night load field); the packages update as answers change. Entry: Solar app bar `estimator` icon. → 3 package cards (`BbCard`, recommended one = `highlight` variant + a `primary` pill badge with `check` icon and "Recommended" in `textOnPrimary`) with PKR range in `metricMedium` → payback → installer checklist → disclaimer `bodySmall` muted + "prices last updated".
 
-**Battery:** `BbHealthIndicator` → trend chart → warnings (`BbBanner`) → "My battery is kharab" (`secondary` button) → diagnosis sheet → recommendations → shops list (needs internet state).
+**Battery:** `BbHealthIndicator` → trend chart → warnings (`BbBanner`) → "My battery is kharab" (`secondary` button) → help screen: symptom chips → verdict → **nearby shops** (kind `BbChip`s, `BbCard.list` rows: name, muted "850 m · address", small secondary **Directions** button; inline spinner "Finding shops…"; `BbEmptyState` offline + Try again; ghost "More on Google Maps") → recommendations → price search.
 
 **Assistant:** chat bubbles (`BbChatBubble`) — user = `secondary` fill + `onSecondary`, radius `lg` with 4-px tail corner; assistant = `surfaceMuted` fill; suggested prompts as `BbChip`s; numbers inside replies rendered in `metricSmall`; `BbTypingIndicator` while waiting.
 

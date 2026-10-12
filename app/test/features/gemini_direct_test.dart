@@ -129,6 +129,56 @@ void main() {
     },
   );
 
+  test('names the exact cause of a bad key or model', () async {
+    for (final (status, message, code) in [
+      (
+        400,
+        'API key not valid. Please pass a valid API key.',
+        AssistantFailureCode.badKey,
+      ),
+      (403, 'Permission denied', AssistantFailureCode.badKey),
+      (404, 'models/x is not found', AssistantFailureCode.badModel),
+    ]) {
+      final (repo, _) = await _repo(status, {
+        'error': {'status': 'X', 'message': message},
+      });
+      await expectLater(
+        repo.reply(
+          history: _question,
+          snapshot: _snapshot,
+          language: ReplyLanguage.english,
+        ),
+        throwsA(
+          isA<AssistantFailure>()
+              .having((f) => f.code, 'code', code)
+              .having((f) => f.detail, 'detail', contains('HTTP $status')),
+        ),
+      );
+    }
+  });
+
+  test('an empty answer reports why it was empty', () async {
+    final (repo, _) = await _repo(200, {
+      'candidates': [
+        {'finishReason': 'SAFETY'},
+      ],
+    });
+    await expectLater(
+      repo.reply(
+        history: _question,
+        snapshot: _snapshot,
+        language: ReplyLanguage.english,
+      ),
+      throwsA(
+        isA<AssistantFailure>().having(
+          (f) => f.detail,
+          'detail',
+          contains('SAFETY'),
+        ),
+      ),
+    );
+  });
+
   test('stops after the daily limit on this phone', () async {
     final (repo, _) = await _repo(200, _answer('ok'));
     for (var i = 0; i < GeminiDirectAssistantRepository.dailyLimit; i++) {

@@ -29,6 +29,7 @@ abstract final class SetupPresetsDto {
             psh: (c['psh'] as num?)?.toDouble(),
           ),
       ],
+      applianceWatts: _valueRange(appliances['wattsRange']),
       appliances: [
         for (final a in _list(appliances['appliances']))
           AppliancePreset(
@@ -54,9 +55,21 @@ abstract final class SetupPresetsDto {
       leadAcid: _battery(battery['leadAcid'] as Map<String, dynamic>),
       lithium: _battery(battery['lithium'] as Map<String, dynamic>),
       batteryCount: _range(count, 'min', 'max', 'default'),
-      upsW: _sizes(inverter['ups'], inverter['upsDefault']),
-      hybridW: _sizes(inverter['hybrid'], inverter['hybridDefault']),
-      panelWatts: _sizes(panels['watts'], panels['defaultWatts']),
+      upsW: _sizes(
+        inverter['ups'],
+        inverter['upsDefault'],
+        inverter['upsRange'],
+      ),
+      hybridW: _sizes(
+        inverter['hybrid'],
+        inverter['hybridDefault'],
+        inverter['hybridRange'],
+      ),
+      panelWatts: _sizes(
+        panels['watts'],
+        panels['defaultWatts'],
+        panels['wattsRange'],
+      ),
       panelCount: _range(panels, 'countMin', 'countMax', 'defaultCount'),
       socChoices: [for (final v in equipment['socChoices'] as List) _d(v)],
       defaultSoc: _d(equipment['defaultSoc']),
@@ -64,17 +77,34 @@ abstract final class SetupPresetsDto {
   }
 
   static BatteryPreset _battery(Map<String, dynamic> m) => BatteryPreset(
-    voltages: _sizes(m['voltages'], m['defaultVoltage']),
-    ampHours: _sizes(m['ampHours'], m['defaultAmpHours']),
+    voltages: _sizes(
+      m['voltages'],
+      m['defaultVoltage'],
+      // Lead-acid has one voltage and no "Other".
+      m['voltagesRange'] ?? [m['defaultVoltage'], m['defaultVoltage']],
+    ),
+    ampHours: _sizes(m['ampHours'], m['defaultAmpHours'], m['ampHoursRange']),
   );
 
-  static SizeChoices _sizes(Object? options, Object? fallback) {
+  static SizeChoices _sizes(Object? options, Object? fallback, Object? range) {
     final values = [for (final v in options as List) _d(v)];
     final pick = _d(fallback);
     if (!values.contains(pick)) {
       throw FormatException('Default $pick is not one of $values');
     }
-    return SizeChoices(options: values, fallback: pick);
+    final custom = _valueRange(range);
+    if (values.any((v) => v < custom.min || v > custom.max)) {
+      throw FormatException(
+        '$values reach outside ${custom.min}–${custom.max}',
+      );
+    }
+    return SizeChoices(options: values, fallback: pick, custom: custom);
+  }
+
+  /// `[min, max]`.
+  static ValueRange _valueRange(Object? v) {
+    final pair = v as List;
+    return ValueRange(min: _d(pair[0]), max: _d(pair[1]));
   }
 
   static CountRange _range(

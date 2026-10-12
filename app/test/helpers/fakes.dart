@@ -6,6 +6,7 @@ import 'package:backup_brain/core/services/alert_scheduler.dart';
 import 'package:backup_brain/core/services/external_links.dart';
 import 'package:backup_brain/features/battery/data/battery_catalog_repository_impl.dart';
 import 'package:backup_brain/features/battery/domain/battery_catalog_repository.dart';
+import 'package:backup_brain/features/battery/domain/nearby_shops_repository.dart';
 import 'package:backup_brain/features/assistant/domain/assistant_repository.dart';
 import 'package:backup_brain/features/assistant/domain/energy_snapshot.dart';
 import 'package:backup_brain/features/auth/domain/auth_repository.dart';
@@ -553,7 +554,18 @@ class FakeExternalLinks implements ExternalLinks {
   @override
   Future<bool> openMapsSearch(String query) async {
     searches.add(query);
-    return true;
+    return canOpen;
+  }
+
+  /// False plays a phone with no Maps app and no browser.
+  bool canOpen = true;
+
+  final directions = <(double, double)>[];
+
+  @override
+  Future<bool> openDirections(double lat, double lon) async {
+    directions.add((lat, lon));
+    return canOpen;
   }
 
   final priceSearches = <(PriceSite, String)>[];
@@ -562,6 +574,29 @@ class FakeExternalLinks implements ExternalLinks {
   Future<bool> openPriceSearch(PriceSite site, String query) async {
     priceSearches.add((site, query));
     return true;
+  }
+}
+
+/// Map search stand-in: every search returns [shops], or fails like an
+/// offline phone while [offline] is true.
+class FakeNearbyShopsRepository implements NearbyShopsRepository {
+  FakeNearbyShopsRepository(this.shops);
+
+  final List<NearbyShop> shops;
+  bool offline = false;
+  final searched = <ShopKind>[];
+  final areas = <String?>[];
+
+  @override
+  Future<List<NearbyShop>> find(
+    ShopKind kind,
+    SiteLocation home, {
+    String? area,
+  }) async {
+    searched.add(kind);
+    areas.add(area);
+    if (offline) throw const SocketException('offline');
+    return shops;
   }
 }
 

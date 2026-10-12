@@ -2,6 +2,9 @@
     <!-- F8 outage alerts and reminders are local, inexact alarms: they
          survive a reboot and need no exact-alarm permission. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Setup's "Use my location": city and area only, so coarse is
+         enough and never asks for the exact spot. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:label="backup_brain"
         android:name="${applicationName}"

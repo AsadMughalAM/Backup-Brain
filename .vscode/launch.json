@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // env.json carries GEMINI_API_KEY (F9); without it the assistant
+      // falls back to the undeployed Cloud Function.
+      "name": "app (with env.json)",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "app",
+      "program": "lib/main.dart",
+      "toolArgs": ["--dart-define-from-file=env.json"]
+    }
+  ]
+}

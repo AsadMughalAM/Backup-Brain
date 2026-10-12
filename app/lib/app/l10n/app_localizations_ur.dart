@@ -165,8 +165,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get cityQuestion => 'Aap ka ghar kahan hai?';
 
   @override
-  String get cityHint =>
-      'Aap ke ilaqe ki dhoop ke liye. Shehar list mein nahi? Qareeb tareen shehar chunein.';
+  String get cityHint => 'List mein nahi? Qareeb tareen shehar chunein.';
 
   @override
   String get solarQuestion => 'Kya aap ke paas solar panels hain?';
@@ -910,6 +909,18 @@ class AppLocalizationsUr extends AppLocalizations {
       'Assistant abhi masroof hai. Ek minute baad dobara koshish karein. Tab tak aap ke numbers:';
 
   @override
+  String get assistantNotConfigured =>
+      'Is app version mein assistant set up nahi. Tab tak aap ke numbers:';
+
+  @override
+  String get assistantBadKey =>
+      'Assistant ki access key qubool nahi hui. Tab tak aap ke numbers:';
+
+  @override
+  String get assistantBadModel =>
+      'Assistant ka AI model nahi mila. Tab tak aap ke numbers:';
+
+  @override
   String get estimatorTitle => 'Solar ka kharcha';
 
   @override
@@ -1256,8 +1267,8 @@ class AppLocalizationsUr extends AppLocalizations {
   String get nearbyTitle => 'Qareeb madad dhoondein';
 
   @override
-  String nearbyBody(String city) {
-    return '$city mein Google Maps search khulegi.';
+  String nearbyBody(String place) {
+    return '$place mein Google Maps search khulegi.';
   }
 
   @override
@@ -1280,6 +1291,31 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get querySolarInstaller => 'solar installer';
+
+  @override
+  String nearbyLiveBody(String place) {
+    return '$place ke qareeb map par asli dukaanein, sab se qareeb pehle. Wahan jaane ke liye Raasta dabayein.';
+  }
+
+  @override
+  String get nearbyFinding => 'Dukaanein dhoond rahe hain…';
+
+  @override
+  String get nearbyDirections => 'Raasta';
+
+  @override
+  String get nearbyNoneFound =>
+      'Is qisam ki koi dukaan qareeb map par nahi mili. Neeche Google Maps try karein.';
+
+  @override
+  String get nearbyFailedTitle => 'Dukaanein load nahi hui';
+
+  @override
+  String get nearbyMoreOnMaps => 'Google Maps par mazeed';
+
+  @override
+  String get mapsOpenFailed =>
+      'Google Maps nahi khul saka. Google Maps ya web browser install kar ke dobara koshish karein.';
 
   @override
   String get checkOpen => 'Kya mere panels theek chal rahe hain?';
@@ -1607,6 +1643,209 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get notifChannelCountdownBody =>
       'Light jaane par baqi backup ka waqt.';
+
+  @override
+  String get sizeOther => 'Koi aur';
+
+  @override
+  String numberRange(String min, String max, String unit) {
+    return '$min se $max $unit tak.';
+  }
+
+  @override
+  String numberOutOfRange(String min, String max, String unit) {
+    return '$min se $max $unit tak ka number likhein.';
+  }
+
+  @override
+  String get searchLabel => 'Talaash karein';
+
+  @override
+  String get searchNoMatch =>
+      'Kuch nahi mila. Doosre spelling se dekhein, ya qareeb tareen chunein.';
+
+  @override
+  String get locationWhy =>
+      'Sirf aap ka shehar aur ilaqa dhoondne ke liye, taake dhoop ka andaza aap ke ilaqe ka ho.';
+
+  @override
+  String get useMyLocation => 'Meri location lein';
+
+  @override
+  String get locating => 'Location dhoond rahe hain…';
+
+  @override
+  String locationFound(String place) {
+    return 'Mil gaya: $place. Neeche dekh lein.';
+  }
+
+  @override
+  String locationNearest(String town, String city) {
+    return '$town hamari list mein nahi, is liye qareeb tareen $city chuna. Chahein to neeche badal lein.';
+  }
+
+  @override
+  String get locationDenied =>
+      'Location ki ijazat nahi mili. Neeche apna shehar chunein.';
+
+  @override
+  String get locationBlocked =>
+      'Is app ke liye location band hai. Settings mein ijazat dein, ya neeche shehar chunein.';
+
+  @override
+  String get locationOff =>
+      'Phone ki location band hai. Usay on karein, ya neeche shehar chunein.';
+
+  @override
+  String get locationUnavailable =>
+      'Location nahi mil saki. Neeche apna shehar chunein.';
+
+  @override
+  String get openSettings => 'Settings kholein';
+
+  @override
+  String get cityLabel => 'Shehar';
+
+  @override
+  String get cityPick => 'Apna shehar chunein';
+
+  @override
+  String get cityPickTitle => 'Aap ka shehar';
+
+  @override
+  String get areaLabel => 'Ilaqa (zaroori nahi)';
+
+  @override
+  String get areaHint => 'Jaise Gulberg III';
+
+  @override
+  String get addApplianceOpen => 'Appliance shamil karein';
+
+  @override
+  String get addApplianceOpenHint =>
+      'List mein nahi, ya koi aur qism (jaise LED ke saath tube light)? Shamil karein.';
+
+  @override
+  String get addApplianceTitle => 'Appliance shamil karein';
+
+  @override
+  String get addApplianceType => 'Yeh kya hai?';
+
+  @override
+  String get addApplianceOtherType => 'Kuch aur';
+
+  @override
+  String get addApplianceKind => 'Kaun si qism?';
+
+  @override
+  String get addApplianceName => 'Naam';
+
+  @override
+  String get addApplianceNameHint => 'Jaise Tube light';
+
+  @override
+  String get addApplianceNameMissing => 'Is ka naam likhein.';
+
+  @override
+  String get addApplianceWatts => 'Watts, har ek';
+
+  @override
+  String get addApplianceWattsHint =>
+      'Peeche sticker par likha hota hai. Upar qism chunne se khud bhar jata hai.';
+
+  @override
+  String get addApplianceHowMany => 'Kitne';
+
+  @override
+  String get addApplianceHeavy => 'Bohat bijli khata hai';
+
+  @override
+  String get addApplianceHeavyHint =>
+      'Jaise istri ya pani ki motor. Backup par shuru mein band rahega.';
+
+  @override
+  String get addApplianceSave => 'Shamil karein';
+
+  @override
+  String addApplianceRemove(String name) {
+    return '$name hatayein';
+  }
+
+  @override
+  String get scheduleAddHint =>
+      'Har din chuna hua hai, kyun ke aksar ilaqon mein roz isi waqt light jaati hai. Din mein ek se zyada baar, ya kuch dinon mein aur waqt? Ek aur waqt shamil karein.';
+
+  @override
+  String scheduleTimeN(int n) {
+    return 'Waqt $n';
+  }
+
+  @override
+  String scheduleRemoveTime(String title) {
+    return '$title hatayein';
+  }
+
+  @override
+  String get scheduleEveryDay => 'Har din';
+
+  @override
+  String get scheduleClearDays => 'Din hatayein';
+
+  @override
+  String get scheduleSameTimes => 'Shuru aur khatam ka waqt ek nahi ho sakta.';
+
+  @override
+  String scheduleLength(String time) {
+    return '$time light nahi hogi';
+  }
+
+  @override
+  String get scheduleAddAnother => 'Ek aur waqt shamil karein';
+
+  @override
+  String scheduleSaveAll(int count) {
+    return '$count waqt save karein';
+  }
+
+  @override
+  String scheduleTypeTime(String label) {
+    return '$label: theek waqt likhein';
+  }
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String notificationsUnread(int count) {
+    return 'Notifications, $count nayi';
+  }
+
+  @override
+  String get notificationsEmptyTitle => 'Abhi koi notification nahi';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Load-shedding se pehle ki khabar aur \"Light gayi?\" ke sawal yahan aayenge. Inhein paane ke liye apne ilaqe ke load-shedding ke waqt likhein, ya kuch light jaane ka record rakhein.';
+
+  @override
+  String get notificationsAddSchedule => 'Load-shedding ke waqt likhein';
+
+  @override
+  String get notificationsUpcoming => 'Aane wali';
+
+  @override
+  String get notificationsEarlier => 'Pehle ki';
+
+  @override
+  String get notificationsNoneYet => 'Abhi tak kuch nahi dikhaya gaya.';
+
+  @override
+  String notificationsAt(String time) {
+    return '$time par';
+  }
+
+  @override
+  String get notificationsNew => 'Nayi';
 }
 
 /// The translations for Urdu, using the Latin script (`ur_Latn`).

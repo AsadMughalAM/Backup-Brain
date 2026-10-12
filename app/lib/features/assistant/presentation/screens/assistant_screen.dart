@@ -1,4 +1,5 @@
 import 'package:bb_ui/bb_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -179,8 +180,19 @@ class _Entry extends ConsumerWidget {
             text: _fallback(l10n, ref.watch(energySnapshotProvider)),
             fromUser: false,
           ),
+          // The exact cause, so a developer sees why without a debugger.
+          if (kDebugMode && entry.failure?.detail != null) ...[
+            const BbGap.xs(),
+            SelectableText(
+              entry.failure!.detail!,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.colors.textMuted,
+              ),
+            ),
+          ],
           // Retrying can't beat the daily limit.
-          if (isLast && entry.failure != AssistantFailureCode.dailyLimit) ...[
+          if (isLast &&
+              entry.failure?.code != AssistantFailureCode.dailyLimit) ...[
             const BbGap.xs(),
             BbButton.secondary(
               label: l10n.tryAgain,
@@ -196,11 +208,14 @@ class _Entry extends ConsumerWidget {
 
   /// Template text from the same engine numbers (TECH_STACK §7.6.4).
   String _fallback(AppLocalizations l10n, EnergySnapshot? s) {
-    final why = switch (entry.failure) {
+    final why = switch (entry.failure?.code) {
       AssistantFailureCode.offline || null => l10n.assistantOffline,
       AssistantFailureCode.busy => l10n.assistantBusy,
       AssistantFailureCode.unavailable => l10n.assistantUnavailable,
       AssistantFailureCode.dailyLimit => l10n.assistantDailyLimit,
+      AssistantFailureCode.notConfigured => l10n.assistantNotConfigured,
+      AssistantFailureCode.badKey => l10n.assistantBadKey,
+      AssistantFailureCode.badModel => l10n.assistantBadModel,
     };
     if (s == null) return why;
     final best = s.bestSwitchOff, gain = s.bestGainHours;

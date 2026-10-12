@@ -62,11 +62,7 @@ class BbGridStatusPill extends StatelessWidget {
 
     return Tappable(
       onTap: onTap,
-      semanticLabel: [
-        label,
-        ?duration,
-        actionLabel,
-      ].join(', '),
+      semanticLabel: [label, ?duration, actionLabel].join(', '),
       builder: (context, state) {
         final fill = state.pressed || state.hovered
             ? Color.alphaBlend(

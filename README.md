@@ -44,6 +44,8 @@ cd functions && pnpm install && pnpm run build
 firebase emulators:start
 ```
 
-**AI assistant (F9), MVP setup:** copy `app/env.example.json` to `app/env.json` (git-ignored), put the team's Gemini key in it, and run with `flutter run --dart-define-from-file=env.json`. Without it the Assistant tab shows its offline template answers. Never commit `env.json`. Why and the risks: [docs/decisions/0002](docs/decisions/0002-gemini-key-in-app-mvp.md). Later, on Blaze: `firebase functions:secrets:set GEMINI_API_KEY`, `firebase deploy --only functions`, and drop the define.
+**AI assistant (F9), MVP setup:** copy `app/env.example.json` to `app/env.json` (git-ignored), put the team's Gemini key in it, and run with `flutter run --dart-define-from-file=env.json` (in VS Code, pick the **app (with env.json)** launch config; a plain Run/F5 leaves the key out). Without it the Assistant tab shows its offline template answers. Never commit `env.json`. Why and the risks: [docs/decisions/0002](docs/decisions/0002-gemini-key-in-app-mvp.md). Later, on Blaze: `firebase functions:secrets:set GEMINI_API_KEY`, `firebase deploy --only functions`, and drop the define.
+
+**Nearby shops (F7), MVP setup:** add `GEOAPIFY_API_KEY` to the same `app/env.json` (free key from myprojects.geoapify.com, no card). The battery help screen then lists real battery, UPS and solar shops near the home location, each with one-tap directions. Without it the screen opens Google Maps searches instead. Why and the risks: [docs/decisions/0003](docs/decisions/0003-geoapify-shops-mvp.md).
 
 For the full command list and environments, see [TECH_STACK.md §7.8 and §8](TECH_STACK.md).

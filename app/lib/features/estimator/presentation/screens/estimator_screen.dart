@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/search_picker_sheet.dart';
 import '../../../../core/widgets/price_search_card.dart';
 import '../controllers/estimator_controller.dart';
 
@@ -99,17 +100,23 @@ class _EstimatorScreenState extends ConsumerState<EstimatorScreen> {
                 ),
                 const BbGap.xl(),
                 _Heading(l10n.estimatorCity),
-                Wrap(
-                  spacing: AppSpacing.sm,
-                  runSpacing: AppSpacing.sm,
-                  children: [
-                    for (final city in presets)
-                      BbChip(
-                        label: city.name,
-                        selected: city.id == result.city.id,
-                        onSelected: () => controller.setCity(city.id),
-                      ),
-                  ],
+                BbDropdown(
+                  label: l10n.cityLabel,
+                  value: result.city.name,
+                  placeholder: l10n.cityPick,
+                  icon: BbIcons.location,
+                  onTap: () async {
+                    final id = await showSearchPicker(
+                      ref,
+                      title: l10n.cityPickTitle,
+                      selectedId: result.city.id,
+                      options: [
+                        for (final city in presets)
+                          (id: city.id, label: city.name),
+                      ],
+                    );
+                    if (id != null) controller.setCity(id);
+                  },
                 ),
                 const BbGap.xl(),
                 _Heading(l10n.estimatorGoal),

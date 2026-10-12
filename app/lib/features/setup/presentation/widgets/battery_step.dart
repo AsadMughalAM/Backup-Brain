@@ -30,6 +30,9 @@ class BatteryStep extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final setup = ref.read(setupControllerProvider(mode).notifier);
     final chemistry = draft.chemistry;
+    final inverterTitle = draft.hasSolar == true
+        ? l10n.inverterLabelHybrid
+        : l10n.inverterLabelUps;
     final types = [
       (BatteryChemistry.leadAcid, l10n.chemLeadAcid, l10n.chemLeadAcidHint),
       (BatteryChemistry.tubular, l10n.chemTubular, l10n.chemTubularHint),
@@ -85,6 +88,11 @@ class BatteryStep extends ConsumerWidget {
                       selected: draft.voltageFor(presets),
                       label: Formatters.volts,
                       onSelected: setup.setVoltage,
+                      other: (
+                        title: l10n.batteryVoltageLabel,
+                        unit: Formatters.voltUnit,
+                        range: presets.lithium.voltages.custom,
+                      ),
                     ),
                   ),
                 ],
@@ -105,6 +113,11 @@ class BatteryStep extends ConsumerWidget {
                     selected: draft.ampHoursFor(presets),
                     label: Formatters.ampHours,
                     onSelected: setup.setAmpHours,
+                    other: (
+                      title: l10n.batterySizeLabel,
+                      unit: Formatters.ampHourUnit,
+                      range: presets.battery(chemistry).ampHours.custom,
+                    ),
                   ),
                 ),
               ],
@@ -112,9 +125,7 @@ class BatteryStep extends ConsumerWidget {
           ),
           const BbGap.xl(),
           SetupQuestion(
-            title: draft.hasSolar == true
-                ? l10n.inverterLabelHybrid
-                : l10n.inverterLabelUps,
+            title: inverterTitle,
             hint: l10n.inverterHint,
             guide: LabelGuide(
               lines: [l10n.guideUps1, l10n.guideUps2, l10n.guideUps3],
@@ -125,6 +136,11 @@ class BatteryStep extends ConsumerWidget {
               selected: draft.inverterWFor(presets),
               label: Formatters.watts,
               onSelected: setup.setInverterW,
+              other: (
+                title: inverterTitle,
+                unit: Formatters.wattUnit,
+                range: draft.inverterChoices(presets).custom,
+              ),
             ),
           ),
           const BbGap.xl(),

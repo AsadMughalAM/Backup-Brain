@@ -1,3 +1,5 @@
+import 'package:backup_brain/features/loads/domain/entities/appliance.dart';
+import 'package:backup_brain/features/setup/domain/entities/custom_appliance.dart';
 import 'package:backup_brain/features/setup/domain/entities/setup_draft.dart';
 import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -91,6 +93,59 @@ void main() {
       expect(again.battery.nominalWh, original.battery.nominalWh);
       expect(again.solar!.kWp, closeTo(original.solar!.kWp, 1e-9));
       expect(again.location!.city, 'Lahore');
+    });
+
+    test('an added appliance stays its own, not counted into a preset', () {
+      const tube = Appliance(
+        id: '${CustomAppliance.idPrefix}1',
+        name: 'Tube light',
+        iconKey: 'light',
+        watts: 40,
+        priority: AppliancePriority.essential,
+        quantity: 2,
+      );
+      final draft = SetupDraft.fromHousehold(presets, demoSystem(), [
+        ...demoAppliances(),
+        tube,
+      ]);
+      expect(draft.quantities['light'], 5); // the LED bulbs only
+      expect(draft.customAppliances.single.name, 'Tube light');
+      final saved = draft.toAppliances(presets, 'en').last;
+      expect((saved.id, saved.watts, saved.quantity), (tube.id, 40.0, 2));
+      expect(saved.priority, AppliancePriority.essential);
+    });
+
+    test("the area and the phone's own point survive an edit; another "
+        "city drops the point", () {
+      final edited = demo.copyWith(
+        area: 'Gulberg III',
+        site: const SiteLocation(lat: 31.51, lon: 74.34),
+      );
+      final home = edited.toSystem(presets).location!;
+      expect((home.area, home.site.lat), ('Gulberg III', 31.51));
+      final moved = edited.copyWith(cityId: 'karachi', clearSite: true);
+      expect(
+        moved.toSystem(presets).location!.site.lat,
+        presets.city('karachi').site.lat,
+      );
+    });
+
+    test('a heavy added appliance is saved switched off', () {
+      final draft = answered.copyWith(
+        customAppliances: const [
+          CustomAppliance(
+            id: 'custom-2',
+            name: 'Electric kettle',
+            iconKey: 'plug',
+            watts: 1500,
+            quantity: 1,
+            heavy: true,
+          ),
+        ],
+      );
+      final kettle = draft.toAppliances(presets, 'en').last;
+      expect(kettle.priority, AppliancePriority.avoidOnBackup);
+      expect(kettle.isOn, isFalse);
     });
 
     test('a nearby place maps to the closest listed city', () {

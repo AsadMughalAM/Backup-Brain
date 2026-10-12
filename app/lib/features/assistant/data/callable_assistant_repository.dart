@@ -51,12 +51,17 @@ class CallableAssistantRepository implements AssistantRepository {
         'resource-exhausted' => AssistantFailureCode.dailyLimit,
         // The SDK reports a dropped or missing connection as these.
         'unavailable' || 'deadline-exceeded' => AssistantFailureCode.offline,
+        // The function was never deployed (needs the Blaze plan).
+        'not-found' || 'unimplemented' => AssistantFailureCode.notConfigured,
         _ => AssistantFailureCode.unavailable,
-      });
+      }, detail: 'assistantChat function ${e.code}: ${e.message}');
     } on AssistantFailure {
       rethrow;
-    } on Exception {
-      throw const AssistantFailure(AssistantFailureCode.offline);
+    } on Exception catch (e) {
+      throw AssistantFailure(
+        AssistantFailureCode.offline,
+        detail: 'assistantChat function: $e',
+      );
     }
   }
 }

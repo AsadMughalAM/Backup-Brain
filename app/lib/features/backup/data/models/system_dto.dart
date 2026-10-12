@@ -49,6 +49,7 @@ abstract final class SystemDto {
           ? null
           : HomeLocation(
               city: location['city'] as String,
+              area: location['area'] as String?,
               site: SiteLocation(
                 lat: (location['lat'] as num).toDouble(),
                 lon: (location['lon'] as num).toDouble(),
@@ -88,6 +89,7 @@ abstract final class SystemDto {
     if (s.location case final location?)
       'location': {
         'city': location.city,
+        'area': ?location.area,
         'lat': location.site.lat,
         'lon': location.site.lon,
       },

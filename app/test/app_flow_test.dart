@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers/app_harness.dart';
@@ -102,7 +101,7 @@ void main() {
       await tester.scrollUntilVisible(
         find.text('Just looking? Try the demo home'),
         200,
-        scrollable: find.byType(Scrollable).last,
+        scrollable: pageScroll,
       );
       await tester.tap(find.text('Just looking? Try the demo home'));
       await tester.pumpAndSettle();

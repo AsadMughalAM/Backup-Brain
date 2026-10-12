@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/services/alert_scheduler.dart';
 import '../../core/services/clock.dart';
+import '../../core/services/notification_inbox.dart';
 import '../../core/services/preferences.dart';
 import '../../core/utils/fire_and_forget.dart';
 import '../../core/utils/formatters.dart';
@@ -90,6 +91,20 @@ final outageAlertsProvider = Provider<void>((ref) {
         : null;
     if (plan?.atUtc == scheduledFor) return;
     scheduledFor = plan?.atUtc;
+    planInbox(
+      ref,
+      const {InboxKind.outageAlert},
+      [
+        if (plan != null)
+          InboxEntry(
+            kind: InboxKind.outageAlert,
+            at: plan.atUtc,
+            title: plan.title,
+            body: plan.body,
+          ),
+      ],
+      now,
+    );
     fireAndForget(
       plan == null
           ? scheduler.cancel()
