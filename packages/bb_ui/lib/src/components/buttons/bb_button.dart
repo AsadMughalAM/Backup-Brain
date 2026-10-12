@@ -11,10 +11,10 @@ import '../_internal/tappable.dart';
 import '../feedback/bb_spinner.dart';
 
 enum BbButtonVariant {
-  /// Yellow. **One per screen** — the main task.
+  /// Coral. **One per screen** — the main task.
   primary,
 
-  /// Navy. Strong secondary actions.
+  /// Indigo. Strong secondary actions.
   secondary,
 
   /// Muted fill. Neutral actions ("Edit", "Add appliance").

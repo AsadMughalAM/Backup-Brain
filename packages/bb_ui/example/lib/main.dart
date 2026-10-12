@@ -71,7 +71,7 @@ class _GalleryPage extends StatelessWidget {
           const _Section('BbBottomSheet', child: _SheetDemo()),
           const _Section('BbLoadToggleTile', child: _LoadTileDemo()),
           const _Section('Metrics', child: _MetricsDemo()),
-          const _Section('Type scale (Geist)', child: _TypeScale()),
+          const _Section('Type scale (Manrope)', child: _TypeScale()),
           _Section('AppColors', child: _Swatches(colors.tokens)),
           _Section('EnergyColors', child: _Swatches(context.energy.tokens)),
           const _Section('BbIcons', child: _IconGrid()),

@@ -16,7 +16,7 @@ enum BbSpinnerSize {
 /// banned; use skeletons for missing content.
 ///
 /// Takes the surrounding icon color, so it matches the content it replaces
-/// (ink inside a yellow button, muted inline).
+/// (ink inside a coral button, muted inline).
 ///
 /// ```dart
 /// Row(children: [BbSpinner(size: BbSpinnerSize.xs), Text('updated 3 h ago')])

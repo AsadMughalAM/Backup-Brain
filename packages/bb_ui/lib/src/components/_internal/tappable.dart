@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../foundations/tokens/motion.dart';
 import '../../foundations/tokens/sizes.dart';
 import '../../theme/context_extensions.dart';
 
@@ -31,6 +32,9 @@ class Tappable extends StatefulWidget {
   @override
   State<Tappable> createState() => _TappableState();
 }
+
+/// How far a pressed control sinks (DESIGN.md §7).
+const pressedScale = 0.97;
 
 class _TappableState extends State<Tappable> {
   var _pressed = false;
@@ -97,7 +101,14 @@ class _TappableState extends State<Tappable> {
               child: Center(
                 widthFactor: 1,
                 heightFactor: 1,
-                child: widget.builder(context, state),
+                // A slight press-in gives every control the same tactile
+                // answer; scale never moves the layout around it.
+                child: AnimatedScale(
+                  scale: _pressed ? pressedScale : 1,
+                  duration: AppMotion.of(context, AppMotion.fast),
+                  curve: AppMotion.enter,
+                  child: widget.builder(context, state),
+                ),
               ),
             ),
           ),

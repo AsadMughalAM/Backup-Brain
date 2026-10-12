@@ -1,6 +1,6 @@
 # DESIGN.md — Backup Brain Design System
 
-> **Status:** v2 (2026-10-11): warm canvas, midnight hero, Geist-only numbers, softer shape. The single source of truth for every visual value (colors, fonts, spacing, icons, component visuals). `TECH_STACK.md` §6 only defines token *names* and theme mechanics.
+> **Status:** v3 "Quiet Home" (2026-10-12): cool mist background, white cards with large radii and soft indigo-tinted shadows, deep indigo ink, one coral accent, Manrope. The single source of truth for every visual value (colors, fonts, spacing, icons, component visuals). `TECH_STACK.md` §6 only defines token *names* and theme mechanics.
 > **Read together with:** `TECH_STACK.md` §6 (token *names*, layers, theme mechanics) and `ARCHITECTURE.md` §10 (screens). Start at `CLAUDE.md` for the doc map.
 > **Contract (from TECH_STACK §6.1):** this file owns token **values**, icon style, component visuals and screen layouts. It does **not** rename or remove any token. New tokens are marked **`NEW`** and each has a light value, a dark value and a contrast-test entry.
 > **Scope:** the Flutter app (`packages/bb_ui`) **and** any future website / landing page. Section 13 gives the same tokens as CSS variables so the web stays identical.
@@ -10,8 +10,8 @@
 ## Table of Contents
 
 1. [Design Principles](#1-design-principles)
-2. [Color System — 3 colors, 60 · 30 · 10](#2-color-system--3-colors-60--30--10)
-3. [Typography — Geist](#3-typography--geist)
+2. [Color System — Mist · Indigo · Coral, 60 · 30 · 10](#2-color-system--mist--indigo--coral-60--30--10)
+3. [Typography — Manrope](#3-typography--manrope)
 4. [Spacing, Layout Grid & Alignment](#4-spacing-layout-grid--alignment)
 5. [Shape, Borders & Elevation](#5-shape-borders--elevation)
 6. [Iconography — Phosphor](#6-iconography--phosphor)
@@ -29,71 +29,84 @@
 
 ## 1. Design Principles
 
+Brand direction: **Quiet Home** — a cool mist background, white cards with large radii and soft indigo-tinted shadows, deep indigo ink and **one** coral accent.
+
 | # | Principle | What it means on screen |
 |---|---|---|
-| 1 | **Calm in a crisis** | Users open the app *during* a power cut, often in a dark room at night. Quiet canvas, one loud thing (the number they need), no clutter. |
-| 2 | **The number is the hero** | Every screen leads with one big metric (backup time, kWh, PKR). Labels are small and muted; numbers are large, Geist SemiBold with tabular figures. |
-| 3 | **One color = one meaning** | Yellow = energy & action. Navy = structure & grid. Green/orange/red = battery status only. Nothing is colored "for decoration". |
+| 1 | **Calm in a crisis** | Users open the app *during* a power cut, often in a dark room at night. Quiet mist background, white cards, one loud thing (the number they need), no clutter. |
+| 2 | **The number is the hero** | Every screen leads with one big metric (backup time, kWh, PKR). Labels are small and muted; numbers are large, Manrope ExtraBold with tabular figures. |
+| 3 | **One color = one meaning** | Coral = the screen's main action and active marks. Indigo = ink, structure, selected states & grid. Amber = solar only. Green/amber/red = battery status only. Nothing is colored "for decoration". |
 | 4 | **Minimal, not empty** | Containers separated by surface color and soft shadow — never borders. Generous whitespace. Density comes from good alignment, not boxes. |
 | 5 | **Honest & offline-first** | Show cached data instantly with its age ("updated 3 h ago"). Never block the screen with a spinner. Never fake precision — show ranges. |
-| 6 | **Readable in Lahore sunlight, gentle at 2 AM** | Light theme is high-contrast for strong sun; dark theme is designed (not inverted) for night outages and OLED battery saving. |
+| 6 | **Readable in Lahore sunlight, gentle at 2 AM** | Light theme is high-contrast for strong sun; dark theme is a designed deep indigo night (not inverted) for night outages. |
 
 ---
 
-## 2. Color System — 3 colors, 60 · 30 · 10
+## 2. Color System — Mist · Indigo · Coral, 60 · 30 · 10
 
 ### 2.1 The three brand colors
 
-The app uses **exactly three brand color families**. Everything else is a tint/shade of these three, plus a tiny set of *functional* status colors (§2.3) that only ever communicate battery/safety state.
+The app uses **exactly three brand color families**. Everything else is a tint/shade of these three, plus *functional* colors (§2.3) that only ever communicate solar energy (amber) or battery/safety state (green/amber/red).
 
 | Role | Name | Core value | Share of screen | Used for |
 |---|---|---|---|---|
-| **Primary — 60%** | **Canvas** (warm stone neutral) | Light `#F6F4F0` · Dark `#121110` | ~60% | Backgrounds, surfaces, cards, sheets, dividers, muted text. The quiet base that lets numbers breathe. |
-| **Secondary — 30%** | **Ink Navy** | `#1F2F57` (deepest step `#0E1424` is the text ink) | ~30% | All primary text and icons, the **midnight hero card**, secondary buttons, selected states (segmented, chips, switches, nav pill), links, info banners, **grid power** in charts. |
-| **Accent — 10%** | **Spark Yellow** | Light `#FFC21A` · Dark `#FFC93D` | ~10% | The one primary CTA per screen, the countdown ring arc, the AI advice tint, focus ring (dark), **solar** in charts. Yellow = electricity, sunlight and "do this". |
+| **Primary — 60%** | **Mist** (cool neutral, hue ≈ 225°) | Light page `#EEF1F6` with white `#FFFFFF` cards · Dark `#0E1024` | ~60% | Backgrounds, surfaces, cards, sheets, dividers, muted text. The quiet base that lets numbers breathe. |
+| **Secondary — 30%** | **Indigo** | `#1B1F3B` (indigo900, the text ink); `#414BA4` (indigo600) for links, info and grid | ~30% | All primary text and icons, the indigo hero card, secondary buttons, selected states (nav pill, chips, switches), links, info banners, **grid power** in charts. |
+| **Accent — 10%** | **Coral** | Light `#FF6B4A` · Dark `#FF876B` | ~10% | The one primary CTA per screen and active marks (count badge, recommended badge), the highlight card tint, the dark-theme focus ring. |
 
 **Why this palette**
 
-- **Spark Yellow** is the universal color of electricity and sunlight in Pakistan (lightning sign, solar). It is the brightest, most "clickable" color on both themes, so it is reserved for the 10% that must be noticed.
-- **Ink Navy** is calm and trustworthy (fintech / utility feel), reads as near-black for body text, and owns "grid / structure" meaning without competing with yellow. Navy + yellow is a complementary pair (blue ↔ yellow-orange on the color wheel), which gives maximum distinction with only two hues.
-- **Canvas** neutrals are **warm** (hue ≈ 40°, very low chroma), the same temperature as yellow. Warm paper next to amber reads as one palette; the v1 cool greys made the yellow look pasted on.
-- **Navy is used deep, not pastel.** v1 filled the hero with a pale periwinkle (`navy100`) that competed with three other saturations (cool grey, saturated yellow, forest green), so no color led. v2 uses navy at its darkest (`navy900`, "midnight") for the hero. That gives each screen one strong dark anchor, and yellow sits on it at 10:1.
+- **Mist** neutrals are cool (hue ≈ 225°), the same family as the indigo ink, so base and ink read as one calm palette. White cards float on the mist page, separated by large radii and soft indigo-tinted shadows instead of lines.
+- **Indigo** is used deep (`indigo900`) as near-black ink and for structure; lighter indigo (`indigo600` light / `indigo300` dark) carries links, info and grid power.
+- **Coral** is the one warm accent in the interface (amber appears only as solar data). Against cool mist and indigo it is the one thing that stands out, so it is reserved for the 10% that must be noticed: the screen's main action and active marks.
+- **Amber** is kept for solar only, so the sun has its own color and never reads as a button.
+- **Dark theme** is a deep indigo night: mist 950/900/850 surfaces, coral 400 as primary and `CoralP.night` (`#34213A`, a coral glow on indigo) for highlight cards.
 
-**Harmony model (v2).** A warm neutral base, one deep cool anchor and one warm accent: blue and amber are complementary, and the warm neutral bridges them. Each screen has one dark mass (the hero) with one bright accent inside it, and everything else stays quiet. The reference apps in §15 follow the same pattern: a neutral canvas, a dark emphasis card and a single saturated accent.
-
-> **Naming note for developers.** In the 60-30-10 rule "primary" means the *dominant* (canvas) color. In Material 3 / our `AppColors`, `primary` means the *main action* color. So in code: **`colors.primary` = Spark Yellow (accent)**, `colors.secondary` = Ink Navy, `colors.surface/background` = Canvas. The mapping table in §2.4 is the source of truth.
+> **Naming note for developers.** In the 60-30-10 rule "primary" means the *dominant* (mist) color. In Material 3 / our `AppColors`, `primary` means the *main action* color. So in code: **`colors.primary` = Coral (accent)**, `colors.secondary` = Indigo, `colors.surface/background` = Mist. The mapping table in §2.4 is the source of truth.
 
 ### 2.2 Primitives (LAYER 1 — `color_primitives.dart`, package-private)
 
 Widgets never use these directly. They exist only so semantic tokens (§2.4) can reference them.
 
-**Canvas — neutral (Primary, 60%)**
+**`MistP` — cool neutral (Primary, 60%)**
 
 | Step | 0 | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 850 | 900 | 950 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Hex | `#FFFFFF` | `#F6F4F0` | `#EDEAE4` | `#E2DED6` | `#CBC6BC` | `#A39D92` | `#857F74` | `#5E594F` | `#423E37` | `#2A2824` | `#211F1C` | `#1A1917` | `#121110` |
+| Hex | `#FFFFFF` | `#F6F7FB` | `#EEF1F6` | `#E3E7F0` | `#CDD3E1` | `#A3AAC2` | `#7C84A3` | `#555D80` | `#3F4668` | `#282D4C` | `#1F2340` | `#181B33` | `#0E1024` |
 
-**Ink Navy — secondary (30%)**
+`MistP.black` `#000000` exists only for the dark-theme scrim; never text or surfaces.
 
-| Step | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Hex | `#F1F3F8` | `#E3E7F0` | `#C6CEDF` | `#A3B2D1` | `#7C90BE` | `#5670A6` | `#3F5891` | `#2E4378` | `#1F2F57` | `#16213D` | `#0E1424` |
-
-**Spark Yellow — accent (10%)**
+**`IndigoP` — ink (Secondary, 30%)**
 
 | Step | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Hex | `#FFFBEB` | `#FFF3CC` | `#FFE7A3` | `#FFD666` | `#FFC93D` | `#FFC21A` | `#E6A800` | `#B38300` | `#8A6200` | `#4D3800` | `#2E2100` |
+| Hex | `#F0F1FA` | `#E3E6F7` | `#C7CCEE` | `#A6AEE6` | `#7F89D6` | `#5965C2` | `#414BA4` | `#313884` | `#262B66` | `#1B1F3B` | `#12152A` |
 
-### 2.3 Functional status colors (not brand colors)
+**`CoralP` — accent (10%)**
 
-These are **not** part of the 3-color palette. They are safety signals and are only allowed for: battery level, success/warning/danger feedback, overload, destructive actions. They count inside the 10% budget and never appear decoratively.
+| Step | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 | night |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Hex | `#FFF4F1` | `#FFE4DD` | `#FFC7B9` | `#FF9F88` | `#FF876B` | `#FF6B4A` | `#E5502F` | `#B83C20` | `#8A2D18` | `#4D190D` | `#2E1008` | `#34213A` |
+
+`CoralP.night` is the coral glow on the indigo night: the dark-theme `primaryContainer` (highlight cards).
+
+### 2.3 Functional colors (not brand colors)
+
+These are **not** part of the 3-color palette and never appear decoratively.
+
+**`AmberP` — solar only, never actions**
+
+| Step | 100 | 300 | 400 | 500 | 700 | 800 |
+|---|---|---|---|---|---|---|
+| Hex | `#FFF1D6` | `#FFCF73` | `#FFC04D` | `#F5A623` | `#A86A00` | `#7F5000` |
+
+**`StatusP` — battery level, success/warning/danger feedback, overload, destructive actions**
 
 | Scale | 100 | 300 | 600 | 900 |
 |---|---|---|---|---|
-| success (green) | `#DDF3E4` | `#5CCB82` | `#1E7A3D` | `#0E3A1E` |
-| warning (orange — kept clearly redder than Spark Yellow) | `#FFE6D2` | `#FF9F5A` | `#A34706` | `#4A2004` |
-| danger (red) | `#FDE1DF` | `#FF7A70` | `#C42B22` | `#4F1210` |
+| success (green) | `#DDF4EA` | `#52D29D` | `#137A54` | `#0B3A28` |
+| warning (amber-orange — kept redder than solar amber) | `#FFEBD3` | `#FFB25C` | `#9E4A00` | `#4A2600` |
+| danger (red) | `#FDE2E5` | `#FF7D8C` | `#C4283C` | `#4F0F18` |
 
 > **Never color alone:** every status = color **+** Phosphor icon **+** text/number. Example: battery low = red + `batteryLow` icon + "12%".
 
@@ -105,50 +118,52 @@ Token names follow `TECH_STACK.md` §6; tokens marked **NEW** were added here.
 
 | Token | Light | Dark | Notes |
 |---|---|---|---|
-| `background` | canvas50 `#F6F4F0` | canvas950 `#121110` | Scaffold. Maps to M3 `surface` (see §2.6). |
-| `surface` | canvas0 `#FFFFFF` | canvas900 `#1A1917` | Cards, sheets, nav bar. |
-| `surfaceRaised` | canvas0 + `elevation.level2` shadow | canvas850 `#211F1C` | Menus, bottom sheets, dialogs. Dark mode uses a lighter surface, not a shadow. |
-| `surfaceMuted` | canvas100 `#EDEAE4` | canvas800 `#2A2824` | Input fills, tonal buttons, segmented track, skeleton base. |
-| `hero` **NEW** | navy900 `#16213D` | navy900 `#16213D` | Hero cards (Solar), both themes. Its content is drawn with the **dark** palette (§10.3), so it needs no on-hero tokens. |
-| `textPrimary` | navy950 `#0E1424` | canvas100 `#EDEAE4` | Body, titles, numbers. Off-white in dark, never `#FFFFFF`. |
-| `textMuted` | canvas600 `#5E594F` | canvas400 `#A39D92` | Labels, captions, units, placeholders, timestamps. |
-| `textOnPrimary` | navy950 `#0E1424` | navy950 `#0E1424` | Ink on yellow, in both themes. |
-| `outline` | canvas500 `#857F74` | canvas500 `#857F74` | Input borders, focus-less boundaries (≥ 3:1). |
-| `outlineVariant` | canvas200 `#E2DED6` | canvas800 `#2A2824` | Hairline list dividers, chart gridlines, ring track. Never a container border. |
-| `primary` | yellow500 `#FFC21A` | yellow400 `#FFC93D` | **Fill only.** Primary CTA, active nav pill, FAB. Never text/icon on light surfaces. |
-| `primaryContainer` | yellow100 `#FFF3CC` | yellow950 `#2E2100` | Highlight chips, "recommended" tags, the AI advice card fill. |
-| `onPrimaryContainer` **NEW** | yellow900 `#4D3800` | yellow200 `#FFE7A3` | Text/icons on `primaryContainer`. |
-| `secondary` **NEW** | navy800 `#1F2F57` | navy300 `#A3B2D1` | Secondary buttons, selected chip/segment/switch, nav selected label. |
-| `onSecondary` **NEW** | canvas0 `#FFFFFF` | navy950 `#0E1424` | Text/icons on `secondary`. |
-| `secondaryContainer` **NEW** | navy100 `#E3E7F0` | navy900 `#16213D` | Info banner, selected list row, "Keep" badge, grid icon disc. |
-| `onSecondaryContainer` **NEW** | navy900 `#16213D` | navy100 `#E3E7F0` | Text on `secondaryContainer`. |
-| `link` **NEW** | navy700 `#2E4378` | navy300 `#A3B2D1` | Inline links & text buttons (underlined on press). |
-| `focusRing` **NEW** | navy600 `#3F5891` | yellow400 `#FFC93D` | 2 px focus outline, offset 2 px. |
+| `background` | mist100 `#EEF1F6` | mist950 `#0E1024` | Scaffold. Maps to M3 `surface` (see §2.6). |
+| `surface` | mist0 `#FFFFFF` | mist900 `#181B33` | Cards, sheets, nav bar. |
+| `surfaceRaised` | mist0 `#FFFFFF` + `elevation.level2` shadow | mist850 `#1F2340` | Menus, bottom sheets, dialogs. Dark mode uses a lighter surface, not a shadow. |
+| `surfaceMuted` | mist100 `#EEF1F6` | mist800 `#282D4C` | Input fills, tonal buttons, segmented track, icon discs, gauge track. |
+| `hero` **NEW** | indigo900 `#1B1F3B` | indigo800 `#262B66` | Hero cards (Solar). Its content is drawn with the **dark** palette (§10.3), so it needs no on-hero tokens. |
+| `textPrimary` | indigo900 `#1B1F3B` | mist100 `#EEF1F6` | Body, titles, numbers. Off-white in dark, never `#FFFFFF`. |
+| `textMuted` | mist600 `#555D80` | mist400 `#A3AAC2` | Labels, captions, units, placeholders, timestamps. |
+| `textOnPrimary` | indigo950 `#12152A` | indigo950 `#12152A` | Indigo ink on coral, in both themes. |
+| `outline` | mist500 `#7C84A3` | mist500 `#7C84A3` | Input borders, focus-less boundaries (≥ 3:1). |
+| `outlineVariant` | mist200 `#E3E7F0` | mist800 `#282D4C` | Hairline list dividers, chart gridlines. Never a container border. |
+| `primary` | coral500 `#FF6B4A` | coral400 `#FF876B` | **Fill only.** Primary CTA, active marks. Never text/icon on light surfaces. |
+| `primaryContainer` | coral100 `#FFE4DD` | `CoralP.night` `#34213A` | Highlight card (AI advice), "recommended" tags. |
+| `onPrimaryContainer` **NEW** | coral900 `#4D190D` | coral200 `#FFC7B9` | Text/icons on `primaryContainer`. |
+| `secondary` **NEW** | indigo900 `#1B1F3B` | indigo300 `#A6AEE6` | Secondary buttons, selected chip/segment/switch, nav pill. |
+| `onSecondary` **NEW** | mist0 `#FFFFFF` | indigo950 `#12152A` | Text/icons on `secondary`. |
+| `secondaryContainer` **NEW** | indigo100 `#E3E6F7` | indigo800 `#262B66` | Info banner, selected list row, "Keep" badge, grid icon disc. |
+| `onSecondaryContainer` **NEW** | indigo900 `#1B1F3B` | indigo100 `#E3E6F7` | Text on `secondaryContainer`. |
+| `link` **NEW** | indigo600 `#414BA4` | indigo300 `#A6AEE6` | Inline links & text buttons (underlined on press). |
+| `focusRing` **NEW** | indigo600 `#414BA4` | coral400 `#FF876B` | 2 px focus outline, offset 2 px. |
 | `success` / `successContainer` | success600 / success100 | success300 / success900 | |
 | `warning` / `warningContainer` | warning600 / warning100 | warning300 / warning900 | |
 | `danger` / `dangerContainer` | danger600 / danger100 | danger300 / danger900 | |
-| `onDanger` **NEW** | canvas0 `#FFFFFF` | navy950 `#0E1424` | Text/icons on a `danger` fill (`BbButton.danger`). Same values as M3 `onError` (§2.6). |
-| `info` | navy600 `#3F5891` | navy300 `#A3B2D1` | Info = secondary family (no 4th hue). |
-| `skeleton` **NEW** | canvas100 `#EDEAE4` | canvas800 `#2A2824` | Skeleton blocks (§8). On `surfaceMuted` backgrounds use canvas200 / canvas850. |
-| `scrim` **NEW** | `#0E1424` @ 40% | `#000000` @ 60% | Behind sheets/dialogs. |
+| `onDanger` **NEW** | mist0 `#FFFFFF` | indigo950 `#12152A` | Text/icons on a `danger` fill (`BbButton.danger`). Same values as M3 `onError` (§2.6). |
+| `info` | indigo600 `#414BA4` | indigo300 `#A6AEE6` | Info = secondary family (no 4th hue). |
+| `skeleton` **NEW** | mist200 `#E3E7F0` | mist800 `#282D4C` | Skeleton blocks (§8). |
+| `scrim` **NEW** | indigo950 `#12152A` @ 40% | `#000000` @ 60% | Behind sheets/dialogs. |
 
 ### 2.5 Energy colors (`EnergyColors` ThemeExtension)
 
-Energy meanings are mapped onto the **same three families + status colors** — no extra hues.
+Energy meanings use indigo, mist, amber (solar) and the status colors — no extra hues. Coral never means energy.
 
 | Token | Light | Dark | Meaning / rule |
 |---|---|---|---|
-| `energy.solar` (fill) | yellow500 `#FFC21A` | yellow400 `#FFC93D` | Large fills only (ring arcs ≥ 8 px, area charts, bars). In light mode always paired with `solarStroke` edge. |
-| `energy.solarStroke` **NEW** | yellow700 `#B38300` | yellow400 `#FFC93D` | Lines, thin marks, small icons on light (≥ 3:1). |
-| `energy.solarText` | yellow800 `#8A6200` | yellow400 `#FFC93D` | Any solar text such as "4.2 kWh". |
-| `energy.grid` | navy600 `#3F5891` | navy400 `#7C90BE` | WAPDA/DISCO grid. |
-| `energy.load` | canvas700 `#423E37` | canvas300 `#CBC6BC` | Household consumption. In charts drawn as **dashed** line to separate from grid. |
+| `energy.solar` (fill) | amber500 `#F5A623` | amber400 `#FFC04D` | Large fills only (area charts, bars). In light mode always paired with a `solarStroke` edge. |
+| `energy.solarStroke` **NEW** | amber700 `#A86A00` | amber400 `#FFC04D` | Lines, thin marks, small icons on light (≥ 3:1). |
+| `energy.solarText` | amber800 `#7F5000` | amber300 `#FFCF73` | Any solar text such as "4.2 kWh". |
+| `energy.grid` | indigo600 `#414BA4` | indigo300 `#A6AEE6` | WAPDA/DISCO grid. |
+| `energy.load` | mist700 `#3F4668` | mist300 `#CDD3E1` | Household consumption. In charts drawn as **dashed** line to separate from grid. |
 | `energy.batteryHigh` (> 50%) | success600 | success300 | Always + icon + %. |
 | `energy.batteryMid` (20–50%) | warning600 | warning300 | |
 | `energy.batteryLow` (< 20%) | danger600 | danger300 | |
-| `energy.offline` / grid down | canvas500 `#857F74` | canvas500 `#857F74` | With `lightningSlash` icon. |
+| `energy.offline` / grid down | mist500 `#7C84A3` | mist500 `#7C84A3` | With `lightningSlash` icon. |
 
-**Chart series order** (`EnergyColors.chartSeries`): solar → grid → load (dashed) → battery (status color for current level) → "other" canvas400. Chart gridlines = `outlineVariant`, axis labels = `textMuted` in `metricCaption`.
+`EnergyColors.battery(soc)` picks the status color: > 50% high, ≥ 20% mid, else low. `BbBackupGauge` and `BbCountdownRing` both draw their arc with it.
+
+**Chart series order** (`EnergyColors.chartSeries`): solar → grid → load (dashed) → battery (status color for current level) → "other" mist400. Chart gridlines = `outlineVariant`, axis labels = `textMuted` in `metricCaption`.
 
 ### 2.6 Material 3 `ColorScheme` mapping (`color_scheme_builder.dart`)
 
@@ -156,142 +171,149 @@ Flutter's M3 `ColorScheme` deprecated `background`, `onBackground` and `surfaceV
 
 | M3 role | Light | Dark |
 |---|---|---|
-| `primary` / `onPrimary` | yellow500 / navy950 | yellow400 / navy950 |
-| `primaryContainer` / `onPrimaryContainer` | yellow100 / yellow900 | yellow950 / yellow200 |
-| `secondary` / `onSecondary` | navy800 / canvas0 | navy300 / navy950 |
-| `secondaryContainer` / `onSecondaryContainer` | navy100 / navy900 | navy900 / navy100 |
+| `primary` / `onPrimary` | coral500 / indigo950 | coral400 / indigo950 |
+| `primaryContainer` / `onPrimaryContainer` | coral100 / coral900 | `CoralP.night` / coral200 |
+| `secondary` / `onSecondary` | indigo900 / mist0 | indigo300 / indigo950 |
+| `secondaryContainer` / `onSecondaryContainer` | indigo100 / indigo900 | indigo800 / indigo100 |
 | `tertiary` (+ container) | = secondary values | = secondary values (we deliberately have no 4th hue) |
-| `error` / `onError` / `errorContainer` | danger600 / canvas0 / danger100 | danger300 / navy950 / danger900 |
-| `surface` / `onSurface` | canvas50 / navy950 | canvas950 / canvas100 |
-| `surfaceContainerLowest` | canvas0 | canvas950 |
-| `surfaceContainerLow` | canvas0 | canvas900 |
-| `surfaceContainer` | canvas0 | canvas900 |
-| `surfaceContainerHigh` | canvas100 | canvas850 |
-| `surfaceContainerHighest` | canvas200 | canvas800 |
-| `onSurfaceVariant` | canvas600 | canvas400 |
-| `outline` / `outlineVariant` | canvas500 / canvas200 | canvas500 / canvas800 |
-| `inverseSurface` / `onInverseSurface` | navy950 / canvas100 | canvas100 / navy950 |
+| `error` / `onError` / `errorContainer` / `onErrorContainer` | danger600 / mist0 / danger100 / indigo950 | danger300 / indigo950 / danger900 / mist100 |
+| `surface` / `onSurface` | mist100 / indigo900 | mist950 / mist100 |
+| `surfaceContainerLowest` | mist0 | mist950 |
+| `surfaceContainerLow` | mist0 | mist900 |
+| `surfaceContainer` | mist0 | mist900 |
+| `surfaceContainerHigh` | mist50 | mist850 |
+| `surfaceContainerHighest` | mist200 | mist800 |
+| `onSurfaceVariant` | mist600 | mist400 |
+| `outline` / `outlineVariant` | mist500 / mist200 | mist500 / mist800 |
+| `inverseSurface` / `onInverseSurface` | indigo900 / mist100 | mist100 / indigo900 |
+| `inversePrimary` | coral400 | coral500 |
 | `surfaceTint` | `Colors.transparent` (we do not tint elevated surfaces) | same |
-| `scrim` / `shadow` | navy950 / navy950 | black / black |
+| `scrim` / `shadow` | indigo950 / indigo950 | black / black |
 
-Never use `ColorScheme.fromSeed` — it would generate hues outside our three families.
+Never use `ColorScheme.fromSeed` — it would generate hues outside our families.
 
 ### 2.7 Color usage rules
 
-1. **60-30-10 budget per screen.** Canvas fills the screen; navy carries text, icons, structure and the one dark hero; yellow appears in at most **one CTA + one highlight** per viewport (the ring arc is data, not a highlight). The nav indicator is navy, not yellow. If a screen has two yellow buttons, one of them is wrong.
-2. **Yellow is a fill, never text on light.** On light surfaces yellow text/icons fail contrast (1.6:1). Use `textOnPrimary` ink *on* yellow, or `energy.solarText` for solar numbers.
-3. **Ink on yellow, always.** Yellow buttons/pills carry `textOnPrimary` (11:1+). Never white on yellow.
-4. **Status colors are for status.** Green ≠ "nice", red ≠ "brand". A green button does not exist; a red button only exists as `BbButton.danger` for destructive actions.
+1. **60-30-10 budget per screen.** Mist fills the screen; indigo carries text, icons, structure and selected states; coral appears in at most **one CTA + one highlight** per viewport. The nav pill is indigo, not coral. If a screen has two coral buttons, one of them is wrong.
+2. **Coral is a fill, never text on light.** Coral500 on white is 2.8:1. Use `textOnPrimary` ink *on* coral.
+3. **Indigo ink on coral, always.** Coral buttons/pills carry `textOnPrimary` (6.4:1 light, 7.7:1 dark). Never white on coral (2.8:1).
+4. **Amber is for solar only**, never for actions. **Status colors are for status.** Green ≠ "nice", red ≠ "brand". A green button does not exist; a red button only exists as `BbButton.danger` for destructive actions.
 5. **No gradients**, except the 2-stop solar area fill in charts (`energy.solar` 32% → 0% alpha) and the **auth "sky"** on Sign up / Login: `secondary` → `secondaryContainer` → `background` (dark: `secondaryContainer` → `surface` → `background`) with a solid `primary` sun disc in the corner. Never through grey; titles on it use `onSecondary` (dark: `onSecondaryContainer`).
-6. **No pure black or pure white text** in dark mode. Canvas950 is the darkest pixel; canvas100 is the brightest text.
+6. **No pure black or pure white text** in dark mode. Mist950 is the darkest pixel; mist100 is the brightest text.
 7. **Opacity, not new colors,** for states: pressed overlay = `textPrimary` @ 12%, hover @ 8%, disabled content @ 38% (TECH_STACK `opacity.dart`).
 
 ### 2.8 Contrast audit (WCAG 2.x, computed)
 
-These pairs go into `contrast_test.dart`. All pass.
+The pairs below are checked in `contrast_test.dart` (plus `textPrimary` on each container and `info` on `secondaryContainer`). Ratios are computed from the hex values above. All pass.
 
 | Foreground | Background | Light | Dark | Min |
 |---|---|---|---|---|
-| `textPrimary` | `surface` | 18.4:1 | 14.6:1 | 4.5:1 |
-| `textPrimary` | `background` | 16.7:1 | 15.7:1 | 4.5:1 |
-| `textPrimary` | `surfaceMuted` | 15.3:1 | 12.3:1 | 4.5:1 |
-| `textMuted` | `surface` | 7.0:1 | 6.5:1 | 4.5:1 |
-| `textMuted` | `surfaceMuted` | 5.8:1 | 5.5:1 | 4.5:1 |
-| `textOnPrimary` | `primary` | 11.3:1 | 12.0:1 | 4.5:1 |
-| `onSecondary` | `secondary` | 13.1:1 | 8.6:1 | 4.5:1 |
-| `onSecondaryContainer` | `secondaryContainer` | 12.9:1 | 12.9:1 | 4.5:1 |
-| `onPrimaryContainer` | `primaryContainer` | 10.1:1 | 12.9:1 | 4.5:1 |
-| `textPrimary` | `primaryContainer` | 16.6:1 | 13.1:1 | 4.5:1 |
-| `onDanger` | `danger` | 5.7:1 | 7.2:1 | 4.5:1 |
-| `link` | `surface` | 9.6:1 | 8.2:1 | 4.5:1 |
-| `outline` | `surface` | 4.0:1 | 4.4:1 | 3.0:1 |
-| `outline` | `background` | 3.6:1 | 4.7:1 | 3.0:1 |
-| `success` | `surface` | 5.4:1 | 8.6:1 | 4.5:1 |
-| `success` | `successContainer` | 4.6:1 | 6.3:1 | 4.5:1 |
-| `warning` | `surface` | 6.1:1 | 8.7:1 | 4.5:1 |
-| `warning` | `warningContainer` | 5.1:1 | 6.9:1 | 4.5:1 |
+| `textPrimary` | `surface` | 16.1:1 | 14.9:1 | 4.5:1 |
+| `textPrimary` | `background` | 14.2:1 | 16.6:1 | 4.5:1 |
+| `textPrimary` | `surfaceMuted` | 14.2:1 | 11.8:1 | 4.5:1 |
+| `textMuted` | `surface` | 6.4:1 | 7.3:1 | 4.5:1 |
+| `textMuted` | `surfaceMuted` | 5.7:1 | 5.8:1 | 4.5:1 |
+| `textOnPrimary` | `primary` | 6.4:1 | 7.7:1 | 4.5:1 |
+| `onSecondary` | `secondary` | 16.1:1 | 8.4:1 | 4.5:1 |
+| `onSecondaryContainer` | `secondaryContainer` | 13.0:1 | 10.5:1 | 4.5:1 |
+| `onPrimaryContainer` | `primaryContainer` | 11.9:1 | 9.9:1 | 4.5:1 |
+| `textPrimary` | `primaryContainer` | 13.3:1 | 13.0:1 | 4.5:1 |
+| `onDanger` | `danger` | 5.7:1 | 7.3:1 | 4.5:1 |
+| `link` | `surface` | 7.6:1 | 7.9:1 | 4.5:1 |
+| `outline` | `surface` | 3.7:1 | 4.6:1 | 3.0:1 |
+| `outline` | `background` | 3.3:1 | 5.1:1 | 3.0:1 |
+| `success` | `surface` | 5.3:1 | 8.9:1 | 4.5:1 |
+| `success` | `successContainer` | 4.6:1 | 6.7:1 | 4.5:1 |
+| `warning` | `surface` | 6.1:1 | 9.5:1 | 4.5:1 |
+| `warning` | `warningContainer` | 5.3:1 | 7.5:1 | 4.5:1 |
 | `danger` | `surface` | 5.7:1 | 6.9:1 | 4.5:1 |
-| `danger` | `dangerContainer` | 4.6:1 | 5.8:1 | 4.5:1 |
-| `energy.solarText` | `surface` | 5.5:1 | 11.4:1 | 4.5:1 |
-| `energy.solarStroke` | `surface` | 3.4:1 | 11.4:1 | 3.0:1 |
-| `energy.grid` | `surface` | 7.0:1 | 5.5:1 | 3.0:1 |
-| `energy.load` | `surface` | 10.6:1 | 10.3:1 | 3.0:1 |
-| `energy.offline` | `surface` | 4.0:1 | 4.4:1 | 3.0:1 |
+| `danger` | `dangerContainer` | 4.6:1 | 6.1:1 | 4.5:1 |
+| `energy.solarText` | `surface` | 6.9:1 | 11.6:1 | 4.5:1 |
+| `energy.solarStroke` | `surface` | 4.4:1 | 10.4:1 | 3.0:1 |
+| `energy.grid` | `surface` | 7.6:1 | 7.9:1 | 3.0:1 |
+| `energy.load` | `surface` | 9.2:1 | 11.3:1 | 3.0:1 |
+| `energy.offline` | `surface` | 3.7:1 | 4.6:1 | 3.0:1 |
 
-**Hero island** (dark-palette tokens on `hero`, same in both themes): `textPrimary` 13.3:1 · `textMuted` 5.9:1 · `primary` (ring arc) 10.4:1 · `warning` 7.9:1 · `danger` 6.3:1 · `focusRing` 10.4:1.
+**Hero island** (dark-palette tokens on `hero`; light hero indigo900 / dark hero indigo800): `textPrimary` 14.2 / 11.5:1 · `textMuted` 7.0 / 5.6:1 · `primary` 6.8 / 5.5:1 · `warning` 9.0 / 7.3:1 · `danger` 6.6 / 5.3:1 · `focusRing` 6.8 / 5.5:1.
 
-**Known exception (documented):** `energy.solar` fill on light `surface` is 1.6:1. It is therefore only used for large areas and always has a `solarStroke` edge or an adjacent label — the meaning never depends on the fill alone.
+**Known exception (documented):** `energy.solar` fill on light `surface` is 2.0:1. It is therefore only used for large areas and always has a `solarStroke` edge or an adjacent label — the meaning never depends on the fill alone.
 
 ---
 
-## 3. Typography — Geist
+## 3. Typography — Manrope
 
 ### 3.1 Families (max 2)
 
 | # | Family | Role | Status |
 |---|---|---|---|
-| 1 | **Geist** (Sans) | All text **and all numbers** | Active |
+| 1 | **Manrope** (Sans) | All text **and all numbers** | Active |
 | 2 | *Noto Nastaliq Urdu* | Fallback family for Urdu script (future stretch goal) | Reserved — not bundled yet |
 
-Roman Urdu uses Geist (Latin). No other fonts are allowed in the app or on the website.
+Roman Urdu uses Manrope (Latin). No other fonts are allowed in the app or on the website.
 
-**Why no Geist Mono (changed in v2).** v1 set every live number in Geist Mono. Monospace digits with a slashed zero made the hero countdown and stat tiles look like terminal output. Geist itself ships **tabular figures** (`tnum`), which give us the one thing we needed from mono: every digit has the same width, so "3h 20m → 3h 19m" never jitters and columns line up. Every metric style therefore uses Geist + `FontFeature.tabularFigures()`.
+**Numbers use Manrope with tabular figures, not a monospace.** `FontFeature.tabularFigures()` gives every digit the same width, so "3h 20m → 3h 19m" never jitters and columns line up, without making numbers look like code. Every metric style uses Manrope + tabular figures.
 
 **The one rule to remember:** *if a number can change while you look at it, it uses a `metric*` style.* Static numbers inside sentences ("Turn off 2 fans") stay in the body style.
 
 ### 3.2 Bundling (offline requirement)
 
-- Download the official release (otf / variable) from **vercel.com/font** or `github.com/vercel/geist-font` (SIL Open Font License — free for commercial use; keep `OFL.txt` in `assets/fonts/`).
-- **Do not use the Google Fonts build or the `google_fonts` package**: it is fetched at runtime (breaks offline) and Vercel notes the Google Fonts build lacks the full glyph set and `font-feature-settings` support (we rely on `tnum`).
-- Bundle static weights only (smaller APK than variable): **Geist 400, 500, 600**. No other weights.
+- Static TTFs live in `packages/bb_ui/assets/fonts/` (`Manrope-400.ttf` … `Manrope-800.ttf`) with `OFL.txt` (SIL Open Font License 1.1, The Manrope Project Authors, github.com/googlefonts/manrope).
+- Fonts are declared in `bb_ui`'s pubspec, so every style names the package (`FontP.package = 'bb_ui'`).
+- **Do not use the `google_fonts` package**: it fetches at runtime and breaks offline.
 
 ```yaml
 # packages/bb_ui/pubspec.yaml
 flutter:
   fonts:
-    - family: Geist
+    - family: Manrope
       fonts:
-        - asset: assets/fonts/Geist-Regular.otf
+        - asset: assets/fonts/Manrope-400.ttf
           weight: 400
-        - asset: assets/fonts/Geist-Medium.otf
+        - asset: assets/fonts/Manrope-500.ttf
           weight: 500
-        - asset: assets/fonts/Geist-SemiBold.otf
+        - asset: assets/fonts/Manrope-600.ttf
           weight: 600
+        - asset: assets/fonts/Manrope-700.ttf
+          weight: 700
+        - asset: assets/fonts/Manrope-800.ttf
+          weight: 800
 ```
 
 ### 3.3 Weights
 
-| Weight | Name | Use |
+| Weight | Name (`FontP`) | Use |
 |---|---|---|
-| 400 | Regular | Body, captions |
-| 500 | Medium | Labels, buttons, small metrics |
-| 600 | SemiBold | Titles, headlines and large metrics |
+| 400 | Regular (`regular`) | Bundled; no type role uses it today |
+| 500 | Medium (`medium`) | Body text (`body*`) |
+| 600 | SemiBold (`semibold`) | Labels, buttons, `metricSmall`, `metricCaption`, unselected nav label |
+| 700 | Bold (`bold`) | `headlineSmall`, `title*`, `metricMedium` |
+| 800 | ExtraBold (`extrabold`) | `displaySmall`, `headlineMedium`, `metricHero`, `metricLarge`, selected nav label |
 
-No Bold (700+) and no Light/Thin. Hierarchy comes from **size and color**, not heavy weights — that is what keeps the look minimal.
+No Light/Thin. Big numbers are the heaviest thing on screen; everything else steps down by size, weight and color.
 
 ### 3.4 Type scale (`AppTypography` + Material `TextTheme`)
 
-Sizes in logical px (sp). Line heights on a 4-pt rhythm. Negative tracking on large sizes is what makes Geist look crisp; big numbers get the tightest tracking.
+Sizes in logical px (sp). Line heights on a 4-pt rhythm (except `metricLarge`). Negative tracking on large sizes; big numbers get the tightest tracking.
 
 | Role | Family | Size / Line | Weight | Tracking | Use |
 |---|---|---|---|---|---|
-| `displaySmall` | Geist | 32 / 40 | 600 | −0.8 | Onboarding hero, estimator result headline |
-| `headlineMedium` | Geist | 28 / 36 | 600 | −0.6 | Screen title (large app bar) |
-| `headlineSmall` | Geist | 24 / 32 | 600 | −0.4 | Sheet / dialog titles |
-| `titleLarge` | Geist | 20 / 28 | 600 | −0.3 | Section titles |
-| `titleMedium` | Geist | 16 / 24 | 600 | −0.1 | Card titles, list primary text (emphasised) |
-| `titleSmall` | Geist | 14 / 20 | 600 | 0 | Small card headers |
-| `bodyLarge` | Geist | 16 / 24 | 400 | 0 | Main reading text, chat messages |
-| `bodyMedium` | Geist | 14 / 20 | 400 | 0 | Default body, list secondary text |
-| `bodySmall` | Geist | 12 / 16 | 400 | +0.1 | Captions, helper text, disclaimers |
-| `labelLarge` | Geist | 14 / 20 | 500 | +0.1 | Buttons, tabs, segmented control |
-| `labelMedium` | Geist | 12 / 16 | 500 | +0.2 | Chips, badges, nav labels |
-| `labelSmall` | Geist | 11 / 16 | 500 | +0.5 | Overlines (UPPERCASE allowed only here) |
-| `metricHero` | Geist `tnum` | 60 / 64 | 600 | −2.4 | Backup countdown "3h 20m" |
-| `metricLarge` | Geist `tnum` | 34 / 40 | 600 | −1.2 | Stat tiles (kWh, %, PKR) |
-| `metricMedium` | Geist `tnum` | 20 / 24 | 600 | −0.4 | Package prices, secondary stats, units of `metricLarge` |
-| `metricSmall` | Geist `tnum` | 16 / 20 | 500 | −0.1 | Inline numbers in lists ("+2h 10m", "750 W") |
-| `metricCaption` | Geist `tnum` | 12 / 16 | 500 | 0 | Chart axes, timestamps, "updated 3 h ago" times |
+| `displaySmall` | Manrope | 32 / 40 | 800 | −1.0 | Onboarding hero, estimator result headline |
+| `headlineMedium` | Manrope | 28 / 36 | 800 | −0.8 | Screen title (large app bar) |
+| `headlineSmall` | Manrope | 24 / 32 | 700 | −0.5 | Sheet / dialog titles |
+| `titleLarge` | Manrope | 20 / 28 | 700 | −0.3 | Section titles |
+| `titleMedium` | Manrope | 16 / 24 | 700 | −0.1 | Card titles, list primary text (emphasised) |
+| `titleSmall` | Manrope | 14 / 20 | 700 | 0 | Small card headers, list row titles |
+| `bodyLarge` | Manrope | 16 / 24 | 500 | 0 | Main reading text, chat messages |
+| `bodyMedium` | Manrope | 14 / 20 | 500 | 0 | Default body, list secondary text |
+| `bodySmall` | Manrope | 12 / 16 | 500 | +0.1 | Captions, helper text, disclaimers |
+| `labelLarge` | Manrope | 14 / 20 | 600 | +0.1 | Buttons, tabs, segmented control |
+| `labelMedium` | Manrope | 12 / 16 | 600 | +0.2 | Chips, badges, nav labels |
+| `labelSmall` | Manrope | 11 / 16 | 600 | +0.4 | Overlines (UPPERCASE allowed only here) |
+| `metricHero` | Manrope `tnum` | 56 / 60 | 800 | −2.4 | Backup time "3h 20m" |
+| `metricLarge` | Manrope `tnum` | 32 / 38 | 800 | −1.2 | Stat tiles (kWh, %, PKR) |
+| `metricMedium` | Manrope `tnum` | 20 / 24 | 700 | −0.4 | Package prices, secondary stats, units of `metricLarge` |
+| `metricSmall` | Manrope `tnum` | 16 / 20 | 600 | −0.1 | Inline numbers in lists ("+2h 10m", "750 W") |
+| `metricCaption` | Manrope `tnum` | 12 / 16 | 600 | 0 | Chart axes, timestamps, "updated 3 h ago" times |
 
 Default text color = `textPrimary`; secondary text = `textMuted`. Feature code never sets color/size on text — it picks a role.
 
@@ -301,7 +323,7 @@ Default text color = `textPrimary`; secondary text = `textMuted`. Feature code n
 2. **Currency:** PKR with South-Asian grouping when `ur_Latn` / `en_PK` locale is active (`1,85,000`), formatted only via `core/utils` formatters.
 3. **Line length:** body text max ~60 characters per line on tablets/web (`maxWidth: 560`).
 4. **Text scale:** every screen must work at system text scale **1.0 and 1.5** (TECH_STACK §6.6). `metricHero` may clamp at 1.3× to keep the ring readable; nothing else clamps.
-5. **Truncation:** titles 1 line + ellipsis; list secondary text max 2 lines; never truncate numbers.
+5. **Truncation:** titles 1 line + ellipsis; list secondary text max 2 lines; never truncate numbers (they scale down to fit instead).
 6. **Sentence case** everywhere ("Turn off first", not "Turn Off First"). UPPERCASE only for `labelSmall` overlines.
 
 ---
@@ -354,7 +376,7 @@ Primary CTA block (sticky bottom: lg 16 padding + safe area)
 
 | Component | Padding | Internal gap |
 |---|---|---|
-| Card (`BbCard`) | 16 all sides (20 for hero card) | 12 between rows |
+| Card (`BbCard`) | 16 all sides (24 for hero card) | 12 between rows |
 | List tile | 16 horizontal · 12 vertical (min height 56; 72 with 2 lines) | 12 leading icon ↔ text |
 | Button (md) | 20 horizontal | 8 icon ↔ label |
 | Input | 16 horizontal · 14 vertical (height 52) | 4 label ↔ field, 4 field ↔ helper |
@@ -383,18 +405,18 @@ Primary CTA block (sticky bottom: lg 16 padding + safe area)
 |---|---|---|
 | `xs` **NEW** | 4 | Skeleton text lines, progress bars, small tags |
 | `sm` | 8 | Badges, tooltips, chart bars (top corners) |
-| `md` | 12 | Inputs, segmented control |
-| `lg` | 20 | Cards, banners, dialogs |
-| `xl` | 28 | Bottom sheets (top corners), hero card |
+| `md` | 14 | Inputs, segmented control |
+| `lg` | 24 | Cards, stat tiles, banners, dialogs |
+| `xl` | 32 | Bottom sheets (top corners), hero card, floating nav bar |
 | `pill` | 999 | **Buttons**, chips, nav indicator, grid status pill, switches |
 
-Nested radius rule: inner radius = outer radius − padding (e.g. 20-px card with 8-px inset → 12-px inner element).
+Nested radius rule: inner radius = outer radius − padding (e.g. 24-px card with 8-px inset → 16-px inner element).
 
-v2 moved to larger radii and pill buttons: the reference apps (§15) all use soft, generous corners, and a pill reads as "tappable" at a glance.
+Large, soft corners and pill buttons are part of the Quiet Home look: a pill reads as "tappable" at a glance.
 
 ### 5.2 Borders
 
-- **Containers never have borders.** Cards, sheets, nav bar, app bar and chat bubbles are separated from the page by surface color contrast plus elevation (§5.3): light = `surface` on `background` + `level1` shadow; dark = `surface` on `background` (lighter surface, no shadow).
+- **Containers never have borders.** Cards, sheets, nav bar, app bar and chat bubbles are separated from the page by surface color contrast plus elevation (§5.3): light = white `surface` on mist `background` + `level1` shadow; dark = `surface` on `background` (lighter surface, no shadow).
 - **Never nest elevated surfaces.** A card does not contain another shadowed card; inner groups use `surfaceMuted` fill instead.
 - **Interactive states change background, not borders** (pressed/hover overlays, selected fills).
 - **Exceptions (accessibility):** inputs keep a 1 px `outline` boundary (WCAG 1.4.11, ≥ 3:1). Focus is a separate 2 px `focusRing` outline offset 2 px, always visible. Input error = `dangerContainer` fill + `danger` helper text + `warning` icon, not a border change.
@@ -402,14 +424,14 @@ v2 moved to larger radii and pill buttons: the reference apps (§15) all use sof
 
 ### 5.3 Elevation (`elevation.dart`)
 
-| Level | Light | Dark | Used by |
+| Level | Light (y offset · blur · alpha of indigo950 `#12152A`) | Dark | Used by |
 |---|---|---|---|
 | `level0` | No shadow | `background` | Flat page content, inner groups (`surfaceMuted` fill) |
-| `level1` | `0 1 2 rgba(18,17,16,.04)` + `0 8 24 rgba(18,17,16,.06)` | `surface` | Cards, list groups, nav bar, sticky bottom CTA bar, app bar when scrolled |
-| `level2` | `0 2 4 rgba(18,17,16,.05)` + `0 12 32 rgba(18,17,16,.08)` | `surfaceRaised` | Menus, dropdowns, toasts |
-| `level3` | `0 4 8 rgba(18,17,16,.06)` + `0 24 56 rgba(18,17,16,.14)` | `surfaceRaised` | Bottom sheets, dialogs |
+| `level1` | `0 1 2 rgba(18,21,42,.05)` + `0 10 30 rgba(18,21,42,.07)` | `surface` | Cards, list groups, sticky bottom CTA bar (cast upward) |
+| `level2` | `0 2 4 rgba(18,21,42,.06)` + `0 14 36 rgba(18,21,42,.10)` | `surfaceRaised` | Floating nav bar, menus, dropdowns, toasts |
+| `level3` | `0 4 8 rgba(18,21,42,.08)` + `0 24 56 rgba(18,21,42,.16)` | `surfaceRaised` | Bottom sheets, dialogs |
 
-Shadows have two layers (a tight contact shadow plus a wide ambient one), are tinted with warm ink canvas950 (never pure black), and are very soft. In dark mode elevation = lighter surface, not a shadow.
+Shadows have two layers (a tight contact shadow plus a wide ambient one), are tinted with indigo950 (never pure black), and are very soft. In dark mode `shadows()` returns none: elevation = lighter surface.
 
 ---
 
@@ -427,7 +449,7 @@ Shadows have two layers (a tight contact shadow plus a wide ambient one), are ti
 | Style | When |
 |---|---|
 | **Regular** (default) | Every icon in normal state: list leading icons, app bar actions, inputs, nav (unselected). |
-| **Fill** | Selected nav tab, active toggle states, status icons inside banners/badges, icon inside a yellow/navy filled button. |
+| **Fill** | Selected nav tab, active toggle states, status icons inside banners/badges, icon inside a coral/indigo filled button. |
 | **Duotone** | Only for large illustrative icons (48 – 64 px) in empty states and onboarding. Secondary layer = same color @ 20%. |
 | Thin / Light / Bold | **Not used.** |
 
@@ -441,7 +463,7 @@ Shadows have two layers (a tight contact shadow plus a wide ambient one), are ti
 | `iconLg` | 32 | Stat tile icons, banner (prominent) |
 | `iconXl` **NEW** | 48 | Empty / error states (Duotone) |
 
-Icon color always comes from a token: `textPrimary` (default), `textMuted` (secondary), `secondary` (selected), status/energy tokens for meaning. Icons on yellow use `textOnPrimary`.
+Icon color always comes from a token: `textPrimary` (default), `textMuted` (secondary), `secondary` (selected), status/energy tokens for meaning. Icons on coral use `textOnPrimary`.
 
 ### 6.4 `BbIcons` — semantic icon registry
 
@@ -494,16 +516,26 @@ Features never import Phosphor directly. They use `BbIcons.<meaning>`, defined o
 
 | Token | Duration | Curve | Use |
 |---|---|---|---|
-| `fast` | 150 ms | `easeOutCubic` | Press states, toggles, chip select, icon swap |
-| `normal` | 250 ms | `easeOutCubic` (enter) / `easeInCubic` (exit) | Cards, banners, page transitions, theme cross-fade |
-| `slow` | 400 ms | `easeInOutCubic` | Countdown ring value change, bottom sheet, chart reveal |
-| `skeletonPulse` **NEW** | 1200 ms loop | `easeInOut` | Skeleton opacity pulse (§8.2) |
+| `fast` | 150 ms | `easeOutCubic` (`enter`) | Press states, toggles, chip select, icon swap, nav label weight |
+| `normal` | 250 ms | `easeOutCubic` (enter) / `easeInCubic` (exit) | Cards, banners, rolling numbers, nav pill slide, theme cross-fade |
+| `slow` | 400 ms | `easeInOutCubic` (`emphasized`) | Countdown ring value change, bottom sheet, chart reveal, `BbAppear` entrance |
+| `skeletonPulse` **NEW** | 1200 ms loop | `easeInOut` (`pulse`) | Skeleton opacity pulse (§8.2) |
+
+**Where motion is used**
+
+| Motion | Spec |
+|---|---|
+| **Press** | Every control built on `Tappable` scales to **0.97** while pressed (`fast`, `easeOutCubic`); scale never moves the layout around it. `BbButton` also scales its own body to 0.98 inside that. |
+| **Rolling numbers** | `BbMetric`: when the value changes, the new value fades in rising from 35% of its height below while the old one fades out upward (`normal`, enter/exit curves). |
+| **Entrance (`BbAppear`)** | Content fades in while rising **16 px** (`slow`, `easeOutCubic`). Each `index` starts **45 ms** after the previous (capped at 8 steps). Plays once on first build; kept alive so a section scrolled off and back does not replay. `BbScaffold` wraps every screen body in `BbAppear`; Home also staggers its sections (§11). |
+| **Nav bar** | The indigo pill slides to the selected tab (`normal`, `easeInOutCubic`); the selected icon pops to 1.08 with `Curves.easeOutBack` (`normal`); the label weight changes 600 → 800 (`fast`). |
+| **Gauge sweep** | `BbBackupGauge` fills from empty to the charge over 800 ms (`slow` × 2, `easeOutCubic`) when it appears, and glides when the charge changes. |
+| **Countdown ring** | Arc tweens to the new charge (`slow`, `easeInOutCubic`); overload → one 4% pulse (`normal`). |
+| **Page transitions** | `FadeForwardsPageTransitionsBuilder` on every platform: pages fade and slide forward together. |
 
 Rules:
-- Motion explains change (a number rolling to its new value, a ring arc growing) — never decoration, no bouncy springs, no parallax.
-- Live numbers animate with a 250-ms count tween; the ring arc animates with `slow`.
-- Page transitions: shared-axis horizontal (fade + 24-px slide) for push; fade-through for tab switches.
-- Respect `MediaQuery.disableAnimations`: all durations become 0, skeleton pulse becomes static.
+- Motion explains change (a number rolling to its new value, an arc growing, a screen assembling top to bottom) — never decoration, no parallax. The only overshoot is the nav icon's small `easeOutBack` pop.
+- **Reduced motion:** components read durations through `AppMotion.of`, which returns zero when `MediaQuery.disableAnimations` is set. Press scale, rolling numbers, nav slide/pop, gauge sweep and ring tweens become instant; `BbAppear` shows content static; the skeleton pulse becomes static.
 
 ---
 
@@ -526,7 +558,7 @@ Offline-first means **most screens never load from scratch** — Firestore cache
 ### 8.2 Skeleton spec (`BbSkeleton`)
 
 - **Variants:** `BbSkeleton.text(lines: 1–3)`, `.circle(size)`, `.rect(height, radius)`, `.metric()` (block sized to the metric style), and composed `.card()` / `.listTile()` / `.statTile()` that mirror the real component's layout **exactly** (same padding, same heights) so nothing jumps when data arrives.
-- **Color:** `colors.skeleton` (canvas100 light / canvas800 dark).
+- **Color:** `colors.skeleton` (mist200 light / mist800 dark).
 - **Animation:** **soft opacity pulse**, 1.0 → 0.55 → 1.0 over `skeletonPulse` (1200 ms). Chosen over shimmer because it is calmer, cheaper to render, and gentler on battery during outages. All skeletons on a screen pulse **in sync** (one shared `AnimationController` via `BbSkeletonScope`).
 - **Shapes:** text line height = 60% of the text style's line height, radius `xs`; last line of a multi-line block = 60% width; max 3 lines per block. Circles for avatars/icons; rect radius matches the real component (`lg` for cards).
 - **Timing:** show only if loading takes > **200 ms** (avoids flash); once shown, keep at least **400 ms**; cross-fade to content with `normal` (250 ms).
@@ -536,7 +568,7 @@ Offline-first means **most screens never load from scratch** — Firestore cache
 
 - Circular, **2-px stroke**, round cap, 270° arc rotating at 900 ms/turn.
 - Sizes: `xs` 12, `sm` 16, `md` 20. No larger spinner exists.
-- Color = the content color it replaces (`textOnPrimary` in yellow buttons, `onSecondary` in navy buttons, `textMuted` inline).
+- Color = the content color it replaces (`textOnPrimary` in coral buttons, `onSecondary` in indigo buttons, `textMuted` inline).
 - **In buttons:** the spinner replaces the leading icon (or sits before the label if no icon); the label stays; the button keeps its exact width; taps are ignored; label switches to the progressive form ("Finding shops…").
 
 ### 8.4 Progress bar (`BbProgressBar`)
@@ -577,13 +609,14 @@ Errors are friendly and actionable ("Couldn't reach the weather service. Showing
 
 | Element | Light | Dark |
 |---|---|---|
-| Background | `#F6F4F0` cool paper | `#121110` near-black navy (not `#000`) |
-| Cards | White + soft `level1` shadow | `#1A1917` on `#121110`, no shadow |
-| Text | Ink navy `#0E1424` | Off-white `#EDEAE4` |
-| Primary CTA | Yellow `#FFC21A` + ink label | Yellow `#FFC93D` + ink label |
-| Selected states / nav pill | Navy `#1F2F57` | Light navy `#A3B2D1` |
-| Hero card | `hero` midnight `#16213D`, dark-palette content | same |
-| Elevation | Soft navy shadows | Lighter surfaces, no shadows |
+| Background | Mist `#EEF1F6` | Deep indigo night `#0E1024` (not `#000`) |
+| Cards | White `#FFFFFF` + soft `level1` shadow | `#181B33` on `#0E1024`, no shadow (raised `#1F2340`) |
+| Text | Indigo ink `#1B1F3B` | Off-white mist `#EEF1F6` |
+| Primary CTA | Coral `#FF6B4A` + indigo ink label | Coral `#FF876B` + indigo ink label |
+| Highlight card | Coral100 `#FFE4DD` | `CoralP.night` `#34213A` |
+| Selected states / nav pill | Indigo `#1B1F3B` | Light indigo `#A6AEE6` |
+| Hero card | `hero` indigo `#1B1F3B`, dark-palette content | `hero` indigo `#262B66`, dark-palette content |
+| Elevation | Soft indigo-tinted shadows | Lighter surfaces, no shadows |
 | Status / energy | 600-tones | 300-tones |
 
 ### 9.3 Dark theme rules
@@ -609,15 +642,15 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 | Variant | Fill | Label / icon | Border | Use |
 |---|---|---|---|---|
-| `primary` | `primary` (yellow) | `textOnPrimary` | — | **One per screen.** The main task ("Calculate", "Light gayi") |
-| `secondary` | `secondary` (navy) | `onSecondary` | — | Strong secondary actions |
+| `primary` | `primary` (coral) | `textOnPrimary` (indigo ink) | — | **One per screen.** The main task ("Calculate", "Light gayi") |
+| `secondary` | `secondary` (indigo) | `onSecondary` | — | Strong secondary actions |
 | `tonal` **NEW** | `surfaceMuted` | `textPrimary` | — | Neutral actions ("Edit", "Add appliance") |
 | `ghost` | transparent | `link` | — | Low-emphasis / inline ("See all", "Skip") |
 | `danger` | `danger` | `onDanger` | — | Destructive only ("Delete appliance") |
 
 - Shape: **pill** (`radius.pill`) at every size.
 - Sizes: `sm` 40 h, `md` 48 h (default), `lg` 56 h (sticky bottom CTA, full width). Label `labelLarge`; icon 20, leading only.
-- States: pressed = 12% `textPrimary` overlay + scale 0.98 (`fast`); disabled = 38% opacity, no overlay; focused = 2-px `focusRing` offset 2; loading = §8.3.
+- States: pressed = 12% `textPrimary` overlay + scale 0.98 (`fast`), inside the shared 0.97 press scale (§7); disabled = 38% opacity, no overlay; focused = 2-px `focusRing` offset 2; loading = §8.3.
 - `BbIconButton`: 48 × 48 hit area, 24 icon, circular; variants `standard` (no fill), `tonal` (`surfaceMuted` circle 40).
 - `BbGoogleButton` **NEW**: outlined pill (`surface` fill, 1 px `outlineVariant`), Google's four-color G (SVG asset, as Google's branding requires), `labelLarge` label.
 
@@ -635,18 +668,18 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 ### 10.3 Surfaces
 
-- **`BbCard`:** `surface`, radius `lg`, `level1`, no border, padding 16. Variants:
-  - `standard`.
-  - `hero`: `hero` midnight fill, radius `xl`, padding 24, no shadow. Its content is wrapped in the **dark theme** (`Theme` + default text and icon color), so every component inside uses the dark tokens automatically: off-white text, 300-tone status colors, yellow focus ring. One hero per screen.
-  - `highlight`: `primaryContainer` fill, no shadow, no stripe. The top AI advice card, with a `BbIcons.ai` icon in `onPrimaryContainer`.
+- **`BbCard`:** `surface`, radius `lg` (24), `level1`, no border, padding 16. Variants:
+  - `standard`. Home's backup hero is a standard (white) card.
+  - `hero`: `hero` indigo fill, radius `xl` (32), padding 24, no shadow. Its content is wrapped in the **dark theme** (`Theme` + default text and icon color), so every component inside uses the dark tokens automatically: off-white text, 300-tone status colors, coral focus ring. One hero per screen.
+  - `highlight`: `primaryContainer` fill (coral100 light / `CoralP.night` dark), no shadow, no stripe. The top AI advice card, with a `BbIcons.ai` icon in `onPrimaryContainer`.
 - **`BbSection`:** `titleLarge` header + optional `ghost` action on the right ("See all"), `md` gap to content.
 - **`BbBottomSheet`:** `surfaceRaised`, top radius `xl`, drag handle 32 × 4 `outline` pill, level3, scrim. Title `titleLarge` (a header, and the sheet's route name for screen readers); tall content scrolls inside. Opened only through `OverlayHost.showSheet` (modal route: focus trap, Escape / back / scrim tap close it).
 - **`BbDialog`:** radius `lg`, max width 400, padding 24, title `headlineSmall`, actions right-aligned (ghost + primary/danger).
 
 ### 10.4 Data display
 
-- **`BbStatTile`:** `BbCard` with: 40-px icon disc (`BbTone.containerColor`, e.g. `successContainer`) holding a 20-px icon in the tone color → `md` gap → `labelMedium` label in `textMuted` → `metricLarge` value + unit → optional `bodySmall` delta ("−18% vs Mar"). Min height 112. Optional tap (`onTap` + `tapLabel` read as the hint): pressed/hover tint the card, focus ring at radius `lg`.
-- **`BbMetric`:** standalone value+unit pair (§3.5), sizes hero/large/medium/small.
+- **`BbStatTile`:** `BbCard` with: 40-px icon disc (`BbTone.containerColor`, e.g. `successContainer`) holding a 20-px icon in the tone color → `md` gap → `labelMedium` label in `textMuted` → `metricLarge` value + unit → optional `bodySmall` delta ("−18% vs Mar"). Min height 112; the tile fills its column (Home's two tiles are equal height). Optional tap (`onTap` + `tapLabel` read as the hint): pressed/hover tint the card, focus ring at radius `lg`.
+- **`BbMetric`:** standalone value+unit pair (§3.5), sizes hero/large/medium/small. A changed value rolls into place (§7). Scales down to fit, never truncates; only `hero` clamps text scale at 1.3×.
 - **`BbBadge`:** pill, height 24, `labelMedium`, container color + on-container text, optional 16-px Fill icon.
 - **`BbCountBadge`:** a count on the corner of an icon button (the notification bell): pill, min 18 × 18, `primary` fill, `labelSmall` in `textOnPrimary`, "9+" above 9, hidden at 0. A number rather than a dot, so it never rests on color alone; the button's label repeats it ("Notifications, 3 new").
 - **`BbChip`:** pill height 32, unselected = `surfaceMuted` fill + `textPrimary`; selected = `secondary` fill + `onSecondary` + leading `check` icon. Optional leading 16-px icon (e.g. battery bars beside "75%") that the check replaces when selected.
@@ -655,7 +688,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 ### 10.5 Navigation
 
-- **`BbNavBar`** (bottom, 5 tabs: Home · Loads · Solar · Battery · Assistant): height 64 + safe area, `surface` + `level1` (shadow cast upward in light; lighter surface in dark), no border. Selected tab = **navy pill indicator** 56 × 32 (`secondary`) behind a **Fill** icon in `onSecondary`, label `labelMedium` `textPrimary` 600; unselected = Regular icon + label in `textMuted`. Navy since v2, so the yellow budget goes to the screen's CTA.
+- **`BbNavBar`** (bottom, 5 tabs: Home · Loads · Solar · Battery · Assistant): a **floating rounded bar**, height 74, inset `md` (12) from the sides and at least `md` above the bottom safe area; `surface`, radius `xl` (32), `level2` shadow (light; lighter surface in dark), no border. Selected tab = **indigo pill** 56 × 32 (`secondary`, radius `pill`, 10 from the top) that **slides** between tabs, behind a **Fill** icon in `onSecondary` that pops to 1.08 (`easeOutBack`); label `labelMedium` 6 below, `textPrimary` weight 800. Unselected = Regular icon + label in `textMuted`, weight 600. Indigo, not coral, so the screen's coral goes to its one action.
 - **`BbAppBar`:** `background` color (blends with page), title `titleLarge` (or large `headlineMedium` variant on top-level tabs that collapses on scroll), actions = `BbIconButton`s; gains `level1` (and `surface` fill) when content scrolls under it.
 - **`BbStepIndicator`** **NEW**: short stepped flows (setup). Per step a 28-px circle + `labelMedium` label below, joined by 2-px lines. Done = `successContainer` + `check` in `success` (line `success`); current = `secondary` + number in `onSecondary`; upcoming = `surfaceMuted` + number in `textMuted` (line `outlineVariant`). One semantics label: "Step 2 of 3: Battery".
 - **`BbTabs`:** text tabs, `labelLarge`; selected = `textPrimary` + 2-px `secondary` underline (full label width); unselected `textMuted`.
@@ -664,7 +697,8 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 | Component | Visual spec |
 |---|---|
-| **`BbCountdownRing`** | Sits on a hero card (Solar). 240-px ring (200 on small phones), 14-px stroke, round caps. Track = `textPrimary` @ 12%; arc = `primary` (Spark Yellow) while SoC > 50%, then the `batteryMid` / `batteryLow` status color, animated `slow`. The battery stat tile always shows icon + % beside it, so color is never the only signal. Center: `metricHero` "3h 20m" + `bodySmall` muted "left at 420 W". Below ring: `labelMedium` "Stops protecting battery at 50%". Overload → ring pulses once (`normal`) and a `danger` banner appears. |
+| **`BbBackupGauge`** **NEW** | Home's hero gauge. Half ring 280 × 160, 18-px stroke, round caps. Track = `outlineVariant` (visible on a card and on the page); fill = the battery's charge in its status color (`EnergyColors.battery`: green > 50%, amber ≥ 20%, red below). The fill sweeps up from empty on arrival (800 ms, `easeOutCubic`) and glides when the charge changes. The caller's content (time + caption) sits in the bowl of the arc. One semantics label carries the whole answer; the arc itself is excluded. |
+| **`BbCountdownRing`** | Sits on a hero card (Solar). 240-px ring (200 on small phones), 14-px stroke, round caps. Track = `textPrimary` @ 12%; arc = **always the battery status color** (`batteryHigh` > 50%, `batteryMid` ≥ 20%, `batteryLow` below — coral is for actions), animated `slow`. The battery stat tile always shows icon + % beside it, so color is never the only signal. Center: `metricHero` "3h 20m" + `bodySmall` muted "left at 420 W". Below ring: `labelMedium` "Stops protecting battery at 50%". Overload → ring pulses once (`normal`) and a `danger` banner appears. |
 | **`BbGridStatusPill`** | Pill 40 h (48 dp hit area). Grid on: `secondaryContainer` + Fill `lightning` in `energy.grid` + "Light hai". Grid off: `surfaceMuted` + Fill `lightningSlash` in `energy.offline` + "Light gayi · 1h 12m" (duration in `metricSmall`). Trailing action label in `secondary`, underlined ("Light gayi?" / "Light aa gayi?") says what a tap logs. Tapping logs the event (with haptic). |
 | **`BbBatteryGauge`** | Horizontal battery glyph 64 × 28, 2-px `outline` body, fill in status token, % in `metricSmall` beside it. Always icon + number. |
 | **`BbPowerFlow`** | Three nodes (Solar · Grid · Battery) flowing to Home, 48-px circles with Regular icons; connecting lines 2 px in each source's energy color, **dashed** when inactive; small moving dots (`slow`, disabled with reduced motion) show direction. |
@@ -684,7 +718,7 @@ All screens: `BbScaffold` → `BbAppBar` → optional `BbOfflineBanner` → cont
 [Android launch screen]  page `background` + the brand mark (112 dp wide) centered
 [Flutter splash]         same mark, same place → wordmark "Backup Brain" fades up below (`enter`)
 ```
-The native screen and the Flutter splash draw the mark at the same size and position, so the hand-over doesn't jump. Mark and wordmark are one-color artwork tinted `textPrimary` (navy ink in light, off-white in dark). The splash stays until the session is restored and the 900 ms intro has played (zero with reduced motion), then goes Home; the router redirect takes over from there. Native colors live in `android/.../values*/colors.xml` (mirroring `background`) and `drawable-*xxxhdpi/splash_mark.png` (288 dp canvas, mark inside Android 12's 192 dp safe circle).
+The native screen and the Flutter splash draw the mark at the same size and position, so the hand-over doesn't jump. Mark and wordmark are one-color artwork tinted `textPrimary` (indigo ink in light, off-white in dark). The splash stays until the session is restored and the 900 ms intro has played (zero with reduced motion), then goes Home; the router redirect takes over from there. Native colors live in `android/.../values*/colors.xml` (mirroring `background`) and `drawable-*xxxhdpi/splash_mark.png` (288 dp canvas, mark inside Android 12's 192 dp safe circle).
 
 **Dashboard (Home)**
 ```
@@ -693,22 +727,24 @@ The native screen and the Flutter splash draw the mark at the same size and posi
   "Since 7:02 PM · Change"                  ← during a cut; Change = sheet: Just now / 15 / 30 min / 1 h ago, "The power didn't go"
 [Battery check card]                       ← only at the start of a cut, when the last reading is ≥ 6 h old:
   "What does your UPS screen show?" · chips 100 / 75 / 50 / 25% with bars icons · ghost "Not now"
-[Hero, straight on the page — no card]
-     3h 20m                                ← `metricHero`, `danger` tone when overloaded
-     "left at 420 W" (bodyLarge muted) · "Stops protecting battery at 50%" (labelMedium muted)
-     ( house-with-solar illustration, max 420 wide, soft `surface` radial glow behind )
-     [What should I turn off?]             ← primary (yellow) CTA, full width
-[Stat tiles 1×2, icon discs]  Battery 60% "Estimate · you checked 2 h ago" (status tone; tap = same question as a sheet) · Load now 420 W (neutral)
-[AI advice card: highlight variant (soft yellow), sparkle icon]
+[Overload banner]                          ← `danger`, only when the load is over the inverter's rating
+[Backup hero: white `BbCard` (standard)]
+     ( BbBackupGauge half ring, battery status color, sweeps up on arrival )
+          3h 20m                           ← `BbMetric` hero in the bowl of the arc, `danger` tone when overloaded
+          "left at 420 W"                  ← bodyMedium muted
+     "Stops protecting battery at 50%"     ← labelMedium muted
+     [What should I turn off?]             ← primary (coral) CTA, `lg`, full width, `loads` icon
+[Stat tiles 1×2, equal height, icon discs]  Battery 60% "Estimate · you checked 2 h ago" (status tone; tap = same question as a sheet) · Load now 420 W (neutral)
+[Tip card: `highlight` variant (coral tint), sparkle icon in `onPrimaryContainer`]
 [Today card: `BbCard.list`, rows = 40-px `surfaceMuted` icon disc + title + muted line + › ]
   schedule / warning / lightning-slash · "Next outage likely 7:00 PM" · "Battery 96% by then · lasts 6h 14m" · › to Outages
   sun · "Sun today · 3.3–4.5 kWh" · "Lahore · updated 20 min ago" · › to Solar
-[Nav bar]
+[Nav bar]                                  ← floating rounded bar, sliding indigo pill (§10.5)
 ```
 An estimated countdown shows to 10 minutes and the estimated % rounds down to 5%, with the source and age under the Battery tile; a fresh reading shows as given.
-Calm by design: no midnight card on Home, icons are ink on `surfaceMuted` unless they carry a status (battery tone, `warning` when the battery won't cover the next cut). Yellow budget: the CTA + the advice tint.
+Sections arrive top to bottom with `BbAppear` (grid pill → hero → stat tiles → tip card → today card, 45 ms apart, §7); the battery check card and overload banner appear without a stagger. Calm by design: no indigo hero card on Home, icons are ink on `surfaceMuted` unless they carry a status (battery tone, `warning` when the battery won't cover the next cut). Coral budget: the CTA + the tip card tint.
 
-**Outages (F8, from the Dashboard outage card):** grid status pill → answer card (cut in progress with battery estimate / next outage + battery by then + "enough for the usual 1h 30m" or a `warning`-icon line to avoid heavy loads / how to get a prediction) with muted basis lines → "Your area's schedule" list rows with a `delete` icon button + secondary "Add time" → "Recent outages" list (`gridOn`/`gridOff` icon, times, duration in `metricSmall`). **Add time** is a full screen (no overlay yet): weekday `BbChip`s, From/To half-hour steppers (`remove`/`add` tonal icon buttons, time in `metricMedium`), sticky yellow Save. **Settings** has an "Outage alerts" row (title + muted one-line explanation + `BbSwitch`, one merged semantics node), Android only.
+**Outages (F8, from the Dashboard outage card):** grid status pill → answer card (cut in progress with battery estimate / next outage + battery by then + "enough for the usual 1h 30m" or a `warning`-icon line to avoid heavy loads / how to get a prediction) with muted basis lines → "Your area's schedule" list rows with a `delete` icon button + secondary "Add time" → "Recent outages" list (`gridOn`/`gridOff` icon, times, duration in `metricSmall`). **Add time** is a full screen (no overlay yet): weekday `BbChip`s, From/To half-hour steppers (`remove`/`add` tonal icon buttons, time in `metricMedium`), sticky coral Save. **Settings** has an "Outage alerts" row (title + muted one-line explanation + `BbSwitch`, one merged semantics node), Android only.
 
 **Battery (F6):** verdict card (`BbStatTile` health % with battery icon and status tone: ≥ 80% success "Healthy", ≥ 60% warning "Wearing out", else danger "Weak"; capacity line; muted basis) or, before 3 readings, a how-to card with "n of 3 readings" → warning `BbBanner`s for capacity loss / deep discharge → "Enter the battery %" list of recent outages with a small secondary "Enter %" button → battery details card → the fixed danger safety banner → secondary "My battery is kharab" (F7). **Battery reading** is a full screen: question with the outage's time, 5% stepper (tonal `remove`/`add`, value in `metricLarge`, starting at the app's estimate), sticky Save.
 
@@ -749,53 +785,49 @@ The forecast refreshes from the app root (start, return to the app, location fir
 ## 12. Flutter Implementation Snippets
 
 ```dart
-// packages/bb_ui/lib/src/foundations/primitives/color_primitives.dart
+// packages/bb_ui/lib/src/foundations/primitives/color_primitives.dart (excerpt)
 // LAYER 1 — package-private. Never exported, never used by widgets.
-abstract final class CanvasP {
-  static const c0 = Color(0xFFFFFFFF), c50 = Color(0xFFF6F4F0), c100 = Color(0xFFEDEAE4),
-      c200 = Color(0xFFE2DED6), c300 = Color(0xFFCBC6BC), c400 = Color(0xFFA39D92),
-      c500 = Color(0xFF857F74), c600 = Color(0xFF5E594F), c700 = Color(0xFF423E37),
-      c800 = Color(0xFF2A2824), c850 = Color(0xFF211F1C), c900 = Color(0xFF1A1917),
-      c950 = Color(0xFF121110);
+abstract final class MistP {
+  static const c0 = Color(0xFFFFFFFF), c50 = Color(0xFFF6F7FB), c100 = Color(0xFFEEF1F6),
+      c200 = Color(0xFFE3E7F0), /* … */ c900 = Color(0xFF181B33), c950 = Color(0xFF0E1024);
+  static const black = Color(0xFF000000); // dark-theme scrim only
 }
 
-abstract final class NavyP {
-  static const c50 = Color(0xFFF1F3F8), c100 = Color(0xFFE3E7F0), c200 = Color(0xFFC6CEDF),
-      c300 = Color(0xFFA3B2D1), c400 = Color(0xFF7C90BE), c500 = Color(0xFF5670A6),
-      c600 = Color(0xFF3F5891), c700 = Color(0xFF2E4378), c800 = Color(0xFF1F2F57),
-      c900 = Color(0xFF16213D), c950 = Color(0xFF0E1424);
+abstract final class IndigoP {
+  static const c50 = Color(0xFFF0F1FA), /* … */ c600 = Color(0xFF414BA4),
+      c800 = Color(0xFF262B66), c900 = Color(0xFF1B1F3B), c950 = Color(0xFF12152A);
 }
 
-abstract final class YellowP {
-  static const c50 = Color(0xFFFFFBEB), c100 = Color(0xFFFFF3CC), c200 = Color(0xFFFFE7A3),
-      c300 = Color(0xFFFFD666), c400 = Color(0xFFFFC93D), c500 = Color(0xFFFFC21A),
-      c600 = Color(0xFFE6A800), c700 = Color(0xFFB38300), c800 = Color(0xFF8A6200),
-      c900 = Color(0xFF4D3800), c950 = Color(0xFF2E2100);
+abstract final class CoralP {
+  static const c50 = Color(0xFFFFF4F1), /* … */ c400 = Color(0xFFFF876B),
+      c500 = Color(0xFFFF6B4A), /* … */ c950 = Color(0xFF2E1008);
+  static const night = Color(0xFF34213A); // dark-theme highlight cards
 }
 
-abstract final class StatusP {
-  static const success100 = Color(0xFFDDF3E4), success300 = Color(0xFF5CCB82),
-      success600 = Color(0xFF1E7A3D), success900 = Color(0xFF0E3A1E);
-  static const warning100 = Color(0xFFFFE6D2), warning300 = Color(0xFFFF9F5A),
-      warning600 = Color(0xFFA34706), warning900 = Color(0xFF4A2004);
-  static const danger100 = Color(0xFFFDE1DF), danger300 = Color(0xFFFF7A70),
-      danger600 = Color(0xFFC42B22), danger900 = Color(0xFF4F1210);
-}
+abstract final class AmberP { /* 100 · 300 · 400 · 500 · 700 · 800 — solar only */ }
+abstract final class StatusP { /* success / warning / danger × 100 · 300 · 600 · 900 */ }
 ```
 
 ```dart
 // packages/bb_ui/lib/src/foundations/primitives/font_primitives.dart
 abstract final class FontP {
-  static const sans = 'Geist';
-  static const regular = FontWeight.w400, medium = FontWeight.w500, semibold = FontWeight.w600;
+  static const package = 'bb_ui';
+  static const sans = 'Manrope';
+  static const regular = FontWeight.w400, medium = FontWeight.w500,
+      semibold = FontWeight.w600, bold = FontWeight.w700, extrabold = FontWeight.w800;
 }
 
 // app_typography.dart (excerpt)
-TextStyle get metricHero => const TextStyle(
-      fontFamily: FontP.sans, fontSize: 60, height: 64 / 60,
-      fontWeight: FontP.semibold, letterSpacing: -2.4,
-      fontFeatures: [FontFeature.tabularFigures()],
-    );
+metricHero: _metric(56, 60, FontP.extrabold, -2.4), // Manrope + tabularFigures
+```
+
+```dart
+// Staggered entrance (DESIGN.md §7)
+ListView(children: [
+  BbAppear(index: 0, child: gridStatus),
+  BbAppear(index: 1, child: backupHero),
+  BbAppear(index: 2, child: statTiles),
+])
 ```
 
 ```dart
@@ -816,54 +848,59 @@ abstract final class BbIcons {
 
 ## 13. Web Tokens (CSS variables)
 
-For the landing page / web dashboard, use exactly the same values. Font via the `geist` npm package (self-hosted, full features incl. `tnum`); icons via `@phosphor-icons/react` or `@phosphor-icons/web`.
+For the landing page / web dashboard, use exactly the same values. Font: self-host the same Manrope files (400–800, full features incl. `tnum`); icons via `@phosphor-icons/react` or `@phosphor-icons/web`.
 
 ```css
 :root {
-  /* Brand — 60 / 30 / 10 */
-  --bb-background: #F6F4F0;  --bb-surface: #FFFFFF;  --bb-surface-raised: #FFFFFF;
-  --bb-surface-muted: #EDEAE4;  --bb-hero: #16213D;
-  --bb-text: #0E1424;  --bb-text-muted: #5E594F;  --bb-text-on-primary: #0E1424;
-  --bb-outline: #857F74;  --bb-outline-variant: #E2DED6;
-  --bb-primary: #FFC21A;  --bb-primary-container: #FFF3CC;  --bb-on-primary-container: #4D3800;
-  --bb-secondary: #1F2F57;  --bb-on-secondary: #FFFFFF;
-  --bb-secondary-container: #E3E7F0;  --bb-on-secondary-container: #16213D;
-  --bb-link: #2E4378;  --bb-focus: #3F5891;  --bb-skeleton: #EDEAE4;
+  /* Brand — Mist 60 / Indigo 30 / Coral 10 */
+  --bb-background: #EEF1F6;  --bb-surface: #FFFFFF;  --bb-surface-raised: #FFFFFF;
+  --bb-surface-muted: #EEF1F6;  --bb-hero: #1B1F3B;
+  --bb-text: #1B1F3B;  --bb-text-muted: #555D80;  --bb-text-on-primary: #12152A;
+  --bb-outline: #7C84A3;  --bb-outline-variant: #E3E7F0;
+  --bb-primary: #FF6B4A;  --bb-primary-container: #FFE4DD;  --bb-on-primary-container: #4D190D;
+  --bb-secondary: #1B1F3B;  --bb-on-secondary: #FFFFFF;
+  --bb-secondary-container: #E3E6F7;  --bb-on-secondary-container: #1B1F3B;
+  --bb-link: #414BA4;  --bb-focus: #414BA4;  --bb-skeleton: #E3E7F0;
   /* Status */
-  --bb-success: #1E7A3D; --bb-success-container: #DDF3E4;
-  --bb-warning: #A34706; --bb-warning-container: #FFE6D2;
-  --bb-danger:  #C42B22; --bb-danger-container:  #FDE1DF; --bb-on-danger: #FFFFFF;
+  --bb-success: #137A54; --bb-success-container: #DDF4EA;
+  --bb-warning: #9E4A00; --bb-warning-container: #FFEBD3;
+  --bb-danger:  #C4283C; --bb-danger-container:  #FDE2E5; --bb-on-danger: #FFFFFF;
   /* Energy */
-  --bb-solar: #FFC21A; --bb-solar-stroke: #B38300; --bb-solar-text: #8A6200;
-  --bb-grid: #3F5891;  --bb-load: #423E37;  --bb-offline: #857F74;
+  --bb-solar: #F5A623; --bb-solar-stroke: #A86A00; --bb-solar-text: #7F5000;
+  --bb-grid: #414BA4;  --bb-load: #3F4668;  --bb-offline: #7C84A3;
   /* Type */
-  --bb-font-sans: "Geist", system-ui, sans-serif;
+  --bb-font-sans: "Manrope", system-ui, sans-serif;
   /* Space (4-pt) */
   --bb-space-xxs: 2px; --bb-space-xs: 4px; --bb-space-sm: 8px; --bb-space-md: 12px;
   --bb-space-lg: 16px; --bb-space-xl: 24px; --bb-space-xxl: 32px; --bb-space-xxxl: 48px;
   --bb-space-xxxxl: 64px;
   /* Radius */
-  --bb-radius-xs: 4px; --bb-radius-sm: 8px; --bb-radius-md: 12px;
-  --bb-radius-lg: 20px; --bb-radius-xl: 28px; --bb-radius-pill: 999px;
+  --bb-radius-xs: 4px; --bb-radius-sm: 8px; --bb-radius-md: 14px;
+  --bb-radius-lg: 24px; --bb-radius-xl: 32px; --bb-radius-pill: 999px;
+  /* Elevation (light only) */
+  --bb-shadow-1: 0 1px 2px rgba(18,21,42,.05), 0 10px 30px rgba(18,21,42,.07);
+  --bb-shadow-2: 0 2px 4px rgba(18,21,42,.06), 0 14px 36px rgba(18,21,42,.10);
+  --bb-shadow-3: 0 4px 8px rgba(18,21,42,.08), 0 24px 56px rgba(18,21,42,.16);
   /* Motion */
   --bb-fast: 150ms; --bb-normal: 250ms; --bb-slow: 400ms;
   --bb-ease: cubic-bezier(0.33, 1, 0.68, 1); /* easeOutCubic */
 }
 
 [data-theme="dark"] {
-  --bb-background: #121110;  --bb-surface: #1A1917;  --bb-surface-raised: #211F1C;
-  --bb-surface-muted: #2A2824;  --bb-hero: #16213D;
-  --bb-text: #EDEAE4;  --bb-text-muted: #A39D92;  --bb-text-on-primary: #0E1424;
-  --bb-outline: #857F74;  --bb-outline-variant: #2A2824;
-  --bb-primary: #FFC93D;  --bb-primary-container: #2E2100;  --bb-on-primary-container: #FFE7A3;
-  --bb-secondary: #A3B2D1;  --bb-on-secondary: #0E1424;
-  --bb-secondary-container: #16213D;  --bb-on-secondary-container: #E3E7F0;
-  --bb-link: #A3B2D1;  --bb-focus: #FFC93D;  --bb-skeleton: #2A2824;
-  --bb-success: #5CCB82; --bb-success-container: #0E3A1E;
-  --bb-warning: #FF9F5A; --bb-warning-container: #4A2004;
-  --bb-danger:  #FF7A70; --bb-danger-container:  #4F1210; --bb-on-danger: #0E1424;
-  --bb-solar: #FFC93D; --bb-solar-stroke: #FFC93D; --bb-solar-text: #FFC93D;
-  --bb-grid: #7C90BE;  --bb-load: #CBC6BC;  --bb-offline: #857F74;
+  --bb-background: #0E1024;  --bb-surface: #181B33;  --bb-surface-raised: #1F2340;
+  --bb-surface-muted: #282D4C;  --bb-hero: #262B66;
+  --bb-text: #EEF1F6;  --bb-text-muted: #A3AAC2;  --bb-text-on-primary: #12152A;
+  --bb-outline: #7C84A3;  --bb-outline-variant: #282D4C;
+  --bb-primary: #FF876B;  --bb-primary-container: #34213A;  --bb-on-primary-container: #FFC7B9;
+  --bb-secondary: #A6AEE6;  --bb-on-secondary: #12152A;
+  --bb-secondary-container: #262B66;  --bb-on-secondary-container: #E3E6F7;
+  --bb-link: #A6AEE6;  --bb-focus: #FF876B;  --bb-skeleton: #282D4C;
+  --bb-success: #52D29D; --bb-success-container: #0B3A28;
+  --bb-warning: #FFB25C; --bb-warning-container: #4A2600;
+  --bb-danger:  #FF7D8C; --bb-danger-container:  #4F0F18; --bb-on-danger: #12152A;
+  --bb-solar: #FFC04D; --bb-solar-stroke: #FFC04D; --bb-solar-text: #FFCF73;
+  --bb-grid: #A6AEE6;  --bb-load: #CDD3E1;  --bb-offline: #7C84A3;
+  --bb-shadow-1: none; --bb-shadow-2: none; --bb-shadow-3: none;
 }
 
 /* System default when no explicit choice is stored */
@@ -872,8 +909,9 @@ For the landing page / web dashboard, use exactly the same values. Font via the 
 }
 
 body { background: var(--bb-background); color: var(--bb-text); font-family: var(--bb-font-sans); }
-.bb-metric { font-variant-numeric: tabular-nums; font-weight: 600; }
+.bb-metric { font-variant-numeric: tabular-nums; }
 /* .bb-hero: background var(--bb-hero), with the [data-theme="dark"] variables applied inside it. */
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 ```
 
 Web layout follows §4.2 (expanded: 12 columns, 32-px margins, 24-px gutters, 1080-px max width). Web breakpoints: `< 600`, `600–840`, `> 840` — identical to the app.
@@ -892,10 +930,10 @@ Web layout follows §4.2 (expanded: 12 columns, 32-px margins, 24-px gutters, 10
 ### 14.2 Screen review checklist (add to PR template)
 
 - [ ] No borders on containers (cards, sheets, bars, bubbles); separation by surface color + elevation only
-- [ ] Only canvas / navy / yellow + status colors used; **≤ 1 yellow CTA** and ≤ 1 other yellow highlight per viewport; ≤ 1 midnight hero per screen
-- [ ] No yellow text or yellow icons on light surfaces
+- [ ] Only mist / indigo / coral + amber (solar only) + status colors used; **≤ 1 coral CTA** and ≤ 1 other coral highlight per viewport; ≤ 1 indigo hero per screen
+- [ ] No coral text or coral icons on light surfaces
 - [ ] Every status shown with color **+** icon **+** text/number
-- [ ] Only Geist; every live number uses a `metric*` style (tabular figures); weights 400/500/600 only
+- [ ] Only Manrope; every live number uses a `metric*` style (tabular figures); weights from the §3.4 roles only (500–800)
 - [ ] All spacing from the 4-pt tokens; side margins from `BbPagePadding`
 - [ ] Left-aligned content, numbers right-aligned in lists, value+unit baseline-aligned
 - [ ] Only Phosphor via `BbIcons`; Regular default, Fill for selected/status, Duotone only in empty states
@@ -921,8 +959,8 @@ Also fail the build if any file outside `bb_ui/lib/src/foundations/` and `bb_ui/
 | Material Design 3 — color roles & tone-based surfaces (m3.material.io; Flutter "new ColorScheme roles" migration guide) | Role-based color tokens, `surfaceContainer*` hierarchy, replacing deprecated `background`/`surfaceVariant`, state-layer opacities, window size classes (compact/medium/expanded) |
 | Mobbin — iOS / Android energy, fintech & utility apps | Patterns: single hero metric per screen, bottom nav with 4–5 tabs, pill indicators, stat-tile grids, skeletons that mirror layout |
 | Dribbble / Contra energy & solar monitoring concepts (2025–2026) | Dark-first dashboards with one bright accent on near-black, purpose-coded energy colors, tabular numerals for live data |
-| Vercel Geist (vercel.com/font) | Geist with tabular figures, Swiss-minimal tone, self-hosted for full OpenType features |
-| Team-shared Dribbble references (2026-10): insurance app (warm gradient hero, charcoal pill CTAs), mental-health app (dark emphasis card beside white cards, tinted nav pill), calorie tracker (warm beige canvas, one orange accent, large sans numbers) | v2: warm neutral canvas, one dark hero mass, a single saturated accent, big **sans** numbers, generous radii, pill buttons, two-layer soft shadows |
+| Manrope (github.com/googlefonts/manrope, SIL OFL 1.1) | One sans for text and numbers, tabular figures, weights 400–800 bundled for offline |
+| Team-shared Dribbble references (2026-10): insurance app (warm gradient hero, charcoal pill CTAs), mental-health app (dark emphasis card beside white cards, tinted nav pill), calorie tracker (warm beige canvas, one orange accent, large sans numbers) | v2 (superseded by v3 Quiet Home): warm neutral canvas, one dark hero mass, a single saturated accent, big **sans** numbers, generous radii, pill buttons, two-layer soft shadows |
 | Phosphor Icons (phosphoricons.com, `phosphor_icons` on pub.dev) | One consistent icon family with Regular/Fill/Duotone weights |
 | WCAG 2.2 AA | 4.5:1 text, 3:1 large text & UI boundaries — verified in §2.8 |
 

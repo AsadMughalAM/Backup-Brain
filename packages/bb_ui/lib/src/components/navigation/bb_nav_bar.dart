@@ -23,9 +23,9 @@ class BbNavItem {
   final String label;
 }
 
-/// Bottom navigation (DESIGN.md §10.5): the selected tab gets a navy pill
-/// behind a Fill icon. Navy, not yellow, so the screen's yellow budget goes
-/// to its one CTA.
+/// Bottom navigation (DESIGN.md §10.5): a floating rounded bar; an indigo
+/// pill slides to the selected tab behind its Fill icon, and the label turns
+/// bold. Indigo, not coral, so the screen's coral goes to its one action.
 ///
 /// ```dart
 /// BbNavBar(
@@ -46,36 +46,75 @@ class BbNavBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onSelect;
 
+  static const _height = 74.0;
+  static const _pillWidth = 56.0;
+  static const _pillHeight = 32.0;
+  static const _pillTop = 10.0;
+
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      color: context.colors.surface,
-      // Shadow cast upward in light; dark relies on the lighter surface.
-      boxShadow: AppElevation.level1
-          .shadows(Theme.of(context).brightness)
-          .map((s) => s.copyWith(offset: -s.offset))
-          .toList(),
-    ),
-    child: SafeArea(
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return SafeArea(
       top: false,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 64),
-        child: Row(
-          children: [
-            for (final (i, item) in items.indexed)
-              Expanded(
-                child: _NavTab(
-                  item: item,
-                  selected: i == selectedIndex,
-                  onTap: () => onSelect(i),
-                ),
-              ),
-          ],
+      minimum: const EdgeInsets.only(bottom: AppSpacing.md),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: BorderRadius.circular(AppRadius.xl),
+            boxShadow: AppElevation.level2.shadows(
+              Theme.of(context).brightness,
+            ),
+          ),
+          child: SizedBox(
+            height: _height,
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final tab = box.maxWidth / items.length;
+                return Stack(
+                  children: [
+                    // The indicator slides between tabs instead of blinking.
+                    AnimatedPositioned(
+                      duration: AppMotion.of(context, AppMotion.normal),
+                      curve: AppMotion.emphasized,
+                      top: _pillTop,
+                      left: tab * selectedIndex + (tab - _pillWidth) / 2,
+                      width: _pillWidth,
+                      height: _pillHeight,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: c.secondary,
+                          borderRadius: BorderRadius.circular(AppRadius.pill),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        for (final (i, item) in items.indexed)
+                          Expanded(
+                            child: _NavTab(
+                              item: item,
+                              selected: i == selectedIndex,
+                              onTap: () => onSelect(i),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
+
+/// Pill 32 + gap 6 + label 16 = 54, centred in the 74 bar: the icon sits
+/// exactly over the sliding pill at `_pillTop`.
+const _labelGap = 6.0;
 
 class _NavTab extends StatelessWidget {
   const _NavTab({
@@ -90,45 +129,50 @@ class _NavTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
+    final c = context.colors;
     return Tappable(
       onTap: onTap,
       builder: (context, s) => Semantics(
         selected: selected,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+        // The full bar height with the icon at the pill's top, so icon and
+        // sliding pill always line up.
+        child: SizedBox(
+          height: BbNavBar._height,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
+              const SizedBox(height: BbNavBar._pillTop),
               FocusRing(
                 visible: s.focused,
                 radius: AppRadius.pill,
-                child: AnimatedContainer(
-                  duration: AppMotion.of(context, AppMotion.fast),
-                  curve: AppMotion.enter,
-                  width: 56,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? colors.secondary
-                        : colors.secondary.withValues(alpha: 0),
-                    borderRadius: BorderRadius.circular(AppRadius.pill),
-                  ),
-                  child: Icon(
-                    selected ? item.activeIcon : item.icon,
-                    size: AppSizes.iconMd,
-                    color: selected ? colors.onSecondary : colors.textMuted,
+                child: SizedBox(
+                  width: BbNavBar._pillWidth,
+                  height: BbNavBar._pillHeight,
+                  child: Center(
+                    // The new tab's icon pops in; the old one settles.
+                    child: AnimatedScale(
+                      scale: selected ? 1.08 : 1,
+                      duration: AppMotion.of(context, AppMotion.normal),
+                      curve: Curves.easeOutBack,
+                      child: Icon(
+                        selected ? item.activeIcon : item.icon,
+                        size: AppSizes.iconMd,
+                        color: selected ? c.onSecondary : c.textMuted,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.textTheme.labelMedium?.copyWith(
-                  color: selected ? colors.textPrimary : colors.textMuted,
-                  fontWeight: selected ? FontWeight.w600 : null,
+              const SizedBox(height: _labelGap),
+              AnimatedDefaultTextStyle(
+                duration: AppMotion.of(context, AppMotion.fast),
+                style: context.textTheme.labelMedium!.copyWith(
+                  color: selected ? c.textPrimary : c.textMuted,
+                  fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
+                ),
+                child: Text(
+                  item.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

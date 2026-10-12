@@ -40,8 +40,17 @@ Future<({FakeOutageRepository outages, FakeSystemRepository system})> _pump(
 }
 
 /// The outage card sits below the fold on a phone-sized screen.
-Future<void> _reveal(WidgetTester tester, Finder finder) => tester
-    .scrollUntilVisible(finder, 200, scrollable: find.byType(Scrollable).first);
+/// Scrolls [finder] fully on screen: built is not the same as visible, and
+/// the floating nav bar covers the bottom of the list.
+Future<void> _reveal(WidgetTester tester, Finder finder) async {
+  await tester.scrollUntilVisible(
+    finder,
+    200,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.ensureVisible(finder);
+  await tester.pumpAndSettle();
+}
 
 void main() {
   testWidgets('learned evening pattern: next outage and the battery by then', (
@@ -75,6 +84,8 @@ void main() {
       -200,
       scrollable: find.byType(Scrollable).first,
     );
+    await tester.ensureVisible(find.text('Power back?'));
+    await tester.pumpAndSettle();
     final cut = logged.outages.outages.single;
     expect(cut.isOngoing, isTrue);
     expect(cut.startSoc, 0.6);

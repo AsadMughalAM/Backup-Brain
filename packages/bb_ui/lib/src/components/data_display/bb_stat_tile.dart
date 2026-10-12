@@ -72,9 +72,11 @@ class BbStatTile extends StatelessWidget {
         child: FocusRing(
           visible: s.focused,
           radius: AppRadius.lg,
+          // Tappable sizes to its child; a tile always fills its column.
           child: Stack(
+            fit: StackFit.passthrough,
             children: [
-              _tile(context),
+              SizedBox(width: double.infinity, child: _tile(context)),
               // Press and hover tint the surface; never a border.
               if (s.pressed || s.hovered)
                 Positioned.fill(

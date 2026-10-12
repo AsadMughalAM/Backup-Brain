@@ -88,7 +88,7 @@ class _LabelGuideState extends State<LabelGuide> {
   }
 }
 
-/// The line to read: a yellow marker plus an arrow, so it stands out by
+/// The line to read: a coral marker plus an arrow, so it stands out by
 /// shape too, not only color.
 class _Highlighted extends StatelessWidget {
   const _Highlighted(this.text);

@@ -5,7 +5,7 @@ import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
 import '../feedback/bb_typing_indicator.dart';
 
-/// One chat message (DESIGN.md §11 Assistant). The user's sit right in navy,
+/// One chat message (DESIGN.md §11 Assistant). The user's sit right in indigo,
 /// the assistant's left on the muted surface; the corner nearest the sender
 /// is the 4 px "tail". No border — fill alone separates it (DESIGN §5).
 /// Numbers in the text use the tabular metric style so they line up and

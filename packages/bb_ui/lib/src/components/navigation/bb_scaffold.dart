@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../foundations/tokens/elevation.dart';
 import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
+import '../layout/bb_appear.dart';
 import '../layout/bb_page_padding.dart';
 
 /// Every screen's frame (DESIGN.md §11): app bar → optional banner (e.g. the
@@ -74,7 +75,12 @@ class BbScaffold extends StatelessWidget {
       body: Column(
         children: [
           ?banner,
-          Expanded(child: BbPagePadding(child: body)),
+          Expanded(
+            child: BbPagePadding(
+              // Every screen arrives with the same soft rise (DESIGN.md §7).
+              child: BbAppear(child: body),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: bottomAction == null && navigationBar == null

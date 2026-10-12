@@ -59,8 +59,8 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-/// Selected = navy secondary, others tonal (DESIGN.md §2.1: selected
-/// states are navy). Stands in for BbSegmentedControl until it exists.
+/// Selected = indigo secondary, others tonal (DESIGN.md §2.1: selected
+/// states are indigo). Stands in for BbSegmentedControl until it exists.
 class _Choices<T> extends StatelessWidget {
   const _Choices({
     required this.options,

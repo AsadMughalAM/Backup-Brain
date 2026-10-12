@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Loads the real fonts (Geist, Phosphor) before any test, so
+/// Loads the real fonts (Manrope, Phosphor) before any test, so
 /// goldens show actual glyphs instead of flutter_test's placeholder boxes.
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   TestWidgetsFlutterBinding.ensureInitialized();

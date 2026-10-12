@@ -5,15 +5,15 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/l10n/app_localizations.dart';
 import '../../../../app/router.dart';
 
-/// The sign-in "sky" — the reference layout in Backup Brain's colors: navy
-/// fading through light navy into the canvas (never through grey), with a
+/// The sign-in "sky" — the reference layout in Backup Brain's colors: indigo
+/// fading through light indigo into the mist background (never through grey), with a
 /// crisp sun. DESIGN.md §2.7 allows this one gradient on auth screens.
 class AuthBackground extends StatelessWidget {
   const AuthBackground({super.key, required this.child, this.skyEnd = 0.5});
 
   final Widget child;
 
-  /// Fraction of the height where the sky has fully faded into the canvas.
+  /// Fraction of the height where the sky has fully faded into the mist background.
   final double skyEnd;
 
   /// Text drawn directly on the sky (the big titles).
@@ -24,7 +24,7 @@ class AuthBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    // Dark mode: deep navy instead of the light-navy `secondary`, so the
+    // Dark mode: deep indigo instead of the light-indigo `secondary`, so the
     // sky stays darker than the content below it.
     final top = context.isDarkTheme ? c.secondaryContainer : c.secondary;
     final middle = context.isDarkTheme ? c.surface : c.secondaryContainer;

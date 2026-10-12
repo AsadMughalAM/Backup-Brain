@@ -54,6 +54,16 @@ abstract final class AppTheme {
       dividerTheme: ComponentThemes.divider(c),
       sliderTheme: ComponentThemes.slider(c),
       snackBarTheme: ComponentThemes.snackBar(scheme, textTheme),
+      // Pages fade and slide forward together (DESIGN.md §7).
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.macOS: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
+        },
+      ),
       extensions: [c, e, AppTypography.standard],
     );
   }

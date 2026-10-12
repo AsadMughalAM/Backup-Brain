@@ -10,7 +10,7 @@ import '../../theme/context_extensions.dart';
 import '../_internal/tappable.dart';
 
 /// Selectable pill (DESIGN.md §10.4), e.g. a Today / Tomorrow switch.
-/// Unselected = muted fill; selected = navy fill plus a check icon, so the
+/// Unselected = muted fill; selected = indigo fill plus a check icon, so the
 /// state never rests on color alone. 32 px tall inside a 48 dp hit area.
 ///
 /// ```dart

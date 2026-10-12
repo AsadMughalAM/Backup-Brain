@@ -1,12 +1,13 @@
 import 'package:bb_ui/bb_ui.dart';
 import 'package:flutter/material.dart';
 
-/// Home's hero, straight on the page: the backup time as the one big
-/// number, the house, and the screen's single yellow action. Strings come
-/// formatted from the screen.
+/// Home's hero card: the battery as a half ring that fills on arrival, the
+/// backup time as the one big number inside it, and the screen's single
+/// coral action. Strings come formatted from the screen.
 class BackupHero extends StatelessWidget {
   const BackupHero({
     super.key,
+    required this.soc,
     required this.time,
     required this.caption,
     required this.footnote,
@@ -15,6 +16,9 @@ class BackupHero extends StatelessWidget {
     required this.actionLabel,
     required this.onAction,
   });
+
+  /// Battery charge, 0–1: the ring's fill.
+  final double soc;
 
   /// e.g. "3h 20m".
   final String time;
@@ -34,78 +38,48 @@ class BackupHero extends StatelessWidget {
   final String actionLabel;
   final VoidCallback onAction;
 
-  static const _houseAsset = 'assets/images/house_solar.webp';
-
-  /// Of the cropped artwork, so the box hugs the house.
-  static const _houseAspectRatio = 1.26;
-
-  /// Beyond this the house stops growing (tablets, landscape).
-  static const _houseMaxWidth = 420.0;
-
   @override
   Widget build(BuildContext context) {
     final muted = context.colors.textMuted;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Semantics(
-          label: semanticLabel,
-          excludeSemantics: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BbMetric(
-                value: time,
-                size: BbMetricSize.hero,
-                tone: isOverloaded ? BbTone.danger : BbTone.neutral,
-              ),
-              Text(
-                caption,
-                style: context.textTheme.bodyLarge?.copyWith(color: muted),
-              ),
-              const BbGap.xs(),
-              Text(
-                footnote,
-                style: context.textTheme.labelMedium?.copyWith(color: muted),
-              ),
-            ],
-          ),
-        ),
-        const BbGap.sm(),
-        Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: _houseMaxWidth),
-            child: AspectRatio(
-              aspectRatio: _houseAspectRatio,
-              child: DecoratedBox(
-                // A soft pool of light behind the house, in the card
-                // surface tone, so it sits on the page in both themes.
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    radius: 0.6,
-                    colors: [
-                      context.colors.surface,
-                      context.colors.surface.withValues(alpha: 0),
-                    ],
-                  ),
+    return BbCard(
+      child: Column(
+        children: [
+          const BbGap.xs(),
+          BbBackupGauge(
+            soc: soc,
+            semanticLabel: semanticLabel,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                BbMetric(
+                  value: time,
+                  size: BbMetricSize.hero,
+                  tone: isOverloaded ? BbTone.danger : BbTone.neutral,
                 ),
-                child: Image.asset(
-                  _houseAsset,
-                  fit: BoxFit.contain,
-                  excludeFromSemantics: true,
+                Text(
+                  caption,
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.bodyMedium?.copyWith(color: muted),
                 ),
-              ),
+              ],
             ),
           ),
-        ),
-        const BbGap.lg(),
-        BbButton(
-          label: actionLabel,
-          icon: BbIcons.loads,
-          expand: true,
-          onPressed: onAction,
-        ),
-      ],
+          const BbGap.md(),
+          Text(
+            footnote,
+            textAlign: TextAlign.center,
+            style: context.textTheme.labelMedium?.copyWith(color: muted),
+          ),
+          const BbGap.lg(),
+          BbButton(
+            label: actionLabel,
+            icon: BbIcons.loads,
+            size: BbButtonSize.lg,
+            expand: true,
+            onPressed: onAction,
+          ),
+        ],
+      ),
     );
   }
 }

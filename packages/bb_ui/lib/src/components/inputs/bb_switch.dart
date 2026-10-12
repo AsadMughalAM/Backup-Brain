@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/context_extensions.dart';
 
-/// On/off switch (DESIGN.md §10.2): 52 × 32 pill; on = navy track with
+/// On/off switch (DESIGN.md §10.2): 52 × 32 pill; on = indigo track with
 /// light thumb, off = muted track with an outline. Material's switch
 /// already gives the 48 dp target, focus and semantics; this pins the
 /// colors to our tokens.

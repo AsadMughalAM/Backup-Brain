@@ -18,11 +18,11 @@ class AppTypography extends ThemeExtension<AppTypography> {
   });
 
   static final standard = AppTypography(
-    metricHero: _metric(60, 64, FontP.semibold, -2.4),
-    metricLarge: _metric(34, 40, FontP.semibold, -1.2),
-    metricMedium: _metric(20, 24, FontP.semibold, -0.4),
-    metricSmall: _metric(16, 20, FontP.medium, -0.1),
-    metricCaption: _metric(12, 16, FontP.medium, 0),
+    metricHero: _metric(56, 60, FontP.extrabold, -2.4),
+    metricLarge: _metric(32, 38, FontP.extrabold, -1.2),
+    metricMedium: _metric(20, 24, FontP.bold, -0.4),
+    metricSmall: _metric(16, 20, FontP.semibold, -0.1),
+    metricCaption: _metric(12, 16, FontP.semibold, 0),
   );
 
   /// Backup countdown "3h 20m". May clamp at 1.3× text scale; nothing else
@@ -42,18 +42,18 @@ class AppTypography extends ThemeExtension<AppTypography> {
   final TextStyle metricCaption;
 
   static final TextTheme textTheme = TextTheme(
-    displaySmall: _sans(32, 40, FontP.semibold, -0.8),
-    headlineMedium: _sans(28, 36, FontP.semibold, -0.6),
-    headlineSmall: _sans(24, 32, FontP.semibold, -0.4),
-    titleLarge: _sans(20, 28, FontP.semibold, -0.3),
-    titleMedium: _sans(16, 24, FontP.semibold, -0.1),
-    titleSmall: _sans(14, 20, FontP.semibold, 0),
-    bodyLarge: _sans(16, 24, FontP.regular, 0),
-    bodyMedium: _sans(14, 20, FontP.regular, 0),
-    bodySmall: _sans(12, 16, FontP.regular, 0.1),
-    labelLarge: _sans(14, 20, FontP.medium, 0.1),
-    labelMedium: _sans(12, 16, FontP.medium, 0.2),
-    labelSmall: _sans(11, 16, FontP.medium, 0.5),
+    displaySmall: _sans(32, 40, FontP.extrabold, -1.0),
+    headlineMedium: _sans(28, 36, FontP.extrabold, -0.8),
+    headlineSmall: _sans(24, 32, FontP.bold, -0.5),
+    titleLarge: _sans(20, 28, FontP.bold, -0.3),
+    titleMedium: _sans(16, 24, FontP.bold, -0.1),
+    titleSmall: _sans(14, 20, FontP.bold, 0),
+    bodyLarge: _sans(16, 24, FontP.medium, 0),
+    bodyMedium: _sans(14, 20, FontP.medium, 0),
+    bodySmall: _sans(12, 16, FontP.medium, 0.1),
+    labelLarge: _sans(14, 20, FontP.semibold, 0.1),
+    labelMedium: _sans(12, 16, FontP.semibold, 0.2),
+    labelSmall: _sans(11, 16, FontP.semibold, 0.4),
   );
 
   static TextStyle _sans(double size, double line, FontWeight w, double ls) =>
@@ -66,7 +66,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
         letterSpacing: ls,
       );
 
-  // Geist, not a monospace: tabular figures already keep every digit the
+  // Manrope, not a monospace: tabular figures already keep every digit the
   // same width (no jitter while the countdown ticks, columns line up),
   // without making numbers look like code.
   static TextStyle _metric(double size, double line, FontWeight w, double ls) =>

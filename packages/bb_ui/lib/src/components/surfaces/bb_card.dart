@@ -11,13 +11,13 @@ enum BbCardVariant {
   /// `surface` + soft shadow (light) / lighter surface (dark).
   standard,
 
-  /// Dashboard hero: midnight `hero` fill, larger radius and padding. Its
+  /// Dashboard hero: indigo night `hero` fill, larger radius and padding. Its
   /// content is drawn with the dark palette in both themes, so read
   /// `context.colors` / `context.textTheme` from a context *inside* the
   /// card (a child widget or `Builder`), never the caller's.
   hero,
 
-  /// Soft yellow `primaryContainer` tint, no shadow — the top AI advice card.
+  /// Soft coral `primaryContainer` tint, no shadow — the top AI advice card.
   highlight,
 }
 
@@ -47,7 +47,7 @@ class BbCard extends StatelessWidget {
   final List<Widget>? children;
   final BbCardVariant variant;
 
-  // Built once: the hero's content always uses the dark palette, so yellow,
+  // Built once: the hero's content always uses the dark palette, so coral,
   // status colors and text are the tones designed for a dark surface.
   static final _heroTheme = AppTheme.dark();
 

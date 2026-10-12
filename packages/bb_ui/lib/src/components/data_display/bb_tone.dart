@@ -21,7 +21,7 @@ enum BbTone {
     return switch (this) {
       neutral => c.textPrimary,
       muted => c.textMuted,
-      // Yellow fill fails contrast as text on light; solarText is the
+      // Amber solar fill fails contrast as text on light; solarText is the
       // readable shade (DESIGN.md §2.7 rule 2).
       solar => e.solarText,
       grid => e.grid,

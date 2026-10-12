@@ -11,7 +11,7 @@ import '../foundations/tokens/breakpoints.dart';
 /// context.colors.textPrimary   // AppColors
 /// context.energy.solar         // EnergyColors
 /// context.text.metricLarge     // AppTypography (metric styles)
-/// context.textTheme.bodyMedium // Material roles (Geist)
+/// context.textTheme.bodyMedium // Material roles (Manrope)
 /// ```
 extension BbThemeContext on BuildContext {
   AppColors get colors => Theme.of(this).extension<AppColors>()!;

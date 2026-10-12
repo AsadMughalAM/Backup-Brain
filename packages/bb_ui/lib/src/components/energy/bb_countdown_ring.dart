@@ -7,7 +7,7 @@ import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
 
 /// The backup countdown (DESIGN.md §10.6): a ring whose arc is the battery
-/// level, with the time left in the center. The arc is Spark Yellow (energy)
+/// level, with the time left in the center. The arc is the battery status color
 /// while the battery is healthy and switches to the warning/danger status
 /// color at 50% / 20%. Sits on the hero card.
 ///
@@ -93,7 +93,8 @@ class _BbCountdownRingState extends State<BbCountdownRing>
         painter: _RingPainter(
           fraction: soc,
           track: colors.textPrimary.withValues(alpha: _trackAlpha),
-          arc: soc > 0.5 ? colors.primary : context.energy.battery(soc),
+          // Battery status color, like Home's gauge: coral is for actions.
+          arc: context.energy.battery(soc),
           stroke: _stroke,
         ),
         child: child,

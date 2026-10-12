@@ -218,13 +218,13 @@ backup-brain/
 ├── packages/
 │   ├── bb_ui/                # DESIGN SYSTEM — Flutter only; no Riverpod, Firebase, l10n
 │   │   ├── pubspec.yaml         # declares bundled fonts
-│   │   ├── assets/fonts/        # Geist (see DESIGN.md §3); Urdu-script font later
+│   │   ├── assets/fonts/        # Manrope (see DESIGN.md §3); Urdu-script font later
 │   │   ├── lib/
 │   │   │   ├── bb_ui.dart                    # public exports only (no primitives exported)
 │   │   │   └── src/
 │   │   │       ├── foundations/
 │   │   │       │   ├── primitives/              # LAYER 1 — raw values, package-private
-│   │   │       │   │   ├── color_primitives.dart    # tonal scales: canvas, navy, yellow, status
+│   │   │       │   │   ├── color_primitives.dart    # tonal scales: mist, indigo, coral, amber, status
 │   │   │       │   │   └── font_primitives.dart     # families, weights
 │   │   │       │   ├── icons.dart               # BbIcons — semantic Phosphor registry
 │   │   │       │   ├── tokens/                  # scales used everywhere
@@ -347,7 +347,7 @@ The design system is a separate package (`bb_ui`; `Bb` = Backup Brain) so that e
 ### 6.2 Three token layers
 
 ```
-LAYER 1  primitives   yellow500 = #FFC21A        ← raw values, NEVER used by widgets
+LAYER 1  primitives   coral500 = #FF6B4A         ← raw values, NEVER used by widgets
             │
 LAYER 2  semantic     colors.primary, energy.solar, colors.textMuted
             │          (different value in light vs dark)
@@ -357,7 +357,7 @@ LAYER 3  components   BbButton, BbCard, BbBatteryGauge  ← read semantic tokens
          features     screens compose Bb components; no raw styling
 ```
 
-Why: to change "the brand yellow" or "how dark mode looks", you edit layer 1 or 2 only. Nothing in `app/` changes.
+Why: to change "the brand coral" or "how dark mode looks", you edit layer 1 or 2 only. Nothing in `app/` changes.
 
 ### 6.3 Theme mechanics (Flutter)
 
@@ -377,15 +377,15 @@ Why: to change "the brand yellow" or "how dark mode looks", you edit layer 1 or 
 
 ### 6.4 Colors
 
-All color meaning, palette values, semantic tokens (`AppColors`, `EnergyColors`), the Material `ColorScheme` mapping and the contrast audit live in **`DESIGN.md` §2**. Summary: Canvas neutrals (60%) · Ink Navy (30%, text, structure, grid) · Spark Yellow (10%, the one CTA, solar). Green/orange/red are for battery and safety status only, and never appear without an icon + text.
+All color meaning, palette values, semantic tokens (`AppColors`, `EnergyColors`), the Material `ColorScheme` mapping and the contrast audit live in **`DESIGN.md` §2**. Summary: Mist neutrals (60%) · Indigo (30%, text, structure, selected states, grid) · Coral (10%, the one CTA and active marks). Amber is for solar only. Green/amber/red are for battery and safety status only, and never appear without an icon + text.
 
 ### 6.5 Other tokens
 
 | Token file | Values (full spec: `DESIGN.md` §4–§7) | Rule |
 |---|---|---|
 | `spacing.dart` | `xxs 2 · xs 4 · sm 8 · md 12 · lg 16 · xl 24 · xxl 32 · xxxl 48 · xxxxl 64` | 4-pt grid; screen side padding = `lg` |
-| `radius.dart` | `xs 4 · sm 8 · md 12 · lg 16 · xl 24 · pill 999` | Cards `lg`, buttons/inputs `md`, chips `pill` |
-| `elevation.dart` | `level0..level3` | Light: soft navy shadows; dark: lighter surface instead of shadow. Containers are separated by surface color + shadow, never borders |
+| `radius.dart` | `xs 4 · sm 8 · md 14 · lg 24 · xl 32 · pill 999` | Cards `lg`, hero and nav bar `xl`, inputs `md`, buttons and chips `pill` |
+| `elevation.dart` | `level0..level3` | Light: soft indigo-tinted shadows; dark: lighter surface instead of shadow. Containers are separated by surface color + shadow, never borders |
 | `motion.dart` | `fast 150ms · normal 250ms · slow 400ms · skeletonPulse 1200ms`, curve `easeOutCubic` | Respect `MediaQuery.disableAnimations` |
 | `sizes.dart` | icons `16 · 20 · 24 · 32 · 48`; `minTouchTarget 48` | Every tappable ≥ 48×48 dp |
 | `opacity.dart` | `disabled 0.38 · pressed 0.12 · hover 0.08` | Same as Material states |
@@ -393,7 +393,7 @@ All color meaning, palette values, semantic tokens (`AppColors`, `EnergyColors`)
 
 ### 6.6 Typography
 
-- **Fonts:** Geist for all text and numbers (live numbers use tabular figures), bundled in `bb_ui/assets/fonts/` so they work offline. Never `google_fonts`. Full type scale and weights: **`DESIGN.md` §3**.
+- **Fonts:** Manrope (400–800) for all text and numbers (live numbers use tabular figures), bundled in `bb_ui/assets/fonts/` so they work offline. Never `google_fonts`. Full type scale and weights: **`DESIGN.md` §3**.
 - **Roles:** Material `TextTheme` roles plus our metric styles (`metricHero`, `metricLarge`, `metricMedium`, `metricSmall`, `metricCaption`) in `AppTypography`.
 - **Tabular figures** (`FontFeature.tabularFigures()`) on all live numbers so the countdown doesn't jitter as digits change.
 - Layouts must work at system text scale **1.0 and 1.5** without overflow (older users enlarge text).

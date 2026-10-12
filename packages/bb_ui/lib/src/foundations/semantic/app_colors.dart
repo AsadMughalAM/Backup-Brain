@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 /// LAYER 2 — surface, text and status colors (DESIGN.md §2.4). Values live
 /// in `palettes_light.dart` / `palettes_dark.dart`; read via `context.colors`.
 ///
-/// Naming follows Material: [primary] is the action color (Spark Yellow),
-/// [secondary] is Ink Navy, and the surfaces are Canvas.
+/// Naming follows Material: [primary] is the action color (coral),
+/// [secondary] is Indigo, and the surfaces are Mist.
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
@@ -51,7 +51,7 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Input fills, tonal buttons, segmented track, inner groups in cards.
   final Color surfaceMuted;
 
-  /// Midnight navy hero card in both themes. Content on it is drawn with
+  /// Indigo night hero card in both themes. Content on it is drawn with
   /// the dark palette (`BbCard` hero variant), so it needs no on-hero tokens.
   final Color hero;
   final Color textPrimary;
@@ -59,7 +59,7 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Labels, captions, units, placeholders, timestamps.
   final Color textMuted;
 
-  /// Ink on yellow, in both themes.
+  /// Ink on coral, in both themes.
   final Color textOnPrimary;
 
   /// Input boundaries (≥ 3:1). Never a container border.
@@ -68,12 +68,12 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Hairline dividers, chart gridlines, ring track.
   final Color outlineVariant;
 
-  /// Spark Yellow. Fill only: never text or icons on light surfaces.
+  /// Coral. Fill only: never text or icons on light surfaces.
   final Color primary;
   final Color primaryContainer;
   final Color onPrimaryContainer;
 
-  /// Ink Navy: secondary buttons and selected states.
+  /// Indigo: secondary buttons and selected states.
   final Color secondary;
   final Color onSecondary;
   final Color secondaryContainer;

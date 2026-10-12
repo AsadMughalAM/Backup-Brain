@@ -13,7 +13,7 @@ import '../_internal/tappable.dart';
 
 /// One answer to a single-choice question, as a full-width card (DESIGN.md
 /// §10.2): icon disc, title, optional hint and a radio mark. Selected =
-/// navy-tinted fill plus a filled check, so the state never rests on color
+/// indigo-tinted fill plus a filled check, so the state never rests on color
 /// alone; no borders.
 ///
 /// ```dart

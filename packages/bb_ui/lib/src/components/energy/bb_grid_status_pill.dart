@@ -9,7 +9,7 @@ import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
 import '../_internal/tappable.dart';
 
-/// Grid status and the one-tap outage log (DESIGN.md §10.6). Power on: navy
+/// Grid status and the one-tap outage log (DESIGN.md §10.6). Power on: indigo
 /// tint with a lightning icon. Power cut: muted fill with lightning-slash and
 /// the time so far. Icon, words and fill all change, never color alone. The
 /// trailing [actionLabel] says what a tap will log.

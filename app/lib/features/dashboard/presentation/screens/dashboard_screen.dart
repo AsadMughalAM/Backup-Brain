@@ -24,7 +24,7 @@ import '../widgets/backup_hero.dart';
 import '../widgets/battery_check.dart';
 
 /// Home (DESIGN.md §11 Dashboard): the backup time over the house with the
-/// one yellow CTA, two stat tiles, and at least one actionable
+/// one coral CTA, two stat tiles, and at least one actionable
 /// recommendation (ARCHITECTURE.md §15) built from engine numbers — no AI
 /// needed.
 class DashboardScreen extends ConsumerWidget {
@@ -148,10 +148,14 @@ class _DashboardBody extends ConsumerWidget {
     final askCharge =
         ongoing != null && charge.needsCheck && dismissed != ongoing.event.id;
 
+    var beat = 0;
+    // Sections rise in one after another as the screen opens.
+    Widget appear(Widget child) => BbAppear(index: beat++, child: child);
+
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       children: [
-        const GridStatus(),
+        appear(const GridStatus()),
         const BbGap.lg(),
         if (askCharge) ...[
           BatteryCheckCard(outageId: ongoing.event.id, estimate: charge.soc),
@@ -168,62 +172,74 @@ class _DashboardBody extends ConsumerWidget {
           ),
           const BbGap.lg(),
         ],
-        BackupHero(
-          time: time,
-          caption: l10n.backupLeftAt(load),
-          footnote: l10n.stopsProtectingAt(Formatters.percent(current.minSoc)),
-          semanticLabel: l10n.backupSemantics(time, load, soc),
-          isOverloaded: current.isOverloaded,
-          actionLabel: l10n.whatToTurnOff,
-          onAction: () => context.go(Routes.loads),
-        ),
-        const BbGap.xl(),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: BbStatTile(
-                icon: _batteryIcon(charge.soc),
-                tone: _batteryTone(charge.soc),
-                label: l10n.statBattery,
-                value: Formatters.chargeNumber(
-                  charge.soc,
-                  estimate: charge.isEstimate,
-                ),
-                unit: '%',
-                delta: _chargeSource(l10n, now),
-                onTap: () => showBatteryCheck(ref, l10n, charge.soc),
-                tapLabel: l10n.batteryCheckOpen,
-              ),
+        appear(
+          BackupHero(
+            soc: charge.soc,
+            time: time,
+            caption: l10n.backupLeftAt(load),
+            footnote: l10n.stopsProtectingAt(
+              Formatters.percent(current.minSoc),
             ),
-            const BbGap.md(),
-            Expanded(
-              child: BbStatTile(
-                icon: BbIcons.loads,
-                label: l10n.statLoad,
-                value: Formatters.number(current.loadW),
-                unit: 'W',
-              ),
-            ),
-          ],
-        ),
-        const BbGap.lg(),
-        BbCard(
-          variant: BbCardVariant.highlight,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                BbIcons.ai,
-                size: AppSizes.iconSm,
-                color: context.colors.onPrimaryContainer,
-              ),
-              const BbGap.md(),
-              Expanded(child: Text(_advice(l10n))),
-            ],
+            semanticLabel: l10n.backupSemantics(time, load, soc),
+            isOverloaded: current.isOverloaded,
+            actionLabel: l10n.whatToTurnOff,
+            onAction: () => context.go(Routes.loads),
           ),
         ),
-        _TodayCard(outages: outlook),
+        const BbGap.lg(),
+        appear(
+          IntrinsicHeight(
+            child: Row(
+              // Equal heights, whatever each tile says.
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: BbStatTile(
+                    icon: _batteryIcon(charge.soc),
+                    tone: _batteryTone(charge.soc),
+                    label: l10n.statBattery,
+                    value: Formatters.chargeNumber(
+                      charge.soc,
+                      estimate: charge.isEstimate,
+                    ),
+                    unit: '%',
+                    delta: _chargeSource(l10n, now),
+                    onTap: () => showBatteryCheck(ref, l10n, charge.soc),
+                    tapLabel: l10n.batteryCheckOpen,
+                  ),
+                ),
+                const BbGap.md(),
+                Expanded(
+                  child: BbStatTile(
+                    icon: BbIcons.loads,
+                    label: l10n.statLoad,
+                    value: Formatters.number(current.loadW),
+                    unit: 'W',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const BbGap.lg(),
+        appear(
+          BbCard(
+            variant: BbCardVariant.highlight,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  BbIcons.ai,
+                  size: AppSizes.iconSm,
+                  color: context.colors.onPrimaryContainer,
+                ),
+                const BbGap.md(),
+                Expanded(child: Text(_advice(l10n))),
+              ],
+            ),
+          ),
+        ),
+        appear(_TodayCard(outages: outlook)),
       ],
     );
   }
@@ -442,7 +458,11 @@ class _SummaryRow extends StatelessWidget {
               ],
             ),
           ),
-          BbIconButton(icon: BbIcons.next, tooltip: openLabel, onPressed: onOpen),
+          BbIconButton(
+            icon: BbIcons.next,
+            tooltip: openLabel,
+            onPressed: onOpen,
+          ),
         ],
       ),
     );

@@ -7,7 +7,7 @@ import '../../theme/context_extensions.dart';
 
 /// Where the user is in a short stepped flow (DESIGN.md §10.5): numbered
 /// circles joined by a line, each with its label. Done = check icon on the
-/// success tint, current = navy with its number, upcoming = muted. Shape
+/// success tint, current = indigo with its number, upcoming = muted. Shape
 /// and icon carry the state too, never color alone.
 ///
 /// ```dart

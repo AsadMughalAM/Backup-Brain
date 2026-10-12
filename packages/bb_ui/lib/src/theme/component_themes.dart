@@ -76,7 +76,7 @@ abstract final class ComponentThemes {
     );
   }
 
-  /// BbSlider look (DESIGN.md §10.2): navy, 4 px muted track.
+  /// BbSlider look (DESIGN.md §10.2): indigo, 4 px muted track.
   static SliderThemeData slider(AppColors c) => SliderThemeData(
     trackHeight: 4,
     activeTrackColor: c.secondary,

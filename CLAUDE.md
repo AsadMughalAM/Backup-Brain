@@ -31,7 +31,7 @@ If two docs disagree, the "Wins on" column decides. If a doc change affects anot
 - Design-system package: `packages/bb_ui`. Widget prefix `Bb` (= Backup Brain), CSS prefix `--bb-`.
 - Engine package: `packages/energy_engine` (pure Dart).
 - Firebase aliases: `backup-brain-dev`, `backup-brain-prod`.
-- Brand colors: Canvas (60%) · Ink Navy (30%) · Spark Yellow (10%).
+- Brand colors: Mist (60%) · Indigo (30%) · Coral (10%).
 - Locales: `en` and Roman Urdu `ur_Latn`.
 
 ## Golden rules (never break)

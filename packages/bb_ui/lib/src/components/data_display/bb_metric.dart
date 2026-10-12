@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../foundations/tokens/motion.dart';
 import '../../foundations/tokens/spacing.dart';
 import '../../theme/context_extensions.dart';
 import 'bb_tone.dart';
 
 enum BbMetricSize { hero, large, medium, small }
 
-/// A live number with its unit (DESIGN.md §3.5): the value in Geist with
+/// A live number with its unit (DESIGN.md §3.5): the value in Manrope with
 /// tabular figures, the unit one step smaller in `textMuted`,
 /// baseline-aligned. Never truncated.
 ///
@@ -44,10 +45,35 @@ class BbMetric extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Text(
-          value,
-          softWrap: false,
-          style: valueStyle.copyWith(color: tone.textColor(context)),
+        // A changed value rolls up into place (the countdown ticking, a
+        // toggle adding minutes) instead of jumping.
+        AnimatedSwitcher(
+          duration: AppMotion.of(context, AppMotion.normal),
+          switchInCurve: AppMotion.enter,
+          switchOutCurve: AppMotion.exit,
+          layoutBuilder: (current, previous) => Stack(
+            alignment: AlignmentDirectional.centerStart,
+            children: [...previous, ?current],
+          ),
+          transitionBuilder: (child, animation) {
+            final incoming = child.key == ValueKey(value);
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween(
+                  begin: Offset(0, incoming ? 0.35 : -0.35),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            );
+          },
+          child: Text(
+            value,
+            key: ValueKey(value),
+            softWrap: false,
+            style: valueStyle.copyWith(color: tone.textColor(context)),
+          ),
         ),
         if (unit != null && unit.isNotEmpty) ...[
           const SizedBox(width: AppSpacing.xxs),
