@@ -146,7 +146,7 @@ if chemistry in (lead_acid, tubular) and load_W > 0.2 × nominal_Wh:
 - **Asking the user:** once, at the start of a power cut, when the last reading is ≥ 6 h old or missing (`EngineDefaults.chargeCheckAfterHours`): "What does your UPS screen show?" with the setup choices 100 / 75 / 50 / 25% as one tap (bars glyph + %), the closest to the estimate pre-selected. "Not now" puts it off for that cut. The Battery tile asks the same on demand. Voltage is never asked: it is meaningless under load and flat for LiFePO4.
 - Expected error without a reading is ±15–25% (unknown real load, battery age, start point); a reading resets it.
 
-**UI:** big countdown ring, current load, "stops protecting battery at X%" note, link to F2.
+**UI:** big backup time over the house illustration, current load, "stops protecting battery at X%" note, link to F2.
 
 ---
 
@@ -431,7 +431,7 @@ There is **no REST API**. Calculations (backup, switch-offs, solar forecast, siz
    - From step 2 a sticky line shows the live backup time ("Your backup: about 2h 45m · at 370 W"), so the payoff is visible before finishing. Finishing lands on Home with the user's own numbers. "Try the demo home" stays available on step 1.
    - **Edit my home** (Settings → My home) reopens the same three steps filled in from the saved household. Appliances of one type merge into one preset entry ("Fan (bedroom)" + "Fan (lounge)" = Ceiling fan × 2); types setup doesn't offer are kept untouched; appliances added in setup come back as added ones (never merged into a preset); each type keeps its on/off from the Load planner. Saving lands on Home with the new numbers. The household also stores panel count and watts so panels edit as "6 × 550 W".
    - Presets live in `assets/data/` (`cities_psh.json`, `appliances_pk.json`, `equipment_pk.json`).
-2. **Dashboard:** notification bell with the new-count (top right, next to theme and Settings); grid status toggle (Light gayi / aa gayi, "Since … · Change" during a cut); the one-tap battery check at the start of a cut when needed; big backup countdown ring from the live estimate; Battery tile with its source and age (tap = battery check); top AI advice card; outage card; "Sun today" line with the forecast's age; battery health badge.
+2. **Dashboard:** brand logo in the app bar; notification bell with the new-count (top right, next to theme and Settings); grid status toggle (Light gayi / aa gayi, "Since … · Change" during a cut); the one-tap battery check at the start of a cut when needed; big backup time from the live estimate; Battery tile with its source and age (tap = battery check); top AI advice card; one "today" card with the outage line and the "Sun today" line with the forecast's age; battery health badge.
 3. **Load Planner:** appliance toggles with live-updating backup time; "What should I turn off?" ranked list; target-hours input.
 4. **Solar:** forecast chart (hourly), expected SoC at sunset, performance check & trend.
 5. **Solar Estimator:** form → 3 package cards → payback → installer checklist. Works for users with **no account setup** (great hackathon hook).

@@ -10,8 +10,8 @@ import '../../../../app/session/household_setup.dart';
 import '../../../../app/theme_mode/theme_mode_controller.dart';
 import '../../../../core/services/clock.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/brand_logo.dart';
 import '../../../../core/widgets/notification_bell.dart';
-import '../../../auth/domain/auth_repository.dart';
 import '../../../backup/domain/battery_estimate.dart';
 import '../../../backup/domain/entities/household_system.dart';
 import '../../../backup/domain/system_repository.dart';
@@ -20,11 +20,13 @@ import '../../../outages/domain/outage_outlook.dart';
 import '../../../outages/presentation/widgets/grid_status.dart';
 import '../../../solar/domain/solar_outlook.dart';
 import '../controllers/battery_check_controller.dart';
+import '../widgets/backup_hero.dart';
 import '../widgets/battery_check.dart';
 
-/// Home (DESIGN.md §11 Dashboard): countdown hero with the one yellow CTA,
-/// stat tiles, and at least one actionable recommendation (ARCHITECTURE.md
-/// §15) built from engine numbers — no AI needed.
+/// Home (DESIGN.md §11 Dashboard): the backup time over the house with the
+/// one yellow CTA, two stat tiles, and at least one actionable
+/// recommendation (ARCHITECTURE.md §15) built from engine numbers — no AI
+/// needed.
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
@@ -36,12 +38,11 @@ class DashboardScreen extends ConsumerWidget {
     final systemState = ref.watch(householdSystemProvider);
     final system = systemState.value;
     final brightness = Theme.of(context).brightness;
-    final firstName = ref.watch(accountProvider).value?.firstName;
     // Loaded, but this account has no household yet (just signed up).
     final noHousehold = systemState.hasValue && system == null;
 
     return BbScaffold(
-      title: firstName == null ? l10n.greeting : l10n.greetingName(firstName),
+      titleWidget: const BrandLogo(),
       actions: [
         NotificationBell(onPressed: () => context.push(Routes.notifications)),
         BbIconButton(
@@ -167,31 +168,16 @@ class _DashboardBody extends ConsumerWidget {
           ),
           const BbGap.lg(),
         ],
-        BbCard(
-          variant: BbCardVariant.hero,
-          child: Column(
-            children: [
-              BbCountdownRing(
-                soc: charge.soc,
-                timeLabel: time,
-                caption: l10n.backupLeftAt(load),
-                footnote: l10n.stopsProtectingAt(
-                  Formatters.percent(current.minSoc),
-                ),
-                isOverloaded: current.isOverloaded,
-                semanticLabel: l10n.backupSemantics(time, load, soc),
-              ),
-              const BbGap.lg(),
-              BbButton(
-                label: l10n.whatToTurnOff,
-                icon: BbIcons.loads,
-                expand: true,
-                onPressed: () => context.go(Routes.loads),
-              ),
-            ],
-          ),
+        BackupHero(
+          time: time,
+          caption: l10n.backupLeftAt(load),
+          footnote: l10n.stopsProtectingAt(Formatters.percent(current.minSoc)),
+          semanticLabel: l10n.backupSemantics(time, load, soc),
+          isOverloaded: current.isOverloaded,
+          actionLabel: l10n.whatToTurnOff,
+          onAction: () => context.go(Routes.loads),
         ),
-        const BbGap.lg(),
+        const BbGap.xl(),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -214,7 +200,6 @@ class _DashboardBody extends ConsumerWidget {
             Expanded(
               child: BbStatTile(
                 icon: BbIcons.loads,
-                tone: BbTone.load,
                 label: l10n.statLoad,
                 value: Formatters.number(current.loadW),
                 unit: 'W',
@@ -238,11 +223,7 @@ class _DashboardBody extends ConsumerWidget {
             ],
           ),
         ),
-        if (outlook != null) ...[
-          const BbGap.lg(),
-          _OutageSummary(outlook: outlook),
-        ],
-        const _SunToday(),
+        _TodayCard(outages: outlook),
       ],
     );
   }
@@ -287,68 +268,62 @@ class _DashboardBody extends ConsumerWidget {
       : BbTone.danger;
 }
 
+/// One card for what's coming today: the outage outlook and the sun, each a
+/// row that opens its screen. Hidden when there is neither yet.
+class _TodayCard extends ConsumerWidget {
+  const _TodayCard({required this.outages});
+
+  final OutageOutlook? outages;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final outages = this.outages;
+    final solar = ref.watch(solarOutlookProvider);
+    final sunToday = solar?.today;
+    final rows = [
+      if (outages != null) _OutageRow(outlook: outages),
+      if (solar != null && sunToday != null)
+        _SunRow(outlook: solar, today: sunToday),
+    ];
+    if (rows.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.lg),
+      child: BbCard.list(children: rows),
+    );
+  }
+}
+
 /// Today's sun at a glance, with the forecast's age; the details are on
-/// the Solar tab. Hidden for homes without panels or a forecast yet.
-class _SunToday extends ConsumerWidget {
-  const _SunToday();
+/// the Solar tab.
+class _SunRow extends ConsumerWidget {
+  const _SunRow({required this.outlook, required this.today});
+
+  final SolarOutlook outlook;
+  final SolarDayForecast today;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final outlook = ref.watch(solarOutlookProvider);
-    final today = outlook?.today;
-    if (outlook == null || today == null) return const SizedBox.shrink();
     final now = ref.watch(nowProvider).value ?? outlook.fetchedAt;
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.lg),
-      child: BbCard(
-        child: Row(
-          children: [
-            Icon(
-              BbIcons.solar,
-              size: AppSizes.iconMd,
-              color: context.energy.solarText,
-            ),
-            const BbGap.md(),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.sunTodayLine(
-                      Formatters.kWhRange(today.lowKWh, today.highKWh),
-                    ),
-                    style: context.textTheme.titleSmall,
-                  ),
-                  const BbGap.xs(),
-                  Text(
-                    l10n.solarUpdated(
-                      outlook.city,
-                      Formatters.age(l10n, now.difference(outlook.fetchedAt)),
-                    ),
-                    style: context.text.metricCaption.copyWith(
-                      color: context.colors.textMuted,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            BbIconButton(
-              icon: BbIcons.next,
-              tooltip: l10n.sunTodayOpen,
-              onPressed: () => context.go(Routes.solar),
-            ),
-          ],
-        ),
+    return _SummaryRow(
+      icon: BbIcons.solar,
+      title: l10n.sunTodayLine(
+        Formatters.kWhRange(today.lowKWh, today.highKWh),
       ),
+      subtitle: l10n.solarUpdated(
+        outlook.city,
+        Formatters.age(l10n, now.difference(outlook.fetchedAt)),
+      ),
+      openLabel: l10n.sunTodayOpen,
+      onOpen: () => context.go(Routes.solar),
     );
   }
 }
 
 /// One glance at F8: the cut in progress, or the next outage and the battery
 /// by then. The details live on the Outages screen.
-class _OutageSummary extends ConsumerWidget {
-  const _OutageSummary({required this.outlook});
+class _OutageRow extends ConsumerWidget {
+  const _OutageRow({required this.outlook});
 
   final OutageOutlook outlook;
 
@@ -386,17 +361,68 @@ class _OutageSummary extends ConsumerWidget {
       _ => (l10n.noPredictionTitle, null),
     };
 
-    return BbCard(
+    return _SummaryRow(
+      icon: ongoing != null
+          ? BbIcons.gridOff
+          : short
+          ? BbIcons.warning
+          : BbIcons.schedule,
+      tone: short ? BbTone.warning : BbTone.neutral,
+      title: title,
+      subtitle: line,
+      openLabel: l10n.outagesOpen,
+      onOpen: () => context.push(Routes.outages),
+    );
+  }
+}
+
+/// A list row (DESIGN.md §10.4 `BbListTile`): icon disc, title, muted
+/// line, and a chevron that opens the details.
+class _SummaryRow extends StatelessWidget {
+  const _SummaryRow({
+    required this.icon,
+    required this.title,
+    required this.openLabel,
+    required this.onOpen,
+    this.subtitle,
+    this.tone = BbTone.neutral,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final String openLabel;
+  final VoidCallback onOpen;
+
+  /// Colors the icon only; the title says the same in words.
+  final BbTone tone;
+
+  static const _discSize = 40.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitle = this.subtitle;
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(
+        start: AppSpacing.lg,
+        end: AppSpacing.xs,
+        top: AppSpacing.md,
+        bottom: AppSpacing.md,
+      ),
       child: Row(
         children: [
-          Icon(
-            ongoing != null
-                ? BbIcons.gridOff
-                : short
-                ? BbIcons.warning
-                : BbIcons.schedule,
-            size: AppSizes.iconMd,
-            color: short ? context.colors.warning : context.colors.textPrimary,
+          Container(
+            width: _discSize,
+            height: _discSize,
+            decoration: BoxDecoration(
+              color: tone.containerColor(context),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              size: AppSizes.iconSm,
+              color: tone.iconColor(context),
+            ),
           ),
           const BbGap.md(),
           Expanded(
@@ -404,10 +430,10 @@ class _OutageSummary extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title, style: context.textTheme.titleSmall),
-                if (line != null) ...[
-                  const BbGap.xs(),
+                if (subtitle != null) ...[
+                  const BbGap.xxs(),
                   Text(
-                    line,
+                    subtitle,
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: context.colors.textMuted,
                     ),
@@ -416,11 +442,7 @@ class _OutageSummary extends ConsumerWidget {
               ],
             ),
           ),
-          BbIconButton(
-            icon: BbIcons.next,
-            tooltip: l10n.outagesOpen,
-            onPressed: () => context.push(Routes.outages),
-          ),
+          BbIconButton(icon: BbIcons.next, tooltip: openLabel, onPressed: onOpen),
         ],
       ),
     );

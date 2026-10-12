@@ -19,13 +19,6 @@ class AccountInfo {
   final String? displayName;
 
   bool get isAnonymous => kind == AccountKind.anonymous;
-
-  /// For the greeting: the first word of the name, if there is one.
-  String? get firstName {
-    final name = displayName?.trim();
-    if (name == null || name.isEmpty) return null;
-    return name.split(RegExp(r'\s+')).first;
-  }
 }
 
 enum AuthFailureCode {

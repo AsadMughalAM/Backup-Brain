@@ -135,12 +135,6 @@ abstract class AppLocalizations {
   /// **'Assistant'**
   String get tabAssistant;
 
-  /// No description provided for @greeting.
-  ///
-  /// In en, this message translates to:
-  /// **'Assalam-o-alaikum'**
-  String get greeting;
-
   /// No description provided for @switchTheme.
   ///
   /// In en, this message translates to:
@@ -950,12 +944,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your name.'**
   String get errorNameRequired;
-
-  /// No description provided for @greetingName.
-  ///
-  /// In en, this message translates to:
-  /// **'Assalam-o-alaikum, {name}'**
-  String greetingName(String name);
 
   /// No description provided for @settingUpHomeTitle.
   ///

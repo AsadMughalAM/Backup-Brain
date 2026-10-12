@@ -6,7 +6,6 @@
   "tabSolar": "Solar",
   "tabBattery": "Battery",
   "tabAssistant": "Assistant",
-  "greeting": "Assalam-o-alaikum",
   "switchTheme": "Switch theme",
   "settings": "Settings",
   "durationHoursMinutes": "{hours}h {minutes}m",
@@ -325,14 +324,6 @@
   "noAccountQuestion": "Don't have an account?",
   "createAnAccount": "Create an account",
   "errorNameRequired": "Enter your name.",
-  "greetingName": "Assalam-o-alaikum, {name}",
-  "@greetingName": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "settingUpHomeTitle": "Setting up your home",
   "settingUpHomeBody": "We're loading the demo household so you can see your backup time. Your own setup comes next.",
   "useDemoHousehold": "Load the demo household",

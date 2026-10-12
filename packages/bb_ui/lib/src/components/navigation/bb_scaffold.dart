@@ -22,15 +22,22 @@ class BbScaffold extends StatelessWidget {
     super.key,
     required this.body,
     this.title,
+    this.titleWidget,
     this.actions = const [],
     this.leading,
     this.banner,
     this.bottomAction,
     this.navigationBar,
-  });
+  }) : assert(
+         title == null || titleWidget == null,
+         'Give the app bar a title string or a title widget, not both',
+       );
 
   final Widget body;
   final String? title;
+
+  /// In place of [title], e.g. the brand logo on Home.
+  final Widget? titleWidget;
 
   /// `BbIconButton`s.
   final List<Widget> actions;
@@ -46,15 +53,18 @@ class BbScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = this.title;
+    final titleWidget = this.titleWidget;
     final banner = this.banner;
     final bottomAction = this.bottomAction;
     final navigationBar = this.navigationBar;
     return Scaffold(
       backgroundColor: context.colors.background,
-      appBar: title == null
+      appBar: title == null && titleWidget == null
           ? null
           : AppBar(
-              title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+              title:
+                  titleWidget ??
+                  Text(title!, maxLines: 1, overflow: TextOverflow.ellipsis),
               leading: leading,
               actions: [
                 ...actions,

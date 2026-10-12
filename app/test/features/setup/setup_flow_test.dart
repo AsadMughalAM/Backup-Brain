@@ -1,3 +1,4 @@
+import 'package:backup_brain/core/widgets/brand_logo.dart';
 import 'package:bb_ui/bb_ui.dart';
 import 'package:backup_brain/features/setup/data/models/setup_draft_dto.dart';
 import 'package:backup_brain/features/setup/domain/home_locator.dart';
@@ -154,7 +155,7 @@ void main() {
     );
 
     await _signUp(tester);
-    expect(find.text('Assalam-o-alaikum, Sana'), findsOneWidget);
+    expect(find.byType(BrandLogo), findsOneWidget);
     expect(find.text('3h 27m'), findsOneWidget);
     expect(system.demoLoads, 0);
     final saved = await system.watch().first;

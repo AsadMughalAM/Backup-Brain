@@ -30,16 +30,6 @@ void main() {
     });
   });
 
-  group('AccountInfo', () {
-    test('first name for the greeting', () {
-      expect(signedInAsAsad.firstName, 'Asad');
-      expect(
-        const AccountInfo(uid: 'x', kind: AccountKind.email).firstName,
-        isNull,
-      );
-    });
-  });
-
   group('AuthController', () {
     test('success clears state; cancel is silent; failure is kept', () async {
       final auth = FakeAuthRepository();

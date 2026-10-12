@@ -1,3 +1,4 @@
+import 'package:backup_brain/core/widgets/brand_logo.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers/app_harness.dart';
@@ -5,7 +6,7 @@ import 'helpers/fakes.dart';
 
 void main() {
   group('signed in', () {
-    testWidgets('dashboard shows the §12 hook number and greets by name', (
+    testWidgets('dashboard shows the logo and the §12 hook number', (
       tester,
     ) async {
       await pumpApp(
@@ -14,9 +15,15 @@ void main() {
         system: FakeSystemRepository(demoSystem()),
         appliances: FakeApplianceRepository(demoAppliances()),
       );
-      expect(find.text('Assalam-o-alaikum, Asad'), findsOneWidget);
+      expect(find.byType(BrandLogo), findsOneWidget);
       expect(find.text('3h 28m'), findsOneWidget);
       expect(find.text('left at 420 W'), findsOneWidget);
+      // The advice sits below the house, so it may need a scroll.
+      await tester.scrollUntilVisible(
+        find.textContaining('Turn off LED TV'),
+        200,
+        scrollable: pageScroll,
+      );
       expect(find.textContaining('Turn off LED TV'), findsOneWidget);
     });
 
@@ -107,7 +114,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(system.demoLoads, 1);
       expect(find.text('3h 28m'), findsOneWidget);
-      expect(find.text('Assalam-o-alaikum, Asad'), findsOneWidget);
+      expect(find.byType(BrandLogo), findsOneWidget);
     });
 
     testWidgets('Google on the login screen goes to setup for a new account', (

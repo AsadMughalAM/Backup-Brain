@@ -1,3 +1,4 @@
+import 'package:backup_brain/core/widgets/brand_logo.dart';
 import 'package:energy_engine/energy_engine.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -75,7 +76,7 @@ void main() {
     // …and the TV kept its "off" from the planner.
     expect(list.firstWhere((a) => a.iconKey == 'tv').isOn, isFalse);
     // Back on Home with the new numbers.
-    expect(find.text('Assalam-o-alaikum, Asad'), findsOneWidget);
+    expect(find.byType(BrandLogo), findsOneWidget);
   });
 
   testWidgets('"Where is this written?" shows the sticker line to read', (

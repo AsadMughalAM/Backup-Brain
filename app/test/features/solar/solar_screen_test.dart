@@ -2,6 +2,7 @@ import 'package:backup_brain/app/app.dart';
 import 'package:bb_ui/bb_ui.dart';
 import 'package:backup_brain/core/services/clock.dart';
 import 'package:backup_brain/core/services/preferences.dart';
+import 'package:backup_brain/features/auth/domain/auth_repository.dart';
 import 'package:backup_brain/features/backup/domain/system_repository.dart';
 import 'package:backup_brain/features/loads/domain/appliance_repository.dart';
 import 'package:backup_brain/features/outages/domain/outage_notifier.dart';
@@ -32,6 +33,9 @@ Future<void> _openSolar(
     ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
+        authRepositoryProvider.overrideWithValue(
+          FakeAuthRepository(account: signedInAsAsad),
+        ),
         systemRepositoryProvider.overrideWithValue(
           system ?? FakeSystemRepository(demoSystem()),
         ),

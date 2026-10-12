@@ -26,8 +26,10 @@ import '../features/solar/presentation/screens/solar_check_screen.dart';
 import '../features/solar/presentation/screens/solar_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'session/household_setup.dart';
+import 'splash/splash_screen.dart';
 
 abstract final class Routes {
+  static const splash = '/splash';
   static const signUp = '/sign-up';
   static const login = '/login';
   static const home = '/';
@@ -69,13 +71,15 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.home,
+    initialLocation: Routes.splash,
     refreshListenable: refresh,
     redirect: (context, state) {
+      final location = state.matchedLocation;
+      // The splash leaves by itself once the session is known.
+      if (location == Routes.splash) return null;
       final signedIn = ref.read(isSignedInProvider);
       // Firebase restores the session from disk first: wait, don't flash.
       if (signedIn == null) return null;
-      final location = state.matchedLocation;
       if (!signedIn) {
         if (Routes._signedOut.contains(location)) return null;
         final draft = ref.read(setupDraftRepositoryProvider).load();
@@ -93,6 +97,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: Routes.splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: Routes.signUp,
         builder: (context, state) => const SignUpScreen(),

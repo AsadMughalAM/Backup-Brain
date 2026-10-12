@@ -28,9 +28,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get tabAssistant => 'Madadgar';
 
   @override
-  String get greeting => 'Assalam-o-alaikum';
-
-  @override
   String get switchTheme => 'Theme badlein';
 
   @override
@@ -488,11 +485,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get errorNameRequired => 'Apna naam likhein.';
-
-  @override
-  String greetingName(String name) {
-    return 'Assalam-o-alaikum, $name';
-  }
 
   @override
   String get settingUpHomeTitle => 'Aap ka ghar tayyar ho raha hai';

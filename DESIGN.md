@@ -109,7 +109,7 @@ Token names follow `TECH_STACK.md` §6; tokens marked **NEW** were added here.
 | `surface` | canvas0 `#FFFFFF` | canvas900 `#1A1917` | Cards, sheets, nav bar. |
 | `surfaceRaised` | canvas0 + `elevation.level2` shadow | canvas850 `#211F1C` | Menus, bottom sheets, dialogs. Dark mode uses a lighter surface, not a shadow. |
 | `surfaceMuted` | canvas100 `#EDEAE4` | canvas800 `#2A2824` | Input fills, tonal buttons, segmented track, skeleton base. |
-| `hero` **NEW** | navy900 `#16213D` | navy900 `#16213D` | Dashboard hero card, both themes. Its content is drawn with the **dark** palette (§10.3), so it needs no on-hero tokens. |
+| `hero` **NEW** | navy900 `#16213D` | navy900 `#16213D` | Hero cards (Solar), both themes. Its content is drawn with the **dark** palette (§10.3), so it needs no on-hero tokens. |
 | `textPrimary` | navy950 `#0E1424` | canvas100 `#EDEAE4` | Body, titles, numbers. Off-white in dark, never `#FFFFFF`. |
 | `textMuted` | canvas600 `#5E594F` | canvas400 `#A39D92` | Labels, captions, units, placeholders, timestamps. |
 | `textOnPrimary` | navy950 `#0E1424` | navy950 `#0E1424` | Ink on yellow, in both themes. |
@@ -664,7 +664,7 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 | Component | Visual spec |
 |---|---|
-| **`BbCountdownRing`** | Sits on the hero card. 240-px ring (200 on small phones), 14-px stroke, round caps. Track = `textPrimary` @ 12%; arc = `primary` (Spark Yellow) while SoC > 50%, then the `batteryMid` / `batteryLow` status color, animated `slow`. The battery stat tile always shows icon + % beside it, so color is never the only signal. Center: `metricHero` "3h 20m" + `bodySmall` muted "left at 420 W". Below ring: `labelMedium` "Stops protecting battery at 50%". Overload → ring pulses once (`normal`) and a `danger` banner appears. |
+| **`BbCountdownRing`** | Sits on a hero card (Solar). 240-px ring (200 on small phones), 14-px stroke, round caps. Track = `textPrimary` @ 12%; arc = `primary` (Spark Yellow) while SoC > 50%, then the `batteryMid` / `batteryLow` status color, animated `slow`. The battery stat tile always shows icon + % beside it, so color is never the only signal. Center: `metricHero` "3h 20m" + `bodySmall` muted "left at 420 W". Below ring: `labelMedium` "Stops protecting battery at 50%". Overload → ring pulses once (`normal`) and a `danger` banner appears. |
 | **`BbGridStatusPill`** | Pill 40 h (48 dp hit area). Grid on: `secondaryContainer` + Fill `lightning` in `energy.grid` + "Light hai". Grid off: `surfaceMuted` + Fill `lightningSlash` in `energy.offline` + "Light gayi · 1h 12m" (duration in `metricSmall`). Trailing action label in `secondary`, underlined ("Light gayi?" / "Light aa gayi?") says what a tap logs. Tapping logs the event (with haptic). |
 | **`BbBatteryGauge`** | Horizontal battery glyph 64 × 28, 2-px `outline` body, fill in status token, % in `metricSmall` beside it. Always icon + number. |
 | **`BbPowerFlow`** | Three nodes (Solar · Grid · Battery) flowing to Home, 48-px circles with Regular icons; connecting lines 2 px in each source's energy color, **dashed** when inactive; small moving dots (`slow`, disabled with reduced motion) show direction. |
@@ -679,24 +679,34 @@ All components live in `bb_ui` with the `Bb` prefix, accept **variants not color
 
 All screens: `BbScaffold` → `BbAppBar` → optional `BbOfflineBanner` → content with `BbPagePadding` → optional sticky bottom CTA → `BbNavBar` (top-level tabs only).
 
+**Splash (app start)**
+```
+[Android launch screen]  page `background` + the brand mark (112 dp wide) centered
+[Flutter splash]         same mark, same place → wordmark "Backup Brain" fades up below (`enter`)
+```
+The native screen and the Flutter splash draw the mark at the same size and position, so the hand-over doesn't jump. Mark and wordmark are one-color artwork tinted `textPrimary` (navy ink in light, off-white in dark). The splash stays until the session is restored and the 900 ms intro has played (zero with reduced motion), then goes Home; the router redirect takes over from there. Native colors live in `android/.../values*/colors.xml` (mirroring `background`) and `drawable-*xxxhdpi/splash_mark.png` (288 dp canvas, mark inside Android 12's 192 dp safe circle).
+
 **Dashboard (Home)**
 ```
-[App bar]  "Assalam-o-alaikum"  ·  theme toggle · settings
+[App bar]  brand mark + wordmark (logo)  ·  bell · theme toggle · settings
 [Grid status pill]                         ← tap = Light gayi / aa gayi
   "Since 7:02 PM · Change"                  ← during a cut; Change = sheet: Just now / 15 / 30 min / 1 h ago, "The power didn't go"
 [Battery check card]                       ← only at the start of a cut, when the last reading is ≥ 6 h old:
   "What does your UPS screen show?" · chips 100 / 75 / 50 / 25% with bars icons · ghost "Not now"
-[Hero card: midnight `hero`, radius xl, dark-palette content]
-     ( Countdown ring, yellow arc  3h 20m )
-     "left at 420 W"  ·  [What should I turn off?]  ← primary (yellow) CTA
-[Stat tiles 2×2, icon discs]  Battery 60% "Estimate · you checked 2 h ago" (tap = same question as a sheet) · Load 420 W · Solar today 3.8 kWh · Next outage 7:00 PM
+[Hero, straight on the page — no card]
+     3h 20m                                ← `metricHero`, `danger` tone when overloaded
+     "left at 420 W" (bodyLarge muted) · "Stops protecting battery at 50%" (labelMedium muted)
+     ( house-with-solar illustration, max 420 wide, soft `surface` radial glow behind )
+     [What should I turn off?]             ← primary (yellow) CTA, full width
+[Stat tiles 1×2, icon discs]  Battery 60% "Estimate · you checked 2 h ago" (status tone; tap = same question as a sheet) · Load now 420 W (neutral)
 [AI advice card: highlight variant (soft yellow), sparkle icon]
-[Outage card: schedule / warning / lightning-slash icon · "Next outage likely 7:00 PM" · "Battery 96% by then · lasts 6h 14m" · › to Outages]
-[Sun today line] solar icon · "Sun today · 3.3–4.5 kWh" · "Lahore · updated 20 min ago" · › to Solar
+[Today card: `BbCard.list`, rows = 40-px `surfaceMuted` icon disc + title + muted line + › ]
+  schedule / warning / lightning-slash · "Next outage likely 7:00 PM" · "Battery 96% by then · lasts 6h 14m" · › to Outages
+  sun · "Sun today · 3.3–4.5 kWh" · "Lahore · updated 20 min ago" · › to Solar
 [Nav bar]
 ```
 An estimated countdown shows to 10 minutes and the estimated % rounds down to 5%, with the source and age under the Battery tile; a fresh reading shows as given.
-Yellow budget: the CTA (inside the hero) + the advice tint. The ring arc and solar marks are data. The nav indicator is navy.
+Calm by design: no midnight card on Home, icons are ink on `surfaceMuted` unless they carry a status (battery tone, `warning` when the battery won't cover the next cut). Yellow budget: the CTA + the advice tint.
 
 **Outages (F8, from the Dashboard outage card):** grid status pill → answer card (cut in progress with battery estimate / next outage + battery by then + "enough for the usual 1h 30m" or a `warning`-icon line to avoid heavy loads / how to get a prediction) with muted basis lines → "Your area's schedule" list rows with a `delete` icon button + secondary "Add time" → "Recent outages" list (`gridOn`/`gridOff` icon, times, duration in `metricSmall`). **Add time** is a full screen (no overlay yet): weekday `BbChip`s, From/To half-hour steppers (`remove`/`add` tonal icon buttons, time in `metricMedium`), sticky yellow Save. **Settings** has an "Outage alerts" row (title + muted one-line explanation + `BbSwitch`, one merged semantics node), Android only.
 
