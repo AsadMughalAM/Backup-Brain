@@ -7,7 +7,7 @@
     "node": "22"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "node init && tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "serve": "pnpm run build && firebase emulators:start --only functions,firestore,auth",
