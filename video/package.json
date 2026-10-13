@@ -1,0 +1,32 @@
+{
+  "name": "backup-brain-video",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Remotion ad for Backup Brain. Not part of the app build: own lockfile.",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "voiceover": "tsx scripts/generate-voiceover.ts",
+    "audio": "tsx scripts/generate-audio.ts",
+    "render": "remotion render BackupBrainAd out/raw.mp4 && tsx scripts/master.ts",
+    "stills": "tsx scripts/render-stills.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "2.1.10",
+    "@remotion/cli": "4.0.532",
+    "@remotion/media": "4.0.532",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.532"
+  },
+  "devDependencies": {
+    "@remotion/bundler": "4.0.532",
+    "@remotion/renderer": "4.0.532",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "kokoro-js": "^1.2.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

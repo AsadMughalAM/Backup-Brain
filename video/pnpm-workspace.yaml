@@ -1,0 +1,7 @@
+# Makes video/ its own pnpm root so installs here never touch the app or functions.
+packages: []
+onlyBuiltDependencies:
+  - onnxruntime-node
+  - protobufjs
+  - sharp
+  - esbuild
